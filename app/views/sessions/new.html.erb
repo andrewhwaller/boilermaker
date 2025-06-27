@@ -12,11 +12,11 @@
   </div>
 
   <div class="mb-4">
-    <%= form.submit "Sign in", class: "px-4 py-2 bg-button text-button-text border border-button hover:bg-button-hover" %>
+    <%= form.submit "Sign in" %>
   </div>
 <% end %>
 
 <div class="mt-8">
-  <%= link_to "Sign up", sign_up_path, class: "text-blue-600 dark:text-blue-400 hover:underline" %> |
-  <%= link_to "Forgot your password?", new_identity_password_reset_path, class: "text-blue-600 dark:text-blue-400 hover:underline" %>
+      <%= link_to "Sign up", sign_up_path, class: "btn-link" %> |
+    <%= link_to "Forgot your password?", new_identity_password_reset_path, class: "btn-link" %>
 </div>

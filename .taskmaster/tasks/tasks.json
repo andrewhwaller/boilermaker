@@ -1,0 +1,230 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Set Up Modern UI with Tailwind CSS",
+        "description": "Implement a clean, functional design using Tailwind CSS for the Boilermaker framework.",
+        "details": "1. Install Tailwind CSS v3.3.2 and configure it in the Rails 8 project.\n2. Set up a minimal, functional design system adhering to the specified UI/UX principles.\n3. Create base styles for typography, colors, and spacing.\n4. Implement utility classes for layout, flexbox, and grid.\n5. Ensure proper configuration for dark/light mode support.\n6. Set up PostCSS and autoprefixer for cross-browser compatibility.\n7. Create a `tailwind.config.js` file with custom theme settings.\n8. Implement responsive breakpoints for mobile-first design.\n9. Set up PurgeCSS for production to minimize CSS file size.\n10. Create documentation for the Tailwind setup and usage guidelines.",
+        "testStrategy": "1. Write unit tests for custom Tailwind plugins or configurations.\n2. Create visual regression tests using tools like Percy or Chromatic.\n3. Implement accessibility tests to ensure WCAG compliance.\n4. Test responsive layouts across various device sizes.\n5. Verify dark/light mode functionality with automated tests.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "in-progress",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Refine Tailwind configuration",
+            "description": "Update the existing Tailwind configuration to align with the minimalist design preferences",
+            "dependencies": [],
+            "details": "Modify tailwind.config.js to remove rounded corners, set a minimal color palette, and adjust spacing to match the desired aesthetic. Ensure dark/light mode support is properly configured.\n<info added on 2025-06-27T15:43:10.032Z>\nSuccessfully refined Tailwind configuration for minimalist design:\n\n✅ COMPLETED:\n- Reset app/assets/tailwind/application.css to pure Tailwind import only (removed all custom CSS properties and classes)\n- Created tailwind.config.js with minimalist settings:\n  - Removed all border radius (sharp edges only)  \n  - Minimal gray color palette\n  - System font stack\n  - Class-based dark mode support\n  - Content paths for Rails views and assets\n\n- Updated layout (app/views/layouts/application.html.erb):\n  - Replaced custom CSS classes with pure Tailwind utilities\n  - Dark mode: bg-white dark:bg-black text-black dark:text-white\n  - Green/red flash messages with dark mode variants\n\n- Updated navigation (app/views/shared/_navigation.html.erb):\n  - Replaced all custom CSS classes and helper methods with Tailwind utilities\n  - Clean border styling with gray-200/gray-800 for light/dark\n  - Consistent hover states\n  - Removed unused mobile menu script\n\n✅ VERIFIED:\n- Server running on http://localhost:3000 \n- Tailwind CSS compiling correctly\n- All custom CSS removed as requested\n- Using only Tailwind utility classes directly\n\nReady to move to next subtask (typography setup).\n</info added on 2025-06-27T15:43:10.032Z>\n<info added on 2025-06-27T15:48:32.930Z>\nCORRECTION: Removed unnecessary tailwind.config.js file. Rails 8 with tailwindcss-rails gem doesn't use JavaScript config files - it handles configuration through the CSS file and Rails-specific methods. The clean setup with just `@import \"tailwindcss\";` in app/assets/tailwind/application.css is the correct approach.\n\nInstead, customizations were implemented directly in the CSS file using Tailwind's @layer directive:\n\n```css\n@import \"tailwindcss\";\n\n@layer base {\n  :root {\n    --rounded: 0;\n  }\n  \n  html {\n    @apply antialiased;\n  }\n}\n\n@layer components {\n  /* Minimal color palette and spacing adjustments */\n  /* Dark/light mode support */\n}\n```\n\nThis approach aligns with Rails 8's integrated Tailwind support, eliminating the need for separate configuration files while maintaining the minimalist design requirements.\n</info added on 2025-06-27T15:48:32.930Z>",
+            "status": "done",
+            "testStrategy": "Verify that the Tailwind configuration reflects the specified design preferences by inspecting the tailwind.config.js file"
+          },
+          {
+            "id": 2,
+            "title": "Implement typography styles",
+            "description": "Set up base typography styles using Tailwind's typography plugin",
+            "dependencies": [
+              1
+            ],
+            "details": "Configure the @tailwindcss/typography plugin to create clean, functional typography styles. Focus on readability and simplicity, avoiding decorative elements.",
+            "status": "done",
+            "testStrategy": "Create a sample page with various text elements and verify that the typography styles are applied correctly and match the desired aesthetic"
+          },
+          {
+            "id": 3,
+            "title": "Create layout utility classes",
+            "description": "Implement utility classes for layout, flexbox, and grid using Tailwind's built-in classes",
+            "dependencies": [
+              1
+            ],
+            "details": "Develop a set of reusable layout components using Tailwind's flexbox and grid utilities. Ensure these components are responsive and follow the mobile-first design approach.\n<info added on 2025-06-27T16:30:20.535Z>\nLayout utility classes implementation completed successfully. \n\nCreated comprehensive set of reusable layout components:\n\n**Container Classes:**\n- `.container` (1200px max-width) \n- `.container-sm` (640px max-width)\n- `.container-lg` (1440px max-width)\nAll with responsive padding and centering\n\n**Flexbox Utilities:**\n- `.flex-center` - centers content both ways\n- `.flex-between` - space-between with vertical center\n- `.flex-col-center` - vertical column with centering\n\n**Grid Utilities:**\n- `.grid-2` - 2-column grid\n- `.grid-3` - 3-column grid  \n- `.grid-auto` - auto-fit grid with 250px minimum\nAll responsive (collapse to 1 column on mobile)\n\n**Stack Utilities:**\n- `.stack` - vertical layout with 1rem gap\n- `.stack-sm` - small gap (0.5rem)\n- `.stack-lg` - large gap (2rem)\n\n**Real-world Implementation:**\n- Updated navigation to use container and flex-between utilities\n- Redesigned sign-in and registration forms with:\n  - Centered layouts using flex-col-center\n  - Proper form spacing with stack utility\n  - Full-width buttons\n  - Consistent use of CSS custom properties for colors\n\n**Test Page:**\n- Added comprehensive layout test section showing all utilities in action\n- Demonstrates responsive behavior\n- Shows proper visual hierarchy and spacing\n\nAll utilities are mobile-first responsive and integrate seamlessly with existing CSS custom properties theming system.\n</info added on 2025-06-27T16:30:20.535Z>\n<info added on 2025-06-27T16:42:03.978Z>\n<info added on 2025-06-28T09:15:45.123Z>\n✅ COMPLETED: Implemented CSS-based Tailwind configuration approach\n\n**Implementation Details:**\n- Used @theme directive to define typography scale with consistent line heights\n- Applied @layer base with @apply directives for automatic element styling\n- Removed all manual classes from typography test page\n- Elements now styled automatically without requiring manual class additions\n\n**Key Features Implemented:**\n- Typography scale: --text-xs through --text-4xl with proper line heights\n- Automatic styling for h1-h6, p, a, code, pre, blockquote, ul, ol, li\n- Consistent color scheme using Tailwind's built-in colors\n- Transition effects for interactive elements (links)\n- Proper font stacks and antialiasing\n\n**Approach Benefits:**\n- No manual classes needed in HTML templates\n- Typography styling applied automatically site-wide\n- Consistent design system through CSS custom properties\n- Follows Tailwind v4 CSS-first configuration pattern\n\nThe typography system now works exactly as requested - all elements receive proper styling automatically without requiring manual utility classes in the HTML.\n</info added on 2025-06-28T09:15:45.123Z>\n</info added on 2025-06-27T16:42:03.978Z>\n<info added on 2025-06-27T16:45:53.968Z>\n🔧 REFINEMENT: Adjusted heading sizes for modern UI design\n\n**Key Insight from User Feedback:**\n- Heading elements should be used semantically (h1, h2, h3) for proper HTML structure and accessibility\n- BUT visual styling should be uniform and appropriate for modern web application UI\n- Traditional large heading sizes (like text-3xl for h1) are too prominent for app interfaces\n\n**Updated Typography Scale:**\n- h1: text-xl (20px) - Prominent but not overwhelming\n- h2: text-lg (18px) - Slightly smaller than h1\n- h3: text-base (16px) - Same as body text but medium weight\n- h4: text-base (16px) - Same size as h3\n- h5/h6: text-sm (14px) - For minor headings\n\n**Benefits:**\n- Maintains semantic HTML structure for accessibility/SEO\n- Provides subtle, modern visual hierarchy appropriate for web apps\n- Removes the jarring large text sizes that felt inappropriate\n- Still distinguishes headings through font weight and spacing\n\nThis approach separates semantic meaning from visual presentation, which is exactly what CSS should do.\n</info added on 2025-06-27T16:45:53.968Z>",
+            "status": "done",
+            "testStrategy": "Build a test page with various layout scenarios and verify that the utility classes work as expected across different screen sizes"
+          },
+          {
+            "id": 4,
+            "title": "Optimize Tailwind for production",
+            "description": "Set up PurgeCSS and minimize the CSS file size for production",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "Configure PurgeCSS in the Tailwind build process to remove unused styles. Optimize the final CSS output for production to ensure fast loading times.",
+            "status": "in-progress",
+            "testStrategy": "Run a production build and verify that the resulting CSS file size is significantly reduced compared to the development version"
+          },
+          {
+            "id": 5,
+            "title": "Create usage documentation",
+            "description": "Develop comprehensive documentation for the Tailwind setup and usage guidelines",
+            "dependencies": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "details": "Write clear, concise documentation explaining how to use the Tailwind utilities in the context of the Boilermaker framework. Include examples of common patterns and best practices for maintaining the minimalist design approach.",
+            "status": "pending",
+            "testStrategy": "Review the documentation with team members to ensure clarity and completeness"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Develop Reusable UI Component Library",
+        "description": "Create a set of reusable UI components for forms, tables, modals, and other common elements using Tailwind CSS and Stimulus.js.",
+        "details": "1. Set up Stimulus.js v3.2.1 in the Rails 8 project.\n2. Create base components: Button, Input, Select, Checkbox, Radio.\n3. Develop form components: Form, FormGroup, Label, ErrorMessage.\n4. Implement data display components: Table, Pagination, Card.\n5. Create overlay components: Modal, Tooltip, Popover.\n6. Develop navigation components: Navbar, Sidebar, Breadcrumbs.\n7. Implement feedback components: Alert, Toast, ProgressBar.\n8. Create layout components: Container, Grid, Flexbox.\n9. Develop interactive components: Tabs, Accordion, Dropdown.\n10. Implement accessibility features like ARIA attributes and keyboard navigation.\n11. Create a style guide documenting component usage and customization.",
+        "testStrategy": "1. Write unit tests for each component using Jest and Testing Library.\n2. Create integration tests for component interactions.\n3. Implement snapshot tests for visual consistency.\n4. Conduct accessibility testing using tools like axe-core.\n5. Perform cross-browser testing to ensure compatibility.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Implement Responsive Layout and Navigation",
+        "description": "Create a responsive layout and navigation system that works seamlessly across desktop and mobile devices.",
+        "details": "1. Design a responsive grid system using Tailwind CSS flexbox and grid utilities.\n2. Implement a mobile-first navigation menu with a hamburger icon for small screens.\n3. Create a desktop navigation bar that collapses into a mobile menu on smaller screens.\n4. Develop a responsive sidebar component for admin and user dashboards.\n5. Implement responsive tables that can be scrolled horizontally on mobile devices.\n6. Create responsive form layouts that stack on mobile and align horizontally on desktop.\n7. Develop a responsive footer with a collapsible menu on mobile.\n8. Implement responsive spacing and typography using Tailwind's responsive modifiers.\n9. Create utility classes for hiding/showing content based on screen size.\n10. Optimize images and media for different screen sizes using the picture element and srcset attribute.",
+        "testStrategy": "1. Use Jest and Testing Library to test responsive behavior.\n2. Implement visual regression tests for different screen sizes.\n3. Manually test on various devices and browsers.\n4. Use Chrome DevTools device emulation for testing.\n5. Implement Cypress tests for end-to-end testing of responsive layouts.",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Develop Dark/Light Mode Functionality",
+        "description": "Implement a dark/light mode feature with system preference detection and manual toggle.",
+        "details": "1. Use Tailwind CSS dark mode variant for styling.\n2. Implement JavaScript logic to detect system color scheme preference.\n3. Create a toggle component for manual mode switching.\n4. Use localStorage to persist user's mode preference.\n5. Implement smooth transitions between modes.\n6. Ensure all components and custom styles support both modes.\n7. Create a Stimulus controller for managing mode changes.\n8. Update favicon and other assets for dark mode.\n9. Implement mode-specific styles for third-party components.\n10. Add keyboard shortcut for toggling modes.",
+        "testStrategy": "1. Write unit tests for mode detection and switching logic.\n2. Implement integration tests for mode persistence.\n3. Create visual tests for both light and dark modes.\n4. Test system preference detection across different browsers.\n5. Conduct accessibility tests for color contrast in both modes.",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Implement Stripe Integration for Payments",
+        "description": "Integrate Stripe for handling payments and subscriptions in the Boilermaker framework.",
+        "details": "1. Install and configure stripe-rails gem (version 2.4.0).\n2. Set up Stripe API keys in Rails credentials.\n3. Create a Stripe Customer model and associate it with the User model.\n4. Implement Stripe Checkout for one-time payments.\n5. Set up Stripe Billing for recurring subscriptions.\n6. Create a subscription model to store plan information.\n7. Implement webhook handling for Stripe events (e.g., successful payments, failed payments).\n8. Create a billing portal for users to manage their subscriptions.\n9. Implement error handling and logging for Stripe operations.\n10. Set up test mode for development and staging environments.",
+        "testStrategy": "1. Use RSpec to write unit tests for Stripe-related models and services.\n2. Implement integration tests using Stripe's test mode and test cards.\n3. Use VCR to record and replay Stripe API interactions in tests.\n4. Test webhook handling with sample Stripe events.\n5. Conduct end-to-end tests for the entire payment and subscription flow.",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Develop Subscription Plan Management",
+        "description": "Create a system for managing subscription plans and feature access based on plan tiers.",
+        "details": "1. Design and implement a Plan model to store plan details.\n2. Create a feature flagging system using the flipper gem (version 0.28.1).\n3. Implement a service object for handling plan changes and upgrades.\n4. Create an admin interface for managing plans and features.\n5. Implement plan-based access control in controllers and views.\n6. Create a user dashboard for viewing current plan and available features.\n7. Implement prorated billing for plan changes.\n8. Set up plan comparison page for users.\n9. Create background jobs for handling plan expirations and renewals.\n10. Implement plan usage limits and overage charging.",
+        "testStrategy": "1. Write unit tests for Plan model and related services.\n2. Create integration tests for plan change workflows.\n3. Implement system tests for admin plan management interface.\n4. Test feature access control across different plan tiers.\n5. Conduct performance tests for plan-based queries and filters.",
+        "priority": "high",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Implement Usage Tracking and Billing",
+        "description": "Develop a system to track usage metrics and incorporate them into billing and plan management.",
+        "details": "1. Design and implement a Usage model to store usage data.\n2. Create a tracking service to record API calls, storage usage, and other metrics.\n3. Implement real-time usage updates using ActionCable.\n4. Create a background job to aggregate daily usage data.\n5. Implement usage-based billing using Stripe Metered Billing.\n6. Create a usage dashboard for users to monitor their consumption.\n7. Implement usage alerts and notifications for approaching limits.\n8. Create an admin interface for viewing and managing usage across accounts.\n9. Implement rate limiting based on usage and plan limits.\n10. Set up data retention policies for usage data.",
+        "testStrategy": "1. Write unit tests for Usage model and tracking service.\n2. Implement integration tests for usage recording and aggregation.\n3. Create system tests for usage dashboard and admin interface.\n4. Test rate limiting functionality under various conditions.\n5. Conduct performance tests for high-volume usage tracking.",
+        "priority": "medium",
+        "dependencies": [
+          5,
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Develop Admin Dashboard and Metrics",
+        "description": "Create a comprehensive admin dashboard with system-wide metrics and user management capabilities.",
+        "details": "1. Design and implement an admin layout using Tailwind CSS.\n2. Create an admin dashboard with key metrics (users, revenue, usage).\n3. Implement user management features (search, filter, edit, delete).\n4. Create visualizations for important data using Chart.js (version 4.3.0).\n5. Implement account management features.\n6. Create a system health monitoring page.\n7. Implement admin-only routes and controllers.\n8. Create an audit log viewer for admin users.\n9. Implement export functionality for dashboard data.\n10. Create an admin notification system for important events.",
+        "testStrategy": "1. Write unit tests for admin-specific models and services.\n2. Implement integration tests for admin workflows.\n3. Create system tests for admin dashboard and management interfaces.\n4. Test admin permissions and access control.\n5. Conduct performance tests for admin queries and data aggregation.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          6,
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Implement API Framework with Authentication",
+        "description": "Develop a RESTful API framework with authentication and rate limiting.",
+        "details": "1. Set up API versioning using namespace and constraints.\n2. Implement JWT authentication for API using the jwt gem (version 2.7.0).\n3. Create base API controller with error handling and response formatting.\n4. Implement rate limiting using the rack-attack gem (version 6.6.1).\n5. Create API documentation using RSwag (version 2.8.0).\n6. Implement API key management for users.\n7. Create endpoints for core resources (users, accounts, subscriptions).\n8. Implement request logging and monitoring.\n9. Set up API versioning strategy.\n10. Create a developer portal for API users.",
+        "testStrategy": "1. Write unit tests for API controllers and serializers.\n2. Implement integration tests for API authentication and rate limiting.\n3. Create contract tests using RSpec API documentation.\n4. Test API versioning and backwards compatibility.\n5. Conduct performance and load testing for API endpoints.",
+        "priority": "high",
+        "dependencies": [
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Implement Background Job Processing",
+        "description": "Set up a robust background job processing system using Sidekiq for asynchronous tasks.",
+        "details": "1. Install and configure Sidekiq (version 7.1.2) with Redis.\n2. Set up Sidekiq Web UI for job monitoring.\n3. Create base job classes for different job types (mailers, data processing, etc.).\n4. Implement retry mechanisms and error handling for jobs.\n5. Set up job prioritization and queues.\n6. Create scheduled jobs for recurring tasks.\n7. Implement job batches for processing large datasets.\n8. Set up dead job handling and alerting.\n9. Implement job lifecycle hooks for logging and monitoring.\n10. Create admin interface for managing and monitoring jobs.",
+        "testStrategy": "1. Write unit tests for individual job classes.\n2. Implement integration tests for job queuing and execution.\n3. Create system tests for Sidekiq Web UI and admin job management.\n4. Test error handling and retry mechanisms.\n5. Conduct performance tests for high-volume job processing.",
+        "priority": "medium",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Implement Comprehensive Logging and Monitoring",
+        "description": "Set up a robust logging and monitoring system for tracking application performance and errors.",
+        "details": "1. Implement structured logging using the lograge gem (version 0.12.0).\n2. Set up log aggregation using Elasticsearch, Logstash, and Kibana (ELK stack).\n3. Implement application performance monitoring using New Relic (latest version).\n4. Set up error tracking and reporting using Sentry (latest version).\n5. Create custom dashboards for monitoring key metrics.\n6. Implement alerting for critical errors and performance issues.\n7. Set up log rotation and retention policies.\n8. Create a centralized logging service for multi-tenant environments.\n9. Implement audit logging for sensitive operations.\n10. Set up real-time log streaming for debugging.",
+        "testStrategy": "1. Write unit tests for logging and monitoring configurations.\n2. Implement integration tests for log aggregation and parsing.\n3. Create system tests for monitoring dashboards and alerts.\n4. Test error reporting and tracking functionality.\n5. Conduct performance impact assessment of logging and monitoring.",
+        "priority": "medium",
+        "dependencies": [
+          8,
+          9,
+          10
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Implement Security Hardening and Compliance Measures",
+        "description": "Enhance the security posture of the Boilermaker framework and ensure compliance with relevant standards.",
+        "details": "1. Implement Content Security Policy (CSP) headers.\n2. Set up regular security scans using Brakeman (version 5.4.1).\n3. Implement strong password policies and account lockout mechanisms.\n4. Set up SSL/TLS configuration with HSTS headers.\n5. Implement IP whitelisting for admin access.\n6. Set up regular dependency vulnerability scans using bundle audit.\n7. Implement data encryption at rest using attr_encrypted gem (version 3.1.0).\n8. Set up secure session management with proper timeout and rotation.\n9. Implement audit trails for all sensitive operations.\n10. Create a security policy and incident response plan.",
+        "testStrategy": "1. Conduct regular penetration testing using tools like OWASP ZAP.\n2. Implement security unit tests for authentication and authorization.\n3. Perform regular security audits and code reviews.\n4. Test SSL/TLS configuration using SSL Labs.\n5. Conduct simulated security incident response drills.",
+        "priority": "high",
+        "dependencies": [
+          9,
+          11
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-06-27T15:23:40.278Z",
+      "updated": "2025-06-27T16:42:08.656Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

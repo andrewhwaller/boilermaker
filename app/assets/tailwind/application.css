@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@layer base {
+  html {
+    font-size: 14px;
+  }
+}
+
 @theme {
   /* Light mode (default) */
   --color-primary: #000000;
@@ -68,4 +74,25 @@
   --color-button-hover: #333333;
   --color-success: #16a34a;
   --color-error: #dc2626;
-} 
+}
+
+@layer components {
+  /* Base button styling - applies to all buttons */
+  button,
+  input[type="submit"],
+  input[type="button"],
+  input[type="reset"],
+  .btn {
+    @apply px-4 py-1 font-medium transition-colors duration-200 ease-in-out cursor-pointer;
+    @apply bg-button text-button-text border border-button;
+    @apply hover:bg-button-hover focus:outline-none;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Link-style button - only exception for text links */
+  .btn-link {
+    @apply bg-transparent text-blue-600 border-transparent hover:text-blue-800 hover:underline;
+    @apply dark:text-blue-400 dark:hover:text-blue-300;
+    @apply px-0 py-0;
+  }
+}

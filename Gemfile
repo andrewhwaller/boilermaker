@@ -64,6 +64,7 @@ group :development do
   gem "web-console"
   # Process manager for Procfile-based applications [https://github.com/DarthSim/overmind]
   gem "overmind"
+  gem "hotwire-spark"
 end
 
 group :test do
