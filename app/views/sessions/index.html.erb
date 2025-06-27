@@ -1,0 +1,83 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Devices & Sessions</h1>
+
+<% if Current.user == Current.user.account.users.first %>
+<div style="margin-bottom: 2rem; padding: 1rem; border: 1px solid #ddd; background-color: #f8f9fa;">
+  <h2>Admin Features</h2>
+  <p>As the account administrator, you have access to the following features:</p>
+  
+  <div style="margin-bottom: 1rem;">
+    <h3>User Management</h3>
+    <p>
+      <%= link_to "Send Invitation", new_invitation_path, style: "font-weight: bold;" %>
+    </p>
+  </div>
+  
+  <div style="margin-bottom: 1rem;">
+    <h3>Account Users</h3>
+    <% Current.user.account.users.each do |user| %>
+      <div style="margin-bottom: 0.5rem; padding: 0.5rem; border: 1px solid #eee;">
+        <p>
+          <strong><%= user.email %></strong>
+          <% if user == Current.user %>
+            <span style="color: green;">(You)</span>
+          <% else %>
+            <%= link_to "Masquerade", user_masquerade_path(user), 
+                        method: :post, 
+                        style: "margin-left: 1rem; color: #007bff;",
+                        confirm: "Are you sure you want to masquerade as #{user.email}?" %>
+          <% end %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>
+<% end %>
+
+<div style="margin-bottom: 2rem; padding: 1rem; border: 1px solid #ddd;">
+  <h2>Two-Factor Authentication</h2>
+  <% if Current.user.otp_required_for_sign_in? %>
+    <p style="color: green;">✅ Two-factor authentication is <strong>enabled</strong> for your account.</p>
+    <p>
+      <%= link_to "Manage recovery codes", two_factor_authentication_profile_recovery_codes_path %>
+    </p>
+  <% else %>
+    <p style="color: orange;">⚠️ Two-factor authentication is <strong>not enabled</strong> for your account.</p>
+    <p>We strongly recommend enabling 2FA to protect your account.</p>
+    <p>
+      <%= link_to "Set up two-factor authentication", new_two_factor_authentication_profile_totp_path, style: "font-weight: bold;" %>
+    </p>
+  <% end %>
+</div>
+
+<div id="sessions">
+  <% @sessions.each do |session| %>
+    <div id="<%= dom_id session %>">
+      <p>
+        <strong>User Agent:</strong>
+        <%= session.user_agent %>
+      </p>
+
+      <p>
+        <strong>Ip Address:</strong>
+        <%= session.ip_address %>
+      </p>
+
+      <p>
+        <strong>Created at:</strong>
+        <%= session.created_at %>
+      </p>
+
+    </div>
+    <p>
+      <%= button_to "Log out", session, method: :delete %>
+    </p>
+  <% end %>
+</div>
+
+<br>
+
+<div>
+  <%= link_to "Back", root_path %>
+</div>
