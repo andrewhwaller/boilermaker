@@ -20,7 +20,7 @@
       <%# User info and sign out %>
       <div class="flex items-center gap-2 border-l border-border pl-4">
         <span class="text-sm text-muted"><%= Current.user.email %></span>
-        <%= link_to "Sign out", sign_out_path, method: :delete, class: "text-muted hover:text-error" %>
+        <%= link_to "Sign out", session_path(Current.session), method: :delete, class: "text-muted hover:text-error" %>
       </div>
     <% else %>
       <%# Guest navigation %>
