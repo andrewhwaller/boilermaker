@@ -1,1 +1,71 @@
 @import "tailwindcss";
+
+@theme {
+  /* Light mode (default) */
+  --color-primary: #000000;
+  --color-primary-hover: #333333;
+  --color-secondary: #666666;
+  --color-surface: #ffffff;
+  --color-input: #ffffff;
+  --color-border: #d1d5db;
+  --color-foreground: #000000;
+  --color-muted: #6b7280;
+  --color-button: #000000;
+  --color-button-text: #ffffff;
+  --color-button-hover: #333333;
+  --color-success: #16a34a;
+  --color-error: #dc2626;
+}
+
+/* Dark mode via system preference (when no manual override) */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) {
+    --color-primary: #ffffff;
+    --color-primary-hover: #e5e5e5;
+    --color-secondary: #9ca3af;
+    --color-surface: #000000;
+    --color-input: #1f2937;
+    --color-border: #374151;
+    --color-foreground: #ffffff;
+    --color-muted: #9ca3af;
+    --color-button: #374151;
+    --color-button-text: #ffffff;
+    --color-button-hover: #4b5563;
+    --color-success: #22c55e;
+    --color-error: #ef4444;
+  }
+}
+
+/* Manual dark mode via .dark class */
+.dark {
+  --color-primary: #ffffff;
+  --color-primary-hover: #e5e5e5;
+  --color-secondary: #9ca3af;
+  --color-surface: #000000;
+  --color-input: #1f2937;
+  --color-border: #374151;
+  --color-foreground: #ffffff;
+  --color-muted: #9ca3af;
+  --color-button: #374151;
+  --color-button-text: #ffffff;
+  --color-button-hover: #4b5563;
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+}
+
+/* Manual light mode via .light class (explicit override) */
+.light {
+  --color-primary: #000000;
+  --color-primary-hover: #333333;
+  --color-secondary: #666666;
+  --color-surface: #ffffff;
+  --color-input: #ffffff;
+  --color-border: #d1d5db;
+  --color-foreground: #000000;
+  --color-muted: #6b7280;
+  --color-button: #000000;
+  --color-button-text: #ffffff;
+  --color-button-hover: #333333;
+  --color-success: #16a34a;
+  --color-error: #dc2626;
+} 
