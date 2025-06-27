@@ -15,7 +15,7 @@ class InvitationsControllerTest < ActionDispatch::IntegrationTest
   test "should show new invitation form when authenticated" do
     sign_in_as @admin_user
     get new_invitation_path
-    
+
     assert_response :success
     assert_select "h1", "Send invitation"
     assert_select "input[type=email][name=email]"
@@ -23,14 +23,14 @@ class InvitationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create invitation and send email for new user" do
     sign_in_as @admin_user
-    
+
     assert_emails 1 do
       post invitation_path, params: { email: @invited_email }
     end
-    
+
     assert_redirected_to new_invitation_path
     assert_equal "An invitation email has been sent to #{@invited_email}", flash[:notice]
-    
+
     # Verify user was created
     invited_user = User.find_by(email: @invited_email)
     assert_not_nil invited_user
@@ -47,51 +47,51 @@ class InvitationsControllerTest < ActionDispatch::IntegrationTest
       account: @account
     )
     sign_in_as @admin_user
-    
+
     assert_emails 1 do
       post invitation_path, params: { email: existing_user.email }
     end
-    
+
     assert_redirected_to new_invitation_path
     assert_equal "An invitation email has been sent to #{existing_user.email}", flash[:notice]
   end
 
   test "should handle invalid email" do
     sign_in_as @admin_user
-    
+
     assert_no_emails do
       post invitation_path, params: { email: "invalid-email" }
     end
-    
+
     assert_response :unprocessable_entity
     assert_select "div[style*='color: red']"
   end
 
   test "should handle blank email" do
     sign_in_as @admin_user
-    
+
     assert_no_emails do
       post invitation_path, params: { email: "" }
     end
-    
+
     assert_response :unprocessable_entity
     assert_select "div[style*='color: red']"
   end
 
   test "invitation email should contain correct reset link" do
     sign_in_as @admin_user
-    
+
     assert_emails 1 do
       post invitation_path, params: { email: @invited_email }
     end
-    
+
     # Check that the invited user has a valid password reset token
     invited_user = User.find_by(email: @invited_email)
     token = invited_user.generate_token_for(:password_reset)
     assert_not_nil token
-    
+
     # Verify the token can be consumed (this validates it)
     consumed_user = User.find_by_token_for(:password_reset, token)
     assert_equal invited_user, consumed_user
   end
-end 
+end

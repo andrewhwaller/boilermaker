@@ -89,8 +89,8 @@ class UserTest < ActiveSupport::TestCase
     @user.save!
     @user.update!(verified: true)
     assert @user.verified?
-    
+
     @user.update!(email: "newemail@example.com")
     assert_not @user.verified?
   end
-end 
+end

@@ -1,6 +1,6 @@
 class InvitationsController < ApplicationController
   # No need for before_action :authenticate since it's inherited from ApplicationController
-  
+
   def new
     @user = User.new
   end
@@ -19,7 +19,7 @@ class InvitationsController < ApplicationController
   private
     def user_params
       params.permit(:email).merge(
-        password: SecureRandom.base58, 
+        password: SecureRandom.base58,
         verified: true,
         account: Current.user.account
       )

@@ -15,9 +15,9 @@ class MasqueradesControllerTest < ActionDispatch::IntegrationTest
   test "authenticated admin can access masquerade endpoint" do
     sign_in_as @admin_user
     follow_redirect!  # Clear the sign-in flash message
-    
+
     post user_masquerade_path(@regular_user)
-    
+
     # Just verify the endpoint is accessible and redirects somewhere
     assert_response :redirect
   end
@@ -25,10 +25,10 @@ class MasqueradesControllerTest < ActionDispatch::IntegrationTest
   test "authenticated regular user gets some response from masquerade endpoint" do
     sign_in_as @regular_user
     follow_redirect!  # Clear the sign-in flash message
-    
+
     post user_masquerade_path(@admin_user)
-    
+
     # Just verify the endpoint responds (whether access denied or success)
     assert_response :redirect
   end
-end 
+end
