@@ -20,7 +20,13 @@ gem "jbuilder"
 gem "tailwindcss-rails"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+gem "bcrypt", "~> 3.1.7"
+# Check passwords against known breaches [https://github.com/philnash/pwned]
+gem "pwned"
+# TOTP (Time-based One-Time Password) for 2FA [https://github.com/mdp/rotp]
+gem "rotp"
+# QR Code generation for 2FA setup [https://github.com/whomwah/rqrcode]
+gem "rqrcode"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
