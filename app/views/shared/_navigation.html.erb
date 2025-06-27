@@ -1,0 +1,45 @@
+<%# 
+  Navigation component
+  TODO: Make layout type (top/sidebar) configurable via app settings/initializer
+  For now, defaulting to top navigation
+%>
+
+<nav class="border-b border-border p-4 flex items-center justify-between">
+  <%# Brand/Logo %>
+  <div>
+    <%= link_to "Boilermaker", root_path, class: "font-semibold text-foreground hover:text-secondary" %>
+  </div>
+
+  <%# Navigation links %>
+  <div class="flex items-center gap-4">
+    <% if Current.user.present? %>
+      <%# Authenticated navigation %>
+      <%= link_to "Dashboard", root_path, class: nav_link_class(root_path) %>
+      <%= link_to "Account", edit_identity_email_path, class: nav_link_class(edit_identity_email_path) %>
+      
+      <%# User info and sign out %>
+      <div class="flex items-center gap-2 border-l border-border pl-4">
+        <span class="text-sm text-muted"><%= Current.user.email %></span>
+        <%= link_to "Sign out", sign_out_path, method: :delete, class: "text-muted hover:text-error" %>
+      </div>
+    <% else %>
+      <%# Guest navigation %>
+      <%= link_to "Sign in", sign_in_path, class: nav_link_class(sign_in_path) %>
+      <%= link_to "Sign up", sign_up_path, class: nav_link_class(sign_up_path) %>
+    <% end %>
+  </div>
+</nav>
+
+<script>
+  // Simple mobile menu toggle
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('mobile-nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    
+    if (toggle && navLinks) {
+      toggle.addEventListener('click', function() {
+        navLinks.classList.toggle('nav-links-open');
+      });
+    }
+  });
+</script> 
