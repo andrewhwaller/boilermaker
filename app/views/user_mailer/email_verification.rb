@@ -7,23 +7,19 @@ module Views
       end
 
       def view_template
-        p { "Hey there," }
+        div do
+          h1 { "Verify your email" }
+          
+          p { "Thanks for signing up! Please verify your email address by clicking the link below:" }
+          
+          div(class: "button-container") do
+            link_to "Verify Email", identity_email_verification_url(token: @signed_id), class: "button"
+          end
+          
+          p { "If you didn't create an account, you can safely ignore this email." }
 
-        p do
-          plain("This is to confirm that ")
-          plain(@user.email)
-          plain(" is the email you want to use on your account. If you ever lose your password, that's where we'll email a reset link.")
+          footer
         end
-
-        p do
-          strong { "You must hit the link below to confirm that you received this email." }
-        end
-
-        p do
-          link_to("Yes, use this email for my account", identity_email_verification_url(sid: @signed_id))
-        end
-
-        footer
       end
     end
   end

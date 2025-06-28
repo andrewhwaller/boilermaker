@@ -7,6 +7,8 @@ class TwoFactorAuthentication::Profile::RecoveryCodesController < ApplicationCon
     else
       @recovery_codes = @user.recovery_codes.create!(new_recovery_codes)
     end
+
+    render Views::TwoFactorAuthentication::Profile::RecoveryCodes::Index.new(recovery_codes: @recovery_codes)
   end
 
   def create

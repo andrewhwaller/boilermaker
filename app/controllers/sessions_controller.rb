@@ -4,6 +4,10 @@ class SessionsController < ApplicationController
 
   before_action :set_session, only: :destroy
 
+  def index
+    render Views::Sessions::Index.new
+  end
+
   def new
     render Views::Sessions::New.new(email_hint: params[:email_hint])
   end

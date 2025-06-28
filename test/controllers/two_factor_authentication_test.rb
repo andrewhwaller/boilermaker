@@ -7,13 +7,11 @@ class TwoFactorAuthenticationTest < ActionDispatch::IntegrationTest
     @user.update!(otp_required_for_sign_in: false, verified: true)
   end
 
-
-
   test "should redirect to 2FA setup page" do
     sign_in_as @user
     get new_two_factor_authentication_profile_totp_path
     assert_response :success
-    assert_select "h1", text: "Upgrade your security with 2FA"
+    assert_select "h1", text: "Set up two-factor authentication"
   end
 
   test "should generate QR code for 2FA setup" do

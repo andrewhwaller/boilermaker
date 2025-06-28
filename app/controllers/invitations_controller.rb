@@ -2,7 +2,7 @@ class InvitationsController < ApplicationController
   # No need for before_action :authenticate since it's inherited from ApplicationController
 
   def new
-    @user = User.new
+    render Views::Invitations::New.new
   end
 
   def create
@@ -12,7 +12,7 @@ class InvitationsController < ApplicationController
       send_invitation_instructions
       redirect_to new_invitation_path, notice: "An invitation email has been sent to #{@user.email}"
     else
-      render :new, status: :unprocessable_entity
+      render Views::Invitations::New.new(user: @user), status: :unprocessable_entity
     end
   end
 

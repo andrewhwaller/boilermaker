@@ -6,85 +6,51 @@ module Views
       module Totps
         class New < Views::Base
           include Phlex::Rails::Helpers::FormWith
-          include Phlex::Rails::Helpers::LinkTo
-          include Phlex::Rails::Helpers::ButtonTo
+          include Phlex::Rails::Helpers::Routes
           include Phlex::Rails::Helpers::ImageTag
 
-          def initialize(qr_code:, alert: nil)
+          def initialize(totp:, qr_code:)
+            @totp = totp
             @qr_code = qr_code
-            @alert = alert
           end
 
           def view_template
-            if @alert
-              p(class: "text-error") { plain(@alert) }
-            end
+            div(class: "space-y-6") do
+              h1(class: "text-xl font-bold") { "Set up two-factor authentication" }
 
-            if Current.user.otp_required_for_sign_in?
-              h1(class: "text-xl font-semibold mb-6") { "Want to replace your existing 2FA setup?" }
+              p { "Two-factor authentication adds an extra layer of security to your account. In addition to your password, you'll need to enter a code from your phone to sign in." }
 
-              p { "Your account is already protected with two-factor authentication. You can replace that setup if you want to switch to a new phone or authenticator app." }
+              div(class: "space-y-6") do
+                form_with(url: two_factor_authentication_profile_totp_path, class: "space-y-6") do |form|
+                  div(class: "space-y-6") do
+                    div(class: "space-y-4") do
+                      h2(class: "text-lg font-medium") { "1. Scan this QR code with your authenticator app" }
 
-              p do
-                strong { "Do you want to continue? Your existing 2FA setup will no longer work." }
-              end
+                      figure(class: "flex flex-col items-center space-y-2") do
+                        img(src: @qr_code, alt: "QR Code", class: "h-48 w-48")
+                        figcaption { "Point your camera here" }
+                      end
+                    end
 
-              button_to("Yes, replace my 2FA setup",
-                two_factor_authentication_profile_totp_path,
-                method: :patch,
-                class: "mb-8")
+                    div(class: "space-y-4") do
+                      h2(class: "text-lg font-medium") { "2. Enter the code from your authenticator app" }
 
-              hr
-            end
+                      div(class: "space-y-2") do
+                        form.text_field(:code,
+                          class: "block w-full rounded-lg border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
+                          autocomplete: "one-time-code",
+                          required: true)
+                      end
+                    end
+                  end
 
-            h1(class: "text-xl font-semibold mb-6") { "Upgrade your security with 2FA" }
-
-            h2(class: "text-lg font-medium mb-4") { "Step 1: Get an Authenticator App" }
-            p do
-              plain("First, you'll need a 2FA authenticator app on your phone. ")
-              strong { "If you already have one, skip to step 2." }
-            end
-            p do
-              strong { "If you don't have one, or you aren't sure, we recommend Microsoft Authenticator" }
-              plain(". You can download it free on the Apple App Store for iPhone, or Google Play Store for Android. Please grab your phone, search the store, and install it now.")
-            end
-
-            h2(class: "text-lg font-medium mb-4 mt-8") { "Step 2: Scan + Enter the Code" }
-            p { "Next, open the authenticator app, tap \"Scan QR code\" or \"+\", and, when it asks, point your phone's camera at this QR code picture below." }
-
-            figure(class: "my-8") do
-              img(src: @qr_code.as_png(resize_exactly_to: 200).to_data_url, alt: "2FA QR Code")
-              figcaption(class: "text-sm text-muted mt-2") { "Point your camera here" }
-            end
-
-            form_with(url: two_factor_authentication_profile_totp_path) do |form|
-              div(class: "mb-4") do
-                render Components::Label.new(for_id: "code", required: true) do
-                  plain("After scanning with your camera, the app will generate a six-digit code. Enter it here:")
+                  div(class: "flex items-center justify-between") do
+                    button(class: "button", variant: :primary) { "Enable two-factor authentication" }
+                  end
                 end
-                render Components::Input.new(
-                  type: :text,
-                  name: "code",
-                  id: "code",
-                  required: true,
-                  autofocus: true,
-                  autocomplete: :off
-                )
               end
-
-              div(class: "mb-4") do
-                render Components::Button.new(type: "submit", variant: :primary) { "Verify and activate" }
-              end
-            end
-
-            div(class: "mt-8") do
-              link_to("Back", root_path, class: "btn-link")
             end
           end
-
-          private
-
-          attr_reader :qr_code, :alert
         end
       end
     end

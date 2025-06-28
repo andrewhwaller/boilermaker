@@ -7,21 +7,19 @@ module Views
       end
 
       def view_template
-        p { "Hey there," }
+        div do
+          h1 { "Reset your password" }
+          
+          p { "Someone requested a password reset for your account. If this was you, you can reset your password through the link below:" }
+          
+          div(class: "button-container") do
+            link_to "Reset Password", edit_identity_password_reset_url(token: @signed_id), class: "button"
+          end
+          
+          p { "If you didn't request this, you can safely ignore this email. Your password won't be changed until you access the link above and create a new one." }
 
-        p do
-          plain("Can't remember your password for ")
-          strong { plain(@user.email) }
-          plain("? That's OK, it happens. Just hit the link below to set a new one.")
+          footer
         end
-
-        p do
-          link_to("Reset my password", edit_identity_password_reset_url(sid: @signed_id))
-        end
-
-        p { "If you did not request a password reset you can safely ignore this email, it expires in 20 minutes. Only someone with access to this email account can reset your password." }
-
-        footer
       end
     end
   end

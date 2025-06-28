@@ -3,7 +3,20 @@ class TwoFactorAuthentication::Profile::TotpsController < ApplicationController
   before_action :set_totp, only: %i[ new create ]
 
   def new
-    @qr_code = RQRCode::QRCode.new(provisioning_uri)
+    qr_code = RQRCode::QRCode.new(provisioning_uri)
+    @qr_code_data_url = qr_code.as_png(
+      bit_depth: 1,
+      border_modules: 4,
+      color_mode: ChunkyPNG::COLOR_GRAYSCALE,
+      color: "black",
+      file: nil,
+      fill: "white",
+      module_px_size: 6,
+      resize_exactly_to: false,
+      resize_gte_to: false,
+      size: 200
+    ).to_data_url
+    render Views::TwoFactorAuthentication::Profile::Totps::New.new(totp: @totp, qr_code: @qr_code_data_url)
   end
 
   def create

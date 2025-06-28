@@ -7,6 +7,11 @@ module Views
         class Index < Views::Base
           include Phlex::Rails::Helpers::LinkTo
           include Phlex::Rails::Helpers::ButtonTo
+          include Phlex::Rails::Helpers::Notice
+
+          def initialize(recovery_codes:)
+            @recovery_codes = recovery_codes
+          end
 
           def view_template
             if notice
@@ -36,6 +41,10 @@ module Views
               "Generate new recovery codes",
               two_factor_authentication_profile_recovery_codes_path)
           end
+
+          private
+
+          attr_reader :recovery_codes
         end
       end
     end

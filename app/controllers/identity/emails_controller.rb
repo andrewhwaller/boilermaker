@@ -10,7 +10,7 @@ class Identity::EmailsController < ApplicationController
     if @user.update(user_params)
       redirect_to_root
     else
-      render :edit, status: :unprocessable_entity
+      render Views::Identity::Emails::Edit.new(user: @user, alert: @user.errors.full_messages.to_sentence), status: :unprocessable_entity
     end
   end
 

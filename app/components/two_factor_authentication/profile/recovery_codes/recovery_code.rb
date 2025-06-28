@@ -9,7 +9,7 @@ module Components
             @recovery_code = recovery_code
           end
 
-          def template
+          def view_template
             li do
               if @recovery_code.used?
                 del { plain(@recovery_code.code) }
