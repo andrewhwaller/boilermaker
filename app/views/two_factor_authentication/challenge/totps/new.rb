@@ -22,9 +22,9 @@ module Views
                 form.label(:code) do
                   h1 { "Next, open the 2FA authenticator app on your phone and type the six digit code below:" }
                 end
-                form.text_field(:code, 
-                  autofocus: true, 
-                  required: true, 
+                form.text_field(:code,
+                  autofocus: true,
+                  required: true,
                   autocomplete: :off
                 )
               end
@@ -39,7 +39,7 @@ module Views
                 strong { "Don't have your phone?" }
               end
               div do
-                link_to("Use a recovery code to access your account.", 
+                link_to("Use a recovery code to access your account.",
                   new_two_factor_authentication_challenge_recovery_codes_path
                 )
               end

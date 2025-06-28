@@ -29,8 +29,8 @@ module Views
                 strong { "Do you want to continue? Your existing 2FA setup will no longer work." }
               end
 
-              button_to("Yes, replace my 2FA setup", 
-                two_factor_authentication_profile_totp_path, 
+              button_to("Yes, replace my 2FA setup",
+                two_factor_authentication_profile_totp_path,
                 method: :patch
               )
 
@@ -59,13 +59,13 @@ module Views
 
             form_with(url: two_factor_authentication_profile_totp_path) do |form|
               div do
-                form.label(:code, 
-                  "After scanning with your camera, the app will generate a six-digit code. Enter it here:", 
+                form.label(:code,
+                  "After scanning with your camera, the app will generate a six-digit code. Enter it here:",
                   style: "display: block"
                 )
-                form.text_field(:code, 
-                  required: true, 
-                  autofocus: true, 
+                form.text_field(:code,
+                  required: true,
+                  autofocus: true,
                   autocomplete: :off
                 )
               end

@@ -21,9 +21,9 @@ module Views
                 form.label(:code) do
                   h1 { "OK, enter one of your recovery codes below:" }
                 end
-                form.text_field(:code, 
-                  autofocus: true, 
-                  required: true, 
+                form.text_field(:code,
+                  autofocus: true,
+                  required: true,
                   autocomplete: :off
                 )
               end
