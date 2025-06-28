@@ -4,6 +4,7 @@ class RegistrationsController < ApplicationController
 
   def new
     @user = User.new
+    render Views::Registrations::New.new(user: @user)
   end
 
   def create
@@ -17,7 +18,7 @@ class RegistrationsController < ApplicationController
       send_email_verification
       redirect_to root_path, notice: "Welcome! You have signed up successfully"
     else
-      render :new, status: :unprocessable_entity
+      render Views::Registrations::New.new(user: @user), status: :unprocessable_entity
     end
   end
 

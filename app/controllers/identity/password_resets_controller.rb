@@ -5,9 +5,11 @@ class Identity::PasswordResetsController < ApplicationController
   before_action :set_user, only: %i[ edit update ]
 
   def new
+    render Views::Identity::PasswordResets::New.new(alert: flash[:alert])
   end
 
   def edit
+    render Views::Identity::PasswordResets::Edit.new(user: @user, sid: params[:sid])
   end
 
   def create
@@ -23,7 +25,7 @@ class Identity::PasswordResetsController < ApplicationController
     if @user.update(user_params)
       redirect_to sign_in_path, notice: "Your password was reset successfully. Please sign in"
     else
-      render :edit, status: :unprocessable_entity
+      render Views::Identity::PasswordResets::Edit.new(user: @user, sid: params[:sid]), status: :unprocessable_entity
     end
   end
 

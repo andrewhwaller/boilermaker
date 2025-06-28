@@ -4,11 +4,8 @@ class SessionsController < ApplicationController
 
   before_action :set_session, only: :destroy
 
-  def index
-    @sessions = Current.user.sessions.order(created_at: :desc)
-  end
-
   def new
+    render Views::Sessions::New.new(email_hint: params[:email_hint])
   end
 
   def create
@@ -28,7 +25,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    @session.destroy; redirect_to(sessions_path, notice: "That session has been logged out")
+    @session.destroy; redirect_to(root_path, notice: "That session has been logged out")
   end
 
   private

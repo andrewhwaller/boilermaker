@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   before_action :authenticate
   before_action :ensure_verified
 
+
+
   private
     def authenticate
       if session_record = Session.find_by_id(cookies.signed[:session_token])

@@ -2,13 +2,14 @@ class PasswordsController < ApplicationController
   before_action :set_user
 
   def edit
+    render Views::Passwords::Edit.new(user: @user, alert: flash[:alert])
   end
 
   def update
     if @user.update(user_params)
       redirect_to root_path, notice: "Your password has been changed"
     else
-      render :edit, status: :unprocessable_entity
+      render Views::Passwords::Edit.new(user: @user), status: :unprocessable_entity
     end
   end
 
