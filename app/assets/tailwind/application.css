@@ -83,7 +83,7 @@
   input[type="button"],
   input[type="reset"],
   .btn {
-    @apply px-5 py-1;
+    @apply px-3 py-1;
     @apply font-medium transition-colors duration-200 ease-in-out cursor-pointer;
     @apply bg-button text-button-text border border-button;
     @apply hover:bg-button-hover focus:outline-none;
