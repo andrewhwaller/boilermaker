@@ -50,15 +50,15 @@ module PhlexScaffold
 
       def attributes_list
         return [] if attributes.empty?
-        
+
         attributes.map do |attr|
           { name: attr.name, type: attr.type.to_s }
         end
       end
 
       def display_attributes
-        return [{ name: 'name', type: 'string' }] if attributes_list.empty?
-        
+        return [ { name: "name", type: "string" } ] if attributes_list.empty?
+
         # Filter out timestamps and id
         attributes_list.reject { |attr| %w[id created_at updated_at].include?(attr[:name]) }
       end
@@ -80,7 +80,7 @@ module PhlexScaffold
       end
 
       def permitted_params
-        attributes_names.map { |name| ":#{name}" }.join(', ')
+        attributes_names.map { |name| ":#{name}" }.join(", ")
       end
 
       def attributes_names
@@ -116,4 +116,4 @@ module PhlexScaffold
       end
     end
   end
-end 
+end

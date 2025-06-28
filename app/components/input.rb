@@ -22,7 +22,7 @@ class Components::Input < Components::Base
       value: @value,
       placeholder: @placeholder,
       required: @required,
-      class: [default_classes, @attributes[:class]].compact.join(" "),
+      class: [ default_classes, @attributes[:class] ].compact.join(" "),
       **@attributes.except(:class)
     )
   end
