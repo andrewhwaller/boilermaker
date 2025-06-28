@@ -1,9 +1,13 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
+  include Rails.application.routes.url_helpers
+
   before_action :set_current_request_details
   before_action :authenticate
   before_action :ensure_verified
 
-
+  layout "application"
 
   private
     def authenticate
