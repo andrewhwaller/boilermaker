@@ -12,7 +12,9 @@
   </div>
 
   <div class="mb-4">
-    <%= form.submit "Sign in" %>
+    <%= render Components::Button.new(type: "submit") do %>
+      Sign in
+    <% end %>
   </div>
 <% end %>
 
