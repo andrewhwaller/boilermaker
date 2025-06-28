@@ -22,6 +22,10 @@ module PhlexScaffold
         template "_form.rb.erb", File.join("app/views", class_path, plural_file_name, "_form.rb")
       end
 
+      def create_controller
+        template "controller.rb.erb", File.join("app/controllers", class_path, "#{controller_file_name}_controller.rb")
+      end
+
       private
 
       def model_name
@@ -61,6 +65,46 @@ module PhlexScaffold
 
       def form_attributes
         display_attributes
+      end
+
+      def controller_class_name
+        model_name.pluralize
+      end
+
+      def controller_file_name
+        plural_file_name
+      end
+
+      def orm_class
+        ::Rails::Generators::ActiveModel
+      end
+
+      def permitted_params
+        attributes_names.map { |name| ":#{name}" }.join(', ')
+      end
+
+      def attributes_names
+        attributes.map { |attr| attr.name }
+      end
+
+      def redirect_resource_name
+        if namespaced?
+          "[:#{namespace}, @#{singular_table_name}]"
+        else
+          "@#{singular_table_name}"
+        end
+      end
+
+      def index_helper
+        if namespaced?
+          "#{namespace}_#{plural_table_name}"
+        else
+          plural_table_name
+        end
+      end
+
+      def human_name
+        class_name.humanize
       end
     end
   end

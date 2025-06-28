@@ -1,6 +1,6 @@
 # Phlex View Scaffolding
 
-This boilerplate includes a custom `phlex:scaffold` generator that creates Phlex views instead of ERB views for standard Rails scaffolding workflows.
+This boilerplate includes a custom `phlex:scaffold` generator that creates Phlex views and controllers for standard Rails scaffolding workflows.
 
 ## Quick Start
 
@@ -22,7 +22,7 @@ config.generators do |g|
 end
 ```
 
-Then use the regular scaffold command, and it will automatically generate Phlex views:
+Then use the regular scaffold command, and it will automatically generate Phlex views and controllers:
 
 ```bash
 bin/rails generate scaffold ModelName field1:type field2:type
@@ -34,13 +34,21 @@ bin/rails generate phlex:scaffold Post title:string content:text published:boole
 ```
 
 This will generate:
+- `app/controllers/posts_controller.rb` - Controller with Phlex view rendering
 - `app/views/posts/index.rb` - List all posts
 - `app/views/posts/show.rb` - Show a single post
 - `app/views/posts/new.rb` - New post form
 - `app/views/posts/edit.rb` - Edit post form
 - `app/views/posts/_form.rb` - Shared form component
 
-## Generated View Features
+## Generated Features
+
+### Controller
+- Automatically renders Phlex views
+- Follows Rails best practices
+- Includes proper error handling
+- Uses strong parameters
+- Includes all standard CRUD actions
 
 ### Index View
 - Displays all records in a clean, styled list
@@ -77,13 +85,13 @@ This will generate:
 ```bash
 bin/rails generate scaffold Post title:string content:text
 ```
-Creates ERB views that you'd need to manually convert to Phlex.
+Creates ERB views and a standard controller that you'd need to manually convert to work with Phlex.
 
 ### Phlex Scaffold (New!)
 ```bash
 bin/rails generate phlex:scaffold Post title:string content:text
 ```
-Creates Phlex views that work immediately with your existing architecture.
+Creates Phlex views and a Phlex-compatible controller that work immediately with your existing architecture.
 
 ## Workflow Integration
 
@@ -92,33 +100,33 @@ Creates Phlex views that work immediately with your existing architecture.
 2. Use the regular scaffold command:
 
 ```bash
-# Generate everything with Phlex views automatically
+# Generate everything with Phlex views and controllers automatically
 bin/rails generate scaffold Post title:string content:text published:boolean
 ```
 
-### Option 2: Replace Default Scaffold Views
-1. Generate your model and controller with the default scaffold
-2. Delete the generated ERB views
-3. Generate Phlex views instead:
+### Option 2: Replace Default Scaffold Views and Controller
+1. Generate your model with the default scaffold
+2. Delete the generated ERB views and controller
+3. Generate Phlex views and controller instead:
 
 ```bash
-# Generate everything (model, controller, routes, etc.)
+# Generate everything (model, routes, etc.)
 bin/rails generate scaffold Post title:string content:text published:boolean
 
-# Remove the ERB views
+# Remove the ERB views and default controller
 rm -rf app/views/posts
+rm app/controllers/posts_controller.rb
 
-# Generate Phlex views
+# Generate Phlex views and controller
 bin/rails generate phlex:scaffold Post title:string content:text published:boolean
 ```
 
-### Option 3: Views-Only Generation
-1. Create your model and controller manually or with separate generators
-2. Generate only the Phlex views:
+### Option 3: Views and Controller Only Generation
+1. Create your model manually or with a separate generator
+2. Generate only the Phlex views and controller:
 
 ```bash
 bin/rails generate model Post title:string content:text published:boolean
-bin/rails generate controller Posts index show new create edit update destroy
 bin/rails generate phlex:scaffold Post title:string content:text published:boolean
 ```
 
@@ -126,6 +134,7 @@ bin/rails generate phlex:scaffold Post title:string content:text published:boole
 
 The generator uses templates located in `lib/generators/phlex/scaffold/templates/`. You can customize these templates to match your specific needs:
 
+- `controller.rb.erb` - Controller template
 - `index.rb.erb` - Index view template
 - `show.rb.erb` - Show view template  
 - `new.rb.erb` - New view template
@@ -140,10 +149,11 @@ You can override the generator's behavior by modifying `lib/generators/phlex/sca
 - Modify which attributes are displayed
 - Add custom field types
 - Change the form layout structure
+- Customize controller behavior
 
 ## Benefits
 
-1. **Consistent Architecture**: All views follow your established Phlex patterns
+1. **Consistent Architecture**: All views and controllers follow your established Phlex patterns
 2. **Component Integration**: Automatically uses your existing components
 3. **Type-Aware Forms**: Generates appropriate form fields for different data types
 4. **Modern Styling**: Uses Tailwind CSS classes for clean, modern appearance

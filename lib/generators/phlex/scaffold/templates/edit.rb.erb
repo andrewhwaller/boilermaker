@@ -9,7 +9,7 @@ module Views
       include Phlex::Rails::Helpers::ButtonTo
 
       def initialize(<%= instance_name %>:)
-        <%= instance_name %> = <%= instance_name %>
+        @<%= instance_name %> = <%= instance_name %>
       end
 
       def view_template
@@ -29,7 +29,7 @@ module Views
 
       private
 
-      attr_reader <%= instance_name %>
+      attr_reader :<%= instance_name[1..-1] %>
     end
 <% if namespaced? -%>
   end
