@@ -6,7 +6,10 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Boilermaker
+# Add lib directory to load path
+$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+
+module BoilermakerApp
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0

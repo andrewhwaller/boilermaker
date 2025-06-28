@@ -51,4 +51,9 @@ Rails.application.routes.draw do
 
   # Masquerading
   post "users/:user_id/masquerade", to: "masquerades#create", as: :user_masquerade
+
+  # Mount Boilermaker engine for admin functionality only in development and test
+  if Rails.env.development? || Rails.env.test?
+    mount Boilermaker::Engine, at: "/boilermaker", as: :boilermaker
+  end
 end
