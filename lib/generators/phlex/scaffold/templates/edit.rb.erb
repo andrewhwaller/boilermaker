@@ -8,14 +8,14 @@ module Views
       include Phlex::Rails::Helpers::LinkTo
       include Phlex::Rails::Helpers::ButtonTo
 
-      def initialize(<%= instance_name %>:)
-        @<%= instance_name %> = <%= instance_name %>
+      def initialize(<%= param_name %>:)
+        @<%= param_name %> = <%= param_name %>
       end
 
       def view_template
         h1(class: "text-2xl font-bold mb-6") { "Editing <%= model_name.downcase %>" }
 
-        render <%= namespaced? ? "Views::#{namespace.classify}::" : "Views::" %>Form.new(<%= instance_name %>: <%= instance_name %>)
+        render <%= namespaced? ? "Views::#{namespace.classify}::" : "Views::" %>Form.new(<%= param_name %>: <%= instance_name %>)
 
         div(class: "mt-6 flex space-x-3") do
           link_to("Show", 
@@ -29,7 +29,7 @@ module Views
 
       private
 
-      attr_reader :<%= instance_name[1..-1] %>
+      attr_reader :<%= param_name %>
     end
 <% if namespaced? -%>
   end
