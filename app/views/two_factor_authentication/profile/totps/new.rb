@@ -10,9 +10,14 @@ module Views
           include Phlex::Rails::Helpers::LinkTo
           include Phlex::Rails::Helpers::ImageTag
 
+          def initialize(qr_code:, alert: nil)
+            @qr_code = qr_code
+            @alert = alert
+          end
+
           def view_template
-            if alert
-              p(style: "color: red") { plain(alert) }
+            if @alert.present?
+              p(style: "color: red") { @alert }
             end
 
             if Current.user.otp_required_for_sign_in?
@@ -24,9 +29,8 @@ module Views
                 strong { "Do you want to continue? Your existing 2FA setup will no longer work." }
               end
 
-              button_to(
-                "Yes, replace my 2FA setup",
-                two_factor_authentication_profile_totp_path,
+              button_to("Yes, replace my 2FA setup", 
+                two_factor_authentication_profile_totp_path, 
                 method: :patch
               )
 
@@ -37,12 +41,12 @@ module Views
 
             h2 { "Step 1: Get an Authenticator App" }
             p do
-              plain("First, you'll need a 2FA authenticator app on your phone. ")
+              plain "First, you'll need a 2FA authenticator app on your phone. "
               strong { "If you already have one, skip to step 2." }
             end
             p do
               strong { "If you don't have one, or you aren't sure, we recommend Microsoft Authenticator" }
-              plain(". You can download it free on the Apple App Store for iPhone, or Google Play Store for Android. Please grab your phone, search the store, and install it now.")
+              plain ". You can download it free on the Apple App Store for iPhone, or Google Play Store for Android. Please grab your phone, search the store, and install it now."
             end
 
             h2 { "Step 2: Scan + Enter the Code" }
@@ -55,13 +59,13 @@ module Views
 
             form_with(url: two_factor_authentication_profile_totp_path) do |form|
               div do
-                form.label(:code,
-                  "After scanning with your camera, the app will generate a six-digit code. Enter it here:",
+                form.label(:code, 
+                  "After scanning with your camera, the app will generate a six-digit code. Enter it here:", 
                   style: "display: block"
                 )
-                form.text_field(:code,
-                  required: true,
-                  autofocus: true,
+                form.text_field(:code, 
+                  required: true, 
+                  autofocus: true, 
                   autocomplete: :off
                 )
               end
@@ -77,6 +81,10 @@ module Views
               link_to("Back", root_path)
             end
           end
+
+          private
+
+          attr_reader :qr_code, :alert
         end
       end
     end
