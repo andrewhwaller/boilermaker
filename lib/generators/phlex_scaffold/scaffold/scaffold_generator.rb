@@ -7,7 +7,7 @@
 module PhlexScaffold
   module Generators
     class ScaffoldGenerator < Rails::Generators::NamedBase
-      source_root File.expand_path("../../phlex/scaffold/templates", __dir__)
+      source_root File.expand_path("templates", __dir__)
 
       argument :attributes, type: :array, default: [], banner: "field[:type][:index] field[:type][:index]"
 
@@ -105,6 +105,14 @@ module PhlexScaffold
 
       def human_name
         class_name.humanize
+      end
+
+      def plural_param_name
+        plural_table_name
+      end
+
+      def param_name
+        singular_table_name
       end
     end
   end
