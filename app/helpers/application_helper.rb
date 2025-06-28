@@ -23,4 +23,51 @@ module ApplicationHelper
     end
     "#{base_classes} #{type_classes}"
   end
+
+  # Boilermaker configuration helpers
+  def boilermaker_config
+    Boilermaker.config
+  end
+
+  def app_name
+    Boilermaker.config.app_name
+  end
+
+  def app_version
+    Boilermaker.config.app_version
+  end
+
+  def feature_enabled?(feature_name)
+    Boilermaker.config.feature_enabled?(feature_name)
+  end
+
+  def primary_color
+    Boilermaker.config.primary_color
+  end
+
+  def secondary_color
+    Boilermaker.config.secondary_color
+  end
+
+  # Helper to conditionally render content if feature is enabled
+  def if_feature_enabled(feature_name, &block)
+    if feature_enabled?(feature_name)
+      yield if block_given?
+    end
+  end
+
+  # Page title helpers
+  def page_title(title = nil)
+    if title.present?
+      "#{title} | #{app_name}"
+    elsif content_for?(:title)
+      "#{content_for(:title)} | #{app_name}"
+    else
+      app_name
+    end
+  end
+
+  def set_title(title)
+    content_for :title, title
+  end
 end
