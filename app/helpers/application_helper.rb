@@ -6,4 +6,8 @@ module ApplicationHelper
   def user_signed_in?
     Current.user.present?
   end
+
+  def default_url_options
+    { host: "localhost", port: 3000 }
+  end
 end
