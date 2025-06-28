@@ -12,8 +12,8 @@ class Components::Input < Components::Base
   end
 
   def view_template
-    input_classes = "block w-full border border-border bg-background px-3 py-1 text-foreground " \
-                   "focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+    default_classes = "block border border-border bg-background px-3 py-1 text-foreground " \
+                     "focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
 
     input(
       type: @type,
@@ -22,8 +22,8 @@ class Components::Input < Components::Base
       value: @value,
       placeholder: @placeholder,
       required: @required,
-      class: input_classes,
-      **@attributes
+      class: [default_classes, @attributes[:class]].compact.join(" "),
+      **@attributes.except(:class)
     )
   end
 end
