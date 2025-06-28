@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema[8.0].define(version: 2025_06_27_043030) do
   create_table "accounts", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "recovery_codes", force: :cascade do |t|
@@ -35,9 +38,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_27_043030) do
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
-    t.boolean "verified", default: false, null: false
-    t.boolean "otp_required_for_sign_in", default: false, null: false
-    t.string "otp_secret", null: false
+    t.boolean "verified", default: false
+    t.boolean "otp_required_for_sign_in", default: false
+    t.string "otp_secret"
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
