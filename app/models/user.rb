@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many :recovery_codes, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, allow_nil: true, length: { minimum: 12 }
+  validates :password, allow_nil: true, length: { minimum: -> { Boilermaker.config.password_min_length } }
 
   normalizes :email, with: -> { _1.strip.downcase }
 
