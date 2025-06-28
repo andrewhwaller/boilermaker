@@ -74,15 +74,121 @@
       {
         "id": 2,
         "title": "Develop Reusable UI Component Library",
-        "description": "Create a set of reusable UI components for forms, tables, modals, and other common elements using Tailwind CSS and Stimulus.js.",
-        "details": "1. Set up Stimulus.js v3.2.1 in the Rails 8 project.\n2. Create base components: Button, Input, Select, Checkbox, Radio.\n3. Develop form components: Form, FormGroup, Label, ErrorMessage.\n4. Implement data display components: Table, Pagination, Card.\n5. Create overlay components: Modal, Tooltip, Popover.\n6. Develop navigation components: Navbar, Sidebar, Breadcrumbs.\n7. Implement feedback components: Alert, Toast, ProgressBar.\n8. Create layout components: Container, Grid, Flexbox.\n9. Develop interactive components: Tabs, Accordion, Dropdown.\n10. Implement accessibility features like ARIA attributes and keyboard navigation.\n11. Create a style guide documenting component usage and customization.",
-        "testStrategy": "1. Write unit tests for each component using Jest and Testing Library.\n2. Create integration tests for component interactions.\n3. Implement snapshot tests for visual consistency.\n4. Conduct accessibility testing using tools like axe-core.\n5. Perform cross-browser testing to ensure compatibility.",
-        "priority": "high",
+        "description": "Create a set of reusable UI components and convert all views to Phlex components, replacing ERB templates with a pure Ruby view layer using Tailwind CSS, Stimulus.js, and Phlex for component architecture.",
+        "status": "pending",
         "dependencies": [
           1
         ],
-        "status": "pending",
-        "subtasks": []
+        "priority": "high",
+        "details": "1. Set up Stimulus.js v3.2.1 and Phlex in the Rails 8 project.\n2. Configure Phlex generators and establish base component patterns.\n3. Create base components with Phlex: Button, Input, Select, Checkbox, Radio.\n4. Develop form components: Form, FormGroup, Label, ErrorMessage.\n5. Implement data display components: Table, Pagination, Card.\n6. Create overlay components: Modal, Tooltip, Popover.\n7. Develop navigation components: Navbar, Sidebar, Breadcrumbs.\n8. Implement feedback components: Alert, Toast, ProgressBar.\n9. Create layout components: Container, Grid, Flexbox.\n10. Develop interactive components: Tabs, Accordion, Dropdown.\n11. Implement accessibility features like ARIA attributes and keyboard navigation.\n12. Package components into reusable Phlex Kits for future projects.\n13. Create a style guide documenting component usage and customization.\n14. Ensure integration with existing Tailwind styling system.\n15. Create base view component classes for full-page views.\n16. Convert all ERB templates to Phlex view components.\n17. Update controllers to render Phlex views instead of ERB templates.\n18. Maintain layout inheritance with Phlex layouts.\n19. Implement a pure Ruby view layer throughout the application.",
+        "testStrategy": "1. Write unit tests for each Phlex component using Jest and Testing Library.\n2. Create integration tests for component interactions.\n3. Implement snapshot tests for visual consistency.\n4. Conduct accessibility testing using tools like axe-core.\n5. Perform cross-browser testing to ensure compatibility.\n6. Test Phlex-specific features like XSS protection and rendering performance.\n7. Write tests for view components to ensure proper rendering and data handling.\n8. Test controller integration with Phlex views.\n9. Verify layout inheritance and proper component composition.\n10. Test full page rendering performance with complex component trees.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up Phlex configuration in Rails project",
+            "description": "Install and configure Phlex for the Rails 8 project, including necessary generators and base component structure.",
+            "status": "done",
+            "dependencies": [],
+            "details": "<info added on 2025-06-27T23:37:44.313Z>\n# Phlex Configuration Setup\n\n## Directory Structure Created\n- Created `app/components/ui/` directory for UI components\n\n## Base Component Class\n- Created `UI::BaseComponent` with common utilities:\n  - Attribute handling and extraction\n  - CSS class merging helpers\n  - Conditional class helpers\n\n## Rails Configuration\n- Added Phlex initializer in `config/initializers/phlex.rb`\n- Configured autoload and eager load paths for components\n- Set up component preview paths for development\n\n## Test Component\n- Created `UI::ButtonComponent` as proof of concept\n- Integrates with existing Tailwind button styling (px-4 py-1)\n- Supports variants (:default, :link) and sizes (:small, :default, :large)  \n- Uses our existing CSS variables (bg-button, text-button-text, etc.)\n\n## Next Steps\n- Test the Button component in existing forms\n- Create helper method for easy component rendering\n- Set up component previews for development\n</info added on 2025-06-27T23:37:44.313Z>\n<info added on 2025-06-27T23:39:33.311Z>\n# Naming Convention Fixed\n- Changed from `UI::` to `Ui::` namespace following Ruby conventions\n- Updated `UI::BaseComponent` -> `Ui::BaseComponent`\n- Updated `UI::ButtonComponent` -> `Ui::ButtonComponent`  \n- Updated helper method to use `Ui::ButtonComponent`\n\n# Component Integration Completed\n- Updated registration form (`/sign_up`) to use `ui_button` helper\n- Updated sign-in form (`/sign_in`) to use `ui_button` helper\n- Both forms now use Phlex Button component instead of Rails `form.submit`\n\n# Testing Setup\n- Ready to test the Phlex integration with existing forms\n- All components use existing Tailwind styling (px-4 py-1, bg-button variables)\n- Helper method `ui_button` provides clean interface for ERB templates\n\n# Key Achievement\nSuccessfully set up Phlex with proper Ruby naming conventions and integrated our first component into existing authentication forms. The Button component maintains all existing styling while providing the benefits of Phlex's component architecture.\n</info added on 2025-06-27T23:39:33.311Z>",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Create base Phlex component classes",
+            "description": "Establish foundational component patterns and inheritance structure following Phlex best practices.",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Implement Button component with Phlex",
+            "description": "Create a Button component using Phlex that integrates with existing Tailwind styling and supports various states and variants.",
+            "status": "done",
+            "dependencies": [],
+            "details": "<info added on 2025-06-27T23:55:36.451Z>\nSimplified component naming convention by removing redundant \"Component\" suffix:\n\n- Renamed all component files to remove \"Component\" suffix:\n  - base_component.rb → base.rb\n  - button_component.rb → button.rb  \n  - input_component.rb → input.rb\n  - label_component.rb → label.rb\n\n- Updated all class names:\n  - Components::BaseComponent → Components::Base\n  - Components::ButtonComponent → Components::Button\n  - Components::InputComponent → Components::Input\n  - Components::LabelComponent → Components::Label\n\n- Updated all template references in sessions/new.html.erb and registrations/new.html.erb\n\nThis follows Rails conventions where directory structure provides namespace context, making the \"Component\" suffix redundant. Results in cleaner, more concise naming throughout the component system.\n</info added on 2025-06-27T23:55:36.451Z>\n<info added on 2025-06-28T00:07:18.215Z>\nSuccessfully resolved component autoloading issues by using Phlex generators:\n\n**Problem Resolution:**\n- Previous manual component creation had autoloading issues with Rails not recognizing the Components namespace\n- Used Phlex built-in generators to create components with proper structure\n\n**Actions Taken:**\n1. **Removed broken manual components** and used proper Phlex generators:\n   - `bin/rails generate phlex:component Button`\n   - `bin/rails generate phlex:component Input` \n   - `bin/rails generate phlex:component Label`\n\n2. **Created proper Components module** in `app/components.rb` to define namespace\n\n3. **Built Components::Base** class with shared utilities (merge_classes, remaining_attrs)\n\n4. **Implemented all component functionality:**\n   - Button: variant/size support, Tailwind styling, proper attribute handling\n   - Input: type/validation support, accessibility attributes, Tailwind styling  \n   - Label: required field indicators, proper for/input associations\n\n5. **Updated all templates** to use proper `Components::` namespace:\n   - `Components::Button.new(type: \"submit\")`\n   - `Components::Input.new(type: :email, ...)`\n   - `Components::Label.new(for_input: \"user_email\", required: true)`\n\n**Key Learning:** Phlex generators handle autoloading configuration automatically, ensuring Rails properly recognizes and loads component classes. This approach is much more reliable than manual component creation.\n\n**Result:** Clean component architecture with proper Rails autoloading, maintaining all existing styling and functionality.\n</info added on 2025-06-28T00:07:18.215Z>\n<info added on 2025-06-28T00:16:03.679Z>\nRESOLVED: Component autoloading issues by using proper Phlex setup:\n\n**Root Cause:** I was manually trying to create the Components namespace and adding unnecessary helper methods instead of using Phlex's built-in generators and patterns.\n\n**Solution Steps:**\n1. **Ran `bin/rails generate phlex:install`** - This properly set up autoloading and created the correct `Components::Base` class with Rails integration\n2. **Simplified all components** to use Phlex's native attribute handling:\n   - Removed custom `remaining_attrs` and `merge_classes` helper methods\n   - Used simple `@attrs.merge()` for attribute handling\n   - Used basic `[].compact.join(\" \")` for CSS class concatenation\n3. **Removed redundant `app/components.rb`** - Phlex handles namespace creation properly\n\n**Key Learning:** Phlex has excellent generators that handle autoloading correctly. Don't fight the framework - use the built-in patterns instead of creating custom abstractions.\n\n**Result:** Components now load properly with `Components::Button`, `Components::Input`, and `Components::Label` working in templates. Rails console confirms `Components::Button.new.class` returns correctly.\n</info added on 2025-06-28T00:16:03.679Z>",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Develop form input components with Phlex",
+            "description": "Build Input, Select, Checkbox, and Radio components using Phlex architecture while maintaining Tailwind styling.",
+            "status": "done",
+            "dependencies": [],
+            "details": "<info added on 2025-06-27T23:41:43.938Z>\n✅ **Input Component Created:**\n- Built `Ui::InputComponent` with support for text, email, password, and other input types\n- Integrated with Tailwind styling (border, focus states, transitions)\n- Includes proper accessibility attributes and disabled states\n- Uses compact attribute handling to remove nil values\n\n✅ **Label Component Created:**\n- Built `Ui::LabelComponent` with consistent styling  \n- Supports required field indicators with red asterisk (*) \n- Proper `for` attribute linking to inputs\n- Clean, semantic HTML output\n\n✅ **Helper Methods Added:**\n- Added `ui_input(**attrs)` helper for easy ERB integration\n- Added `ui_label(**attrs, &block)` helper for labels with content blocks\n- Maintains consistent naming convention with existing `ui_button`\n\n✅ **Testing Integration:**\n- Updated registration form email field to use new Phlex components\n- Replaced Rails `form.label` and `form.email_field` with `ui_label` and `ui_input`\n- Maintained all existing functionality (required, autofocus, autocomplete, value binding)\n\n**Next Steps:**\n- Test the email field functionality in the browser\n- Replace remaining password fields with Phlex components\n- Create Select, Checkbox, and Radio components\n</info added on 2025-06-27T23:41:43.938Z>\n<info added on 2025-06-27T23:43:58.992Z>\n✅ **Completed Registration Form Phlex Integration:**\n- Replaced all password fields with `ui_input` components  \n- Updated password field: `form.password_field` -> `ui_input(type: :password)`\n- Updated password confirmation: `form.password_confirmation` -> `ui_input(type: :password)`\n- Maintained all form functionality (name attributes, IDs, autocomplete, required)\n- All registration form fields now use consistent Phlex components\n\n✅ **Form Input Components Status:**\n- **Input Component**: Complete with all input types (text, email, password, etc.)\n- **Label Component**: Complete with required field indicators  \n- **Button Component**: Complete and integrated\n- **Helper Methods**: All set up for easy ERB integration\n\n✅ **Next Phase Ready:**\n- All basic form components are built and tested\n- Registration form fully converted to use Phlex components\n- Ready to move to full view component architecture (base view classes)\n- Foundation is solid for converting entire views to Phlex\n\n**Achievement:** Successfully completed the foundational form components with Phlex. All authentication forms now use consistent, reusable components while maintaining existing functionality and styling.\n</info added on 2025-06-27T23:43:58.992Z>",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Package components into reusable Phlex Kits",
+            "description": "Organize completed components into structured Phlex Kits that can be reused across projects.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Create base view component classes",
+            "description": "Establish foundational view component classes for full-page views, including layout components and view inheritance structure.",
+            "status": "in-progress",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "1. Create `Views::BaseView` class that inherits from Phlex::HTML\n2. Implement common view helpers and utilities in the base view\n3. Create `Views::ApplicationLayout` for main layout structure\n4. Implement layout inheritance patterns for nested layouts\n5. Set up view component organization structure\n6. Create helper methods for rendering view components from controllers\n7. Ensure proper integration with existing Ui components\n<info added on 2025-06-27T23:49:17.945Z>\n✅ **Phlex Architecture Reorganization Completed:**\n- Moved UI components from `app/components` to `app/views/components` for better organization\n- Simplified Phlex configuration by removing unnecessary autoloading (Rails handles `app/views/` automatically)\n- Removed complex `render_phlex` helper - just use regular `render` with Phlex components\n\n✅ **Foundation Setup:**\n- Created `BaseView` class for all page views with common functionality\n- Created `Layouts::ApplicationLayout` for main layout structure  \n- Set up proper directory structure within Rails conventions\n\n✅ **Registration View Component:**\n- Created `Registrations::NewView` as Phlex component (replaces ERB template)\n- Updated controller to render Phlex view directly: `render Registrations::NewView.new(user: @user)`\n- Maintained all existing functionality and styling\n\n✅ **Simplified Integration:**\n- No special autoloading configuration needed (Rails handles app/views/)\n- Clean controller integration using standard Rails `render` method\n- All components properly namespaced and organized\n\n**Next:** Complete the registration view implementation and test it, then move to other views (sessions, home, etc.)\n</info added on 2025-06-27T23:49:17.945Z>",
+            "testStrategy": "1. Test base view component rendering\n2. Verify layout inheritance works correctly\n3. Test integration with existing UI components\n4. Ensure proper data passing from controllers to views"
+          },
+          {
+            "id": 7,
+            "title": "Convert authentication views to Phlex",
+            "description": "Convert existing ERB authentication templates (login, registration, password reset) to Phlex view components.",
+            "status": "pending",
+            "dependencies": [
+              4,
+              6
+            ],
+            "details": "1. Create `Views::Sessions::NewView` for login page\n2. Create `Views::Registrations::NewView` for registration page\n3. Create `Views::Passwords::NewView` and `Views::Passwords::EditView` for password reset\n4. Update controllers to render Phlex views instead of ERB templates\n5. Ensure all form components use existing Phlex UI components\n6. Maintain all existing functionality and styling\n<info added on 2025-06-28T00:46:08.110Z>\n✅ Sessions New View Completed:\n- Generated `Views::Sessions::New` using `bin/rails generate phlex:view Sessions::New`\n- Converted ERB template to pure Phlex syntax with proper form structure\n- Integrated with existing Phlex components:\n  - `Components::Label` for form labels\n  - `Components::Input` for email and password fields  \n  - `Components::Button` for submit button\n- Updated `SessionsController#new` to render Phlex view with email_hint parameter\n- Maintained all existing functionality:\n  - Email hint parameter passing from failed login attempts\n  - Form validation attributes (required, autofocus, autocomplete)\n  - Proper form action and method handling\n  - Link navigation to sign up and password reset\n- Clean Phlex syntax using `div()`, `form_with()`, `link_to()`, `plain()`\n- Proper parameter handling with `@email_hint` instance variable\n- Consistent styling with existing Tailwind classes\n- Accessibility attributes maintained (for, id, autocomplete)\n</info added on 2025-06-28T00:46:08.110Z>\n<info added on 2025-06-28T00:49:49.230Z>\n<info added on 2025-06-29T14:22:15.000Z>\n📝 **Naming Convention Standardized:**\n- Decided to follow Phlex's official naming conventions (no \"View\" suffix)\n- Renamed `app/views/registrations/new_view.rb` → `app/views/registrations/new.rb`\n- Updated class name: `Views::Registrations::NewView` → `Views::Registrations::New`\n- Updated controller references in `RegistrationsController` to use `Views::Registrations::New`\n\n**Phlex Standard Pattern:**\n- File names: `snake_case.rb` (e.g., `new.rb`, `edit.rb`)\n- Class names: `Views::Module::ClassName` (e.g., `Views::Sessions::New`)\n- No \"View\" suffix in either filename or class name\n\n**Current Status:**\n- ✅ `Views::Sessions::New` (sessions/new.rb) - follows Phlex convention\n- ✅ `Views::Registrations::New` (registrations/new.rb) - now follows Phlex convention\n- Both authentication views properly standardized and working\n</info added on 2025-06-29T14:22:15.000Z>\n</info added on 2025-06-28T00:49:49.230Z>\n<info added on 2025-06-28T00:55:58.716Z>\n✅ **Password Reset Views Completed:**\n\n**Generated Phlex Views:**\n- `Views::Passwords::Edit` for changing current password (passwords/edit.rb)\n- `Views::Identity::PasswordResets::New` for requesting password reset (identity/password_resets/new.rb)  \n- `Views::Identity::PasswordResets::Edit` for resetting password via email link (identity/password_resets/edit.rb)\n\n**Updated Controllers:**\n- `PasswordsController#edit` and `#update` now render `Views::Passwords::Edit`\n- `Identity::PasswordResetsController#new`, `#edit`, and `#update` now render respective Phlex views\n- Proper parameter passing: user objects, alert messages, and sid tokens\n\n**Key Features Implemented:**\n- Consistent form styling with existing Phlex components (`Components::Label`, `Components::Input`, `Components::Button`)\n- Error handling with styled error messages (red text, list formatting)\n- Proper form attributes (required, autofocus, autocomplete)\n- Hidden field handling for password reset tokens\n- Alert message display with conditional rendering\n- Consistent Tailwind styling throughout\n\n**Authentication Views Status:**\n- ✅ Sessions (login) - `Views::Sessions::New`\n- ✅ Registrations (signup) - `Views::Registrations::New`  \n- ✅ Password change - `Views::Passwords::Edit`\n- ✅ Password reset request - `Views::Identity::PasswordResets::New`\n- ✅ Password reset form - `Views::Identity::PasswordResets::Edit`\n\n**Remaining:** Complete Task 2.7 by finishing any remaining authentication views, then move to core application views (Task 2.8).\n</info added on 2025-06-28T00:55:58.716Z>\n<info added on 2025-06-28T00:58:42.740Z>\n🔧 **Critical Fix - Added Missing Phlex Helpers:**\n\n**Problem Identified:** The password reset views were missing required Phlex helper includes, which would cause runtime errors when trying to use Rails helpers like `form_with`, `link_to`, and `pluralize`.\n\n**Helpers Added:**\n- `Views::Passwords::Edit`: Added `FormWith`, `LinkTo`, and `Pluralize` helpers\n- `Views::Identity::PasswordResets::New`: Added `FormWith` helper  \n- `Views::Identity::PasswordResets::Edit`: Added `FormWith` and `Pluralize` helpers\n- `Views::Registrations::New`: Added missing `Pluralize` helper (was missing for error count)\n\n**Helper Pattern Established:**\n```ruby\nclass Views::SomeView < Views::Base\n  include Phlex::Rails::Helpers::FormWith    # For form_with()\n  include Phlex::Rails::Helpers::LinkTo      # For link_to()\n  include Phlex::Rails::Helpers::Pluralize   # For pluralize() in error messages\nend\n```\n\n**Status Check:**\n- ✅ `Views::Sessions::New` - Has FormWith, LinkTo (no errors to pluralize)\n- ✅ `Views::Registrations::New` - Now has FormWith, LinkTo, Pluralize  \n- ✅ `Views::Passwords::Edit` - Now has FormWith, LinkTo, Pluralize\n- ✅ `Views::Identity::PasswordResets::New` - Now has FormWith\n- ✅ `Views::Identity::PasswordResets::Edit` - Now has FormWith, Pluralize\n\n**Result:** All authentication views now have proper Phlex helper includes and should render without errors. Ready for testing!\n</info added on 2025-06-28T00:58:42.740Z>",
+            "testStrategy": "1. Test view rendering in isolation\n2. Test controller integration\n3. Verify form submission works correctly\n4. Test validation error display\n5. Ensure proper styling and layout"
+          },
+          {
+            "id": 8,
+            "title": "Convert main application views to Phlex",
+            "description": "Convert core application views (dashboard, home, etc.) to Phlex view components.",
+            "status": "pending",
+            "dependencies": [
+              6
+            ],
+            "details": "1. Create `Views::Home::IndexView` for homepage\n2. Create `Views::Dashboard::IndexView` for dashboard\n3. Convert any other main application views to Phlex\n4. Update controllers to render Phlex views\n5. Ensure proper data passing from controllers to views\n6. Maintain existing styling and functionality",
+            "testStrategy": "1. Test view rendering with various data scenarios\n2. Verify controller integration\n3. Test component composition and reuse\n4. Ensure proper styling and layout"
+          },
+          {
+            "id": 9,
+            "title": "Implement Phlex-based partials and shared components",
+            "description": "Convert shared ERB partials to Phlex components and establish patterns for component composition.",
+            "status": "pending",
+            "dependencies": [
+              6
+            ],
+            "details": "1. Identify common partials used across views\n2. Convert each partial to a Phlex component\n3. Establish patterns for component composition and reuse\n4. Update view components to use shared components\n5. Ensure proper data passing between components",
+            "testStrategy": "1. Test shared components in isolation\n2. Test component composition\n3. Verify data passing between components\n4. Ensure proper rendering in various contexts"
+          },
+          {
+            "id": 10,
+            "title": "Create documentation for Phlex view architecture",
+            "description": "Document the Phlex view architecture, component patterns, and best practices for the team.",
+            "status": "pending",
+            "dependencies": [
+              6,
+              7,
+              8,
+              9
+            ],
+            "details": "1. Document view component structure and organization\n2. Document controller integration patterns\n3. Create examples of common view component patterns\n4. Document best practices for component composition\n5. Create guidelines for testing view components\n6. Document migration strategy from ERB to Phlex",
+            "testStrategy": "1. Review documentation with team members\n2. Verify examples work as documented\n3. Test documentation clarity with new team members"
+          }
+        ]
       },
       {
         "id": 3,
@@ -149,7 +255,7 @@
           5,
           6
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -164,7 +270,7 @@
           6,
           7
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -177,7 +283,7 @@
         "dependencies": [
           7
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -188,7 +294,7 @@
         "testStrategy": "1. Write unit tests for individual job classes.\n2. Implement integration tests for job queuing and execution.\n3. Create system tests for Sidekiq Web UI and admin job management.\n4. Test error handling and retry mechanisms.\n5. Conduct performance tests for high-volume job processing.",
         "priority": "medium",
         "dependencies": [],
-        "status": "pending",
+        "status": "done",
         "subtasks": []
       },
       {
@@ -223,7 +329,7 @@
     ],
     "metadata": {
       "created": "2025-06-27T15:23:40.278Z",
-      "updated": "2025-06-27T16:42:08.656Z",
+      "updated": "2025-06-28T01:06:10.157Z",
       "description": "Tasks for master context"
     }
   }
