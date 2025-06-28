@@ -1,0 +1,62 @@
+# frozen_string_literal: true
+
+module Views
+<% if namespaced? -%>
+  module <%= namespace.classify %>
+<% end -%>
+    class Index < Views::Base
+      include Phlex::Rails::Helpers::LinkTo
+      include Phlex::Rails::Helpers::ButtonTo
+      include Phlex::Rails::Helpers::Notice
+
+      def initialize(<%= plural_instance_name %>:)
+        <%= plural_instance_name %> = <%= plural_instance_name %>
+      end
+
+      def view_template
+        if notice
+          p(class: "text-green-600 mb-4") { plain(notice) }
+        end
+
+        div(class: "mb-6") do
+          h1(class: "text-2xl font-bold mb-4") { "<%= model_name.pluralize %>" }
+          
+          link_to("New <%= model_name.downcase %>", 
+                  new_<%= singular_table_name %>_path, 
+                  class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded")
+        end
+
+        div(class: "bg-white shadow overflow-hidden sm:rounded-md") do
+          ul(class: "divide-y divide-gray-200") do
+            <%= plural_instance_name %>.each do |<%= singular_table_name %>|
+              li do
+                div(class: "px-4 py-4 flex items-center justify-between") do
+                  div do
+<% display_attributes.each do |attribute| -%>
+                    p(class: "text-sm font-medium text-gray-900") { <%= singular_table_name %>.<%= attribute[:name] %> }
+<% end -%>
+                  end
+                  
+                  div(class: "flex space-x-2") do
+                    link_to("Show", <%= singular_table_name %>, class: "text-blue-600 hover:text-blue-900")
+                    link_to("Edit", edit_<%= singular_table_name %>_path(<%= singular_table_name %>), class: "text-indigo-600 hover:text-indigo-900")
+                    button_to("Delete", 
+                             <%= singular_table_name %>, 
+                             method: :delete,
+                             class: "text-red-600 hover:text-red-900",
+                             data: { confirm: "Are you sure?" })
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+
+      private
+
+      attr_reader <%= plural_instance_name %>
+    end
+<% if namespaced? -%>
+  end
+<% end -%> 
