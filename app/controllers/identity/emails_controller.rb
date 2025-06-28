@@ -3,6 +3,7 @@ class Identity::EmailsController < ApplicationController
   before_action :set_user
 
   def edit
+    render Views::Identity::Emails::Edit.new(user: @user, alert: flash[:alert])
   end
 
   def update
