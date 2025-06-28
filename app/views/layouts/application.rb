@@ -18,7 +18,7 @@ module Views
             meta(charset: "utf-8")
             meta(name: "viewport", content: "width=device-width,initial-scale=1")
 
-            title { "Boilermaker" }
+            title { page_title }
 
             csrf_meta_tags
             csp_meta_tag
