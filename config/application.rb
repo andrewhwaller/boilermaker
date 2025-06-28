@@ -25,9 +25,8 @@ module Boilermaker
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Configure generators to use Phlex for view scaffolding
-    # Uncomment the following lines to make Phlex the default for scaffold views:
-    # config.generators do |g|
-    #   g.template_engine :phlex_scaffold
-    # end
+    config.generators do |g|
+      g.template_engine :phlex_scaffold
+    end
   end
 end
