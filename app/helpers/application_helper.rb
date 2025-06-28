@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def flash_class(type)
-    base_classes = "p-4 mb-4 rounded-lg"
+    base_classes = "p-4 mb-4"
     type_classes = case type.to_sym
     when :notice, :success
       "bg-success/10 text-success"
