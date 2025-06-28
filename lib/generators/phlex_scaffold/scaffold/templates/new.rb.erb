@@ -4,6 +4,7 @@ module Views
 <% if namespaced? -%>
   module <%= namespace.classify %>
 <% end -%>
+  module <%= controller_class_name.pluralize %>
     class New < Views::Base
       include Phlex::Rails::Helpers::LinkTo
 
@@ -14,7 +15,7 @@ module Views
       def view_template
         h1(class: "text-2xl font-bold mb-6") { "New <%= model_name %>" }
 
-        render <%= namespaced? ? "Views::#{namespace.classify}::" : "Views::" %>Form.new(<%= param_name %>: <%= instance_name %>)
+        render <%= namespaced? ? "Views::#{namespace.classify}::#{controller_class_name.pluralize}::" : "Views::#{controller_class_name.pluralize}::" %>Form.new(<%= param_name %>: <%= instance_name %>)
 
         div(class: "mt-4") do
           link_to("Back", 
@@ -27,7 +28,8 @@ module Views
 
       attr_reader :<%= param_name %>
     end
-<% if namespaced? -%>
   end
+<% if namespaced? -%>
+end
 <% end -%>
 end 

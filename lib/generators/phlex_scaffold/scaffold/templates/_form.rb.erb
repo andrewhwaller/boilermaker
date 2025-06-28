@@ -4,6 +4,7 @@ module Views
 <% if namespaced? -%>
   module <%= namespace.classify %>
 <% end -%>
+  module <%= controller_class_name.pluralize %>
     class Form < Views::Base
       include Phlex::Rails::Helpers::FormWith
 
@@ -86,7 +87,8 @@ module Views
 
       attr_reader :<%= param_name %>
     end
-<% if namespaced? -%>
   end
+<% if namespaced? -%>
+end
 <% end -%>
 end 

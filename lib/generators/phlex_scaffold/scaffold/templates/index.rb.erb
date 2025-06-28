@@ -4,6 +4,7 @@ module Views
 <% if namespaced? -%>
   module <%= namespace.classify %>
 <% end -%>
+  module <%= controller_class_name.pluralize %>
     class Index < Views::Base
       include Phlex::Rails::Helpers::LinkTo
       include Phlex::Rails::Helpers::ButtonTo
@@ -57,6 +58,7 @@ module Views
 
       attr_reader :<%= plural_param_name %>
     end
+  end
 <% if namespaced? -%>
   end
 <% end -%>
