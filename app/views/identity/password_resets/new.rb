@@ -19,8 +19,8 @@ module Views
 
           form_with(url: identity_password_reset_path) do |form|
             div(class: "mb-4") do
-              render Views::Components::Label.new(for_input: "email", required: true) { "Email" }
-              render Views::Components::Input.new(
+              render Components::Label.new(for_id: "email", required: true) { "Email" }
+              render Components::Input.new(
                 type: :email,
                 name: "email",
                 id: "email",

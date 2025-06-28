@@ -27,8 +27,8 @@ module Views
           end
 
           div(class: "mb-4") do
-            render Views::Components::Label.new(for_input: "user_email", required: true) { "Email" }
-            render Views::Components::Input.new(
+            render Components::Label.new(for_id: "user_email", required: true) { "Email" }
+            render Components::Input.new(
               type: :email,
               name: "user[email]",
               id: "user_email",
@@ -40,8 +40,8 @@ module Views
           end
 
           div(class: "mb-4") do
-            render Views::Components::Label.new(for_input: "user_password", required: true) { "Password" }
-            render Views::Components::Input.new(
+            render Components::Label.new(for_id: "user_password", required: true) { "Password" }
+            render Components::Input.new(
               type: :password,
               name: "user[password]",
               id: "user_password",
@@ -52,8 +52,8 @@ module Views
           end
 
           div(class: "mb-4") do
-            render Views::Components::Label.new(for_input: "user_password_confirmation", required: true) { "Password confirmation" }
-            render Views::Components::Input.new(
+            render Components::Label.new(for_id: "user_password_confirmation", required: true) { "Password confirmation" }
+            render Components::Input.new(
               type: :password,
               name: "user[password_confirmation]",
               id: "user_password_confirmation",

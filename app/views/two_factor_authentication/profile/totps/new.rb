@@ -59,10 +59,10 @@ module Views
 
             form_with(url: two_factor_authentication_profile_totp_path) do |form|
               div(class: "mb-4") do
-                render Views::Components::Label.new(for_input: "code", required: true) do
+                render Components::Label.new(for_id: "code", required: true) do
                   plain("After scanning with your camera, the app will generate a six-digit code. Enter it here:")
                 end
-                render Views::Components::Input.new(
+                render Components::Input.new(
                   type: :text,
                   name: "code",
                   id: "code",

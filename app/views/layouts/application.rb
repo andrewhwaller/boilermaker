@@ -41,7 +41,7 @@ module Views
             end
 
             # Navigation
-            render Views::Components::Navigation.new
+            render Components::Navigation.new
 
             # Main content
             main(class: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8") do
