@@ -15,22 +15,24 @@ module Views
 
         form_with(url: sign_in_path) do |form|
           div(class: "mb-4") do
-            form.label(:email, class: "block mb-1 font-medium")
-            form.email_field(:email,
+            render Components::Label.new(for_id: :email) { "Email" }
+            render Components::Input.new(
+              type: :email,
+              name: :email,
               value: @email_hint,
               required: true,
               autofocus: true,
-              autocomplete: "email",
-              class: "w-full p-2 border border-border bg-input text-foreground"
+              autocomplete: "email"
             )
           end
 
           div(class: "mb-4") do
-            form.label(:password, class: "block mb-1 font-medium")
-            form.password_field(:password,
+            render Components::Label.new(for_id: :password) { "Password" }
+            render Components::Input.new(
+              type: :password,
+              name: :password,
               required: true,
-              autocomplete: "current-password",
-              class: "w-full p-2 border border-border bg-input text-foreground"
+              autocomplete: "current-password"
             )
           end
 
