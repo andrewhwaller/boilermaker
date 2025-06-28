@@ -12,7 +12,7 @@ class Components::Input < Components::Base
   end
 
   def view_template
-    input_classes = "block w-full border border-border bg-background px-4 py-2 text-foreground " \
+    input_classes = "block w-full border border-border bg-background px-3 py-1 text-foreground " \
                    "focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
 
     input(
