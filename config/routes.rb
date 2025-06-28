@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   get  "sign_in", to: "sessions#new"
 
   # Session management
-  resources :sessions, only: [ :index, :show, :destroy ]
+  resources :sessions, only: [ :show, :destroy ]
 
   # Password management
   resource :password, only: [ :edit, :update ]
