@@ -1,0 +1,76 @@
+<div class="boilermaker-settings">
+  <h1>Boilermaker Settings</h1>
+  
+  <div class="settings-section">
+    <h2>Application Configuration</h2>
+    <% if @settings.any? %>
+      <ul>
+        <% @settings.each do |key, value| %>
+          <li><strong><%= key %>:</strong> <%= value %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No configuration settings found.</p>
+    <% end %>
+  </div>
+
+  <div class="features-section">
+    <h2>Features</h2>
+    <% if @features.any? %>
+      <ul>
+        <% @features.each do |feature, enabled| %>
+          <li>
+            <strong><%= feature.humanize %>:</strong> 
+            <span class="<%= enabled ? 'enabled' : 'disabled' %>">
+              <%= enabled ? 'Enabled' : 'Disabled' %>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No features configured.</p>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= link_to "Edit Settings", boilermaker.edit_settings_path, class: "btn btn-primary" %>
+  </div>
+</div>
+
+<style>
+  .boilermaker-settings {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .settings-section, .features-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .enabled {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .disabled {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .btn:hover {
+    background-color: #0056b3;
+  }
+</style> 
