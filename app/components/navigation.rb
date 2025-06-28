@@ -40,7 +40,7 @@ class Components::Navigation < Components::Base
 
     # Development-only Boilermaker UI link
     if Rails.env.development?
-      link_to("Boilermaker UI", "/boilermaker/configuration", class: nav_link_class("/boilermaker/configuration"))
+      link_to("Boilermaker UI", "/boilermaker/settings", class: nav_link_class("/boilermaker/settings"))
     end
 
     div(class: "ml-auto") do
