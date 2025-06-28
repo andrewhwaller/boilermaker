@@ -1,0 +1,19 @@
+# Application Settings
+app:
+  name: "Boilermaker"
+  version: "1.0.0"
+  support_email: "support@example.com"
+
+# Feature Toggles (minimal set)
+features:
+  user_registration: true
+  password_reset: true
+
+development:
+  app:
+    name: "Boilermaker"
+    version: "1.0.0"
+    support_email: "support@example.com"
+  features:
+    user_registration: true
+    password_reset: true
