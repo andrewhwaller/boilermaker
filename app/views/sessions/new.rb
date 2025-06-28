@@ -35,7 +35,7 @@ module Views
           end
 
           div(class: "mb-4") do
-            render Views::Components::Button.new(type: "submit") { "Sign in" }
+            render Components::Button.new(type: "submit", variant: :primary) { "Sign in" }
           end
         end
 

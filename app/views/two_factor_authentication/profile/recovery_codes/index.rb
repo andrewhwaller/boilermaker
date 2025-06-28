@@ -34,8 +34,7 @@ module Views
 
             button_to(
               "Generate new recovery codes",
-              two_factor_authentication_profile_recovery_codes_path
-            )
+              two_factor_authentication_profile_recovery_codes_path)
           end
         end
       end

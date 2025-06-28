@@ -1,55 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  
-  <title>Boilermaker</title>
-  
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-  
-  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-  
-  <link rel="manifest" href="/pwa/manifest.json">
-  
-  <%= javascript_importmap_tags %>
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    
+    <title>Boilermaker</title>
+    
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    
+    <%= javascript_importmap_tags %>
+  </head>
 
-<body class="min-h-screen bg-background text-foreground">
-  <% flash.each do |type, message| %>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-      <div class="<%= flash_class(type) %>">
-        <%= message %>
+  <body class="min-h-screen bg-background text-foreground">
+    <% flash.each do |type, message| %>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="<%= flash_class(type) %>">
+          <%= message %>
+        </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
 
-  <nav class="border-b border-border px-6 py-4">
-    <div class="mx-auto max-w-7xl flex items-center justify-between">
-      <!-- Logo section -->
-      <div class="flex items-center">
-        <%= link_to "/", class: "text-lg font-semibold text-foreground hover:text-secondary transition-colors" do %>
-          Boilermaker
-        <% end %>
-      </div>
+    <%= render "shared/navigation" %>
 
-      <!-- Main navigation -->
-      <div class="flex items-center gap-6">
-        <% if Current.session&.user.present? %>
-          <%= link_to "Dashboard", "/", class: "text-sm font-medium text-foreground hover:text-secondary transition-colors" %>
-          <%= link_to "Account", "/identity/email/edit", class: "text-sm font-medium text-foreground hover:text-secondary transition-colors" %>
-          <%= button_to "Sign out", session_path(Current.session), method: :delete, class: "text-sm font-medium text-foreground hover:text-error transition-colors bg-transparent border-0 cursor-pointer" %>
-        <% else %>
-          <%= link_to "Sign in", "/sign_in", class: "text-sm font-medium text-foreground hover:text-secondary transition-colors" %>
-          <%= link_to "Sign up", "/sign_up", class: "text-sm font-medium text-foreground hover:text-secondary transition-colors" %>
-        <% end %>
-      </div>
-    </div>
-  </nav>
-
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <%= yield %>
-  </main>
-</body>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <%= yield %>
+    </main>
+  </body>
 </html> 

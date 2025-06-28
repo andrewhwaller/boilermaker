@@ -51,7 +51,7 @@ class Views::Identity::PasswordResets::Edit < Views::Base
       end
 
       div(class: "mb-4") do
-        render Components::Button.new(type: "submit") { "Save changes" }
+        render Components::Button.new(type: "submit", variant: :primary) { "Save changes" }
       end
     end
   end

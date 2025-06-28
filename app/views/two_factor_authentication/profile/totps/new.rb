@@ -6,8 +6,8 @@ module Views
       module Totps
         class New < Views::Base
           include Phlex::Rails::Helpers::FormWith
-          include Phlex::Rails::Helpers::ButtonTo
           include Phlex::Rails::Helpers::LinkTo
+          include Phlex::Rails::Helpers::ButtonTo
           include Phlex::Rails::Helpers::ImageTag
 
           def initialize(qr_code:, alert: nil)
@@ -16,12 +16,12 @@ module Views
           end
 
           def view_template
-            if @alert.present?
-              p(style: "color: red") { @alert }
+            if @alert
+              p(class: "text-error") { plain(@alert) }
             end
 
             if Current.user.otp_required_for_sign_in?
-              h1 { "Want to replace your existing 2FA setup?" }
+              h1(class: "text-xl font-semibold mb-6") { "Want to replace your existing 2FA setup?" }
 
               p { "Your account is already protected with two-factor authentication. You can replace that setup if you want to switch to a new phone or authenticator app." }
 
@@ -31,54 +31,54 @@ module Views
 
               button_to("Yes, replace my 2FA setup",
                 two_factor_authentication_profile_totp_path,
-                method: :patch
-              )
+                method: :patch,
+                class: "mb-8")
 
               hr
             end
 
-            h1 { "Upgrade your security with 2FA" }
+            h1(class: "text-xl font-semibold mb-6") { "Upgrade your security with 2FA" }
 
-            h2 { "Step 1: Get an Authenticator App" }
+            h2(class: "text-lg font-medium mb-4") { "Step 1: Get an Authenticator App" }
             p do
-              plain "First, you'll need a 2FA authenticator app on your phone. "
+              plain("First, you'll need a 2FA authenticator app on your phone. ")
               strong { "If you already have one, skip to step 2." }
             end
             p do
               strong { "If you don't have one, or you aren't sure, we recommend Microsoft Authenticator" }
-              plain ". You can download it free on the Apple App Store for iPhone, or Google Play Store for Android. Please grab your phone, search the store, and install it now."
+              plain(". You can download it free on the Apple App Store for iPhone, or Google Play Store for Android. Please grab your phone, search the store, and install it now.")
             end
 
-            h2 { "Step 2: Scan + Enter the Code" }
+            h2(class: "text-lg font-medium mb-4 mt-8") { "Step 2: Scan + Enter the Code" }
             p { "Next, open the authenticator app, tap \"Scan QR code\" or \"+\", and, when it asks, point your phone's camera at this QR code picture below." }
 
-            figure do
-              image_tag(@qr_code.as_png(resize_exactly_to: 200).to_data_url)
-              figcaption { "Point your camera here" }
+            figure(class: "my-8") do
+              img(src: @qr_code.as_png(resize_exactly_to: 200).to_data_url, alt: "2FA QR Code")
+              figcaption(class: "text-sm text-muted mt-2") { "Point your camera here" }
             end
 
             form_with(url: two_factor_authentication_profile_totp_path) do |form|
-              div do
-                form.label(:code,
-                  "After scanning with your camera, the app will generate a six-digit code. Enter it here:",
-                  style: "display: block"
-                )
-                form.text_field(:code,
+              div(class: "mb-4") do
+                render Views::Components::Label.new(for_input: "code", required: true) do
+                  plain("After scanning with your camera, the app will generate a six-digit code. Enter it here:")
+                end
+                render Views::Components::Input.new(
+                  type: :text,
+                  name: "code",
+                  id: "code",
                   required: true,
                   autofocus: true,
                   autocomplete: :off
                 )
               end
 
-              div do
-                form.submit("Verify and activate")
+              div(class: "mb-4") do
+                render Components::Button.new(type: "submit", variant: :primary) { "Verify and activate" }
               end
             end
 
-            br
-
-            div do
-              link_to("Back", root_path)
+            div(class: "mt-8") do
+              link_to("Back", root_path, class: "btn-link")
             end
           end
 
