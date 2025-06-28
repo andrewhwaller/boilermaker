@@ -27,6 +27,11 @@ module Boilermaker
     # Configure generators to use Phlex for view scaffolding
     config.generators do |g|
       g.template_engine :phlex_scaffold
+      g.scaffold_controller :phlex_scaffold
+      g.skip_routes false
+      g.helper false
+      g.assets false
+      g.test_framework nil
     end
   end
 end
