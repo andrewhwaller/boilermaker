@@ -65,6 +65,8 @@ group :development do
   # Process manager for Procfile-based applications [https://github.com/DarthSim/overmind]
   gem "overmind"
   gem "hotwire-spark"
+  # Preview emails in web interface during development [https://github.com/fgrehm/letter_opener_web]
+  gem "letter_opener_web"
 end
 
 group :test do
