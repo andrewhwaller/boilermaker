@@ -2,14 +2,20 @@ class PasswordsController < ApplicationController
   before_action :set_user
 
   def edit
-    render Views::Passwords::Edit.new(user: @user, alert: flash[:alert])
+    render Views::Passwords::EditFrame.new(user: @user, alert: flash[:alert])
   end
 
   def update
     if @user.update(user_params)
-      redirect_to root_path, notice: "Your password has been changed"
+      respond_to do |format|
+        format.html { render Views::Passwords::EditFrame.new(user: @user, notice: "Password updated successfully") }
+        format.turbo_stream { render Views::Passwords::EditFrame.new(user: @user, notice: "Password updated successfully") }
+      end
     else
-      render Views::Passwords::Edit.new(user: @user), status: :unprocessable_entity
+      respond_to do |format|
+        format.html { render Views::Passwords::EditFrame.new(user: @user, alert: @user.errors.full_messages.to_sentence), status: :unprocessable_entity }
+        format.turbo_stream { render Views::Passwords::EditFrame.new(user: @user, alert: @user.errors.full_messages.to_sentence), status: :unprocessable_entity }
+      end
     end
   end
 
