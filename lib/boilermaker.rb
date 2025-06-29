@@ -22,6 +22,19 @@ module Boilermaker
       config.feature_enabled?(feature_name)
     end
 
+    # Simple restart method for settings interface
+    def restart
+      if Rails.env.development?
+        Rails.logger.info "Boilermaker: Restarting Rails application..."
+        # Touch the restart file - this is the standard Rails way to restart
+        FileUtils.touch(Rails.root.join('tmp', 'restart.txt'))
+        true
+      else
+        Rails.logger.warn "Boilermaker: Restart only available in development mode"
+        false
+      end
+    end
+
     # Restart the application after configuration changes
     def restart!
       if Rails.env.development?
