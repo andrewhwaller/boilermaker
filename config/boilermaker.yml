@@ -1,19 +1,20 @@
-# Application Settings
+---
 app:
-  name: "Boilermaker"
-  version: "1.0.0"
-  support_email: "support@example.com"
-
-# Feature Toggles (minimal set)
+  name: Boilermaker
+  version: 1.0.0
+  support_email: support@example.com
 features:
   user_registration: true
   password_reset: true
-
 development:
   app:
-    name: "Boilermaker"
-    version: "1.0.0"
-    support_email: "support@example.com"
+    name: Test App
+    version: 2.0.0
+    support_email: support@example.com
+    description: A modern Rails application
   features:
     user_registration: true
-    password_reset: true
+    password_reset: false
+    two_factor_authentication: false
+    multi_tenant: false
+    personal_accounts: false
