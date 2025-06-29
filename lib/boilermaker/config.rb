@@ -36,7 +36,7 @@ module Boilermaker
       def get(key_path)
         # Auto-load configuration if not already loaded
         load! unless @data
-        
+
         return nil unless @data.is_a?(Hash)
 
         keys = key_path.to_s.split(".")
