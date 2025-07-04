@@ -1,208 +1,98 @@
-<div class="boilermaker-settings">
+<div class="boilermaker-header">
   <h1>Boilermaker Settings</h1>
+  <p class="boilermaker-subtitle">Configure your application settings and feature toggles</p>
+</div>
+
+<!-- Application Configuration -->
+<div class="settings-section">
+  <h2>Application Configuration</h2>
   
-  <!-- Flash Messages -->
-  <% if notice %>
-    <div class="alert alert-success"><%= notice %></div>
-  <% end %>
-  <% if alert %>
-    <div class="alert alert-danger"><%= alert %></div>
-  <% end %>
-  
-  <div class="settings-section">
-    <h2>Application Configuration</h2>
-    <% if @settings.any? && @settings['app'] %>
-      <div class="config-table">
-        <div class="config-row">
-          <span class="config-label">Application Name:</span>
-          <span class="config-value"><%= @settings.dig('app', 'name') || 'Boilermaker' %></span>
-        </div>
-        <div class="config-row">
-          <span class="config-label">Version:</span>
-          <span class="config-value"><%= @settings.dig('app', 'version') || '1.0.0' %></span>
-        </div>
-        <div class="config-row">
-          <span class="config-label">Support Email:</span>
-          <span class="config-value"><%= @settings.dig('app', 'support_email') || 'support@example.com' %></span>
-        </div>
-        <% if @settings.dig('app', 'description') %>
-        <div class="config-row">
-          <span class="config-label">Description:</span>
+  <% if @settings.any? && @settings['app'] %>
+    <div class="config-grid">
+      <div class="config-item">
+        <span class="config-label">Application Name</span>
+        <span class="config-value"><%= @settings.dig('app', 'name') || 'Boilermaker' %></span>
+      </div>
+      
+      <div class="config-item">
+        <span class="config-label">Version</span>
+        <span class="config-value"><%= @settings.dig('app', 'version') || '1.0.0' %></span>
+      </div>
+      
+      <div class="config-item">
+        <span class="config-label">Support Email</span>
+        <span class="config-value"><%= @settings.dig('app', 'support_email') || 'support@example.com' %></span>
+      </div>
+      
+      <% if @settings.dig('app', 'description') %>
+        <div class="config-item config-item-full">
+          <span class="config-label">Description</span>
           <span class="config-value"><%= @settings.dig('app', 'description') %></span>
         </div>
-        <% end %>
-      </div>
-    <% else %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-state">
       <p>No application configuration found.</p>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
+</div>
 
-  <div class="features-section">
-    <h2>Feature Toggles</h2>
-    <% if @features.any? %>
-      <div class="features-grid">
-        <% @features.each do |feature, enabled| %>
-          <div class="feature-item">
+<!-- Feature Toggles -->
+<div class="settings-section">
+  <h2>Feature Toggles</h2>
+  
+  <% if @features.any? %>
+    <div class="features-grid">
+      <% @features.each do |feature, enabled| %>
+        <div class="feature-item">
+          <div class="feature-info">
             <span class="feature-name"><%= feature.humanize %></span>
-            <span class="feature-status <%= enabled ? 'enabled' : 'disabled' %>">
-              <%= enabled ? '✓ Enabled' : '✗ Disabled' %>
+            <span class="feature-description">
+              <% case feature %>
+              <% when 'user_registration' %>
+                Allow new users to register accounts
+              <% when 'password_reset' %>
+                Enable password reset functionality
+              <% when 'two_factor_authentication' %>
+                Require TOTP/recovery codes for login
+              <% when 'multi_tenant' %>
+                Support multiple organizations/accounts
+              <% when 'personal_accounts' %>
+                Enable personal user accounts
+              <% else %>
+                Feature toggle setting
+              <% end %>
             </span>
           </div>
-        <% end %>
-      </div>
-    <% else %>
+          
+          <div class="feature-status <%= enabled ? 'enabled' : 'disabled' %>">
+            <%= enabled ? 'Enabled' : 'Disabled' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-state">
       <p>No features configured.</p>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
+</div>
 
-  <div class="actions">
+<!-- Actions -->
+<div class="actions-section">
+  <div class="action-info">
+    <p class="action-title">Development Settings</p>
+    <p class="action-subtitle">These settings are only editable in development mode</p>
+  </div>
+  
+  <div class="action-buttons">
     <%= link_to "Edit Settings", boilermaker.edit_settings_path, class: "btn btn-primary" %>
-    <% if Rails.env.development? %>
-      <div class="restart-info">
-        <small>
-          Note: After changing critical settings, restart your development server for changes to take full effect.
-        </small>
-      </div>
-    <% end %>
   </div>
 </div>
 
-<style>
-  .boilermaker-settings {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .alert {
-    padding: 12px 16px;
-    margin-bottom: 20px;
-    border-radius: 4px;
-    border: 1px solid transparent;
-  }
-  
-  .alert-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-  }
-  
-  .alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-  }
-  
-  .settings-section, .features-section {
-    margin-bottom: 30px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .config-table {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .config-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .config-row:last-child {
-    border-bottom: none;
-  }
-  
-  .config-label {
-    font-weight: bold;
-    color: #333;
-    min-width: 150px;
-  }
-  
-  .config-value {
-    color: #666;
-    text-align: right;
-    flex: 1;
-  }
-  
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-  }
-  
-  .feature-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .feature-name {
-    font-weight: 500;
-    color: #333;
-  }
-  
-  .feature-status {
-    font-weight: bold;
-    font-size: 14px;
-  }
-  
-  .enabled {
-    color: #28a745;
-  }
-  
-  .disabled {
-    color: #dc3545;
-  }
-  
-  .btn {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: 500;
-    transition: background-color 0.2s;
-  }
-  
-  .btn:hover {
-    background-color: #0056b3;
-  }
-  
-  .btn-warning {
-    background-color: #fd7e14;
-  }
-  
-  .btn-warning:hover {
-    background-color: #e55e00;
-  }
-  
-  .btn:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
-  }
-  
-  .actions {
-    margin-top: 30px;
-  }
-  
-  .restart-info {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #fff3cd;
-    border: 1px solid #ffeaa7;
-    border-radius: 5px;
-    color: #856404;
-  }
-</style> 
+<% if Rails.env.development? %>
+  <div class="notice-box">
+    <p>After changing critical settings, restart your development server for changes to take full effect.</p>
+  </div>
+<% end %> 

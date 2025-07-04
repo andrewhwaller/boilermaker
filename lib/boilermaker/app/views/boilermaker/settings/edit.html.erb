@@ -1,145 +1,151 @@
-<div class="boilermaker-settings-edit">
+<div class="boilermaker-header">
   <h1>Edit Boilermaker Settings</h1>
-  
-  <%= form_with url: boilermaker.settings_path, method: :patch, local: true, scope: :settings do |form| %>
-    
-    <div class="settings-section">
-      <h2>Application Configuration</h2>
-      
-      <%= form.fields_for :app do |app_form| %>
-        <div class="form-group">
-          <%= app_form.label :name, "Application Name" %>
-          <%= app_form.text_field :name, value: @settings.dig('app', 'name') || 'Boilermaker', class: "form-control" %>
-        </div>
-        
-        <div class="form-group">
-          <%= app_form.label :version, "Version" %>
-          <%= app_form.text_field :version, value: @settings.dig('app', 'version') || '1.0.0', class: "form-control" %>
-        </div>
-        
-        <div class="form-group">
-          <%= app_form.label :support_email, "Support Email" %>
-          <%= app_form.email_field :support_email, value: @settings.dig('app', 'support_email') || 'support@example.com', class: "form-control" %>
-        </div>
-        
-        <div class="form-group">
-          <%= app_form.label :description, "Description" %>
-          <%= app_form.text_area :description, value: @settings.dig('app', 'description') || 'A modern Rails application', class: "form-control", rows: 3 %>
-        </div>
-      <% end %>
-    </div>
-
-    <div class="features-section">
-      <h2>Feature Toggles</h2>
-      
-      <%= form.fields_for :features do |features_form| %>
-        <div class="form-group">
-          <%= features_form.check_box :user_registration, { checked: @features['user_registration'] == true }, "true", "false" %>
-          <%= features_form.label :user_registration, "User Registration" %>
-        </div>
-        
-        <div class="form-group">
-          <%= features_form.check_box :password_reset, { checked: @features['password_reset'] == true }, "true", "false" %>
-          <%= features_form.label :password_reset, "Password Reset" %>
-        </div>
-        
-        <div class="form-group">
-          <%= features_form.check_box :two_factor_authentication, { checked: @features['two_factor_authentication'] == true }, "true", "false" %>
-          <%= features_form.label :two_factor_authentication, "Two-Factor Authentication" %>
-        </div>
-        
-        <div class="form-group">
-          <%= features_form.check_box :multi_tenant, { checked: @features['multi_tenant'] == true }, "true", "false" %>
-          <%= features_form.label :multi_tenant, "Multi-Tenant Support" %>
-        </div>
-        
-        <div class="form-group">
-          <%= features_form.check_box :personal_accounts, { checked: @features['personal_accounts'] == true }, "true", "false" %>
-          <%= features_form.label :personal_accounts, "Personal Accounts" %>
-        </div>
-      <% end %>
-    </div>
-
-    <div class="actions">
-      <%= form.submit "Update Settings", class: "btn btn-primary" %>
-      <%= link_to "Cancel", boilermaker.settings_path, class: "btn btn-secondary" %>
-    </div>
-    
-  <% end %>
+  <p class="boilermaker-subtitle">Configure your application settings and feature toggles</p>
 </div>
 
-<style>
-  .boilermaker-settings-edit {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
+<%= form_with url: boilermaker.settings_path, method: :patch, local: true, scope: :settings, class: "settings-form" do |form| %>
   
-  .settings-section, .features-section {
-    margin-bottom: 30px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
+  <!-- Application Configuration -->
+  <div class="settings-section">
+    <h2>Application Configuration</h2>
+    
+    <%= form.fields_for :app do |app_form| %>
+      <div class="form-grid">
+        <div class="form-group">
+          <%= app_form.label :name, "Application Name", class: "form-label" %>
+          <%= app_form.text_field :name, 
+                value: @settings.dig('app', 'name') || 'Boilermaker', 
+                class: "form-control",
+                placeholder: "Enter application name" %>
+        </div>
+        
+        <div class="form-group">
+          <%= app_form.label :version, "Version", class: "form-label" %>
+          <%= app_form.text_field :version, 
+                value: @settings.dig('app', 'version') || '1.0.0', 
+                class: "form-control",
+                placeholder: "e.g., 1.0.0" %>
+        </div>
+        
+        <div class="form-group">
+          <%= app_form.label :support_email, "Support Email", class: "form-label" %>
+          <%= app_form.email_field :support_email, 
+                value: @settings.dig('app', 'support_email') || 'support@example.com', 
+                class: "form-control",
+                placeholder: "support@example.com" %>
+        </div>
+        
+        <div class="form-group form-group-full">
+          <%= app_form.label :description, "Description", class: "form-label" %>
+          <%= app_form.text_area :description, 
+                value: @settings.dig('app', 'description') || 'A modern Rails application', 
+                class: "form-control",
+                rows: 3,
+                placeholder: "Brief description of your application" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Feature Toggles -->
+  <div class="settings-section">
+    <h2>Feature Toggles</h2>
+    
+    <%= form.fields_for :features do |features_form| %>
+      <div class="toggles-grid">
+        <div class="toggle-item">
+          <div class="toggle-info">
+            <span class="toggle-name">User Registration</span>
+            <span class="toggle-description">Allow new users to register accounts</span>
+          </div>
+          <div class="toggle-switch">
+            <%= features_form.check_box :user_registration, 
+                  { checked: @features['user_registration'] == true, class: "toggle-checkbox", id: "toggle_user_registration" }, 
+                  "true", "false" %>
+            <label for="toggle_user_registration" class="toggle-label">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="toggle-item">
+          <div class="toggle-info">
+            <span class="toggle-name">Password Reset</span>
+            <span class="toggle-description">Enable password reset functionality</span>
+          </div>
+          <div class="toggle-switch">
+            <%= features_form.check_box :password_reset, 
+                  { checked: @features['password_reset'] == true, class: "toggle-checkbox", id: "toggle_password_reset" }, 
+                  "true", "false" %>
+            <label for="toggle_password_reset" class="toggle-label">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="toggle-item">
+          <div class="toggle-info">
+            <span class="toggle-name">Two-Factor Authentication</span>
+            <span class="toggle-description">Require TOTP/recovery codes for login</span>
+          </div>
+          <div class="toggle-switch">
+            <%= features_form.check_box :two_factor_authentication, 
+                  { checked: @features['two_factor_authentication'] == true, class: "toggle-checkbox", id: "toggle_two_factor_authentication" }, 
+                  "true", "false" %>
+            <label for="toggle_two_factor_authentication" class="toggle-label">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="toggle-item">
+          <div class="toggle-info">
+            <span class="toggle-name">Multi-Tenant Support</span>
+            <span class="toggle-description">Support multiple organizations/accounts</span>
+          </div>
+          <div class="toggle-switch">
+            <%= features_form.check_box :multi_tenant, 
+                  { checked: @features['multi_tenant'] == true, class: "toggle-checkbox", id: "toggle_multi_tenant" }, 
+                  "true", "false" %>
+            <label for="toggle_multi_tenant" class="toggle-label">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="toggle-item toggle-item-full">
+          <div class="toggle-info">
+            <span class="toggle-name">Personal Accounts</span>
+            <span class="toggle-description">Enable personal user accounts</span>
+          </div>
+          <div class="toggle-switch">
+            <%= features_form.check_box :personal_accounts, 
+                  { checked: @features['personal_accounts'] == true, class: "toggle-checkbox", id: "toggle_personal_accounts" }, 
+                  "true", "false" %>
+            <label for="toggle_personal_accounts" class="toggle-label">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions-section">
+    <div class="action-info">
+      <p class="action-title">Development Settings</p>
+      <p class="action-subtitle">Changes will be applied to development environment only</p>
+    </div>
+    
+    <div class="action-buttons">
+      <%= link_to "Cancel", boilermaker.settings_path, class: "btn btn-secondary" %>
+      <%= form.submit "Update Settings", class: "btn btn-primary" %>
+    </div>
+  </div>
   
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .form-control:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-  }
-  
-  input[type="checkbox"] {
-    margin-right: 8px;
-  }
-  
-  .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-right: 10px;
-    text-decoration: none;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .btn-primary {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
-  .btn-secondary {
-    background-color: #6c757d;
-    color: white;
-  }
-  
-  .btn-secondary:hover {
-    background-color: #545b62;
-  }
-  
-  .actions {
-    margin-top: 30px;
-  }
-</style> 
+<% end %>
+
+<div class="notice-box">
+  <p>After changing critical settings, restart your development server for changes to take full effect. Feature toggles that are disabled may still show related UI elements until restart.</p>
+</div> 
