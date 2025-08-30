@@ -63,5 +63,6 @@ Rails.application.routes.draw do
   # Mount letter_opener_web for email testing in development
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
+    get "components", to: "home#components", as: :components_showcase
   end
 end

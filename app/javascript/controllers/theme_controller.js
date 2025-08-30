@@ -16,6 +16,8 @@ export default class extends Controller {
   connect() {
     this.initializeTheme()
     this.setupSystemPreferenceListener()
+    this.updateDebugInfo()
+    this.setupThemeChangeListener()
   }
 
   disconnect() {
@@ -280,6 +282,34 @@ export default class extends Controller {
     } catch (dispatchError) {
       // Fallback if event dispatch fails
       console.error("Failed to dispatch theme error event", dispatchError)
+    }
+  }
+
+  // Debug info and display methods
+  setupThemeChangeListener() {
+    // Listen for theme change events to update debug info
+    document.addEventListener("theme:change", (event) => {
+      this.updateDebugInfo()
+    })
+  }
+
+  updateDebugInfo() {
+    try {
+      const debugElement = document.getElementById("theme-debug")
+      if (debugElement) {
+        const debugInfo = this.debug()
+        debugElement.innerHTML = `
+          <strong>Theme Debug Info:</strong><br/>
+          Current Theme: ${debugInfo.currentTheme}<br/>
+          Stored Preference: ${debugInfo.storedPreference || 'null'}<br/>
+          System Preference: ${debugInfo.systemPreference}<br/>
+          Effective Preference: ${debugInfo.effectivePreference}<br/>
+          HTML Classes: ${debugInfo.htmlClasses.join(', ') || 'none'}<br/>
+          Storage Available: ${debugInfo.storageAvailable ? 'yes' : 'no'}
+        `
+      }
+    } catch (error) {
+      this.handleError("Failed to update debug info", error)
     }
   }
 

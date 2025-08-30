@@ -20,13 +20,48 @@ module Views
             # Welcome section
             card do
               h1(class: "text-2xl font-bold text-foreground mb-4") { "Welcome to #{app_name}" }
-              p(class: "text-muted mb-4") { plain("Version #{app_version}") }
+              p(class: "text-foreground-muted mb-4") { plain("Version #{app_version}") }
             end
 
             # User info section
             card do
               h2(class: "text-xl font-semibold text-foreground mb-4") { "User Information" }
-              p(class: "text-muted") { "You are currently signed in as #{Current.user.email}" }
+              p(class: "text-foreground-muted") { "You are currently signed in as #{Current.user.email}" }
+            end
+
+            # Theme testing section
+            card do
+              h2(class: "text-lg font-semibold text-foreground mb-4") { "Theme Controls" }
+              p(class: "text-foreground-muted mb-4") { "Test the theme system with these controls:" }
+              
+              div(class: "flex flex-wrap gap-3 mb-4") do
+                button(
+                  data: { action: "click->theme#light" },
+                  class: "px-4 py-2 bg-button text-button-text border border-button hover:bg-button-hover rounded-lg"
+                ) { "Light Theme" }
+                
+                button(
+                  data: { action: "click->theme#dark" },
+                  class: "px-4 py-2 bg-button text-button-text border border-button hover:bg-button-hover rounded-lg"
+                ) { "Dark Theme" }
+                
+                button(
+                  data: { action: "click->theme#system" },
+                  class: "px-4 py-2 bg-button text-button-text border border-button hover:bg-button-hover rounded-lg"
+                ) { "System Theme" }
+                
+                button(
+                  data: { action: "click->theme#toggle" },
+                  class: "px-4 py-2 bg-accent text-accent-text border border-accent hover:bg-accent-hover rounded-lg"
+                ) { "Toggle Theme" }
+              end
+              
+              div(class: "text-sm text-foreground-muted") do
+                p { "Current theme info will be updated by the controller" }
+                div(id: "theme-debug", class: "mt-2 p-3 bg-surface border border-border rounded-lg font-mono text-xs") do
+                  "Theme debug info will appear here"
+                end
+              end
             end
 
             # Feature showcase section
@@ -42,10 +77,21 @@ module Views
               end
             end
 
+            # Development tools section
+            if Rails.env.development?
+              card do
+                h2(class: "text-lg font-semibold text-foreground mb-4") { "Development Tools" }
+                div(class: "space-y-2") do
+                  link_to("Component Showcase", components_showcase_path, class: "inline-block text-accent hover:text-accent-hover hover:underline")
+                  plain(" - Test all UI components in light and dark themes")
+                end
+              end
+            end
+
             # Sign out section
             card do
               button_to("Sign out", session_path(Current.session), method: :delete,
-                class: "bg-destructive text-destructive-foreground hover:bg-destructive/90 disabled:opacity-50")
+                class: "bg-error text-error-text hover:bg-error/90 disabled:opacity-50")
             end
           end
         end
@@ -60,7 +106,7 @@ module Views
         div(class: "p-3 border rounded-lg #{card_class}") do
           div(class: "flex items-center justify-between") do
             span(class: "text-sm font-medium text-foreground") { name }
-            span(class: "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium #{enabled ? "bg-success/20 text-success" : "bg-muted/20 text-muted"}") do
+            span(class: "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium #{enabled ? "bg-success/20 text-success" : "bg-foreground-muted/20 text-foreground-muted"}") do
               enabled ? "Enabled" : "Disabled"
             end
           end
