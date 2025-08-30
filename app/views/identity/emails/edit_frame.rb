@@ -32,13 +32,13 @@ module Views
 
       def notifications
         if @notice
-          div(class: "mb-4 p-3 bg-green-50 border border-green-200 text-green-800") do
+          div(class: "mb-4 p-3 bg-success-background border border-success text-success-text") do
             @notice
           end
         end
 
         if @alert
-          div(class: "mb-4 p-3 bg-red-50 border border-red-200 text-red-800") do
+          div(class: "mb-4 p-3 bg-error-background border border-error text-error-text") do
             @alert
           end
         end
@@ -46,9 +46,9 @@ module Views
 
       def form_section
         unless Current.user.verified?
-          div(class: "mb-6 p-4 bg-yellow-50 border border-yellow-200") do
-            p(class: "text-yellow-800 mb-2") { "Email verification required" }
-            p(class: "text-sm text-yellow-700") { "We sent a verification email to your address. Check that email and follow the instructions to confirm it's yours." }
+          div(class: "mb-6 p-4 bg-warning-background border border-warning") do
+            p(class: "text-warning-text mb-2") { "Email verification required" }
+            p(class: "text-sm text-warning-text") { "We sent a verification email to your address. Check that email and follow the instructions to confirm it's yours." }
           end
         end
 
@@ -59,9 +59,9 @@ module Views
       end
 
       def form_errors
-        div(class: "mb-4 p-3 bg-red-50 border border-red-200") do
-          strong(class: "text-red-800") { "#{pluralize(@user.errors.count, "error")} prohibited this change:" }
-          ul(class: "mt-2 text-sm text-red-700 list-disc list-inside") do
+        div(class: "mb-4 p-3 bg-error-background border border-error") do
+          strong(class: "text-error-text") { "#{pluralize(@user.errors.count, "error")} prohibited this change:" }
+          ul(class: "mt-2 text-sm text-error-text list-disc list-inside") do
             @user.errors.each do |error|
               li { error.full_message }
             end
@@ -109,11 +109,11 @@ module Views
 
       def verification_status
           if Current.user.verified?
-            span(class: "inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 border border-green-200") do
+            span(class: "inline-flex items-center px-2 py-1 text-xs font-medium bg-success-background text-success-text border border-success") do
               "✓ Verified"
             end
           else
-            span(class: "inline-flex items-center px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200") do
+            span(class: "inline-flex items-center px-2 py-1 text-xs font-medium bg-warning-background text-warning-text border border-warning") do
               "⚠ Unverified"
             end
           end

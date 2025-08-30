@@ -58,7 +58,7 @@ class Views::Base < Components::Base
   def form_errors(model)
     return unless model&.errors&.any?
 
-    div(class: "bg-error/10 border border-red-200 rounded-lg p-4 mb-6") do
+    div(class: "bg-error-background border border-error rounded-lg p-4 mb-6") do
       h3(class: "text-error font-medium mb-2") do
         plain "#{pluralize(model.errors.count, "error")} prohibited this #{model.class.name.downcase} from being saved:"
       end

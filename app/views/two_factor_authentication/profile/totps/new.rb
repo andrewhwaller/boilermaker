@@ -37,7 +37,7 @@ module Views
 
                       div(class: "space-y-2") do
                         form.text_field(:code,
-                          class: "block w-full rounded-lg border-gray-200 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm",
+                          class: "block w-full rounded-lg border-input-border shadow-sm focus:border-accent focus:ring-accent sm:text-sm",
                           autocomplete: "one-time-code",
                           required: true)
                       end

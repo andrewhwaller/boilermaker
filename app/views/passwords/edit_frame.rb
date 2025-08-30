@@ -31,13 +31,13 @@ module Views
 
       def notifications
         if @notice
-          div(class: "mb-4 p-3 bg-success/10 border border-green-200 text-success") do
+          div(class: "mb-4 p-3 bg-success-background border border-success text-success-text") do
             @notice
           end
         end
 
         if @alert
-          div(class: "mb-4 p-3 bg-error/10 border border-red-200 text-error") do
+          div(class: "mb-4 p-3 bg-error-background border border-error text-error-text") do
             @alert
           end
         end

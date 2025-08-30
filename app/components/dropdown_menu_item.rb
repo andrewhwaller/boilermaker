@@ -29,6 +29,6 @@ class Components::DropdownMenuItem < Components::Base
   private
 
   def base_classes
-    "block w-full px-4 py-2 text-sm text-left text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 border-0 bg-transparent"
+    "block w-full px-4 py-2 text-sm text-left text-foreground hover:bg-background-elevated border-0 bg-transparent transition-colors duration-200"
   end
 end

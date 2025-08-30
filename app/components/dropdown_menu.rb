@@ -30,7 +30,7 @@ class Components::DropdownMenu < Components::Base
 
   def menu(&block)
     div(
-      class: "absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg z-50 hidden",
+      class: "absolute right-0 mt-2 w-48 bg-surface border border-border shadow-theme-lg z-50 hidden rounded-lg",
       data: { dropdown_target: "menu" }
     ) do
       div(class: "py-1", &block)

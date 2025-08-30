@@ -55,7 +55,7 @@ module Views
 
       def feature_card(name, feature_key)
         enabled = feature_enabled?(feature_key)
-        card_class = enabled ? "bg-success/10 border-green-200" : "bg-muted/10 border-border"
+        card_class = enabled ? "bg-success-background border-success" : "bg-foreground/5 border-border"
 
         div(class: "p-3 border rounded-lg #{card_class}") do
           div(class: "flex items-center justify-between") do

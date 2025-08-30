@@ -12,8 +12,9 @@ class Components::Input < Components::Base
   end
 
   def view_template
-    default_classes = "block border border-border bg-background px-3 py-1 text-foreground " \
-                     "focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+    default_classes = "block border border-input-border bg-input px-3 py-1 text-foreground " \
+                     "focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 " \
+                     "placeholder:text-foreground-subtle transition-colors duration-200"
 
     input(
       type: @type,

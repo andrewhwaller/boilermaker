@@ -89,7 +89,7 @@ class Components::Navigation < Components::Base
     if current_page?(path)
       "#{base_classes} text-foreground"
     else
-      "#{base_classes} text-muted-foreground"
+      "#{base_classes} text-foreground-muted"
     end
   end
 end

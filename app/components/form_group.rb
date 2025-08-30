@@ -29,7 +29,7 @@ class Components::FormGroup < Components::Base
 
       # Optional help text
       if @help_text.present?
-        p(class: "text-sm text-muted-foreground") { @help_text }
+        p(class: "text-sm text-foreground-muted") { @help_text }
       end
     end
   end

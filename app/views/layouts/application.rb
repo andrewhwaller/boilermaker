@@ -20,7 +20,7 @@ module Views
       def view_template(&block)
         doctype
 
-        html(lang: "en") do
+        html(lang: "en", data: { controller: "theme" }) do
           head do
             meta(charset: "utf-8")
             meta(name: "viewport", content: "width=device-width,initial-scale=1")
@@ -35,6 +35,54 @@ module Views
             link(rel: "manifest", href: "/pwa/manifest.json")
 
             javascript_importmap_tags
+
+            # Early theme initialization to prevent FOUC
+            script do
+              unsafe_raw <<~JAVASCRIPT
+                (function() {
+                  try {
+                    const THEME_LIGHT = 'light';
+                    const THEME_DARK = 'dark';
+                    const THEME_SYSTEM = 'system';
+                    const STORAGE_KEY = 'theme-preference';
+                    
+                    // Get stored preference
+                    let storedPreference = null;
+                    try {
+                      storedPreference = localStorage.getItem(STORAGE_KEY);
+                    } catch (e) {
+                      // localStorage not available
+                    }
+                    
+                    // Determine effective theme
+                    let effectiveTheme = THEME_LIGHT; // default
+                    
+                    if (storedPreference === THEME_LIGHT || storedPreference === THEME_DARK) {
+                      effectiveTheme = storedPreference;
+                    } else if (storedPreference === THEME_SYSTEM || !storedPreference) {
+                      // Use system preference
+                      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        effectiveTheme = THEME_DARK;
+                      }
+                    }
+                    
+                    // Apply theme class immediately
+                    const htmlElement = document.documentElement;
+                    htmlElement.classList.remove(THEME_LIGHT, THEME_DARK);
+                    
+                    if (effectiveTheme === THEME_DARK) {
+                      htmlElement.classList.add(THEME_DARK);
+                    } else if (effectiveTheme === THEME_LIGHT) {
+                      htmlElement.classList.add(THEME_LIGHT);
+                    }
+                    // System preference with no class allows CSS media queries to work
+                  } catch (error) {
+                    // Fail silently to prevent breaking page load
+                    console.error('Theme initialization failed:', error);
+                  }
+                })();
+              JAVASCRIPT
+            end
           end
 
           body(class: "min-h-screen bg-surface text-foreground") do
@@ -80,11 +128,11 @@ module Views
         base_classes = "p-4 mb-4 rounded-lg"
         type_classes = case type.to_sym
         when :notice, :success
-          "bg-success/10 text-success border border-green-200"
+          "bg-success-background text-success-text border border-success"
         when :alert, :error
-          "bg-error/10 text-error border border-red-200"
+          "bg-error-background text-error-text border border-error"
         else
-          "bg-muted/10 text-muted border border-border"
+          "bg-foreground/5 text-foreground-muted border border-border"
         end
         "#{base_classes} #{type_classes}"
       end

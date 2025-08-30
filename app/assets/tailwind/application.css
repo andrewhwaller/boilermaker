@@ -7,73 +7,274 @@
 }
 
 @theme {
-  /* Light mode (default) */
-  --color-primary: #000000;
-  --color-primary-hover: #333333;
-  --color-secondary: #666666;
-  --color-surface: #ffffff;
-  --color-input: #ffffff;
-  --color-border: #d1d5db;
-  --color-foreground: #000000;
-  --color-muted: #6b7280;
-  --color-button: #000000;
-  --color-button-text: #ffffff;
-  --color-button-hover: #333333;
-  --color-success: #16a34a;
-  --color-error: #dc2626;
+  /* Light mode (default) - WCAG AA compliant colors */
+  
+  /* Primary colors */
+  --color-primary: 34 34 34; /* #222222 - darker for better contrast */
+  --color-primary-hover: 64 64 64; /* #404040 */
+  
+  /* Secondary colors */
+  --color-secondary: 107 114 128; /* #6b7280 - gray-500 */
+  
+  /* Background colors */
+  --color-background: 255 255 255; /* #ffffff */
+  --color-surface: 249 250 251; /* #f9fafb - gray-50 */
+  --color-background-elevated: 255 255 255; /* #ffffff */
+  
+  /* Foreground/text colors */
+  --color-foreground: 17 24 39; /* #111827 - gray-900 */
+  --color-foreground-muted: 107 114 128; /* #6b7280 - gray-500 */
+  --color-foreground-subtle: 156 163 175; /* #9ca3af - gray-400 */
+  
+  /* Border colors */
+  --color-border: 209 213 219; /* #d1d5db - gray-300 */
+  --color-border-subtle: 229 231 235; /* #e5e7eb - gray-200 */
+  
+  /* Input colors */
+  --color-input: 255 255 255; /* #ffffff */
+  --color-input-border: 209 213 219; /* #d1d5db - gray-300 */
+  
+  /* Button colors */
+  --color-button: 34 34 34; /* #222222 */
+  --color-button-text: 255 255 255; /* #ffffff */
+  --color-button-hover: 64 64 64; /* #404040 */
+  --color-button-secondary: 249 250 251; /* #f9fafb - gray-50 */
+  --color-button-secondary-text: 34 34 34; /* #222222 */
+  --color-button-secondary-hover: 243 244 246; /* #f3f4f6 - gray-100 */
+  
+  /* Accent colors */
+  --color-accent: 59 130 246; /* #3b82f6 - blue-500 */
+  --color-accent-hover: 37 99 235; /* #2563eb - blue-600 */
+  --color-accent-text: 255 255 255; /* #ffffff */
+  
+  /* State colors - Success */
+  --color-success: 34 197 94; /* #22c55e - green-500 */
+  --color-success-text: 21 128 61; /* #15803d - green-700 */
+  --color-success-background: 240 253 244; /* #f0fdf4 - green-50 */
+  
+  /* State colors - Error */
+  --color-error: 239 68 68; /* #ef4444 - red-500 */
+  --color-error-text: 185 28 28; /* #b91c1c - red-700 */
+  --color-error-background: 254 242 242; /* #fef2f2 - red-50 */
+  
+  /* State colors - Warning */
+  --color-warning: 245 158 11; /* #f59e0b - amber-500 */
+  --color-warning-text: 180 83 9; /* #b45309 - amber-700 */
+  --color-warning-background: 255 251 235; /* #fffbeb - amber-50 */
+  
+  /* State colors - Info */
+  --color-info: 59 130 246; /* #3b82f6 - blue-500 */
+  --color-info-text: 29 78 216; /* #1d4ed8 - blue-700 */
+  --color-info-background: 239 246 255; /* #eff6ff - blue-50 */
+  
+  /* Shadow colors */
+  --shadow-theme: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-theme-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-theme-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-theme-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
-/* Dark mode via system preference (when no manual override) */
+/* Dark mode via system preference (when no manual override) - WCAG AA compliant */
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
-    --color-primary: #ffffff;
-    --color-primary-hover: #e5e5e5;
-    --color-secondary: #9ca3af;
-    --color-surface: #000000;
-    --color-input: #1f2937;
-    --color-border: #374151;
-    --color-foreground: #ffffff;
-    --color-muted: #9ca3af;
-    --color-button: #374151;
-    --color-button-text: #ffffff;
-    --color-button-hover: #4b5563;
-    --color-success: #22c55e;
-    --color-error: #ef4444;
+    /* Primary colors */
+    --color-primary: 229 229 229; /* #e5e5e5 - lighter for dark bg */
+    --color-primary-hover: 255 255 255; /* #ffffff */
+    
+    /* Secondary colors */
+    --color-secondary: 156 163 175; /* #9ca3af - gray-400 */
+    
+    /* Background colors */
+    --color-background: 17 24 39; /* #111827 - gray-900 */
+    --color-surface: 31 41 55; /* #1f2937 - gray-800 */
+    --color-background-elevated: 55 65 81; /* #374151 - gray-700 */
+    
+    /* Foreground/text colors */
+    --color-foreground: 249 250 251; /* #f9fafb - gray-50 */
+    --color-foreground-muted: 156 163 175; /* #9ca3af - gray-400 */
+    --color-foreground-subtle: 107 114 128; /* #6b7280 - gray-500 */
+    
+    /* Border colors */
+    --color-border: 55 65 81; /* #374151 - gray-700 */
+    --color-border-subtle: 75 85 99; /* #4b5563 - gray-600 */
+    
+    /* Input colors */
+    --color-input: 31 41 55; /* #1f2937 - gray-800 */
+    --color-input-border: 75 85 99; /* #4b5563 - gray-600 */
+    
+    /* Button colors */
+    --color-button: 249 250 251; /* #f9fafb - gray-50 */
+    --color-button-text: 17 24 39; /* #111827 - gray-900 */
+    --color-button-hover: 229 231 235; /* #e5e7eb - gray-200 */
+    --color-button-secondary: 55 65 81; /* #374151 - gray-700 */
+    --color-button-secondary-text: 249 250 251; /* #f9fafb - gray-50 */
+    --color-button-secondary-hover: 75 85 99; /* #4b5563 - gray-600 */
+    
+    /* Accent colors */
+    --color-accent: 96 165 250; /* #60a5fa - blue-400 */
+    --color-accent-hover: 59 130 246; /* #3b82f6 - blue-500 */
+    --color-accent-text: 17 24 39; /* #111827 - gray-900 */
+    
+    /* State colors - Success */
+    --color-success: 74 222 128; /* #4ade80 - green-400 */
+    --color-success-text: 187 247 208; /* #bbf7d0 - green-200 */
+    --color-success-background: 20 83 45; /* #14532d - green-900 */
+    
+    /* State colors - Error */
+    --color-error: 248 113 113; /* #f87171 - red-400 */
+    --color-error-text: 252 165 165; /* #fca5a5 - red-300 */
+    --color-error-background: 127 29 29; /* #7f1d1d - red-900 */
+    
+    /* State colors - Warning */
+    --color-warning: 251 191 36; /* #fbbf24 - amber-400 */
+    --color-warning-text: 253 230 138; /* #fde68a - amber-200 */
+    --color-warning-background: 120 53 15; /* #78350f - amber-900 */
+    
+    /* State colors - Info */
+    --color-info: 96 165 250; /* #60a5fa - blue-400 */
+    --color-info-text: 191 219 254; /* #bfdbfe - blue-200 */
+    --color-info-background: 30 58 138; /* #1e3a8a - blue-900 */
+    
+    /* Shadow colors - adjusted for dark mode */
+    --shadow-theme: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+    --shadow-theme-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+    --shadow-theme-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-theme-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
   }
 }
 
-/* Manual dark mode via .dark class */
+/* Manual dark mode via .dark class - WCAG AA compliant */
 .dark {
-  --color-primary: #ffffff;
-  --color-primary-hover: #e5e5e5;
-  --color-secondary: #9ca3af;
-  --color-surface: #000000;
-  --color-input: #1f2937;
-  --color-border: #374151;
-  --color-foreground: #ffffff;
-  --color-muted: #9ca3af;
-  --color-button: #374151;
-  --color-button-text: #ffffff;
-  --color-button-hover: #4b5563;
-  --color-success: #22c55e;
-  --color-error: #ef4444;
+  /* Primary colors */
+  --color-primary: 229 229 229; /* #e5e5e5 - lighter for dark bg */
+  --color-primary-hover: 255 255 255; /* #ffffff */
+  
+  /* Secondary colors */
+  --color-secondary: 156 163 175; /* #9ca3af - gray-400 */
+  
+  /* Background colors */
+  --color-background: 17 24 39; /* #111827 - gray-900 */
+  --color-surface: 31 41 55; /* #1f2937 - gray-800 */
+  --color-background-elevated: 55 65 81; /* #374151 - gray-700 */
+  
+  /* Foreground/text colors */
+  --color-foreground: 249 250 251; /* #f9fafb - gray-50 */
+  --color-foreground-muted: 156 163 175; /* #9ca3af - gray-400 */
+  --color-foreground-subtle: 107 114 128; /* #6b7280 - gray-500 */
+  
+  /* Border colors */
+  --color-border: 55 65 81; /* #374151 - gray-700 */
+  --color-border-subtle: 75 85 99; /* #4b5563 - gray-600 */
+  
+  /* Input colors */
+  --color-input: 31 41 55; /* #1f2937 - gray-800 */
+  --color-input-border: 75 85 99; /* #4b5563 - gray-600 */
+  
+  /* Button colors */
+  --color-button: 249 250 251; /* #f9fafb - gray-50 */
+  --color-button-text: 17 24 39; /* #111827 - gray-900 */
+  --color-button-hover: 229 231 235; /* #e5e7eb - gray-200 */
+  --color-button-secondary: 55 65 81; /* #374151 - gray-700 */
+  --color-button-secondary-text: 249 250 251; /* #f9fafb - gray-50 */
+  --color-button-secondary-hover: 75 85 99; /* #4b5563 - gray-600 */
+  
+  /* Accent colors */
+  --color-accent: 96 165 250; /* #60a5fa - blue-400 */
+  --color-accent-hover: 59 130 246; /* #3b82f6 - blue-500 */
+  --color-accent-text: 17 24 39; /* #111827 - gray-900 */
+  
+  /* State colors - Success */
+  --color-success: 74 222 128; /* #4ade80 - green-400 */
+  --color-success-text: 187 247 208; /* #bbf7d0 - green-200 */
+  --color-success-background: 20 83 45; /* #14532d - green-900 */
+  
+  /* State colors - Error */
+  --color-error: 248 113 113; /* #f87171 - red-400 */
+  --color-error-text: 252 165 165; /* #fca5a5 - red-300 */
+  --color-error-background: 127 29 29; /* #7f1d1d - red-900 */
+  
+  /* State colors - Warning */
+  --color-warning: 251 191 36; /* #fbbf24 - amber-400 */
+  --color-warning-text: 253 230 138; /* #fde68a - amber-200 */
+  --color-warning-background: 120 53 15; /* #78350f - amber-900 */
+  
+  /* State colors - Info */
+  --color-info: 96 165 250; /* #60a5fa - blue-400 */
+  --color-info-text: 191 219 254; /* #bfdbfe - blue-200 */
+  --color-info-background: 30 58 138; /* #1e3a8a - blue-900 */
+  
+  /* Shadow colors - adjusted for dark mode */
+  --shadow-theme: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+  --shadow-theme-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+  --shadow-theme-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-theme-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
 }
 
-/* Manual light mode via .light class (explicit override) */
+/* Manual light mode via .light class (explicit override) - WCAG AA compliant */
 .light {
-  --color-primary: #000000;
-  --color-primary-hover: #333333;
-  --color-secondary: #666666;
-  --color-surface: #ffffff;
-  --color-input: #ffffff;
-  --color-border: #d1d5db;
-  --color-foreground: #000000;
-  --color-muted: #6b7280;
-  --color-button: #000000;
-  --color-button-text: #ffffff;
-  --color-button-hover: #333333;
-  --color-success: #16a34a;
-  --color-error: #dc2626;
+  /* Primary colors */
+  --color-primary: 34 34 34; /* #222222 - darker for better contrast */
+  --color-primary-hover: 64 64 64; /* #404040 */
+  
+  /* Secondary colors */
+  --color-secondary: 107 114 128; /* #6b7280 - gray-500 */
+  
+  /* Background colors */
+  --color-background: 255 255 255; /* #ffffff */
+  --color-surface: 249 250 251; /* #f9fafb - gray-50 */
+  --color-background-elevated: 255 255 255; /* #ffffff */
+  
+  /* Foreground/text colors */
+  --color-foreground: 17 24 39; /* #111827 - gray-900 */
+  --color-foreground-muted: 107 114 128; /* #6b7280 - gray-500 */
+  --color-foreground-subtle: 156 163 175; /* #9ca3af - gray-400 */
+  
+  /* Border colors */
+  --color-border: 209 213 219; /* #d1d5db - gray-300 */
+  --color-border-subtle: 229 231 235; /* #e5e7eb - gray-200 */
+  
+  /* Input colors */
+  --color-input: 255 255 255; /* #ffffff */
+  --color-input-border: 209 213 219; /* #d1d5db - gray-300 */
+  
+  /* Button colors */
+  --color-button: 34 34 34; /* #222222 */
+  --color-button-text: 255 255 255; /* #ffffff */
+  --color-button-hover: 64 64 64; /* #404040 */
+  --color-button-secondary: 249 250 251; /* #f9fafb - gray-50 */
+  --color-button-secondary-text: 34 34 34; /* #222222 */
+  --color-button-secondary-hover: 243 244 246; /* #f3f4f6 - gray-100 */
+  
+  /* Accent colors */
+  --color-accent: 59 130 246; /* #3b82f6 - blue-500 */
+  --color-accent-hover: 37 99 235; /* #2563eb - blue-600 */
+  --color-accent-text: 255 255 255; /* #ffffff */
+  
+  /* State colors - Success */
+  --color-success: 34 197 94; /* #22c55e - green-500 */
+  --color-success-text: 21 128 61; /* #15803d - green-700 */
+  --color-success-background: 240 253 244; /* #f0fdf4 - green-50 */
+  
+  /* State colors - Error */
+  --color-error: 239 68 68; /* #ef4444 - red-500 */
+  --color-error-text: 185 28 28; /* #b91c1c - red-700 */
+  --color-error-background: 254 242 242; /* #fef2f2 - red-50 */
+  
+  /* State colors - Warning */
+  --color-warning: 245 158 11; /* #f59e0b - amber-500 */
+  --color-warning-text: 180 83 9; /* #b45309 - amber-700 */
+  --color-warning-background: 255 251 235; /* #fffbeb - amber-50 */
+  
+  /* State colors - Info */
+  --color-info: 59 130 246; /* #3b82f6 - blue-500 */
+  --color-info-text: 29 78 216; /* #1d4ed8 - blue-700 */
+  --color-info-background: 239 246 255; /* #eff6ff - blue-50 */
+  
+  /* Shadow colors */
+  --shadow-theme: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-theme-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-theme-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-theme-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 @layer components {
@@ -92,9 +293,55 @@
 
   /* Link-style button - only exception for text links */
   .btn-link {
-    @apply bg-transparent text-blue-600 border-transparent hover:text-blue-800 hover:underline;
-    @apply dark:text-blue-400 dark:hover:text-blue-300;
+    @apply bg-transparent text-accent border-transparent hover:text-accent-hover hover:underline;
     @apply px-0 py-0;
+  }
+
+  /* Theme-aware utility classes for common patterns */
+  .surface-elevated {
+    @apply bg-background-elevated border border-border shadow-theme;
+  }
+
+  .surface-card {
+    @apply bg-surface border border-border shadow-theme-sm;
+  }
+
+  .alert-success {
+    @apply bg-success-background text-success-text border border-success;
+  }
+
+  .alert-error {
+    @apply bg-error-background text-error-text border border-error;
+  }
+
+  .alert-warning {
+    @apply bg-warning-background text-warning-text border border-warning;
+  }
+
+  .alert-info {
+    @apply bg-info-background text-info-text border border-info;
+  }
+
+  /* Input field styling that respects theme */
+  .form-input {
+    @apply block w-full rounded-lg border-input-border bg-input shadow-sm;
+    @apply focus:border-accent focus:ring-1 focus:ring-accent;
+    @apply text-foreground placeholder:text-foreground-subtle;
+    @apply transition-colors duration-200;
+  }
+
+  /* Focus ring utility for interactive elements */
+  .focus-ring {
+    @apply focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  /* Text utilities with theme awareness */
+  .text-muted {
+    @apply text-foreground-muted;
+  }
+
+  .text-subtle {
+    @apply text-foreground-subtle;
   }
 }
 
