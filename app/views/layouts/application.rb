@@ -2,13 +2,20 @@
 
 module Views
   module Layouts
-    class Application < Views::Base
+    class Application < Phlex::HTML
+      # Include the Components kit for component access
+      include Components
+
+      # Include Rails helpers
+      include Phlex::Rails::Helpers::Routes
       include Phlex::Rails::Helpers::ContentFor
-      include Phlex::Rails::Helpers::CspMetaTag
-      include Phlex::Rails::Helpers::CsrfMetaTags
-      include Phlex::Rails::Helpers::JavascriptImportmap
-      include Phlex::Rails::Helpers::StylesheetLink
+      include Phlex::Rails::Helpers::CSPMetaTag
+      include Phlex::Rails::Helpers::CSRFMetaTags
+      include Phlex::Rails::Helpers::Flash
+      include Phlex::Rails::Helpers::JavaScriptImportmapTags
+      include Phlex::Rails::Helpers::StyleSheetLinkTag
       include Phlex::Rails::Helpers::Tag
+      include ApplicationHelper
 
       def view_template(&block)
         doctype
@@ -30,18 +37,20 @@ module Views
             javascript_importmap_tags
           end
 
-          body(class: "min-h-screen bg-background text-foreground") do
+          body(class: "min-h-screen bg-surface text-foreground") do
+            # Navigation
+            render Components::Navigation.new
+
             # Flash messages
-            flash.each do |type, message|
+            unless flash.empty?
               div(class: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4") do
-                div(class: flash_class(type)) do
-                  plain(message)
+                flash.each do |type, message|
+                  div(class: flash_class(type)) do
+                    plain(message)
+                  end
                 end
               end
             end
-
-            # Navigation
-            render Components::Navigation.new
 
             # Main content
             main(class: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8") do
@@ -51,14 +60,33 @@ module Views
         end
       end
 
+      # Helper method to get page title with fallback
+      def page_title
+        content_for?(:title) ? content_for(:title) : "Boilermaker"
+      end
+
       private
 
-      def flash_class(type)
-        case type.to_sym
-        when :notice then "text-success"
-        when :alert then "text-error"
-        else "text-muted"
+      # Helper to handle both content_for and direct block content
+      def yield_content_or(&block)
+        if block_given?
+          yield
+        elsif content_for?(:content)
+          content_for(:content)
         end
+      end
+
+      def flash_class(type)
+        base_classes = "p-4 mb-4 rounded-lg"
+        type_classes = case type.to_sym
+        when :notice, :success
+          "bg-success/10 text-success border border-green-200"
+        when :alert, :error
+          "bg-error/10 text-error border border-red-200"
+        else
+          "bg-muted/10 text-muted border border-border"
+        end
+        "#{base_classes} #{type_classes}"
       end
     end
   end

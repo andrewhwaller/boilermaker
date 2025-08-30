@@ -27,6 +27,9 @@ module BoilermakerApp
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    # Add components directory to autoload paths for Phlex components
+    config.autoload_paths << Rails.root.join("app", "components")
+
     # Configure generators to use Phlex for view scaffolding
     config.generators do |g|
       g.template_engine :phlex_scaffold

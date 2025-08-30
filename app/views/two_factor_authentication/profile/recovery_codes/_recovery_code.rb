@@ -10,13 +10,11 @@ module Views
           end
 
           def view_template
-            li do
-              if @recovery_code.used?
-                del { plain(@recovery_code.code) }
-              else
-                plain(@recovery_code.code)
-              end
-            end
+            # Using shared RecoveryCodeItem component
+            RecoveryCodeItem(
+              code: @recovery_code.code,
+              used: @recovery_code.used?
+            )
           end
         end
       end

@@ -15,7 +15,7 @@ module Views
 
       def view_template
         turbo_frame_tag "password_settings" do
-          div(class: "p-6 border border-border bg-background") do
+          card do
             header
             notifications
             form_section
@@ -26,18 +26,18 @@ module Views
       private
 
       def header
-        h3(class: "text-lg font-medium mb-4") { "Password Settings" }
+        h3(class: "text-lg font-medium text-foreground mb-4") { "Password Settings" }
       end
 
       def notifications
         if @notice
-          div(class: "mb-4 p-3 bg-green-50 border border-green-200 text-green-800") do
+          div(class: "mb-4 p-3 bg-success/10 border border-green-200 text-success") do
             @notice
           end
         end
 
         if @alert
-          div(class: "mb-4 p-3 bg-red-50 border border-red-200 text-red-800") do
+          div(class: "mb-4 p-3 bg-error/10 border border-red-200 text-error") do
             @alert
           end
         end
@@ -45,19 +45,8 @@ module Views
 
       def form_section
         form_with(url: password_path, method: :patch, data: { turbo_frame: "password_settings" }) do |form|
-          form_errors if @user.errors.any?
+          form_errors(@user) if @user.errors.any?
           form_fields(form)
-        end
-      end
-
-      def form_errors
-        div(class: "mb-4 p-3 bg-red-50 border border-red-200") do
-          strong(class: "text-red-800") { "#{pluralize(@user.errors.count, "error")} prohibited this change:" }
-          ul(class: "mt-2 text-sm text-red-700 list-disc list-inside") do
-            @user.errors.each do |error|
-              li { error.full_message }
-            end
-          end
         end
       end
 
