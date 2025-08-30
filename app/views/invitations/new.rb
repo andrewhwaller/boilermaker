@@ -11,29 +11,23 @@ module Views
       end
 
       def view_template
-        div(class: "space-y-6") do
-          h1(class: "text-xl font-bold") { "Send invitation" }
+        page_with_title("Send Invitation") do
+          centered_container do
+            card do
+              h1(class: "text-xl font-bold text-foreground mb-6") { "Send invitation" }
 
-          form_with(url: invitation_path, method: :post, data: { turbo: false }) do |form|
-            div(class: "space-y-6") do
-              div do
-                render Components::Label.new(for_id: "email", text: "Email address")
-                div(class: "mt-1") do
+              form_errors(@user) if @user&.errors&.any?
+
+              form_with(url: invitation_path, method: :post, data: { turbo: false }, class: "space-y-4") do |form|
+                div do
+                  render Components::Label.new(for_id: "email") { "Email address" }
                   render Components::Input.new(type: "email", name: "email", id: "email", required: true, autofocus: true)
                 end
 
-                if @user&.errors&.any?
-                  div(style: "color: red") do
-                    @user.errors.full_messages.each do |message|
-                      div { message }
-                    end
+                div do
+                  render Components::Button.new(type: "submit", variant: :primary) do
+                    "Send invitation"
                   end
-                end
-              end
-
-              div do
-                render Components::Button.new(type: "submit", variant: :primary) do
-                  "Send invitation"
                 end
               end
             end

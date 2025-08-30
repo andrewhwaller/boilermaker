@@ -11,26 +11,32 @@ module Views
         end
 
         def view_template
-          if @alert
-            p(class: "text-error") { plain(@alert) }
-          end
+          page_with_title("Reset Password") do
+            centered_container do
+              card do
+                if @alert
+                  div(class: "bg-error/10 text-error p-4 rounded-lg mb-6") { plain(@alert) }
+                end
 
-          h1(class: "text-xl font-semibold mb-6") { "Forgot your password?" }
+                h1(class: "text-xl font-semibold text-foreground mb-6") { "Forgot your password?" }
 
-          form_with(url: identity_password_reset_path) do |form|
-            div(class: "mb-4") do
-              render Components::Label.new(for_id: "email", required: true) { "Email" }
-              render Components::Input.new(
-                type: :email,
-                name: "email",
-                id: "email",
-                required: true,
-                autofocus: true
-              )
-            end
+                form_with(url: identity_password_reset_path, class: "space-y-4") do |form|
+                  div do
+                    render Components::Label.new(for_id: "email", required: true) { "Email" }
+                    render Components::Input.new(
+                      type: :email,
+                      name: "email",
+                      id: "email",
+                      required: true,
+                      autofocus: true
+                    )
+                  end
 
-            div(class: "mb-4") do
-              render Components::Button.new(type: "submit", variant: :primary) { "Send password reset email" }
+                  div do
+                    render Components::Button.new(type: "submit", variant: :primary) { "Send password reset email" }
+                  end
+                end
+              end
             end
           end
         end

@@ -12,63 +12,47 @@ module Views
       end
 
       def view_template
-        h1(class: "text-xl font-semibold mb-6") { "Sign up" }
+        page_with_title("Sign up") do
+          centered_container do
+            card do
+              h1(class: "text-xl font-semibold text-foreground mb-6") { "Sign up" }
 
-        form_with(url: sign_up_path) do |form|
-          if @user.errors.any?
-            div(class: "text-red-600 dark:text-red-400 mb-4") do
-              strong { "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:" }
-              ul(class: "mt-2 pl-6 list-disc") do
-                @user.errors.each do |error|
-                  li { error.full_message }
-                end
+              form_errors(@user) if @user.errors.any?
+
+              form_with(url: sign_up_path, class: "space-y-4") do |form|
+                # Using shared EmailField component
+                EmailField(
+                  name: "user[email]",
+                  id: "user_email",
+                  value: @user.email,
+                  autofocus: true
+                )
+
+                # Using shared PasswordField component with help text
+                PasswordField(
+                  label_text: "Password",
+                  name: "user[password]",
+                  id: "user_password",
+                  help_text: "12 characters minimum."
+                )
+
+                # Using shared PasswordField component for confirmation
+                PasswordField(
+                  label_text: "Password confirmation",
+                  name: "user[password_confirmation]",
+                  id: "user_password_confirmation"
+                )
+
+                # Using shared SubmitButton component
+                SubmitButton("Sign up")
               end
+
+              # Using shared AuthLinks component
+              AuthLinks(links: [
+                { text: "Already have an account? Sign in", path: sign_in_path }
+              ])
             end
           end
-
-          div(class: "mb-4") do
-            render Components::Label.new(for_id: "user_email", required: true) { "Email" }
-            render Components::Input.new(
-              type: :email,
-              name: "user[email]",
-              id: "user_email",
-              value: @user.email,
-              required: true,
-              autofocus: true,
-              autocomplete: "email"
-            )
-          end
-
-          div(class: "mb-4") do
-            render Components::Label.new(for_id: "user_password", required: true) { "Password" }
-            render Components::Input.new(
-              type: :password,
-              name: "user[password]",
-              id: "user_password",
-              required: true,
-              autocomplete: "new-password"
-            )
-            div(class: "text-sm text-muted mt-1") { "12 characters minimum." }
-          end
-
-          div(class: "mb-4") do
-            render Components::Label.new(for_id: "user_password_confirmation", required: true) { "Password confirmation" }
-            render Components::Input.new(
-              type: :password,
-              name: "user[password_confirmation]",
-              id: "user_password_confirmation",
-              required: true,
-              autocomplete: "new-password"
-            )
-          end
-
-          div(class: "mb-4") do
-            render Components::Button.new(type: "submit", variant: :primary) { "Sign up" }
-          end
-        end
-
-        div(class: "mt-8") do
-          link_to("Already have an account? Sign in", sign_in_path, class: "btn-link")
         end
       end
 

@@ -13,52 +13,45 @@ module Views
         end
 
         def view_template
-          h1(class: "text-xl font-semibold mb-6") { "Reset your password" }
+          page_with_title("Reset Password") do
+            centered_container do
+              card do
+                h1(class: "text-xl font-semibold text-foreground mb-6") { "Reset your password" }
 
-          form_with(url: identity_password_reset_path, method: :patch) do |form|
-            if @user.errors.any?
-              div(class: "text-error mb-4") do
-                h2 do
-                  plain(pluralize(@user.errors.count, "error"))
-                  plain(" prohibited this user from being saved:")
-                end
+                form_errors(@user) if @user.errors.any?
 
-                ul(class: "mt-2 pl-6 list-disc") do
-                  @user.errors.each do |error|
-                    li { plain(error.full_message) }
+                form_with(url: identity_password_reset_path, method: :patch, class: "space-y-4") do |form|
+                  input(type: "hidden", name: "sid", value: @sid)
+
+                  div do
+                    render Components::Label.new(for_id: "password", required: true) { "New password" }
+                    render Components::Input.new(
+                      type: :password,
+                      name: "password",
+                      id: "password",
+                      required: true,
+                      autofocus: true,
+                      autocomplete: "new-password"
+                    )
+                    div(class: "text-sm text-muted mt-1") { "12 characters minimum." }
+                  end
+
+                  div do
+                    render Components::Label.new(for_id: "password_confirmation", required: true) { "Confirm new password" }
+                    render Components::Input.new(
+                      type: :password,
+                      name: "password_confirmation",
+                      id: "password_confirmation",
+                      required: true,
+                      autocomplete: "new-password"
+                    )
+                  end
+
+                  div do
+                    render Components::Button.new(type: "submit", variant: :primary) { "Save changes" }
                   end
                 end
               end
-            end
-
-            input(type: "hidden", name: "sid", value: @sid)
-
-            div(class: "mb-4") do
-              render Components::Label.new(for_id: "password", required: true) { "New password" }
-              render Components::Input.new(
-                type: :password,
-                name: "password",
-                id: "password",
-                required: true,
-                autofocus: true,
-                autocomplete: "new-password"
-              )
-              div(class: "text-sm text-muted mt-1") { "12 characters minimum." }
-            end
-
-            div(class: "mb-4") do
-              render Components::Label.new(for_id: "password_confirmation", required: true) { "Confirm new password" }
-              render Components::Input.new(
-                type: :password,
-                name: "password_confirmation",
-                id: "password_confirmation",
-                required: true,
-                autocomplete: "new-password"
-              )
-            end
-
-            div(class: "mb-4") do
-              render Components::Button.new(type: "submit", variant: :primary) { "Save changes" }
             end
           end
         end

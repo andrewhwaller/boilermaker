@@ -11,40 +11,34 @@ module Views
       end
 
       def view_template
-        h1(class: "text-xl font-semibold mb-6") { "Sign in" }
+        page_with_title("Sign in") do
+          centered_container do
+            FormCard(title: "Sign in") do
+              form_with(url: sign_in_path, class: "space-y-4") do |form|
+                # Using shared EmailField component
+                EmailField(
+                  name: :email,
+                  value: @email_hint,
+                  autofocus: true
+                )
 
-        form_with(url: sign_in_path) do |form|
-          div(class: "mb-4") do
-            render Components::Label.new(for_id: :email) { "Email" }
-            render Components::Input.new(
-              type: :email,
-              name: :email,
-              value: @email_hint,
-              required: true,
-              autofocus: true,
-              autocomplete: "email"
-            )
+                # Using shared PasswordField component
+                PasswordField(
+                  label_text: "Password",
+                  name: :password
+                )
+
+                # Using shared SubmitButton component
+                SubmitButton("Sign in")
+              end
+
+              # Using shared AuthLinks component
+              AuthLinks(links: [
+                { text: "Sign up", path: sign_up_path },
+                { text: "Forgot your password?", path: new_identity_password_reset_path }
+              ])
+            end
           end
-
-          div(class: "mb-4") do
-            render Components::Label.new(for_id: :password) { "Password" }
-            render Components::Input.new(
-              type: :password,
-              name: :password,
-              required: true,
-              autocomplete: "current-password"
-            )
-          end
-
-          div(class: "mb-4") do
-            render Components::Button.new(type: "submit", variant: :primary) { "Sign in" }
-          end
-        end
-
-        div(class: "mt-8") do
-          link_to("Sign up", sign_up_path, class: "btn-link")
-          plain(" | ")
-          link_to("Forgot your password?", new_identity_password_reset_path, class: "btn-link")
         end
       end
 
