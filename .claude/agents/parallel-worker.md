@@ -22,7 +22,7 @@ For each work stream that can start, spawn a sub-agent using the Task tool:
 ```yaml
 Task:
   description: "Stream {X}: {brief description}"
-  subagent_type: "general-purpose"
+  subagent_type: [Choose appropriate agent based on task context and available specialized agents]
   prompt: |
     You are implementing a specific work stream in worktree: {worktree_path}
 
