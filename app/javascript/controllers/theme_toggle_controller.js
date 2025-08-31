@@ -16,8 +16,10 @@ export default class extends Controller {
   }
 
   toggle() {
+    console.log("Toggle button clicked")
     // Dispatch action to theme controller using Stimulus event system
     this.dispatch("toggle", { prefix: "theme" })
+    console.log("Dispatched theme:toggle event")
   }
 
   handleKeyboard(event) {

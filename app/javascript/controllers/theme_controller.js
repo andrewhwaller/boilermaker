@@ -159,6 +159,8 @@ export default class extends Controller {
   }
 
   handleToggleEvent(event) {
-    this.toggleTheme()
+    console.log("Theme controller received toggle event")
+    const result = this.toggleTheme()
+    console.log("Toggle result:", result)
   }
 }
