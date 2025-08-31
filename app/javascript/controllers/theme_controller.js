@@ -66,6 +66,9 @@ export default class extends Controller {
   applyTheme(theme) {
     const htmlElement = document.documentElement
     
+    console.log("Applying theme:", theme)
+    console.log("HTML classes before:", htmlElement.className)
+    
     // Remove existing theme classes
     htmlElement.classList.remove("light", "dark")
     
@@ -73,6 +76,8 @@ export default class extends Controller {
     if (theme === "dark" || theme === "light") {
       htmlElement.classList.add(theme)
     }
+    
+    console.log("HTML classes after:", htmlElement.className)
     
     // Dispatch theme change event for other controllers
     this.dispatch("change", { detail: { theme } })
