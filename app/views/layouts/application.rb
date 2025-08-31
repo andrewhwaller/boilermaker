@@ -38,7 +38,7 @@ module Views
 
             # Early theme initialization to prevent FOUC
             script do
-              unsafe_raw <<~JAVASCRIPT
+              raw <<~JAVASCRIPT
                 (function() {
                   try {
                     const THEME_LIGHT = 'light';
