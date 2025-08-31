@@ -14,10 +14,12 @@ export default class extends Controller {
   static get THEME_SYSTEM() { return "system" }
 
   connect() {
+    console.log('ThemeController: Connected to', this.element.tagName)
     this.initializeTheme()
     this.setupSystemPreferenceListener()
     this.updateDebugInfo()
     this.setupThemeChangeListener()
+    console.log('ThemeController: Initialization complete')
   }
 
   disconnect() {
@@ -147,13 +149,18 @@ export default class extends Controller {
 
   // Toggle between light and dark (ignores system preference)
   toggleTheme() {
+    console.log('ThemeController: toggleTheme called')
     try {
       const currentTheme = this.getCurrentTheme()
+      console.log('ThemeController: Current theme is', currentTheme)
       const newTheme = currentTheme === this.constructor.THEME_DARK 
         ? this.constructor.THEME_LIGHT 
         : this.constructor.THEME_DARK
       
-      return this.setTheme(newTheme)
+      console.log('ThemeController: Switching to', newTheme)
+      const result = this.setTheme(newTheme)
+      console.log('ThemeController: Toggle complete, result:', result)
+      return result
     } catch (error) {
       this.handleError("Failed to toggle theme", error)
       return false

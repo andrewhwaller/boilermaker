@@ -15,9 +15,16 @@ export default class extends Controller {
   }
 
   toggle() {
+    console.log('ThemeToggle: Toggle clicked')
     const themeController = this.getThemeController()
+    console.log('ThemeToggle: Theme controller found:', !!themeController)
+    
     if (themeController) {
-      themeController.toggleTheme()
+      console.log('ThemeToggle: Calling toggleTheme()')
+      const result = themeController.toggleTheme()
+      console.log('ThemeToggle: Toggle result:', result)
+    } else {
+      console.error('ThemeToggle: No theme controller available')
     }
   }
 
@@ -76,12 +83,23 @@ export default class extends Controller {
   }
 
   getThemeController() {
-    const themeElement = document.querySelector('[data-controller*="theme"]')
+    // Look for the theme controller on the html element
+    const themeElement = document.querySelector('html[data-controller*="theme"]')
     if (!themeElement) {
-      console.warn('ThemeToggle: No theme controller found')
+      console.warn('ThemeToggle: No theme controller found on html element')
       return null
     }
 
-    return this.application.getControllerForElementAndIdentifier(themeElement, 'theme')
+    // Get the theme controller instance
+    const controllers = this.application.controllers.filter(controller => 
+      controller.identifier === 'theme' && controller.element === themeElement
+    )
+    
+    if (controllers.length === 0) {
+      console.warn('ThemeToggle: Theme controller not initialized')
+      return null
+    }
+
+    return controllers[0]
   }
 }
