@@ -36,53 +36,7 @@ module Views
 
             javascript_importmap_tags
 
-            # Early theme initialization to prevent FOUC
-            script do
-              raw <<~JAVASCRIPT
-                (function() {
-                  try {
-                    const THEME_LIGHT = 'light';
-                    const THEME_DARK = 'dark';
-                    const THEME_SYSTEM = 'system';
-                    const STORAGE_KEY = 'theme-preference';
-                    
-                    // Get stored preference
-                    let storedPreference = null;
-                    try {
-                      storedPreference = localStorage.getItem(STORAGE_KEY);
-                    } catch (e) {
-                      // localStorage not available
-                    }
-                    
-                    // Determine effective theme
-                    let effectiveTheme = THEME_LIGHT; // default
-                    
-                    if (storedPreference === THEME_LIGHT || storedPreference === THEME_DARK) {
-                      effectiveTheme = storedPreference;
-                    } else if (storedPreference === THEME_SYSTEM || !storedPreference) {
-                      // Use system preference
-                      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                        effectiveTheme = THEME_DARK;
-                      }
-                    }
-                    
-                    // Apply theme class immediately
-                    const htmlElement = document.documentElement;
-                    htmlElement.classList.remove(THEME_LIGHT, THEME_DARK);
-                    
-                    if (effectiveTheme === THEME_DARK) {
-                      htmlElement.classList.add(THEME_DARK);
-                    } else if (effectiveTheme === THEME_LIGHT) {
-                      htmlElement.classList.add(THEME_LIGHT);
-                    }
-                    // System preference with no class allows CSS media queries to work
-                  } catch (error) {
-                    // Fail silently to prevent breaking page load
-                    console.error('Theme initialization failed:', error);
-                  }
-                })();
-              JAVASCRIPT
-            end
+            # Theme initialization handled by Stimulus controller - remove inline script
           end
 
           body(class: "min-h-screen bg-surface text-foreground") do

@@ -75,41 +75,19 @@ class Components::ThemeToggle < Components::Base
   end
 
   def sun_icon
-    svg(
-      class: "h-4 w-4 text-amber-500 transition-opacity duration-200 opacity-100",
-      data: { "theme-toggle-target": "sunIcon" },
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      stroke_width: "2",
-      stroke_linecap: "round",
-      stroke_linejoin: "round"
-    ) do
-      circle(cx: "12", cy: "12", r: "5")
-      path(d: "M12 1v2")
-      path(d: "M12 21v2") 
-      path(d: "M4.22 4.22l1.42 1.42")
-      path(d: "M18.36 18.36l1.42 1.42")
-      path(d: "M1 12h2")
-      path(d: "M21 12h2")
-      path(d: "M4.22 19.78l1.42-1.42")
-      path(d: "M18.36 5.64l1.42-1.42")
-    end
+    # Simple sun emoji as fallback until we implement proper SVG support
+    span(
+      class: "h-4 w-4 text-amber-500 transition-opacity duration-200 opacity-100 flex items-center justify-center text-sm",
+      data: { "theme-toggle-target": "sunIcon" }
+    ) { "☀️" }
   end
 
   def moon_icon
-    svg(
-      class: "h-4 w-4 text-slate-600 transition-opacity duration-200 opacity-0",
-      data: { "theme-toggle-target": "moonIcon" },
-      viewBox: "0 0 24 24", 
-      fill: "none",
-      stroke: "currentColor",
-      stroke_width: "2",
-      stroke_linecap: "round",
-      stroke_linejoin: "round"
-    ) do
-      path(d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z")
-    end
+    # Simple moon emoji as fallback until we implement proper SVG support  
+    span(
+      class: "h-4 w-4 text-slate-600 transition-opacity duration-200 opacity-0 flex items-center justify-center text-sm",
+      data: { "theme-toggle-target": "moonIcon" }
+    ) { "🌙" }
   end
 
   def keyboard_hint
