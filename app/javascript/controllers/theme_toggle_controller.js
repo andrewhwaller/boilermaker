@@ -10,22 +10,14 @@ export default class extends Controller {
   }
 
   disconnect() {
-    // Clean up event listeners
-    document.removeEventListener("theme:change", this.boundThemeChangeHandler)
+    if (this.boundThemeChangeHandler) {
+      document.removeEventListener("theme:change", this.boundThemeChangeHandler)
+    }
   }
 
   toggle() {
-    console.log('ThemeToggle: Toggle clicked')
-    const themeController = this.getThemeController()
-    console.log('ThemeToggle: Theme controller found:', !!themeController)
-    
-    if (themeController) {
-      console.log('ThemeToggle: Calling toggleTheme()')
-      const result = themeController.toggleTheme()
-      console.log('ThemeToggle: Toggle result:', result)
-    } else {
-      console.error('ThemeToggle: No theme controller available')
-    }
+    // Dispatch action to theme controller using Stimulus event system
+    this.dispatch("toggle", { prefix: "theme" })
   }
 
   handleKeyboard(event) {
@@ -42,14 +34,12 @@ export default class extends Controller {
   }
 
   handleThemeChange(event) {
-    this.updateToggleState()
+    this.updateToggleState(event.detail.theme)
   }
 
-  updateToggleState() {
-    const themeController = this.getThemeController()
-    if (!themeController) return
-
-    const currentTheme = themeController.getCurrentTheme()
+  updateToggleState(theme = null) {
+    // Determine current theme from DOM if not provided
+    const currentTheme = theme || (document.documentElement.classList.contains('dark') ? 'dark' : 'light')
     const isDark = currentTheme === 'dark'
 
     // Update button ARIA state
@@ -59,47 +49,15 @@ export default class extends Controller {
 
     // Update indicator position
     if (this.hasIndicatorTarget) {
-      if (isDark) {
-        this.indicatorTarget.classList.add('translate-x-7')
-      } else {
-        this.indicatorTarget.classList.remove('translate-x-7')
-      }
+      this.indicatorTarget.classList.toggle('translate-x-7', isDark)
     }
 
     // Update icon visibility
     if (this.hasSunIconTarget && this.hasMoonIconTarget) {
-      if (isDark) {
-        this.sunIconTarget.classList.remove('opacity-100')
-        this.sunIconTarget.classList.add('opacity-0')
-        this.moonIconTarget.classList.remove('opacity-0') 
-        this.moonIconTarget.classList.add('opacity-100')
-      } else {
-        this.sunIconTarget.classList.remove('opacity-0')
-        this.sunIconTarget.classList.add('opacity-100')
-        this.moonIconTarget.classList.remove('opacity-100')
-        this.moonIconTarget.classList.add('opacity-0')
-      }
+      this.sunIconTarget.classList.toggle('opacity-0', isDark)
+      this.sunIconTarget.classList.toggle('opacity-100', !isDark)
+      this.moonIconTarget.classList.toggle('opacity-0', !isDark)
+      this.moonIconTarget.classList.toggle('opacity-100', isDark)
     }
-  }
-
-  getThemeController() {
-    // Look for the theme controller on the html element
-    const themeElement = document.querySelector('html[data-controller*="theme"]')
-    if (!themeElement) {
-      console.warn('ThemeToggle: No theme controller found on html element')
-      return null
-    }
-
-    // Get the theme controller instance
-    const controllers = this.application.controllers.filter(controller => 
-      controller.identifier === 'theme' && controller.element === themeElement
-    )
-    
-    if (controllers.length === 0) {
-      console.warn('ThemeToggle: Theme controller not initialized')
-      return null
-    }
-
-    return controllers[0]
   }
 }
