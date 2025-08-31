@@ -40,6 +40,9 @@ class Components::Navigation < Components::Base
     end
 
     div(class: "ml-auto flex items-center gap-4") do
+      # Theme toggle
+      render Components::ThemeToggle.new(show_label: false, position: :navbar)
+      
       if show_account_dropdown?
         account_dropdown
       else
@@ -50,11 +53,16 @@ class Components::Navigation < Components::Base
   end
 
   def unauthenticated_links
-    if feature_enabled?("user_registration")
-      link_to("Sign up", sign_up_path, class: nav_link_class(sign_up_path))
-    end
+    div(class: "ml-auto flex items-center gap-4") do
+      # Theme toggle
+      render Components::ThemeToggle.new(show_label: false, position: :navbar)
+      
+      if feature_enabled?("user_registration")
+        link_to("Sign up", sign_up_path, class: nav_link_class(sign_up_path))
+      end
 
-    link_to("Sign in", sign_in_path, class: nav_link_class(sign_in_path))
+      link_to("Sign in", sign_in_path, class: nav_link_class(sign_in_path))
+    end
   end
 
   def account_dropdown

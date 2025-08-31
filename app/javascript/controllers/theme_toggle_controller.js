@@ -1,0 +1,87 @@
+import { Controller } from "@hotwired/stimulus"
+
+// Connects to data-controller="theme-toggle"
+export default class extends Controller {
+  static targets = ["button", "indicator", "sunIcon", "moonIcon"]
+  
+  connect() {
+    this.updateToggleState()
+    this.setupThemeChangeListener()
+  }
+
+  disconnect() {
+    // Clean up event listeners
+    document.removeEventListener("theme:change", this.boundThemeChangeHandler)
+  }
+
+  toggle() {
+    const themeController = this.getThemeController()
+    if (themeController) {
+      themeController.toggleTheme()
+    }
+  }
+
+  handleKeyboard(event) {
+    // Check for Cmd/Ctrl + Shift + L
+    if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key === 'L') {
+      event.preventDefault()
+      this.toggle()
+    }
+  }
+
+  setupThemeChangeListener() {
+    this.boundThemeChangeHandler = this.handleThemeChange.bind(this)
+    document.addEventListener("theme:change", this.boundThemeChangeHandler)
+  }
+
+  handleThemeChange(event) {
+    this.updateToggleState()
+  }
+
+  updateToggleState() {
+    const themeController = this.getThemeController()
+    if (!themeController) return
+
+    const currentTheme = themeController.getCurrentTheme()
+    const isDark = currentTheme === 'dark'
+
+    // Update button ARIA state
+    if (this.hasButtonTarget) {
+      this.buttonTarget.setAttribute('aria-pressed', isDark.toString())
+    }
+
+    // Update indicator position
+    if (this.hasIndicatorTarget) {
+      if (isDark) {
+        this.indicatorTarget.classList.add('translate-x-7')
+      } else {
+        this.indicatorTarget.classList.remove('translate-x-7')
+      }
+    }
+
+    // Update icon visibility
+    if (this.hasSunIconTarget && this.hasMoonIconTarget) {
+      if (isDark) {
+        this.sunIconTarget.classList.remove('opacity-100')
+        this.sunIconTarget.classList.add('opacity-0')
+        this.moonIconTarget.classList.remove('opacity-0') 
+        this.moonIconTarget.classList.add('opacity-100')
+      } else {
+        this.sunIconTarget.classList.remove('opacity-0')
+        this.sunIconTarget.classList.add('opacity-100')
+        this.moonIconTarget.classList.remove('opacity-100')
+        this.moonIconTarget.classList.add('opacity-0')
+      }
+    }
+  }
+
+  getThemeController() {
+    const themeElement = document.querySelector('[data-controller*="theme"]')
+    if (!themeElement) {
+      console.warn('ThemeToggle: No theme controller found')
+      return null
+    }
+
+    return this.application.getControllerForElementAndIdentifier(themeElement, 'theme')
+  }
+}
