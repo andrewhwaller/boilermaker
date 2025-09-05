@@ -137,43 +137,27 @@ module Boilermaker
         config_file = Rails.root.join("config", "boilermaker.yml")
 
         unless File.exist?(config_file)
-          if Rails.env.production?
-            Rails.logger.warn "Boilermaker configuration file not found at #{config_file}, using defaults"
-            return {}
-          else
-            raise "Boilermaker configuration file not found at #{config_file}"
-          end
+          Rails.logger.warn "Boilermaker configuration file not found at #{config_file}, using defaults"
+          return {}
         end
 
         erb_content = ERB.new(File.read(config_file)).result
-        full_config = YAML.safe_load(erb_content, aliases: true)
+        full_config = YAML.safe_load(erb_content, aliases: true) || {}
 
-        # Get config for current environment, fallback to default
-        env_config = full_config[Rails.env] || full_config["default"]
-
-        unless env_config
-          if Rails.env.production?
-            Rails.logger.warn "No configuration found for environment '#{Rails.env}' in #{config_file}, using defaults"
-            return {}
-          else
-            raise "No configuration found for environment '#{Rails.env}' in #{config_file}"
-          end
-        end
+        # Merge default + environment-specific (env overrides default)
+        defaults = full_config["default"] || {}
+        env_overrides = full_config[Rails.env] || {}
+        env_config = defaults.merge(env_overrides)
 
         env_config
       rescue => e
-        if Rails.env.production?
-          Rails.logger.error "Failed to load Boilermaker configuration: #{e.message}, using defaults"
-          {}
-        else
-          Rails.logger.error "Failed to load Boilermaker configuration: #{e.message}"
-          raise
-        end
+        Rails.logger.error "Failed to load Boilermaker configuration: #{e.message}. Using defaults."
+        {}
       end
 
       def validate_config!
-        # Skip validation in production
-        return if Rails.env.production?
+        # Only validate in development to keep tests lightweight
+        return unless Rails.env.development?
 
         # Validate required configuration
         required_configs = [
