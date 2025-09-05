@@ -64,6 +64,8 @@ export default class extends Controller {
 
   // Apply theme using DaisyUI data-theme on the controller's element
   applyTheme(theme) {
+    // Add temporary class to enable smooth transitions
+    try { this.element.classList.add('theme-transition') } catch {}
     // Set DaisyUI data-theme attribute on the element this controller is attached to
     if (theme === "business" || theme === "corporate") {
       this.element.setAttribute("data-theme", theme)
@@ -77,6 +79,14 @@ export default class extends Controller {
     
     // Dispatch theme change event for other controllers
     this.dispatch("change", { detail: { theme } })
+
+    // Remove transition class after animation completes
+    try {
+      clearTimeout(this._transitionTimeout)
+      this._transitionTimeout = setTimeout(() => {
+        this.element.classList.remove('theme-transition')
+      }, 300)
+    } catch {}
   }
 
   // Set theme and persist preference
