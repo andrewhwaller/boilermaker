@@ -14,7 +14,7 @@ class Components::FormGroup < Components::Base
   end
 
   def view_template
-    div(class: "space-y-2") do
+    div(class: "form-control w-full") do
       # Label
       Label(for_id: @id, required: @required) { @label_text }
 
@@ -29,7 +29,9 @@ class Components::FormGroup < Components::Base
 
       # Optional help text
       if @help_text.present?
-        p(class: "text-sm text-foreground-muted") { @help_text }
+        label(class: "label") do
+          span(class: "label-text-alt") { @help_text }
+        end
       end
     end
   end

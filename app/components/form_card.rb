@@ -9,16 +9,16 @@ class Components::FormCard < Components::Base
   end
 
   def view_template(&block)
-    # Implement card styling directly
-    card_class = "bg-surface border border-border rounded-lg p-6 shadow-sm"
+    card_class = "card bg-base-100 shadow-sm"
     card_class = [ card_class, @card_attrs.delete(:class) ].compact.join(" ")
 
     div(**@card_attrs.merge(class: card_class)) do
-      if @title.present?
-        h1(class: "text-2xl font-bold text-foreground mb-6") { @title }
+      div(class: "card-body") do
+        if @title.present?
+          h1(class: "card-title") { @title }
+        end
+        yield if block_given?
       end
-
-      yield if block_given?
-    end
+    end 
   end
 end
