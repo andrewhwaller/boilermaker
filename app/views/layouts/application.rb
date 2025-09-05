@@ -39,16 +39,16 @@ module Views
             # Theme initialization handled by Stimulus controller - remove inline script
           end
 
-          body(class: "min-h-screen bg-surface text-foreground") do
+          body(class: "min-h-screen bg-base-100 text-base-content") do
             # Navigation
             render Components::Navigation.new
 
             # Flash messages
             unless flash.empty?
-              div(class: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4") do
+              div(class: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 space-y-2") do
                 flash.each do |type, message|
                   div(class: flash_class(type)) do
-                    plain(message)
+                    span { plain(message) }
                   end
                 end
               end
@@ -79,16 +79,14 @@ module Views
       end
 
       def flash_class(type)
-        base_classes = "p-4 mb-4 rounded-lg"
-        type_classes = case type.to_sym
+        case type.to_sym
         when :notice, :success
-          "bg-success-background text-success-text border border-success"
+          "alert alert-success"
         when :alert, :error
-          "bg-error-background text-error-text border border-error"
+          "alert alert-error"
         else
-          "bg-foreground/5 text-foreground-muted border border-border"
+          "alert"
         end
-        "#{base_classes} #{type_classes}"
       end
     end
   end
