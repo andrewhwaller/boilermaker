@@ -33,7 +33,6 @@ This automatically makes all components in the `Components::` namespace availabl
 - `Components::Navigation` - Main navigation bar
 - `Components::DropdownMenu` - Dropdown menu container
 - `Components::DropdownMenuItem` - Individual dropdown menu items
-- `Components::DropdownMenuSeparator` - Visual separators in dropdown menus
 
 #### Utility Components
 - `Components::Base` - Base class for all components
@@ -64,11 +63,10 @@ class Views::SomeView < Views::Base
     Navigation()
     
     # Dropdown menu
-    DropdownMenu(trigger_text: "Account") do
-      DropdownMenuItem("Settings", settings_path)
-      DropdownMenuSeparator()
-      DropdownMenuItem("Sign out", session_path, method: :delete)
-    end
+  DropdownMenu(trigger_text: "Account") do
+    DropdownMenuItem("Settings", settings_path)
+    DropdownMenuItem("Sign out", session_path, method: :delete)
+  end
   end
 end
 ```
@@ -179,23 +177,14 @@ end
 
 ## Styling System
 
-Components use semantic CSS classes that work with the application's theme system:
+Components use DaisyUI semantic classes and tokens that adapt to the active theme, for example:
 
-```css
-/* Semantic color classes */
-.text-foreground          /* Primary text color */
-.text-muted-foreground    /* Secondary text color */
-.text-error               /* Error text color */
-.text-success             /* Success text color */
-
-/* Background colors */
-.bg-primary               /* Primary background */
-.bg-secondary             /* Secondary background */
-.bg-surface               /* Surface background */
-.bg-destructive           /* Destructive background */
-
-/* Border colors */
-.border-border            /* Standard border color */
+```html
+<button class="btn btn-primary">Primary</button>
+<input class="input input-bordered" />
+<div class="card bg-base-100"><div class="card-body">...</div></div>
+<div class="alert alert-error">Something went wrong</div>
+<p class="text-base-content/70">Muted text</p>
 ```
 
 ## Example Usage
