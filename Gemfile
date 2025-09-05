@@ -21,8 +21,6 @@ gem "tailwindcss-rails"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
-# Check passwords against known breaches [https://github.com/philnash/pwned]
-gem "pwned"
 # TOTP (Time-based One-Time Password) for 2FA [https://github.com/mdp/rotp]
 gem "rotp"
 # QR Code generation for 2FA setup [https://github.com/whomwah/rqrcode]

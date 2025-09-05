@@ -41,12 +41,6 @@ class UserTest < ActiveSupport::TestCase
     assert_includes @user.errors[:password], "is too short (minimum is 12 characters)"
   end
 
-  test "should reject pwned passwords" do
-    @user.password = "password123456" # Known breached password
-    assert_not @user.valid?
-    assert_includes @user.errors[:password], "has previously appeared in a data breach and should not be used"
-  end
-
   test "should accept secure passwords" do
     @user.password = "MyVerySecurePassword2024!"
     assert @user.valid?
