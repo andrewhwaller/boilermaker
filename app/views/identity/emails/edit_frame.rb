@@ -71,10 +71,10 @@ module Views
             render Components::Label.new(for_id: "current_email", text: "Current email")
             div(class: "mt-1 flex items-center gap-2") do
               render Components::Input.new(
-                type: "email", 
-                name: "current_email", 
-                id: "current_email", 
-                value: Current.user.email, 
+                type: "email",
+                name: "current_email",
+                id: "current_email",
+                value: Current.user.email,
                 disabled: true
               )
               verification_status

@@ -10,7 +10,7 @@ class Components::ThemeToggle < Components::Base
   def view_template
     div(
       class: theme_toggle_classes,
-      data: { 
+      data: {
         action: @keyboard_shortcut ? "keydown@window->theme#handleKeyboard" : nil
       }.compact
     ) do
@@ -23,7 +23,7 @@ class Components::ThemeToggle < Components::Base
 
   def theme_toggle_classes
     base_classes = "flex items-center gap-2"
-    
+
     case @position
     when :fixed
       "#{base_classes} fixed bottom-4 right-4 z-50"
@@ -43,11 +43,11 @@ class Components::ThemeToggle < Components::Base
              "focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 " \
              "disabled:cursor-not-allowed disabled:opacity-50 " \
              "hover:bg-base-300",
-      data: { 
+      data: {
         action: "click->theme#toggle",
         "theme-target": "button"
       },
-      aria: { 
+      aria: {
         label: "Toggle theme",
         pressed: "false"
       },
@@ -66,7 +66,7 @@ class Components::ThemeToggle < Components::Base
         span(class: "absolute inset-0 flex h-full w-full items-center justify-center") do
           # Sun icon (light mode)
           sun_icon
-          # Moon icon (dark mode) 
+          # Moon icon (dark mode)
           moon_icon
         end
       end
@@ -82,7 +82,7 @@ class Components::ThemeToggle < Components::Base
   end
 
   def moon_icon
-    # Simple moon emoji as fallback until we implement proper SVG support  
+    # Simple moon emoji as fallback until we implement proper SVG support
     span(
       class: "h-4 w-4 text-slate-600 transition-opacity duration-200 opacity-0 flex items-center justify-center text-sm",
       data: { "theme-target": "moonIcon" }

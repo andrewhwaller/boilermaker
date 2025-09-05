@@ -39,14 +39,14 @@ module Views
       def theme_section
         section(title: "Theme Preferences") do
           p(class: "text-sm text-base-content/70 mb-6") { "Choose your preferred theme for the application" }
-          
+
           div(class: "grid grid-cols-1 md:grid-cols-3 gap-4") do
             # Corporate Theme Option
             div(class: "border border-base-300 rounded-lg p-4 hover:border-primary transition-colors cursor-pointer",
                 data: { action: "click->theme#corporate" }) do
               div(class: "flex items-center justify-between mb-3") do
                 h3(class: "font-medium text-base-content") { "Corporate" }
-                div(class: "w-4 h-4 rounded-full bg-white border-2 border-gray-300") 
+                div(class: "w-4 h-4 rounded-full bg-white border-2 border-gray-300")
               end
               p(class: "text-sm text-base-content/70 mb-3") { "Clean, professional light theme" }
               div(class: "flex space-x-1") do
@@ -56,7 +56,7 @@ module Views
               end
             end
 
-            # Business Theme Option  
+            # Business Theme Option
             div(class: "border border-base-300 rounded-lg p-4 hover:border-primary transition-colors cursor-pointer",
                 data: { action: "click->theme#business" }) do
               div(class: "flex items-center justify-between mb-3") do
@@ -66,7 +66,7 @@ module Views
               p(class: "text-sm text-base-content/70 mb-3") { "Sophisticated dark theme" }
               div(class: "flex space-x-1") do
                 div(class: "w-4 h-4 bg-gray-900 border border-gray-700 rounded")
-                div(class: "w-4 h-4 bg-gray-800 border border-gray-700 rounded")  
+                div(class: "w-4 h-4 bg-gray-800 border border-gray-700 rounded")
                 div(class: "w-4 h-4 bg-gray-700 border border-gray-600 rounded")
               end
             end
@@ -85,7 +85,7 @@ module Views
               end
             end
           end
-          
+
           div(class: "mt-4 p-3 bg-base-200 rounded-lg") do
             p(class: "text-sm text-base-content/70") do
               plain "Your theme preference is automatically saved and will persist across browser sessions."

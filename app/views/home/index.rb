@@ -33,29 +33,29 @@ module Views
             card do
               h2(class: "text-lg font-semibold text-base-content mb-4") { "Theme Controls" }
               p(class: "text-base-content/70 mb-4") { "Test the theme system with these controls:" }
-              
+
               div(class: "flex flex-wrap gap-2 mb-4") do
                 button(
                   data: { action: "click->theme#corporate" },
                   class: "btn btn-outline btn-sm"
                 ) { "Corporate Theme" }
-                
+
                 button(
                   data: { action: "click->theme#business" },
                   class: "btn btn-outline btn-sm"
                 ) { "Business Theme" }
-                
+
                 button(
                   data: { action: "click->theme#system" },
                   class: "btn btn-outline btn-sm"
                 ) { "System Theme" }
-                
+
                 button(
                   data: { action: "click->theme#toggle" },
                   class: "btn btn-accent btn-sm"
                 ) { "Toggle Theme" }
               end
-              
+
               div(class: "text-sm text-base-content/70") do
                 p { "Test the theme system by clicking the buttons above or using the theme toggle in the navigation bar." }
               end

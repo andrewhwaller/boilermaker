@@ -10,7 +10,7 @@ class Components::Navigation < Components::Base
     nav(class: "navbar bg-base-100 border-b border-base-300") do
       div(class: "navbar-start") { branding if show_branding? }
       div(class: "navbar-end w-full") { navigation_links }
-    end 
+    end
   end
 
   private

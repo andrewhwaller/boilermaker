@@ -19,6 +19,6 @@ class Components::FormCard < Components::Base
         end
         yield if block_given?
       end
-    end 
+    end
   end
 end
