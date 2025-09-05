@@ -11,8 +11,7 @@ class Components::ThemeToggle < Components::Base
     div(
       class: theme_toggle_classes,
       data: { 
-        controller: "theme-toggle", 
-        action: @keyboard_shortcut ? "keydown@window->theme-toggle#handleKeyboard" : nil
+        action: @keyboard_shortcut ? "keydown@window->theme#handleKeyboard" : nil
       }.compact
     ) do
       toggle_button
@@ -39,14 +38,14 @@ class Components::ThemeToggle < Components::Base
     button(
       type: "button",
       class: "group relative inline-flex h-9 w-16 shrink-0 cursor-pointer rounded-full " \
-             "border border-border bg-surface transition-colors duration-200 " \
+             "border border-base-300 bg-base-200 transition-colors duration-200 " \
              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " \
-             "focus-visible:ring-offset-2 focus-visible:ring-offset-background " \
+             "focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 " \
              "disabled:cursor-not-allowed disabled:opacity-50 " \
-             "hover:bg-surface-hover",
+             "hover:bg-base-300",
       data: { 
-        action: "theme-toggle#toggle",
-        "theme-toggle-target": "button"
+        action: "click->theme#toggle",
+        "theme-target": "button"
       },
       aria: { 
         label: "Toggle theme",
@@ -58,10 +57,10 @@ class Components::ThemeToggle < Components::Base
       # Toggle switch track
       span(
         class: "pointer-events-none absolute left-[2px] top-[2px] h-7 w-7 " \
-               "rounded-full bg-background shadow-sm ring-0 transition-transform " \
+               "rounded-full bg-base-100 shadow-sm ring-0 transition-transform " \
                "duration-200 translate-x-0 " \
                "group-aria-pressed:translate-x-7",
-        data: { "theme-toggle-target": "indicator" }
+        data: { "theme-target": "indicator" }
       ) do
         # Icons container
         span(class: "absolute inset-0 flex h-full w-full items-center justify-center") do
@@ -78,7 +77,7 @@ class Components::ThemeToggle < Components::Base
     # Simple sun emoji as fallback until we implement proper SVG support
     span(
       class: "h-4 w-4 text-amber-500 transition-opacity duration-200 opacity-100 flex items-center justify-center text-sm",
-      data: { "theme-toggle-target": "sunIcon" }
+      data: { "theme-target": "sunIcon" }
     ) { "☀️" }
   end
 
@@ -86,17 +85,17 @@ class Components::ThemeToggle < Components::Base
     # Simple moon emoji as fallback until we implement proper SVG support  
     span(
       class: "h-4 w-4 text-slate-600 transition-opacity duration-200 opacity-0 flex items-center justify-center text-sm",
-      data: { "theme-toggle-target": "moonIcon" }
+      data: { "theme-target": "moonIcon" }
     ) { "🌙" }
   end
 
   def keyboard_hint
     if @show_label
-      span(class: "text-sm text-foreground-muted hidden sm:inline") do
+      span(class: "text-sm text-base-content hidden sm:inline") do
         "Press "
-        kbd(class: "px-1.5 py-0.5 text-xs bg-surface border border-border rounded") { "⌘" }
-        kbd(class: "px-1.5 py-0.5 text-xs bg-surface border border-border rounded") { "⇧" }
-        kbd(class: "px-1.5 py-0.5 text-xs bg-surface border border-border rounded") { "L" }
+        kbd(class: "kbd kbd-xs") { "⌘" }
+        kbd(class: "kbd kbd-xs") { "⇧" }
+        kbd(class: "kbd kbd-xs") { "L" }
         " to toggle"
       end
     end
