@@ -89,11 +89,11 @@ module Boilermaker
 
       # Authentication config
       def password_min_length
-        12
+        get("auth.password.min_length") || 12
       end
 
       def session_timeout_minutes
-        1440 # 24 hours
+        get("auth.session.timeout_minutes") || 1440 # 24 hours
       end
 
       def remember_me_duration_days
