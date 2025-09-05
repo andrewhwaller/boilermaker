@@ -2,6 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="theme"
 export default class extends Controller {
+  static targets = ["button", "indicator", "sunIcon", "moonIcon"]
   static values = {
     storageKey: { type: String, default: "theme-preference" }
   }
@@ -9,12 +10,11 @@ export default class extends Controller {
   connect() {
     this.initializeTheme()
     this.setupSystemPreferenceListener()
-    this.setupToggleListener()
+    this.updateToggleState()
   }
 
   disconnect() {
     this.cleanupSystemPreferenceListener()
-    this.cleanupToggleListener()
   }
 
   // Initialize theme on connect - prevents FOUC
@@ -35,9 +35,9 @@ export default class extends Controller {
   // Get system preference from prefers-color-scheme
   getSystemPreference() {
     if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
-      return "dark"
+      return "business"
     }
-    return "light"
+    return "corporate"
   }
 
   // Get stored theme preference from localStorage
@@ -62,22 +62,18 @@ export default class extends Controller {
     }
   }
 
-  // Apply theme to HTML element
+  // Apply theme using DaisyUI data-theme on the controller's element
   applyTheme(theme) {
-    const htmlElement = document.documentElement
-    
-    console.log("Applying theme:", theme)
-    console.log("HTML classes before:", htmlElement.className)
-    
-    // Remove existing theme classes
-    htmlElement.classList.remove("light", "dark")
-    
-    // Apply theme class
-    if (theme === "dark" || theme === "light") {
-      htmlElement.classList.add(theme)
+    // Set DaisyUI data-theme attribute on the element this controller is attached to
+    if (theme === "business" || theme === "corporate") {
+      this.element.setAttribute("data-theme", theme)
+    } else {
+      // Remove data-theme to use system default
+      this.element.removeAttribute("data-theme")
     }
     
-    console.log("HTML classes after:", htmlElement.className)
+    // Update toggle UI state
+    this.updateToggleState(theme)
     
     // Dispatch theme change event for other controllers
     this.dispatch("change", { detail: { theme } })
@@ -85,7 +81,7 @@ export default class extends Controller {
 
   // Set theme and persist preference
   setTheme(theme) {
-    if (!["light", "dark", "system"].includes(theme)) {
+    if (!["corporate", "business", "system"].includes(theme)) {
       return false
     }
 
@@ -97,10 +93,10 @@ export default class extends Controller {
     return true
   }
 
-  // Toggle between light and dark
+  // Toggle between corporate and business themes
   toggleTheme() {
     const currentTheme = this.getCurrentTheme()
-    const newTheme = currentTheme === "dark" ? "light" : "dark"
+    const newTheme = currentTheme === "business" ? "corporate" : "business"
     return this.setTheme(newTheme)
   }
 
@@ -129,18 +125,18 @@ export default class extends Controller {
     
     // Only react to system changes if user hasn't set explicit preference
     if (!storedTheme || storedTheme === "system") {
-      const newTheme = event.matches ? "dark" : "light"
+      const newTheme = event.matches ? "business" : "corporate"
       this.applyTheme(newTheme)
     }
   }
 
   // Stimulus action methods (can be used with data-action)
-  light() {
-    return this.setTheme("light")
+  corporate() {
+    return this.setTheme("corporate")
   }
 
-  dark() {
-    return this.setTheme("dark")
+  business() {
+    return this.setTheme("business")
   }
 
   system() {
@@ -151,21 +147,38 @@ export default class extends Controller {
     return this.toggleTheme()
   }
 
-  // Listen for toggle events from theme-toggle controllers
-  setupToggleListener() {
-    this.boundToggleHandler = this.handleToggleEvent.bind(this)
-    document.addEventListener("theme:toggle", this.boundToggleHandler)
-  }
-
-  cleanupToggleListener() {
-    if (this.boundToggleHandler) {
-      document.removeEventListener("theme:toggle", this.boundToggleHandler)
+  // Handle keyboard shortcuts
+  handleKeyboard(event) {
+    // Check for Cmd/Ctrl + Shift + L
+    if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key === 'L') {
+      event.preventDefault()
+      this.toggle()
     }
   }
 
-  handleToggleEvent(event) {
-    console.log("Theme controller received toggle event")
-    const result = this.toggleTheme()
-    console.log("Toggle result:", result)
+  // Update toggle button visual state
+  updateToggleState(theme = null) {
+    // Only update if we have toggle targets
+    if (!this.hasButtonTarget) return
+    
+    // Determine current theme from DOM if not provided
+    const currentTheme = theme || (this.element.getAttribute('data-theme') === 'business' ? 'business' : 'corporate')
+    const isDark = currentTheme === 'business'
+
+    // Update button ARIA state
+    this.buttonTarget.setAttribute('aria-pressed', isDark.toString())
+
+    // Update indicator position
+    if (this.hasIndicatorTarget) {
+      this.indicatorTarget.classList.toggle('translate-x-7', isDark)
+    }
+
+    // Update icon visibility
+    if (this.hasSunIconTarget && this.hasMoonIconTarget) {
+      this.sunIconTarget.classList.toggle('opacity-0', isDark)
+      this.sunIconTarget.classList.toggle('opacity-100', !isDark)
+      this.moonIconTarget.classList.toggle('opacity-0', !isDark)
+      this.moonIconTarget.classList.toggle('opacity-100', isDark)
+    }
   }
 }
