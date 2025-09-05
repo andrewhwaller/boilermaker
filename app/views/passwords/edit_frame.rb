@@ -26,7 +26,7 @@ module Views
       private
 
       def header
-        h3(class: "text-lg font-medium text-foreground mb-4") { "Password Settings" }
+        h3(class: "text-lg font-medium text-base-content mb-4") { "Password Settings" }
       end
 
       def notifications

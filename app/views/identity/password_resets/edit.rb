@@ -16,7 +16,7 @@ module Views
           page_with_title("Reset Password") do
             centered_container do
               card do
-                h1(class: "text-xl font-semibold text-foreground mb-6") { "Reset your password" }
+                h1(class: "text-xl font-semibold text-base-content mb-6") { "Reset your password" }
 
                 form_errors(@user) if @user.errors.any?
 

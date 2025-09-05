@@ -16,7 +16,7 @@ module Views
 
       def view_template
         turbo_frame_tag "profile_settings" do
-          div(class: "p-6 border border-border bg-background") do
+          div(class: "p-6 border border-border bg-white dark:bg-gray-900") do
             header
             notifications
             form_section

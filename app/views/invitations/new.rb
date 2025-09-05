@@ -14,7 +14,7 @@ module Views
         page_with_title("Send Invitation") do
           centered_container do
             card do
-              h1(class: "text-xl font-bold text-foreground mb-6") { "Send invitation" }
+              h1(class: "text-xl font-bold text-base-content mb-6") { "Send invitation" }
 
               form_errors(@user) if @user&.errors&.any?
 

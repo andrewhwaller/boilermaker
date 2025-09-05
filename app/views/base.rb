@@ -36,9 +36,9 @@ class Views::Base < Components::Base
     section_class = "space-y-6"
     section_class = [ section_class, attrs.delete(:class) ].compact.join(" ")
 
-    section(**attrs.merge(class: section_class)) do
+    super(**attrs.merge(class: section_class)) do
       if title.present?
-        h2(class: "text-xl font-semibold text-foreground mb-4") { title }
+        h2(class: "text-xl font-semibold text-base-content mb-4") { title }
       end
       yield_content_or(&block)
     end
@@ -46,7 +46,7 @@ class Views::Base < Components::Base
 
   # Helper method to render a card container
   def card(**attrs, &block)
-    card_class = "bg-surface border border-border rounded-lg p-6 shadow-sm"
+    card_class = "bg-base-200 border border-base-300 rounded-lg p-6 shadow-sm"
     card_class = [ card_class, attrs.delete(:class) ].compact.join(" ")
 
     div(**attrs.merge(class: card_class)) do

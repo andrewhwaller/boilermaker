@@ -18,7 +18,7 @@ module Views
                   div(class: "bg-error/10 text-error p-4 rounded-lg mb-6") { plain(@alert) }
                 end
 
-                h1(class: "text-xl font-semibold text-foreground mb-6") { "Forgot your password?" }
+                h1(class: "text-xl font-semibold text-base-content mb-6") { "Forgot your password?" }
 
                 form_with(url: identity_password_reset_path, class: "space-y-4") do |form|
                   div do
