@@ -29,4 +29,3 @@ class Components::FormField < Components::Base
     end
   end
 end
-

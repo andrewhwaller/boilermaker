@@ -14,4 +14,3 @@ module Components
     end
   end
 end
-
