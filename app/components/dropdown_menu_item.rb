@@ -12,23 +12,25 @@ class Components::DropdownMenuItem < Components::Base
   end
 
   def view_template
-    classes = base_classes
-    classes += " #{@options[:class]}" if @options[:class]
+    li do
+      classes = base_classes
+      classes += " #{@options[:class]}" if @options[:class]
 
-    if @path
-      if @method == :delete
-        button_to(@text, @path, method: @method, class: classes, **@options.except(:class))
+      if @path
+        if @method == :delete
+          link_to(@text, @path, class: classes, data: { turbo_method: :delete }, **@options.except(:class, :data))
+        else
+          link_to(@text, @path, class: classes, **@options.except(:class))
+        end
       else
-        link_to(@text, @path, class: classes, **@options.except(:class))
+        a(href: "#", class: classes, **@options.except(:class)) { @text }
       end
-    else
-      div(class: classes, **@options.except(:class)) { @text }
     end
   end
 
   private
 
   def base_classes
-    "block w-full px-4 py-2 text-sm text-left text-foreground hover:bg-background-elevated border-0 bg-transparent transition-colors duration-200"
+    "justify-start text-sm"
   end
 end

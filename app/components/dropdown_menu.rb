@@ -9,7 +9,7 @@ class Components::DropdownMenu < Components::Base
   end
 
   def view_template(&block)
-    div(class: "relative", data: { controller: "dropdown" }) do
+    div(class: "dropdown dropdown-end", data: { controller: "dropdown" }, tabindex: 0) do
       trigger
       menu(&block)
     end
@@ -20,8 +20,10 @@ class Components::DropdownMenu < Components::Base
   def trigger
     button(
       type: "button",
-      class: "inline-flex items-center px-3 py-2 text-sm font-medium text-foreground hover:text-secondary focus:outline-none bg-transparent border-0",
-      data: { action: "click->dropdown#toggle" }
+      class: "btn btn-ghost btn-sm",
+      data: { action: nil },
+      tabindex: 0,
+      role: "button"
     ) do
       @trigger_text
       chevron
@@ -29,12 +31,12 @@ class Components::DropdownMenu < Components::Base
   end
 
   def menu(&block)
-    div(
-      class: "absolute right-0 mt-2 w-48 bg-surface border border-border shadow-theme-lg z-50 hidden rounded-lg",
-      data: { dropdown_target: "menu" }
-    ) do
-      div(class: "py-1", &block)
-    end
+    ul(
+      class: "dropdown-content menu menu-sm gap-1 p-2 shadow bg-base-100 rounded-box z-50 w-48 mt-2",
+      tabindex: 0,
+      data: { dropdown_target: "menu" },
+      &block
+    )
   end
 
   def chevron
