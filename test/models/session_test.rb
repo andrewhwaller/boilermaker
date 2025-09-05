@@ -2,7 +2,7 @@ require "test_helper"
 
 class SessionTest < ActiveSupport::TestCase
   def setup
-    @account = Account.create!
+    @account = Account.create!(name: "Test Account")
     @user = @account.users.create!(
       email: "test@example.com",
       password: "MyVerySecureTestPassword2024!"
