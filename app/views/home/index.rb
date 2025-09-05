@@ -13,50 +13,50 @@ module Views
       def view_template
         page_with_title("Dashboard") do
           if @notice
-            div(class: "bg-success/10 text-success p-4 rounded-lg mb-6") { plain(@notice) }
+            div(class: "alert alert-success mb-6") { span { plain(@notice) } }
           end
 
           div(class: "space-y-6") do
             # Welcome section
             card do
               h1(class: "text-2xl font-bold text-base-content mb-4") { "Welcome to #{app_name}" }
-              p(class: "text-base-content-muted mb-4") { plain("Version #{app_version}") }
+              p(class: "text-base-content/70 mb-4") { plain("Version #{app_version}") }
             end
 
             # User info section
             card do
               h2(class: "text-xl font-semibold text-base-content mb-4") { "User Information" }
-              p(class: "text-base-content-muted") { "You are currently signed in as #{Current.user.email}" }
+              p(class: "text-base-content/70") { "You are currently signed in as #{Current.user.email}" }
             end
 
             # Theme testing section
             card do
               h2(class: "text-lg font-semibold text-base-content mb-4") { "Theme Controls" }
-              p(class: "text-base-content-muted mb-4") { "Test the theme system with these controls:" }
+              p(class: "text-base-content/70 mb-4") { "Test the theme system with these controls:" }
               
-              div(class: "flex flex-wrap gap-3 mb-4") do
+              div(class: "flex flex-wrap gap-2 mb-4") do
                 button(
                   data: { action: "click->theme#corporate" },
-                  class: "px-4 py-2 bg-button text-button-text border border-button hover:bg-button-hover rounded-lg"
+                  class: "btn btn-outline btn-sm"
                 ) { "Corporate Theme" }
                 
                 button(
                   data: { action: "click->theme#business" },
-                  class: "px-4 py-2 bg-button text-button-text border border-button hover:bg-button-hover rounded-lg"
+                  class: "btn btn-outline btn-sm"
                 ) { "Business Theme" }
                 
                 button(
                   data: { action: "click->theme#system" },
-                  class: "px-4 py-2 bg-button text-button-text border border-button hover:bg-button-hover rounded-lg"
+                  class: "btn btn-outline btn-sm"
                 ) { "System Theme" }
                 
                 button(
                   data: { action: "click->theme#toggle" },
-                  class: "px-4 py-2 bg-accent text-accent-text border border-accent hover:bg-accent-hover rounded-lg"
+                  class: "btn btn-accent btn-sm"
                 ) { "Toggle Theme" }
               end
               
-              div(class: "text-sm text-base-content-muted") do
+              div(class: "text-sm text-base-content/70") do
                 p { "Test the theme system by clicking the buttons above or using the theme toggle in the navigation bar." }
               end
             end
@@ -79,7 +79,7 @@ module Views
               card do
                 h2(class: "text-lg font-semibold text-base-content mb-4") { "Development Tools" }
                 div(class: "space-y-2") do
-                  link_to("Component Showcase", components_showcase_path, class: "inline-block text-accent hover:text-accent-hover hover:underline")
+                  link_to("Component Showcase", components_showcase_path, class: "link link-primary")
                   plain(" - Test all UI components in light and dark themes")
                 end
               end
@@ -88,7 +88,7 @@ module Views
             # Sign out section
             card do
               button_to("Sign out", session_path(Current.session), method: :delete,
-                class: "bg-error text-error-text hover:bg-error/90 disabled:opacity-50")
+                class: "btn btn-error")
             end
           end
         end
@@ -98,12 +98,12 @@ module Views
 
       def feature_card(name, feature_key)
         enabled = feature_enabled?(feature_key)
-        card_class = enabled ? "bg-success-background border-success" : "bg-foreground/5 border-border"
+        box_classes = enabled ? "border-success/50 bg-success/10" : "border-base-300 bg-base-100"
 
-        div(class: "p-3 border rounded-lg #{card_class}") do
+        div(class: "p-3 border rounded-box #{box_classes}") do
           div(class: "flex items-center justify-between") do
             span(class: "text-sm font-medium text-base-content") { name }
-            span(class: "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium #{enabled ? "bg-success/20 text-success" : "bg-foreground-muted/20 text-base-content-muted"}") do
+            span(class: "badge #{enabled ? 'badge-success' : 'badge-ghost'} badge-sm") do
               enabled ? "Enabled" : "Disabled"
             end
           end

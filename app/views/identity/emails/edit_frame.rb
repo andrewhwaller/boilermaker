@@ -16,7 +16,7 @@ module Views
 
       def view_template
         turbo_frame_tag "profile_settings" do
-          div(class: "p-6 border border-border bg-white dark:bg-gray-900") do
+          div(class: "p-6 border border-base-300 bg-base-100") do
             header
             notifications
             form_section
@@ -32,23 +32,19 @@ module Views
 
       def notifications
         if @notice
-          div(class: "mb-4 p-3 bg-success-background border border-success text-success-text") do
-            @notice
-          end
+          div(class: "alert alert-success mb-4") { span { @notice } }
         end
 
         if @alert
-          div(class: "mb-4 p-3 bg-error-background border border-error text-error-text") do
-            @alert
-          end
+          div(class: "alert alert-error mb-4") { span { @alert } }
         end
       end
 
       def form_section
         unless Current.user.verified?
-          div(class: "mb-6 p-4 bg-warning-background border border-warning") do
-            p(class: "text-warning-text mb-2") { "Email verification required" }
-            p(class: "text-sm text-warning-text") { "We sent a verification email to your address. Check that email and follow the instructions to confirm it's yours." }
+          div(class: "alert alert-warning mb-6") do
+            p(class: "font-medium") { "Email verification required" }
+            p(class: "text-sm") { "We sent a verification email to your address. Check that email and follow the instructions to confirm it's yours." }
           end
         end
 
@@ -59,9 +55,9 @@ module Views
       end
 
       def form_errors
-        div(class: "mb-4 p-3 bg-error-background border border-error") do
-          strong(class: "text-error-text") { "#{pluralize(@user.errors.count, "error")} prohibited this change:" }
-          ul(class: "mt-2 text-sm text-error-text list-disc list-inside") do
+        div(class: "alert alert-error mb-4") do
+          strong { "#{pluralize(@user.errors.count, "error")} prohibited this change:" }
+          ul(class: "mt-2 text-sm list-disc list-inside") do
             @user.errors.each do |error|
               li { error.full_message }
             end
@@ -109,13 +105,9 @@ module Views
 
       def verification_status
           if Current.user.verified?
-            span(class: "inline-flex items-center px-2 py-1 text-xs font-medium bg-success-background text-success-text border border-success") do
-              "✓ Verified"
-            end
+            span(class: "badge badge-success badge-sm") { "✓ Verified" }
           else
-            span(class: "inline-flex items-center px-2 py-1 text-xs font-medium bg-warning-background text-warning-text border border-warning") do
-              "⚠ Unverified"
-            end
+            span(class: "badge badge-warning badge-sm") { "⚠ Unverified" }
           end
         end
       end

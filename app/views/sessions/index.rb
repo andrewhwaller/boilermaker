@@ -15,7 +15,7 @@ module Views
             div(class: "flex items-center justify-between p-4 bg-white shadow rounded-lg") do
               div do
                 div(class: "font-medium") { "Status" }
-                p(class: "text-sm text-base-content-muted") do
+                p(class: "text-sm text-base-content/70") do
                   if Current.user.otp_required_for_sign_in?
                     "enabled"
                   else
@@ -33,7 +33,7 @@ module Views
               div(class: "flex items-center justify-between p-4 bg-white shadow rounded-lg") do
                 div do
                   div(class: "font-medium") { session.user_agent }
-                  div(class: "text-sm text-base-content-muted") { "Last active #{time_ago_in_words(session.updated_at)} ago" }
+                  div(class: "text-sm text-base-content/70") { "Last active #{time_ago_in_words(session.updated_at)} ago" }
                 end
 
                 unless session == Current.session

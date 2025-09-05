@@ -13,7 +13,7 @@ class Views::Passwords::Edit < Views::Base
       centered_container do
         card do
           if @alert
-            div(class: "bg-error/10 text-error p-4 rounded-lg mb-6") { plain(@alert) }
+            div(class: "alert alert-error mb-6") { span { plain(@alert) } }
           end
 
           h1(class: "text-xl font-semibold text-base-content mb-6") { "Change your password" }

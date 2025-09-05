@@ -31,15 +31,11 @@ module Views
 
       def notifications
         if @notice
-          div(class: "mb-4 p-3 bg-success-background border border-success text-success-text") do
-            @notice
-          end
+          div(class: "alert alert-success mb-4") { span { @notice } }
         end
 
         if @alert
-          div(class: "mb-4 p-3 bg-error-background border border-error text-error-text") do
-            @alert
-          end
+          div(class: "alert alert-error mb-4") { span { @alert } }
         end
       end
 
@@ -76,7 +72,7 @@ module Views
                 autocomplete: "new-password"
               )
             end
-            div(class: "text-sm text-muted-foreground mt-1") { "12 characters minimum." }
+            div(class: "text-sm text-base-content/70 mt-1") { "12 characters minimum." }
           end
 
           div do

@@ -2,17 +2,17 @@
 
 class Views::Home::Components < Views::Base
   def view_template
-    div(class: "min-h-screen bg-white dark:bg-gray-900") do
+    div(class: "min-h-screen bg-base-100") do
       # Theme Toggle Bar
-      div(class: "sticky top-0 bg-gray-50 dark:bg-gray-800 border-b border-border p-4 z-10") do
+      div(class: "sticky top-0 bg-base-200 border-b border-base-300 p-4 z-10") do
         div(class: "flex items-center justify-between max-w-4xl mx-auto") do
           h1(class: "text-2xl font-bold text-base-content") { "Component Showcase" }
           div(class: "flex items-center gap-4") do
-            p(class: "text-sm text-base-content-muted") { "Toggle dark mode to test themes" }
+            p(class: "text-sm text-base-content/70") { "Toggle dark mode to test themes" }
 
             button(
               type: "button",
-              class: "px-4 py-2 rounded border border-border bg-button text-button-text hover:bg-button-hover transition-colors",
+              class: "btn btn-outline btn-sm",
             ) { "Toggle Dark Mode" }
           end
         end
@@ -22,7 +22,7 @@ class Views::Home::Components < Views::Base
       div(class: "max-w-4xl mx-auto p-8 space-y-12") do
         # Buttons Section
         section do
-          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-border pb-2") { "Buttons" }
+          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-base-300 pb-2") { "Buttons" }
           div(class: "grid gap-6") do
             # Button variants
             div(class: "space-y-4") do
@@ -50,7 +50,7 @@ class Views::Home::Components < Views::Base
 
         # Forms Section
         section do
-          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-border pb-2") { "Form Components" }
+          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-base-300 pb-2") { "Form Components" }
           Components::FormCard.new(title: "Example Form") do
             div(class: "space-y-6") do
               Components::EmailField.new(label_text: "Email Address", name: "email", placeholder: "user@example.com")
@@ -67,22 +67,22 @@ class Views::Home::Components < Views::Base
 
         # Cards Section
         section do
-          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-border pb-2") { "Cards & Layout" }
+          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-base-300 pb-2") { "Cards & Layout" }
           div(class: "grid md:grid-cols-2 gap-6") do
             Components::ExampleCard.new(title: "Example Card") do
-              p(class: "text-base-content-muted") { "This card demonstrates the surface and border tokens working in both light and dark modes." }
+              p(class: "text-base-content/70") { "This card demonstrates the surface and border tokens working in both light and dark modes." }
             end
 
-            div(class: "surface-elevated rounded-lg p-6") do
+            div(class: "card bg-base-100 shadow p-6") do
               h3(class: "text-lg font-semibold text-base-content mb-3") { "Elevated Surface" }
-              p(class: "text-base-content-muted") { "This uses the .surface-elevated utility class." }
+              p(class: "text-base-content/70") { "This uses a typical elevated surface." }
             end
           end
         end
 
         # Dropdowns Section
         section do
-          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-border pb-2") { "Navigation & Dropdowns" }
+          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-base-300 pb-2") { "Navigation & Dropdowns" }
           div(class: "space-y-6") do
             h3(class: "text-lg font-medium text-base-content") { "Dropdown Menu" }
             Components::DropdownMenu.new(trigger_text: "Account Menu") do
@@ -95,7 +95,7 @@ class Views::Home::Components < Views::Base
 
         # Colors Section
         section do
-          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-border pb-2") { "Color Tokens" }
+          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-base-300 pb-2") { "Color Tokens" }
           div(class: "grid md:grid-cols-2 gap-8") do
             # Background colors
             div do
@@ -112,7 +112,7 @@ class Views::Home::Components < Views::Base
               h3(class: "text-lg font-medium text-base-content mb-4") { "Text" }
               div(class: "space-y-3") do
                 color_text_sample("text-base-content", "Foreground")
-                color_text_sample("text-base-content-muted", "Muted")
+                color_text_sample("text-base-content/70", "Muted")
                 color_text_sample("text-base-content-subtle", "Subtle")
               end
             end
@@ -132,7 +132,7 @@ class Views::Home::Components < Views::Base
 
         # Auth Links Section
         section do
-          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-border pb-2") { "Auth Components" }
+          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-base-300 pb-2") { "Auth Components" }
           Components::AuthLinks.new(links: [
             { text: "Sign up", path: "#" },
             { text: "Sign in", path: "#" },
@@ -142,7 +142,7 @@ class Views::Home::Components < Views::Base
 
         # Recovery Codes Section
         section do
-          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-border pb-2") { "Recovery Codes" }
+          h2(class: "text-xl font-semibold text-base-content mb-6 border-b border-base-300 pb-2") { "Recovery Codes" }
           ul(class: "grid grid-cols-2 gap-2") do
             Components::RecoveryCodeItem.new(code: "ABC123", used: false)
             Components::RecoveryCodeItem.new(code: "DEF456", used: true)
@@ -153,9 +153,9 @@ class Views::Home::Components < Views::Base
       end
 
       # Footer
-      div(class: "mt-16 border-t border-border bg-gray-50 dark:bg-gray-800 p-8") do
+      div(class: "mt-16 border-t border-base-300 bg-base-200 p-8") do
         div(class: "max-w-4xl mx-auto text-center") do
-          p(class: "text-base-content-muted") { "All components automatically adapt to light and dark themes using semantic color tokens." }
+          p(class: "text-base-content/70") { "All components automatically adapt to light and dark themes using semantic color tokens." }
         end
       end
     end
@@ -165,9 +165,9 @@ class Views::Home::Components < Views::Base
 
   def color_sample(bg_class, name)
     div(class: "flex items-center gap-3") do
-      div(class: "w-8 h-8 rounded border border-border #{bg_class}")
+      div(class: "w-8 h-8 rounded border border-base-300 #{bg_class}")
       span(class: "text-sm text-base-content") { name }
-      code(class: "text-xs text-base-content-muted font-mono") { bg_class }
+      code(class: "text-xs text-base-content/70 font-mono") { bg_class }
     end
   end
 
@@ -175,7 +175,7 @@ class Views::Home::Components < Views::Base
     div(class: "flex items-center gap-3") do
       span(class: "#{text_class}") { "Sample text" }
       span(class: "text-sm text-base-content") { name }
-      code(class: "text-xs text-base-content-muted font-mono") { text_class }
+      code(class: "text-xs text-base-content/70 font-mono") { text_class }
     end
   end
 
