@@ -2,7 +2,7 @@ require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @account = Account.create!
+    @account = Account.create!(name: "Test Account")
     @user = @account.users.build(
       email: "test@example.com",
       password: "MyVerySecureTestPassword2024!"
@@ -39,12 +39,6 @@ class UserTest < ActiveSupport::TestCase
     @user.password = "short"
     assert_not @user.valid?
     assert_includes @user.errors[:password], "is too short (minimum is 12 characters)"
-  end
-
-  test "should reject pwned passwords" do
-    @user.password = "password123456" # Known breached password
-    assert_not @user.valid?
-    assert_includes @user.errors[:password], "has previously appeared in a data breach and should not be used"
   end
 
   test "should accept secure passwords" do

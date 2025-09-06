@@ -64,7 +64,8 @@ class InvitationsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :unprocessable_entity
-    assert_select "div[style*='color: red']"
+    assert_select "div.alert.alert-error"
+    assert_select "li"
   end
 
   test "should handle blank email" do
@@ -75,7 +76,8 @@ class InvitationsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :unprocessable_entity
-    assert_select "div[style*='color: red']"
+    assert_select "div.alert.alert-error"
+    assert_select "li"
   end
 
   test "invitation email should contain correct reset link" do

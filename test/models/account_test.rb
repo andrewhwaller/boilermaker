@@ -2,7 +2,7 @@ require "test_helper"
 
 class AccountTest < ActiveSupport::TestCase
   def setup
-    @account = Account.create!
+    @account = Account.create!(name: "Test Account")
   end
 
   test "should be valid" do

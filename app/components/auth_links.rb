@@ -19,11 +19,11 @@ class Components::AuthLinks < Components::Base
       @links.each_with_index do |link, index|
         # Add separator between links (but not before first link)
         if index > 0 && @separator.present?
-          span(class: "text-muted-foreground") { @separator }
+          span(class: "opacity-60") { @separator }
         end
 
         # Render the link
-        link_to(link[:text], link[:path], class: "text-primary hover:underline")
+        link_to(link[:text], link[:path], class: "link link-hover")
       end
     end
   end

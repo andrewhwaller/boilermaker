@@ -20,7 +20,7 @@ module Views
       def view_template(&block)
         doctype
 
-        html(lang: "en") do
+        html(lang: "en", data: { controller: "theme" }) do
           head do
             meta(charset: "utf-8")
             meta(name: "viewport", content: "width=device-width,initial-scale=1")
@@ -35,18 +35,20 @@ module Views
             link(rel: "manifest", href: "/pwa/manifest.json")
 
             javascript_importmap_tags
+
+            # Theme initialization handled by Stimulus controller - remove inline script
           end
 
-          body(class: "min-h-screen bg-surface text-foreground") do
+          body(class: "min-h-screen bg-base-100 text-base-content") do
             # Navigation
             render Components::Navigation.new
 
             # Flash messages
             unless flash.empty?
-              div(class: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4") do
+              div(class: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 space-y-2") do
                 flash.each do |type, message|
                   div(class: flash_class(type)) do
-                    plain(message)
+                    span { plain(message) }
                   end
                 end
               end
@@ -77,16 +79,14 @@ module Views
       end
 
       def flash_class(type)
-        base_classes = "p-4 mb-4 rounded-lg"
-        type_classes = case type.to_sym
+        case type.to_sym
         when :notice, :success
-          "bg-success/10 text-success border border-green-200"
+          "alert alert-success"
         when :alert, :error
-          "bg-error/10 text-error border border-red-200"
+          "alert alert-error"
         else
-          "bg-muted/10 text-muted border border-border"
+          "alert"
         end
-        "#{base_classes} #{type_classes}"
       end
     end
   end

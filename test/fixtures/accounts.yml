@@ -2,6 +2,8 @@
 
 one:
   id: 1
+  name: Personal
 
 two:
-  id: 2 
+  id: 2
+  name: Acme Inc

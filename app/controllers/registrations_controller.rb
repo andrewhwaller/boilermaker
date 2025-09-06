@@ -8,7 +8,8 @@ class RegistrationsController < ApplicationController
   end
 
   def create
-    @account = Account.create!
+    account_name = params[:account_name].presence
+    @account = Account.create!(name: account_name)
     @user = @account.users.build(user_params)
 
     if @user.save

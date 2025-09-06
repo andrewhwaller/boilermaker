@@ -1,11 +1,16 @@
 ---
-app:
-  name: Boilermaker
-  version: 1.0.0
-  support_email: support@example.com
-features:
-  user_registration: true
-  password_reset: true
+default:
+  app:
+    name: Boilermaker
+    version: 1.0.0
+    support_email: support@example.com
+  features:
+    user_registration: true
+    password_reset: true
+    two_factor_authentication: false
+    multi_tenant: false
+    personal_accounts: false
+
 development:
   app:
     name: Test App
@@ -18,3 +23,5 @@ development:
     two_factor_authentication: false
     multi_tenant: false
     personal_accounts: false
+
+test: {}

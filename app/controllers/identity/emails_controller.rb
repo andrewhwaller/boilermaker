@@ -7,7 +7,15 @@ class Identity::EmailsController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
+    unless @user.authenticate(params[:password_challenge].to_s)
+      @user.errors.add(:base, "Password challenge is invalid")
+      return respond_to do |format|
+        format.html { render Views::Identity::Emails::EditFrame.new(user: @user), status: :unprocessable_entity }
+        format.turbo_stream { render Views::Identity::Emails::EditFrame.new(user: @user), status: :unprocessable_entity }
+      end
+    end
+
+    if @user.update(user_params.except(:password_challenge))
       # Send verification email if email was changed
       if @user.email_previously_changed?
         resend_email_verification
@@ -17,13 +25,13 @@ class Identity::EmailsController < ApplicationController
       end
 
       respond_to do |format|
-        format.html { render Views::Identity::Emails::EditFrame.new(user: @user, notice: notice_message) }
+        format.html { redirect_to root_url, notice: notice_message }
         format.turbo_stream { render Views::Identity::Emails::EditFrame.new(user: @user, notice: notice_message) }
       end
     else
       respond_to do |format|
-        format.html { render Views::Identity::Emails::EditFrame.new(user: @user, alert: @user.errors.full_messages.to_sentence), status: :unprocessable_entity }
-        format.turbo_stream { render Views::Identity::Emails::EditFrame.new(user: @user, alert: @user.errors.full_messages.to_sentence), status: :unprocessable_entity }
+        format.html { render Views::Identity::Emails::EditFrame.new(user: @user), status: :unprocessable_entity }
+        format.turbo_stream { render Views::Identity::Emails::EditFrame.new(user: @user), status: :unprocessable_entity }
       end
     end
   end

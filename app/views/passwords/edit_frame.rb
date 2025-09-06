@@ -26,20 +26,16 @@ module Views
       private
 
       def header
-        h3(class: "text-lg font-medium text-foreground mb-4") { "Password Settings" }
+        h3(class: "text-lg font-medium text-base-content mb-4") { "Password Settings" }
       end
 
       def notifications
         if @notice
-          div(class: "mb-4 p-3 bg-success/10 border border-green-200 text-success") do
-            @notice
-          end
+          div(class: "alert alert-success mb-4") { span { @notice } }
         end
 
         if @alert
-          div(class: "mb-4 p-3 bg-error/10 border border-red-200 text-error") do
-            @alert
-          end
+          div(class: "alert alert-error mb-4") { span { @alert } }
         end
       end
 
@@ -76,7 +72,7 @@ module Views
                 autocomplete: "new-password"
               )
             end
-            div(class: "text-sm text-muted-foreground mt-1") { "12 characters minimum." }
+            div(class: "text-sm text-base-content/70 mt-1") { "12 characters minimum." }
           end
 
           div do

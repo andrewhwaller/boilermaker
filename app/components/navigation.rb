@@ -7,9 +7,9 @@ class Components::Navigation < Components::Base
   include Phlex::Rails::Helpers::ButtonTo
 
   def view_template
-    nav(class: "border-b border-border p-4 flex items-center justify-between") do
-      branding if show_branding?
-      navigation_links
+    nav(class: "navbar bg-base-100 border-b border-base-300") do
+      div(class: "navbar-start") { branding if show_branding? }
+      div(class: "navbar-end w-full") { navigation_links }
     end
   end
 
@@ -17,12 +17,12 @@ class Components::Navigation < Components::Base
 
   def branding
     div do
-      link_to(app_name, root_path, class: "text-lg font-semibold text-foreground hover:text-secondary")
+      link_to(app_name, root_path, class: "btn btn-ghost normal-case text-xl")
     end
   end
 
   def navigation_links
-    div(class: "flex items-center gap-6") do
+    div(class: "flex items-center gap-4 ml-auto") do
       if Current.user.present?
         authenticated_links
       else
@@ -40,34 +40,40 @@ class Components::Navigation < Components::Base
     end
 
     div(class: "ml-auto flex items-center gap-4") do
+      # Theme toggle
+      render Components::ThemeToggle.new(show_label: false, position: :navbar)
+
       if show_account_dropdown?
         account_dropdown
       else
         button_to("Sign out", session_path(Current.session), method: :delete,
-                 class: "px-3 py-2 text-sm font-medium text-foreground hover:text-secondary border border-border hover:bg-accent bg-transparent")
+                 class: "btn btn-outline btn-sm")
       end
     end
   end
 
   def unauthenticated_links
-    if feature_enabled?("user_registration")
-      link_to("Sign up", sign_up_path, class: nav_link_class(sign_up_path))
-    end
+    div(class: "ml-auto flex items-center gap-4") do
+      # Theme toggle
+      render Components::ThemeToggle.new(show_label: false, position: :navbar)
 
-    link_to("Sign in", sign_in_path, class: nav_link_class(sign_in_path))
+      if feature_enabled?("user_registration")
+        link_to("Sign up", sign_up_path, class: nav_link_class(sign_up_path))
+      end
+
+      link_to("Sign in", sign_in_path, class: nav_link_class(sign_in_path))
+    end
   end
 
   def account_dropdown
     render Components::DropdownMenu.new(trigger_text: current_user_display_name) do
       render Components::DropdownMenuItem.new("Settings", settings_path)
-      
+
       if Rails.env.development?
-        render Components::DropdownMenuSeparator.new
         render Components::DropdownMenuItem.new("Email Preview", "/letter_opener", target: "_blank")
       end
-      
-      render Components::DropdownMenuSeparator.new
-      render Components::DropdownMenuItem.new("Sign out", session_path(Current.session), method: :delete, class: "text-destructive")
+
+      render Components::DropdownMenuItem.new("Sign out", session_path(Current.session), method: :delete, class: "text-error")
     end
   end
 
@@ -85,11 +91,11 @@ class Components::Navigation < Components::Base
   end
 
   def nav_link_class(path)
-    base_classes = "text-sm font-medium transition-colors hover:text-secondary"
+    base_classes = "link link-hover text-sm"
     if current_page?(path)
-      "#{base_classes} text-foreground"
+      "#{base_classes} text-primary"
     else
-      "#{base_classes} text-muted-foreground"
+      "#{base_classes} text-base-content/70"
     end
   end
 end

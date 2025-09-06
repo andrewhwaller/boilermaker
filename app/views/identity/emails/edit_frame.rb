@@ -16,7 +16,7 @@ module Views
 
       def view_template
         turbo_frame_tag "profile_settings" do
-          div(class: "p-6 border border-border bg-background") do
+          div(class: "p-6 border border-base-300 bg-base-100") do
             header
             notifications
             form_section
@@ -32,23 +32,19 @@ module Views
 
       def notifications
         if @notice
-          div(class: "mb-4 p-3 bg-green-50 border border-green-200 text-green-800") do
-            @notice
-          end
+          div(class: "alert alert-success mb-4") { span { @notice } }
         end
 
         if @alert
-          div(class: "mb-4 p-3 bg-red-50 border border-red-200 text-red-800") do
-            @alert
-          end
+          div(class: "alert alert-error mb-4") { span { @alert } }
         end
       end
 
       def form_section
         unless Current.user.verified?
-          div(class: "mb-6 p-4 bg-yellow-50 border border-yellow-200") do
-            p(class: "text-yellow-800 mb-2") { "Email verification required" }
-            p(class: "text-sm text-yellow-700") { "We sent a verification email to your address. Check that email and follow the instructions to confirm it's yours." }
+          div(class: "alert alert-warning mb-6") do
+            p(class: "font-medium") { "Email verification required" }
+            p(class: "text-sm") { "We sent a verification email to your address. Check that email and follow the instructions to confirm it's yours." }
           end
         end
 
@@ -59,9 +55,9 @@ module Views
       end
 
       def form_errors
-        div(class: "mb-4 p-3 bg-red-50 border border-red-200") do
-          strong(class: "text-red-800") { "#{pluralize(@user.errors.count, "error")} prohibited this change:" }
-          ul(class: "mt-2 text-sm text-red-700 list-disc list-inside") do
+        div(class: "alert alert-error mb-4") do
+          strong { "#{pluralize(@user.errors.count, "error")} prohibited this change:" }
+          ul(class: "mt-2 text-sm list-disc list-inside") do
             @user.errors.each do |error|
               li { error.full_message }
             end
@@ -75,10 +71,10 @@ module Views
             render Components::Label.new(for_id: "current_email", text: "Current email")
             div(class: "mt-1 flex items-center gap-2") do
               render Components::Input.new(
-                type: "email", 
-                name: "current_email", 
-                id: "current_email", 
-                value: Current.user.email, 
+                type: "email",
+                name: "current_email",
+                id: "current_email",
+                value: Current.user.email,
                 disabled: true
               )
               verification_status
@@ -109,13 +105,9 @@ module Views
 
       def verification_status
           if Current.user.verified?
-            span(class: "inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 border border-green-200") do
-              "✓ Verified"
-            end
+            span(class: "badge badge-success badge-sm") { "✓ Verified" }
           else
-            span(class: "inline-flex items-center px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200") do
-              "⚠ Unverified"
-            end
+            span(class: "badge badge-warning badge-sm") { "⚠ Unverified" }
           end
         end
       end

@@ -8,17 +8,14 @@ class Components::Label < Components::Base
   end
 
   def view_template(&block)
-    label_classes = "block text-sm font-medium text-foreground mb-2"
-
-    label(for: @for_id, class: label_classes) do
-      if block
-        yield
-      else
-        plain @text
-      end
-
-      if @required
-        span(class: "text-error ml-1") { "*" }
+    label(for: @for_id, class: "label") do
+      span(class: "label-text") do
+        if block
+          yield
+        else
+          plain @text
+        end
+        span(class: "text-error ml-1") { "*" } if @required
       end
     end
   end

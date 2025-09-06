@@ -13,7 +13,7 @@ module Views
           p { "Thanks for signing up! Please verify your email address by clicking the link below:" }
 
           div(class: "button-container") do
-            link_to "Verify Email", identity_email_verification_url(token: @signed_id), class: "button"
+            link_to "Verify Email", identity_email_verification_url(sid: @signed_id), class: "button"
           end
 
           p { "If you didn't create an account, you can safely ignore this email." }

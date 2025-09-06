@@ -36,9 +36,9 @@ class Views::Base < Components::Base
     section_class = "space-y-6"
     section_class = [ section_class, attrs.delete(:class) ].compact.join(" ")
 
-    section(**attrs.merge(class: section_class)) do
+    super(**attrs.merge(class: section_class)) do
       if title.present?
-        h2(class: "text-xl font-semibold text-foreground mb-4") { title }
+        h2(class: "text-xl font-semibold text-base-content mb-4") { title }
       end
       yield_content_or(&block)
     end
@@ -46,7 +46,7 @@ class Views::Base < Components::Base
 
   # Helper method to render a card container
   def card(**attrs, &block)
-    card_class = "bg-surface border border-border rounded-lg p-6 shadow-sm"
+    card_class = "bg-base-200 border border-base-300 rounded-lg p-6 shadow-sm"
     card_class = [ card_class, attrs.delete(:class) ].compact.join(" ")
 
     div(**attrs.merge(class: card_class)) do
@@ -58,14 +58,13 @@ class Views::Base < Components::Base
   def form_errors(model)
     return unless model&.errors&.any?
 
-    div(class: "bg-error/10 border border-red-200 rounded-lg p-4 mb-6") do
-      h3(class: "text-error font-medium mb-2") do
-        plain "#{pluralize(model.errors.count, "error")} prohibited this #{model.class.name.downcase} from being saved:"
-      end
-
-      ul(class: "list-disc list-inside space-y-1") do
-        model.errors.full_messages.each do |message|
-          li(class: "text-error text-sm") { message }
+    div(class: "alert alert-error mb-6") do
+      div do
+        strong { "#{pluralize(model.errors.count, "error")} prohibited this #{model.class.name.downcase} from being saved:" }
+        ul(class: "list-disc list-inside mt-2") do
+          model.errors.full_messages.each do |message|
+            li(class: "text-sm") { message }
+          end
         end
       end
     end

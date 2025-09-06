@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   get  "sign_in", to: "sessions#new"
 
   # Session management
-  resources :sessions, only: [ :show, :destroy ]
+  resources :sessions, only: [ :index, :show, :destroy ]
 
   # Password management
   resource :password, only: [ :edit, :update ]
@@ -63,5 +63,6 @@ Rails.application.routes.draw do
   # Mount letter_opener_web for email testing in development
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
+    get "components", to: "home#components", as: :components_showcase
   end
 end

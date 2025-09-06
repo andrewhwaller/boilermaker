@@ -6,15 +6,23 @@ class PasswordsController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
+    unless @user.authenticate(params[:password_challenge].to_s)
+      @user.errors.add(:base, "Password challenge is invalid")
+      return respond_to do |format|
+        format.html { render Views::Passwords::EditFrame.new(user: @user), status: :unprocessable_entity }
+        format.turbo_stream { render Views::Passwords::EditFrame.new(user: @user), status: :unprocessable_entity }
+      end
+    end
+
+    if @user.update(user_params.except(:password_challenge))
       respond_to do |format|
-        format.html { render Views::Passwords::EditFrame.new(user: @user, notice: "Password updated successfully") }
+        format.html { redirect_to root_url, notice: "Password updated successfully" }
         format.turbo_stream { render Views::Passwords::EditFrame.new(user: @user, notice: "Password updated successfully") }
       end
     else
       respond_to do |format|
-        format.html { render Views::Passwords::EditFrame.new(user: @user, alert: @user.errors.full_messages.to_sentence), status: :unprocessable_entity }
-        format.turbo_stream { render Views::Passwords::EditFrame.new(user: @user, alert: @user.errors.full_messages.to_sentence), status: :unprocessable_entity }
+        format.html { render Views::Passwords::EditFrame.new(user: @user), status: :unprocessable_entity }
+        format.turbo_stream { render Views::Passwords::EditFrame.new(user: @user), status: :unprocessable_entity }
       end
     end
   end
