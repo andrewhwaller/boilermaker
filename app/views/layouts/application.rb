@@ -20,7 +20,14 @@ module Views
       def view_template(&block)
         doctype
 
-        html(lang: "en", data: { controller: "theme" }) do
+        html(
+          lang: "en",
+          data: {
+            controller: "theme",
+            "theme-light-name-value": "platinum",
+            "theme-dark-name-value": "graphite"
+          }
+        ) do
           head do
             meta(charset: "utf-8")
             meta(name: "viewport", content: "width=device-width,initial-scale=1")

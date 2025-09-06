@@ -41,7 +41,7 @@ class Components::Navigation < Components::Base
 
     div(class: "ml-auto flex items-center gap-4") do
       # Theme toggle
-      render Components::ThemeToggle.new(show_label: false, position: :navbar)
+      render Components::ThemeToggle.new(show_label: true, position: :navbar)
 
       if show_account_dropdown?
         account_dropdown
