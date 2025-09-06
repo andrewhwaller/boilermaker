@@ -20,6 +20,14 @@ module Views
               form_errors(@user) if @user.errors.any?
 
               form_with(url: sign_up_path, class: "space-y-4") do |form|
+                # Account name
+                FormGroup(
+                  label_text: "Account name",
+                  input_type: :text,
+                  name: "account_name",
+                  id: "account_name",
+                  required: true
+                )
                 # Using shared EmailField component
                 EmailField(
                   name: "user[email]",
