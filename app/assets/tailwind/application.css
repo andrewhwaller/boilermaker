@@ -106,7 +106,17 @@
 
 /* remove prior data-theme CSS overrides – now using theme plugin */
 
-/* remove global Tailwind radius reset to let DaisyUI theme control radii */
+/* Force Tailwind rounded utilities to be square across the app */
+@theme {
+  --radius-sm: 0;
+  --radius: 0;      /* used by `rounded` */
+  --radius-md: 0;   /* `rounded-md` */
+  --radius-lg: 0;   /* `rounded-lg` */
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-full: 0; /* sets `rounded-full` to square too */
+}
 
 @font-face {
   font-family: "CommitMonoIndustrial";
