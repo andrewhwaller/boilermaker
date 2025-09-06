@@ -100,15 +100,25 @@
     font-size: 13px;
   }
   /* Smooth theme transitions when toggling */
+  :root {
+    --theme-fx-duration: 320ms;
+    --theme-fx-ease: cubic-bezier(0.6, 0, 1, 1);
+  }
   .theme-transition,
   .theme-transition * {
-    transition-property: background-color, color, border-color, fill, stroke;
-    transition-duration: 200ms;
-    transition-timing-function: ease-in-out;
+    transition-property: color, background-color, border-color, outline-color,
+      fill, stroke, box-shadow, text-decoration-color, caret-color;
+    transition-duration: var(--theme-fx-duration);
+    transition-timing-function: var(--theme-fx-ease);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .theme-transition,
+    .theme-transition * {
+      transition: none !important;
+    }
   }
 }
 
-/* (Removed mechanical switch animations for reliability) */
 
 /* remove prior data-theme CSS overrides – now using theme plugin */
 
