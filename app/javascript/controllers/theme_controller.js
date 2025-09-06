@@ -35,9 +35,9 @@ export default class extends Controller {
   // Get system preference from prefers-color-scheme
   getSystemPreference() {
     if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
-      return "business"
+      return "forest"
     }
-    return "corporate"
+    return "default"
   }
 
   // Get stored theme preference from localStorage
@@ -67,7 +67,7 @@ export default class extends Controller {
     // Add temporary class to enable smooth transitions
     try { this.element.classList.add('theme-transition') } catch {}
     // Set DaisyUI data-theme attribute on the element this controller is attached to
-    if (theme === "business" || theme === "corporate") {
+    if (theme === "forest" || theme === "default") {
       this.element.setAttribute("data-theme", theme)
     } else {
       // Remove data-theme to use system default
@@ -91,7 +91,7 @@ export default class extends Controller {
 
   // Set theme and persist preference
   setTheme(theme) {
-    if (!["corporate", "business", "system"].includes(theme)) {
+    if (!["default", "forest", "system"].includes(theme)) {
       return false
     }
 
@@ -103,10 +103,10 @@ export default class extends Controller {
     return true
   }
 
-  // Toggle between corporate and business themes
+  // Toggle between default and forest themes
   toggleTheme() {
     const currentTheme = this.getCurrentTheme()
-    const newTheme = currentTheme === "business" ? "corporate" : "business"
+    const newTheme = currentTheme === "forest" ? "default" : "forest"
     return this.setTheme(newTheme)
   }
 
@@ -135,19 +135,19 @@ export default class extends Controller {
     
     // Only react to system changes if user hasn't set explicit preference
     if (!storedTheme || storedTheme === "system") {
-      const newTheme = event.matches ? "business" : "corporate"
+      const newTheme = event.matches ? "forest" : "default"
       this.applyTheme(newTheme)
     }
   }
 
   // Stimulus action methods (can be used with data-action)
-  corporate() {
-    return this.setTheme("corporate")
-  }
+  // Backward-compat method names used by existing buttons
+  corporate() { return this.setTheme("default") }
+  business() { return this.setTheme("forest") }
 
-  business() {
-    return this.setTheme("business")
-  }
+  // New explicit methods for renamed themes
+  default() { return this.setTheme("default") }
+  forest() { return this.setTheme("forest") }
 
   system() {
     return this.setTheme("system")
@@ -172,8 +172,8 @@ export default class extends Controller {
     if (!this.hasButtonTarget) return
     
     // Determine current theme from DOM if not provided
-    const currentTheme = theme || (this.element.getAttribute('data-theme') === 'business' ? 'business' : 'corporate')
-    const isDark = currentTheme === 'business'
+    const currentTheme = theme || (this.element.getAttribute('data-theme') === 'forest' ? 'forest' : 'default')
+    const isDark = currentTheme === 'forest'
 
     // Update button ARIA state
     this.buttonTarget.setAttribute('aria-pressed', isDark.toString())
