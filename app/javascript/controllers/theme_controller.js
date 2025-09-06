@@ -2,9 +2,11 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="theme"
 export default class extends Controller {
-  static targets = ["button", "indicator", "sunIcon", "moonIcon"]
+  static targets = ["button", "indicator"]
   static values = {
-    storageKey: { type: String, default: "theme-preference" }
+    storageKey: { type: String, default: "theme-preference" },
+    lightName:  { type: String, default: "platinum" },
+    darkName:   { type: String, default: "graphite" }
   }
 
   connect() {
@@ -19,15 +21,15 @@ export default class extends Controller {
 
   // Initialize theme on connect - prevents FOUC
   initializeTheme() {
-    const theme = this.getCurrentTheme()
-    this.applyTheme(theme)
+    const mode = this.getCurrentMode()
+    this.applyMode(mode)
   }
 
-  // Get current effective theme
-  getCurrentTheme() {
-    const stored = this.getStoredTheme()
+  // Get current effective mode ("light" | "dark") or system-derived
+  getCurrentMode() {
+    const stored = this.getStoredMode()
     if (stored && stored !== "system") {
-      return stored
+      return stored // "light" | "dark"
     }
     return this.getSystemPreference()
   }
@@ -35,50 +37,58 @@ export default class extends Controller {
   // Get system preference from prefers-color-scheme
   getSystemPreference() {
     if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
-      return "forest"
+      return "dark"
     }
-    return "default"
+    return "light"
   }
 
-  // Get stored theme preference from localStorage
-  getStoredTheme() {
+  // Get stored mode preference from localStorage (supports back-compat names)
+  getStoredMode() {
     try {
-      return localStorage.getItem(this.storageKeyValue)
+      const v = localStorage.getItem(this.storageKeyValue)
+      if (!v) return null
+      // Back-compat: map historical theme names to modes
+      if (["default", "platinum", "corporate"].includes(v)) return "light"
+      if (["forest", "graphite", "business"].includes(v)) return "dark"
+      if (["light", "dark", "system"].includes(v)) return v
+      return null
     } catch {
       return null
     }
   }
 
-  // Store theme preference in localStorage
-  setStoredTheme(theme) {
+  // Store mode preference in localStorage
+  setStoredMode(mode) {
     try {
-      if (theme === "system") {
+      if (mode === "system") {
         localStorage.removeItem(this.storageKeyValue)
       } else {
-        localStorage.setItem(this.storageKeyValue, theme)
+        localStorage.setItem(this.storageKeyValue, mode)
       }
     } catch {
       // localStorage not available, theme will default to system
     }
   }
 
-  // Apply theme using DaisyUI data-theme on the controller's element
-  applyTheme(theme) {
+  // Apply mode by setting DaisyUI data-theme to configured light/dark names
+  applyMode(mode) {
     // Add temporary class to enable smooth transitions
     try { this.element.classList.add('theme-transition') } catch {}
     // Set DaisyUI data-theme attribute on the element this controller is attached to
-    if (theme === "forest" || theme === "default") {
-      this.element.setAttribute("data-theme", theme)
+    if (mode === "dark" || mode === "light") {
+      const themeName = mode === "dark" ? this.darkNameValue : this.lightNameValue
+      this.element.setAttribute("data-theme", themeName)
     } else {
       // Remove data-theme to use system default
       this.element.removeAttribute("data-theme")
     }
     
     // Update toggle UI state
-    this.updateToggleState(theme)
+    this.updateToggleState(mode)
     
     // Dispatch theme change event for other controllers
-    this.dispatch("change", { detail: { theme } })
+    const appliedTheme = this.element.getAttribute('data-theme') || null
+    this.dispatch("change", { detail: { mode, theme: appliedTheme } })
 
     // Remove transition class after animation completes
     try {
@@ -89,25 +99,24 @@ export default class extends Controller {
     } catch {}
   }
 
-  // Set theme and persist preference
-  setTheme(theme) {
-    if (!["default", "forest", "system"].includes(theme)) {
-      return false
-    }
+  // Set mode ("light" | "dark" | "system") and persist preference
+  setMode(mode) {
+    // Back-compat mapping from theme names to modes
+    if (["platinum", "default", "corporate"].includes(mode)) mode = "light"
+    if (["graphite", "forest", "business"].includes(mode)) mode = "dark"
+    if (!["light", "dark", "system"].includes(mode)) return false
 
-    this.setStoredTheme(theme)
-    
-    const effectiveTheme = theme === "system" ? this.getSystemPreference() : theme
-    this.applyTheme(effectiveTheme)
-    
+    this.setStoredMode(mode)
+    const effective = mode === "system" ? this.getSystemPreference() : mode
+    this.applyMode(effective)
     return true
   }
 
-  // Toggle between default and forest themes
+  // Toggle between light and dark modes
   toggleTheme() {
-    const currentTheme = this.getCurrentTheme()
-    const newTheme = currentTheme === "forest" ? "default" : "forest"
-    return this.setTheme(newTheme)
+    const current = this.getCurrentMode()
+    const next = current === "dark" ? "light" : "dark"
+    return this.setMode(next)
   }
 
   // System preference change handling
@@ -131,30 +140,35 @@ export default class extends Controller {
   }
 
   handleSystemPreferenceChange(event) {
-    const storedTheme = this.getStoredTheme()
+    const stored = this.getStoredMode()
     
     // Only react to system changes if user hasn't set explicit preference
-    if (!storedTheme || storedTheme === "system") {
-      const newTheme = event.matches ? "forest" : "default"
-      this.applyTheme(newTheme)
+    if (!stored || stored === "system") {
+      const mode = event.matches ? "dark" : "light"
+      this.applyMode(mode)
     }
   }
 
   // Stimulus action methods (can be used with data-action)
   // Backward-compat method names used by existing buttons
-  corporate() { return this.setTheme("default") }
-  business() { return this.setTheme("forest") }
+  corporate() { return this.setMode("light") }
+  business() { return this.setMode("dark") }
 
-  // New explicit methods for renamed themes
-  default() { return this.setTheme("default") }
-  forest() { return this.setTheme("forest") }
+  // New explicit methods for modes
+  light() { return this.setMode("light") }
+  dark() { return this.setMode("dark") }
+  // Back-compat for any old actions
+  platinum() { return this.setMode("light") }
+  graphite() { return this.setMode("dark") }
+  default() { return this.setMode("light") }
+  forest() { return this.setMode("dark") }
 
-  system() {
-    return this.setTheme("system")
-  }
+  system() { return this.setMode("system") }
 
   toggle() {
-    return this.toggleTheme()
+    // Route keyboard-driven toggle through the same animation path
+    this.animateToggle()
+    return true
   }
 
   // Handle keyboard shortcuts
@@ -167,28 +181,79 @@ export default class extends Controller {
   }
 
   // Update toggle button visual state
-  updateToggleState(theme = null) {
+  updateToggleState(mode = null) {
     // Only update if we have toggle targets
     if (!this.hasButtonTarget) return
     
-    // Determine current theme from DOM if not provided
-    const currentTheme = theme || (this.element.getAttribute('data-theme') === 'forest' ? 'forest' : 'default')
-    const isDark = currentTheme === 'forest'
+    // Determine current mode if not provided
+    let isDark
+    if (mode) {
+      isDark = mode === 'dark'
+    } else {
+      const currentName = this.element.getAttribute('data-theme')
+      isDark = currentName === this.darkNameValue
+    }
 
     // Update button ARIA state
     this.buttonTarget.setAttribute('aria-pressed', isDark.toString())
 
-    // Update indicator position
+    // Position knob without animation for current mode
     if (this.hasIndicatorTarget) {
-      this.indicatorTarget.classList.toggle('translate-x-7', isDark)
+      try {
+        const pad = 2
+        const track = this.buttonTarget.clientWidth
+        const knob = this.indicatorTarget.offsetWidth
+        const travel = Math.max(0, track - pad * 2 - knob)
+        const target = isDark ? travel : 0
+        const prev = this.indicatorTarget.style.transition
+        this.indicatorTarget.style.transition = 'none'
+        this.indicatorTarget.style.transform = `translateX(${target}px)`
+        // force reflow to apply immediately
+        void this.indicatorTarget.offsetWidth
+        this.indicatorTarget.style.transition = prev || ''
+      } catch {}
     }
+  }
 
-    // Update icon visibility
-    if (this.hasSunIconTarget && this.hasMoonIconTarget) {
-      this.sunIconTarget.classList.toggle('opacity-0', isDark)
-      this.sunIconTarget.classList.toggle('opacity-100', !isDark)
-      this.moonIconTarget.classList.toggle('opacity-0', !isDark)
-      this.moonIconTarget.classList.toggle('opacity-100', isDark)
+  // Animate first, then apply mode so theme changes after the motion
+  animateToggle() {
+    const current = this.getCurrentMode()
+    const targetMode = current === 'dark' ? 'light' : 'dark'
+    // Update visual pressed state immediately for a11y
+    const targetIsDark = targetMode === 'dark'
+    this.buttonTarget.setAttribute('aria-pressed', targetIsDark.toString())
+
+    if (!this.hasIndicatorTarget) return this.setMode(targetMode)
+
+    try {
+      // Measure travel
+      const pad = 2
+      const track = this.buttonTarget.clientWidth
+      const knob = this.indicatorTarget.offsetWidth
+      const travel = Math.max(0, track - pad * 2 - knob)
+      const startX = current === 'dark' ? travel : 0
+      const endX = targetIsDark ? travel : 0
+      // set starting position explicitly to avoid jumps
+      const prev = this.indicatorTarget.style.transition
+      this.indicatorTarget.style.transition = 'none'
+      this.indicatorTarget.style.transform = `translateX(${startX}px)`
+      void this.indicatorTarget.offsetWidth
+      this.indicatorTarget.style.transition = prev || ''
+
+      // Set transition and animate (slower start, quicker finish)
+      this.indicatorTarget.style.transition = 'transform 320ms cubic-bezier(0.6, 0, 1, 1)'
+      this.indicatorTarget.style.transform = `translateX(${endX}px)`
+
+      // On complete, apply the mode (updates data-theme and persists)
+      const onDone = (ev) => {
+        if (ev.propertyName !== 'transform') return
+        this.indicatorTarget.removeEventListener('transitionend', onDone)
+        this.setMode(targetMode)
+      }
+      this.indicatorTarget.addEventListener('transitionend', onDone)
+    } catch {
+      // Fallback: just set the mode
+      this.setMode(targetMode)
     }
   }
 }
