@@ -4,6 +4,7 @@ require "fileutils"
 require_relative "boilermaker/version"
 require_relative "boilermaker/config"
 require_relative "boilermaker/engine"
+require_relative "boilermaker/themes"
 
 # Require routes after engine is loaded
 require_relative "boilermaker/config/routes"

@@ -42,41 +42,17 @@
 <div class="settings-section">
   <h2>Theme Configuration</h2>
   
-  <% if @settings.any? && @settings['ui'] && @settings['ui']['theme'] %>
-    <div class="config-grid">
-      <div class="config-item">
-        <span class="config-label">Default Theme</span>
-        <span class="config-value"><%= @settings.dig('ui', 'theme', 'default') || 'corporate' %></span>
-      </div>
-      
-      <div class="config-item">
-        <span class="config-label">Dark Mode Theme</span>
-        <span class="config-value"><%= @settings.dig('ui', 'theme', 'dark') || 'business' %></span>
-      </div>
-      
-      <div class="config-item">
-        <span class="config-label">Allow Theme Switching</span>
-        <span class="config-value"><%= @settings.dig('ui', 'theme', 'allow_switching') ? 'Yes' : 'No' %></span>
-      </div>
+  <div class="config-grid">
+    <div class="config-item">
+      <span class="config-label">Light Theme</span>
+      <span class="config-value"><%= @settings.dig('ui', 'theme', 'light') || 'platinum' %></span>
     </div>
-  <% else %>
-    <div class="config-grid">
-      <div class="config-item">
-        <span class="config-label">Default Theme</span>
-        <span class="config-value">corporate</span>
-      </div>
-      
-      <div class="config-item">
-        <span class="config-label">Dark Mode Theme</span>
-        <span class="config-value">business</span>
-      </div>
-      
-      <div class="config-item">
-        <span class="config-label">Allow Theme Switching</span>
-        <span class="config-value">Yes</span>
-      </div>
+    
+    <div class="config-item">
+      <span class="config-label">Dark Theme</span>
+      <span class="config-value"><%= @settings.dig('ui', 'theme', 'dark') || 'graphite' %></span>
     </div>
-  <% end %>
+  </div>
 </div>
 
 <!-- Feature Toggles -->

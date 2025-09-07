@@ -131,6 +131,48 @@
     <% end %>
   </div>
 
+  <!-- UI Theme Selection -->
+  <div class="settings-section">
+    <h2>UI Theme</h2>
+
+    <div class="form-grid">
+      <%= form.fields_for :ui do |ui_form| %>
+        <%= ui_form.fields_for :theme do |theme_form| %>
+          <% builtins_light = Boilermaker::Themes::LIGHT %>
+          <% builtins_dark  = Boilermaker::Themes::DARK %>
+          <% custom_light = [["platinum (custom)", "platinum"]] %>
+          <% custom_dark  = [["graphite (custom)", "graphite"]] %>
+          <% grouped_light = [
+            ["Custom", custom_light],
+            ["Light (built-in)", builtins_light.sort.map { |n| [n, n] }]
+          ] %>
+          <% grouped_dark = [
+            ["Custom", custom_dark],
+            ["Dark (built-in)", builtins_dark.sort.map { |n| [n, n] }]
+          ] %>
+
+          <div class="form-group">
+            <%= theme_form.label :light, "Light Theme", class: "form-label" %>
+            <%= theme_form.select :light,
+                  grouped_options_for_select(grouped_light, @settings.dig('ui', 'theme', 'light') || 'platinum'),
+                  {},
+                  class: "form-control" %>
+          </div>
+
+          <div class="form-group">
+            <%= theme_form.label :dark, "Dark Theme", class: "form-label" %>
+            <%= theme_form.select :dark,
+                  grouped_options_for_select(grouped_dark, @settings.dig('ui', 'theme', 'dark') || 'graphite'),
+                  {},
+                  class: "form-control" %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <p class="help-text">Built-in DaisyUI themes must be included at build time. Saving updates the prebuilt theme list so Tailwind bundles only the selected built-ins; custom themes (platinum/graphite) are always available.</p>
+  </div>
+
   <!-- Actions -->
   <div class="actions-section">
     <div class="action-info">
