@@ -41,11 +41,11 @@ module Views
           p(class: "text-sm text-base-content/70 mb-6") { "Choose your preferred theme for the application" }
 
           div(class: "grid grid-cols-1 md:grid-cols-3 gap-4") do
-            # Corporate Theme Option
+            # Light Theme Option
             div(class: "border border-base-300 rounded-lg p-4 hover:border-primary transition-colors cursor-pointer",
-                data: { action: "click->theme#corporate" }) do
+                data: { action: "click->theme#light" }) do
               div(class: "flex items-center justify-between mb-3") do
-                h3(class: "font-medium text-base-content") { "Corporate" }
+                h3(class: "font-medium text-base-content") { "Light" }
                 div(class: "w-4 h-4 rounded-full bg-white border-2 border-gray-300")
               end
               p(class: "text-sm text-base-content/70 mb-3") { "Clean, professional light theme" }
@@ -56,11 +56,11 @@ module Views
               end
             end
 
-            # Business Theme Option
+            # Dark Theme Option
             div(class: "border border-base-300 rounded-lg p-4 hover:border-primary transition-colors cursor-pointer",
-                data: { action: "click->theme#business" }) do
+                data: { action: "click->theme#dark" }) do
               div(class: "flex items-center justify-between mb-3") do
-                h3(class: "font-medium text-base-content") { "Business" }
+                h3(class: "font-medium text-base-content") { "Dark" }
                 div(class: "w-4 h-4 rounded-full bg-gray-800 border-2 border-gray-600")
               end
               p(class: "text-sm text-base-content/70 mb-3") { "Sophisticated dark theme" }
