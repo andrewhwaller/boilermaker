@@ -50,10 +50,10 @@ module Views
                   table(class: "table table-xs w-full") do
                     thead do
                       tr(class: "border-b border-base-300") do
-                        th(class: "font-semibold text-sm px-2") { "User" }
-                        th(class: "font-semibold text-sm px-1") { "Role" }
-                        th(class: "font-semibold text-sm px-1") { "Joined" }
-                        th(class: "font-semibold text-sm px-1 text-right") { "Actions" }
+                        th(class: "font-semibold text-base px-2") { "User" }
+                        th(class: "font-semibold text-base px-1") { "Role" }
+                        th(class: "font-semibold text-base px-1") { "Joined" }
+                        th(class: "font-semibold text-base px-1 text-right") { "Actions" }
                       end
                     end
                     tbody do
@@ -61,18 +61,18 @@ module Views
                         tr(class: "hover:bg-base-200/50 border-0") do
                           td(class: "py-1 px-2") do
                             div(class: "flex items-center gap-2") do
-                              div(class: "w-5 h-5 rounded-full bg-primary text-primary-content flex items-center justify-center text-sm") do
+                              div(class: "w-6 h-6 rounded-full bg-primary text-primary-content flex items-center justify-center text-base") do
                                 user.email[0].upcase
                               end
-                              div(class: "text-sm truncate max-w-48") do
+                              div(class: "text-base truncate max-w-48") do
                                 plain(user.email)
                                 if user == Current.user
-                                  span(class: "text-sm text-primary ml-1") { "(you)" }
+                                  span(class: "text-base text-primary ml-1") { "(you)" }
                                 end
                               end
                             end
                           end
-                          td(class: "py-1 px-1 text-sm text-base-content/70") do
+                          td(class: "py-1 px-1 text-base text-base-content/70") do
                             if user.admin?
                               span(class: "text-primary") { "Admin" }
                             elsif !user.verified?
@@ -81,7 +81,7 @@ module Views
                               span(class: "text-base-content/50") { "Member" }
                             end
                           end
-                          td(class: "py-1 px-1 text-sm text-base-content/70") { time_ago_in_words(user.created_at) }
+                          td(class: "py-1 px-1 text-base text-base-content/70") { time_ago_in_words(user.created_at) }
                           td(class: "py-1 px-1 text-right") do
                             div(class: "flex justify-end gap-0.5") do
                               if user.verified? && user != Current.user
@@ -117,7 +117,7 @@ module Views
                 if @total_users > 5
                   div(class: "text-center mt-2") do
                     link_to("View all #{@total_users} users →", account_admin_users_path, 
-                      class: "text-sm text-primary hover:underline")
+                      class: "text-base text-primary hover:underline")
                   end
                 end
               else

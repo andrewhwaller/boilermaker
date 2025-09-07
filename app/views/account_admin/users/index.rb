@@ -40,12 +40,12 @@ module Views
                 table(class: "table table-xs w-full") do
                   thead do
                     tr(class: "border-b border-base-300") do
-                      th(class: "font-semibold text-sm px-2") { "User" }
-                      th(class: "font-semibold text-sm px-1 text-center") { "Status" }
-                      th(class: "font-semibold text-sm px-1") { "Role" }
-                      th(class: "font-semibold text-sm px-1 text-center") { "Sessions" }
-                      th(class: "font-semibold text-sm px-1") { "Joined" }
-                      th(class: "font-semibold text-sm px-1 text-right") { "Actions" }
+                      th(class: "font-semibold text-base px-2") { "User" }
+                      th(class: "font-semibold text-base px-1 text-center") { "Status" }
+                      th(class: "font-semibold text-base px-1") { "Role" }
+                      th(class: "font-semibold text-base px-1 text-center") { "Sessions" }
+                      th(class: "font-semibold text-base px-1") { "Joined" }
+                      th(class: "font-semibold text-base px-1 text-right") { "Actions" }
                     end
                   end
                   
@@ -54,33 +54,33 @@ module Views
                       tr(class: "hover:bg-base-200/50") do
                         td(class: "py-1") do
                           div(class: "flex items-center gap-2") do
-                            div(class: "w-6 h-6 rounded-full bg-primary text-primary-content flex items-center justify-center text-sm font-medium") do
+                            div(class: "w-7 h-7 rounded-full bg-primary text-primary-content flex items-center justify-center text-base font-medium") do
                               user.email[0].upcase
                             end
                             div do
                               plain(user.email)
                               if user == Current.user
-                                span(class: "text-sm text-primary ml-1") { "(you)" }
+                                span(class: "text-base text-primary ml-1") { "(you)" }
                               end
                             end
                           end
                         end
                         td(class: "py-1 text-center") do
                           if user.verified?
-                            span(class: "text-sm text-success") { "✓" }
+                            span(class: "text-base text-success") { "✓" }
                           else
-                            span(class: "text-sm text-warning") { "⏳" }
+                            span(class: "text-base text-warning") { "⏳" }
                           end
                         end
                         td(class: "py-1") do
                           if user.admin?
-                            span(class: "text-sm text-primary font-medium") { "Admin" }
+                            span(class: "text-base text-primary font-medium") { "Admin" }
                           else
-                            span(class: "text-sm text-base-content/60") { "Member" }
+                            span(class: "text-base text-base-content/60") { "Member" }
                           end
                         end
-                        td(class: "py-1 text-sm text-base-content/70 text-center") { user.sessions.count }
-                        td(class: "py-1 text-sm text-base-content/70") { time_ago_in_words(user.created_at) }
+                        td(class: "py-1 text-base text-base-content/70 text-center") { user.sessions.count }
+                        td(class: "py-1 text-base text-base-content/70") { time_ago_in_words(user.created_at) }
                         td(class: "py-1 text-right") do
                           div(class: "flex justify-end gap-0.5") do
                             if user.verified?
