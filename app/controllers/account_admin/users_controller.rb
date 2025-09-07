@@ -4,19 +4,23 @@ class AccountAdmin::UsersController < AccountAdmin::BaseController
   def index
     @users = Current.user.account.users.order(created_at: :desc)
     @users = @users.where("email ILIKE ?", "%#{params[:search]}%") if params[:search].present?
+    
+    render Views::AccountAdmin::Users::Index.new(users: @users)
   end
 
   def show
+    render Views::AccountAdmin::Users::Show.new(user: @user)
   end
 
   def edit
+    render Views::AccountAdmin::Users::Edit.new(user: @user)
   end
 
   def update
     if @user.update(user_params)
       redirect_to account_admin_user_path(@user), notice: "User updated successfully."
     else
-      render :edit, status: :unprocessable_entity
+      render Views::AccountAdmin::Users::Edit.new(user: @user), status: :unprocessable_entity
     end
   end
 

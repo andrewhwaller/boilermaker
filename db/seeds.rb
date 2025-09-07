@@ -8,6 +8,9 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+User.destroy_all
+Account.destroy_all
+
 # Create default admin account
 admin_account = Account.create!(name: "Default")
 
@@ -16,5 +19,6 @@ User.create!(
   email: "admin@example.com",
   password: "password1234",
   verified: true,
+  admin: true,
   account: admin_account
 )

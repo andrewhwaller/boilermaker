@@ -3,10 +3,12 @@ class AccountAdmin::InvitationsController < AccountAdmin::BaseController
 
   def index
     @pending_users = Current.user.account.users.where(verified: false).order(created_at: :desc)
+    render Views::AccountAdmin::Invitations::Index.new(pending_users: @pending_users)
   end
 
   def new
     @invitation = InvitationForm.new
+    render Views::AccountAdmin::Invitations::New.new(invitation: @invitation)
   end
 
   def create
@@ -27,10 +29,10 @@ class AccountAdmin::InvitationsController < AccountAdmin::BaseController
           notice: "Invitation sent to #{user.email}"
       else
         @invitation.errors.merge!(user.errors)
-        render :new, status: :unprocessable_entity
+        render Views::AccountAdmin::Invitations::New.new(invitation: @invitation), status: :unprocessable_entity
       end
     else
-      render :new, status: :unprocessable_entity
+      render Views::AccountAdmin::Invitations::New.new(invitation: @invitation), status: :unprocessable_entity
     end
   end
 

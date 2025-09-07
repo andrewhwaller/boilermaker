@@ -2,16 +2,18 @@ class AccountAdmin::SettingsController < AccountAdmin::BaseController
   before_action :set_account
 
   def show
+    render Views::AccountAdmin::Settings::Show.new(account: @account)
   end
 
   def edit
+    render Views::AccountAdmin::Settings::Edit.new(account: @account)
   end
 
   def update
     if @account.update(account_params)
       redirect_to account_admin_settings_path, notice: "Account settings updated successfully."
     else
-      render :edit, status: :unprocessable_entity
+      render Views::AccountAdmin::Settings::Edit.new(account: @account), status: :unprocessable_entity
     end
   end
 
