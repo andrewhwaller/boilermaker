@@ -9,8 +9,9 @@ module Views
         include Phlex::Rails::Helpers::Pluralize
         include Phlex::Rails::Helpers::TimeAgoInWords
 
-        def initialize(users:)
+        def initialize(users:, search: nil)
           @users = users
+          @search = search
         end
 
         def view_template
@@ -27,7 +28,7 @@ module Views
                 # Search form
                 form_with(url: account_admin_users_path, method: :get, local: true, class: "flex gap-2") do |f|
                   f.text_field :search, placeholder: "Search users by email...",
-                    value: params[:search],
+                    value: @search,
                     class: "input input-bordered flex-1"
                   f.submit "Search", class: "btn btn-outline"
                 end
@@ -99,14 +100,14 @@ module Views
                 else
                   div(class: "text-center py-8") do
                     p(class: "text-base-content/70 mb-4") do
-                      if params[:search].present?
-                        "No users found matching \"#{params[:search]}\""
+                      if @search.present?
+                        "No users found matching \"#{@search}\""
                       else
                         "No users found."
                       end
                     end
                     
-                    if params[:search].present?
+                    if @search.present?
                       link_to("Clear search", account_admin_users_path, class: "link link-primary")
                     end
                   end
