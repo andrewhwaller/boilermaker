@@ -35,55 +35,71 @@ module Views
               end
             end
 
-            # Dense user list with inline actions
-            div(class: "bg-base-200 rounded-box p-4") do
-              div(class: "flex items-center justify-between mb-3") do
+            # Compact users table
+            div do
+              div(class: "flex items-center justify-between mb-2") do
                 h2(class: "font-semibold text-base-content") { "Users" }
-                form_with(url: account_admin_users_path, method: :get, local: true, class: "flex gap-2 flex-1 max-w-xs ml-4") do |f|
-                  f.text_field :search, placeholder: "Search...", class: "input input-sm input-bordered flex-1"
-                  f.submit "Go", class: "btn btn-sm btn-outline"
+                form_with(url: account_admin_users_path, method: :get, local: true, class: "flex gap-1") do |f|
+                  f.text_field :search, placeholder: "Search...", class: "input input-xs input-bordered w-24"
+                  f.submit "Go", class: "btn btn-xs btn-outline"
                 end
               end
 
               if @recent_users.any?
-                div(class: "space-y-1") do
-                  @recent_users.each do |user|
-                    div(class: "flex items-center justify-between py-2 px-3 rounded hover:bg-base-300 transition-colors") do
-                      div(class: "flex items-center gap-3 flex-1 min-w-0") do
-                        div(class: "avatar placeholder flex-shrink-0") do
-                          div(class: "bg-primary text-primary-content w-6 h-6 rounded-full text-xs") do
-                            span { user.email[0].upcase }
-                          end
-                        end
-                        div(class: "min-w-0 flex-1") do
-                          div(class: "font-medium text-sm truncate") do
-                            plain(user.email)
-                            if user == Current.user
-                              span(class: "text-xs text-primary ml-2") { "(you)" }
+                div(class: "overflow-x-auto -mx-2") do
+                  table(class: "table table-xs w-full") do
+                    tbody do
+                      @recent_users.each do |user|
+                        tr(class: "hover:bg-base-200/50 border-0") do
+                          td(class: "py-1 px-2") do
+                            div(class: "flex items-center gap-2") do
+                              div(class: "w-4 h-4 rounded-full bg-primary text-primary-content flex items-center justify-center text-xs") do
+                                user.email[0].upcase
+                              end
+                              div(class: "text-sm truncate max-w-48") do
+                                plain(user.email)
+                                if user == Current.user
+                                  span(class: "text-xs text-primary ml-1") { "(you)" }
+                                end
+                              end
                             end
                           end
-                          div(class: "flex items-center gap-2 text-xs text-base-content/70") do
-                            plain(time_ago_in_words(user.created_at) + " ago")
+                          td(class: "py-1 px-1 text-xs text-base-content/70") do
                             if user.admin?
-                              span(class: "badge badge-primary badge-xs") { "admin" }
-                            end
-                            unless user.verified?
-                              span(class: "badge badge-warning badge-xs") { "pending" }
+                              span(class: "text-primary") { "Admin" }
+                            elsif !user.verified?
+                              span(class: "text-warning") { "Pending" }
+                            else
+                              span(class: "text-base-content/50") { "Member" }
                             end
                           end
-                        end
-                      end
-                      div(class: "flex gap-1 flex-shrink-0") do
-                        link_to("Edit", edit_account_admin_user_path(user), 
-                          class: "btn btn-ghost btn-xs")
-                        if user.verified?
-                          link_to("View", account_admin_user_path(user), 
-                            class: "btn btn-ghost btn-xs")
-                        else
-                          button_to("Cancel", account_admin_invitation_path(user), 
-                            method: :delete,
-                            class: "btn btn-error btn-xs",
-                            confirm: "Cancel invitation?")
+                          td(class: "py-1 px-1 text-xs text-base-content/70") { time_ago_in_words(user.created_at) }
+                          td(class: "py-1 px-1 text-right") do
+                            div(class: "flex justify-end gap-0.5") do
+                              if user.verified? && user != Current.user
+                                if user.admin?
+                                  button_to("−", account_admin_user_path(user),
+                                    method: :patch,
+                                    params: { user: { admin: false } },
+                                    class: "btn btn-xs btn-square btn-warning",
+                                    confirm: "Remove admin?",
+                                    title: "Remove admin")
+                                else
+                                  button_to("+", account_admin_user_path(user),
+                                    method: :patch,
+                                    params: { user: { admin: true } },
+                                    class: "btn btn-xs btn-square btn-success",
+                                    title: "Make admin")
+                                end
+                              elsif !user.verified?
+                                button_to("✕", account_admin_invitation_path(user), 
+                                  method: :delete,
+                                  class: "btn btn-xs btn-square btn-error",
+                                  confirm: "Cancel?",
+                                  title: "Cancel invitation")
+                              end
+                            end
+                          end
                         end
                       end
                     end
@@ -91,16 +107,16 @@ module Views
                 end
                 
                 if @total_users > 5
-                  div(class: "text-center mt-3 pt-3 border-t border-base-300") do
+                  div(class: "text-center mt-2") do
                     link_to("View all #{@total_users} users →", account_admin_users_path, 
-                      class: "text-sm text-primary hover:underline")
+                      class: "text-xs text-primary hover:underline")
                   end
                 end
               else
-                div(class: "text-center py-6 text-base-content/70") do
+                div(class: "text-center py-4 text-base-content/70") do
                   p(class: "text-sm mb-2") { "No users yet" }
                   link_to("Send first invitation", new_account_admin_invitation_path, 
-                    class: "btn btn-primary btn-sm")
+                    class: "btn btn-primary btn-xs")
                 end
               end
             end

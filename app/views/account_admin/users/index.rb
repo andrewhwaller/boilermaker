@@ -34,84 +34,88 @@ module Views
               end
             end
 
-            # Dense user list
+            # Dense users table
             if @users.any?
-              div(class: "bg-base-200 rounded-box p-3") do
-                div(class: "space-y-1") do
-                  @users.each do |user|
-                    div(class: "flex items-center justify-between py-2 px-3 rounded hover:bg-base-300 transition-colors") do
-                      # User info section - denser layout
-                      div(class: "flex items-center gap-3 flex-1 min-w-0") do
-                        div(class: "avatar placeholder flex-shrink-0") do
-                          div(class: "bg-primary text-primary-content w-8 h-8 rounded-full text-sm") do
-                            span { user.email[0].upcase }
-                          end
-                        end
-                        
-                        div(class: "min-w-0 flex-1") do
-                          div(class: "font-medium text-sm truncate") do
-                            plain(user.email)
-                            if user == Current.user
-                              span(class: "text-xs text-primary ml-2") { "(you)" }
+              div(class: "overflow-x-auto -mx-2") do
+                table(class: "table table-xs w-full") do
+                  thead do
+                    tr(class: "border-b border-base-300") do
+                      th(class: "font-semibold text-xs") { "User" }
+                      th(class: "font-semibold text-xs") { "Status" }
+                      th(class: "font-semibold text-xs") { "Role" }
+                      th(class: "font-semibold text-xs") { "Sessions" }
+                      th(class: "font-semibold text-xs") { "Joined" }
+                      th(class: "font-semibold text-xs text-right") { "Actions" }
+                    end
+                  end
+                  
+                  tbody do
+                    @users.each do |user|
+                      tr(class: "hover:bg-base-200/50") do
+                        td(class: "py-1") do
+                          div(class: "flex items-center gap-2") do
+                            div(class: "w-5 h-5 rounded-full bg-primary text-primary-content flex items-center justify-center text-xs font-medium") do
+                              user.email[0].upcase
                             end
-                          end
-                          div(class: "flex items-center gap-3 text-xs text-base-content/70") do
-                            plain(time_ago_in_words(user.created_at) + " ago")
-                            
-                            # Inline status indicators
-                            div(class: "flex gap-1") do
-                              if user.verified?
-                                span(class: "badge badge-success badge-xs") { "verified" }
-                              else
-                                span(class: "badge badge-warning badge-xs") { "pending" }
-                              end
-                              
-                              if user.admin?
-                                span(class: "badge badge-primary badge-xs") { "admin" }
-                              end
-                              
-                              # Session count if available
-                              if user.sessions.any?
-                                span(class: "text-base-content/50") { "#{user.sessions.count} sessions" }
+                            div do
+                              plain(user.email)
+                              if user == Current.user
+                                span(class: "text-xs text-primary ml-1") { "(you)" }
                               end
                             end
                           end
                         end
-                      end
-
-                      # Quick actions - more options visible
-                      div(class: "flex gap-1 flex-shrink-0") do
-                        if user.verified?
-                          # Toggle admin status quickly
-                          if user.admin? && user != Current.user
-                            button_to("Remove Admin", account_admin_user_path(user),
-                              method: :patch,
-                              params: { user: { admin: false } },
-                              class: "btn btn-warning btn-xs",
-                              confirm: "Remove admin privileges?")
-                          elsif !user.admin?
-                            button_to("Make Admin", account_admin_user_path(user),
-                              method: :patch,
-                              params: { user: { admin: true } },
-                              class: "btn btn-success btn-xs")
+                        td(class: "py-1") do
+                          if user.verified?
+                            span(class: "text-xs text-success") { "✓" }
+                          else
+                            span(class: "text-xs text-warning") { "⏳" }
                           end
-                          
-                          link_to("Edit", edit_account_admin_user_path(user), 
-                            class: "btn btn-ghost btn-xs")
-                          link_to("View", account_admin_user_path(user), 
-                            class: "btn btn-ghost btn-xs")
-                        else
-                          # Pending invitation actions
-                          button_to("Resend", new_account_admin_invitation_path,
-                            params: { email: user.email },
-                            method: :get,
-                            class: "btn btn-success btn-xs")
-                          button_to("Cancel", account_admin_invitation_path(user), 
-                            method: :delete,
-                            class: "btn btn-error btn-xs",
-                            confirm: "Cancel invitation?")
-                          link_to("Edit", edit_account_admin_user_path(user), 
-                            class: "btn btn-ghost btn-xs")
+                        end
+                        td(class: "py-1") do
+                          if user.admin?
+                            span(class: "text-xs text-primary font-medium") { "Admin" }
+                          else
+                            span(class: "text-xs text-base-content/60") { "Member" }
+                          end
+                        end
+                        td(class: "py-1 text-xs text-base-content/70") { user.sessions.count }
+                        td(class: "py-1 text-xs text-base-content/70") { time_ago_in_words(user.created_at) }
+                        td(class: "py-1 text-right") do
+                          div(class: "flex justify-end gap-0.5") do
+                            if user.verified?
+                              if user != Current.user
+                                if user.admin?
+                                  button_to("−", account_admin_user_path(user),
+                                    method: :patch,
+                                    params: { user: { admin: false } },
+                                    class: "btn btn-xs btn-square btn-warning",
+                                    confirm: "Remove admin?",
+                                    title: "Remove admin")
+                                else
+                                  button_to("+", account_admin_user_path(user),
+                                    method: :patch,
+                                    params: { user: { admin: true } },
+                                    class: "btn btn-xs btn-square btn-success",
+                                    title: "Make admin")
+                                end
+                              end
+                              link_to("E", edit_account_admin_user_path(user), 
+                                class: "btn btn-xs btn-square btn-ghost",
+                                title: "Edit user")
+                            else
+                              button_to("↻", new_account_admin_invitation_path,
+                                params: { email: user.email },
+                                method: :get,
+                                class: "btn btn-xs btn-square btn-success",
+                                title: "Resend invitation")
+                              button_to("✕", account_admin_invitation_path(user), 
+                                method: :delete,
+                                class: "btn btn-xs btn-square btn-error",
+                                confirm: "Cancel?",
+                                title: "Cancel invitation")
+                            end
+                          end
                         end
                       end
                     end
