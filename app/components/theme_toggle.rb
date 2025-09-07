@@ -36,7 +36,7 @@ class Components::ThemeToggle < Components::Base
   def toggle_button
     button(
       type: "button",
-      class: "group relative inline-flex h-9 w-28 shrink-0 cursor-pointer rounded-full overflow-hidden " \
+      class: "group relative inline-flex h-9 w-28 shrink-0 cursor-pointer rounded-box overflow-hidden " \
              "border border-base-300 bg-base-200 transition-colors duration-200 " \
              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " \
              "focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 " \
@@ -56,7 +56,7 @@ class Components::ThemeToggle < Components::Base
       # Simple, reliable slider: flex-align left/right based on aria-pressed
       div(class: "pointer-events-none absolute inset-0 flex items-center px-[2px] justify-start") do
         span(
-          class: "h-7 w-8 z-10 rounded-full bg-base-100 shadow-sm ring-0 will-change-transform",
+          class: "h-7 w-8 z-10 rounded-selector bg-base-100 shadow-sm ring-0 will-change-transform",
           data: { "theme-target": "indicator" }
         )
       end
