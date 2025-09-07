@@ -55,6 +55,14 @@ Rails.application.routes.draw do
   # Settings
   resource :settings, only: [ :show ]
 
+  # Account Admin
+  namespace :account_admin do
+    resource :dashboard, only: [ :show ]
+    resources :users, only: [ :index, :show, :edit, :update ]
+    resources :invitations, only: [ :index, :new, :create, :destroy ]
+    resource :settings, only: [ :show, :edit, :update ]
+  end
+
   # Mount Boilermaker engine for admin functionality only in development and test
   if Rails.env.development? || Rails.env.test?
     mount Boilermaker::Engine, at: "/boilermaker", as: :boilermaker

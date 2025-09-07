@@ -24,6 +24,6 @@ development:
     personal_accounts: false
   ui:
     theme:
-      light: light
-      dark: dracula
+      light: platinum
+      dark: graphite
 test: {}

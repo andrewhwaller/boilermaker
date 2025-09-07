@@ -69,6 +69,10 @@ class Components::Navigation < Components::Base
     render Components::DropdownMenu.new(trigger_text: current_user_display_name) do
       render Components::DropdownMenuItem.new("Settings", settings_path)
 
+      if Current.user&.admin?
+        render Components::DropdownMenuItem.new("Account Admin", account_admin_dashboard_path, class: "text-primary")
+      end
+
       if Rails.env.development?
         render Components::DropdownMenuItem.new("Email Preview", "/letter_opener", target: "_blank")
       end

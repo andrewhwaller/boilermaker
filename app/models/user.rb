@@ -18,6 +18,8 @@ class User < ApplicationRecord
 
   normalizes :email, with: -> { _1.strip.downcase }
 
+  scope :unverified, -> { where(verified: false) }
+
   before_validation if: :email_changed?, on: :update do
     self.verified = false
   end
@@ -28,5 +30,9 @@ class User < ApplicationRecord
 
   after_update if: :password_digest_previously_changed? do
     sessions.where.not(id: Current.session).delete_all
+  end
+
+  def admin?
+    admin
   end
 end
