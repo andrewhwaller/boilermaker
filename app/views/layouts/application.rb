@@ -24,8 +24,9 @@ module Views
           lang: "en",
           data: {
             controller: "theme",
-            "theme-light-name-value": "platinum",
-            "theme-dark-name-value": "graphite"
+            "theme-light-name-value": Boilermaker::Config.theme_light_name,
+            "theme-dark-name-value": Boilermaker::Config.theme_dark_name,
+            theme: (Current.theme_name || Boilermaker::Config.theme_light_name)
           }
         ) do
           head do
