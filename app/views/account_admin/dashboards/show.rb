@@ -16,58 +16,106 @@ module Views
         end
 
         def view_template
-          page_with_title("Account Administration") do
-            div(class: "space-y-6") do
-              # Header section
-              div(class: "flex items-center justify-between mb-6") do
-                h1(class: "text-2xl font-bold text-base-content") { "Account Administration" }
-                link_to("Manage Users", account_admin_users_path, 
-                  class: "btn btn-primary")
+          page_with_title("Account Admin") do
+            # Compact header with inline stats and actions
+            div(class: "flex items-start justify-between mb-4") do
+              div do
+                div(class: "flex items-center gap-4 mb-2") do
+                  h1(class: "text-xl font-bold text-base-content") { @account.name || "Account Admin" }
+                  div(class: "flex gap-3 text-sm") do
+                    stat_inline("#{@total_users} users", @admin_users > 0 ? "text-primary" : "text-base-content")
+                    stat_inline("#{@admin_users} admins", "text-primary") if @admin_users > 0
+                  end
+                end
+              end
+              
+              div(class: "flex gap-2") do
+                link_to("+ User", new_account_admin_invitation_path, class: "btn btn-primary btn-sm")
+                link_to("Settings", account_admin_settings_path, class: "btn btn-outline btn-sm")
+              end
+            end
+
+            # Dense user list with inline actions
+            div(class: "bg-base-200 rounded-box p-4") do
+              div(class: "flex items-center justify-between mb-3") do
+                h2(class: "font-semibold text-base-content") { "Users" }
+                form_with(url: account_admin_users_path, method: :get, local: true, class: "flex gap-2 flex-1 max-w-xs ml-4") do |f|
+                  f.text_field :search, placeholder: "Search...", class: "input input-sm input-bordered flex-1"
+                  f.submit "Go", class: "btn btn-sm btn-outline"
+                end
               end
 
-              # Stats cards
-              div(class: "grid grid-cols-1 md:grid-cols-3 gap-6 mb-6") do
-                stats_card("Total Users", @total_users, "users")
-                stats_card("Admins", @admin_users, "shield-check")
-                stats_card("Account", @account.name || "Default Account", "building")
-              end
-
-              # Recent users section
-              card do
-                h2(class: "text-lg font-semibold text-base-content mb-4") { "Recent Users" }
-                
-                if @recent_users.any?
-                  div(class: "space-y-3") do
-                    @recent_users.each do |user|
-                      div(class: "flex items-center justify-between py-2 border-b border-base-300 last:border-b-0") do
-                        div do
-                          div(class: "font-medium text-base-content") { user.email }
-                          div(class: "text-sm text-base-content/70") do
-                            plain("Joined #{time_ago_in_words(user.created_at)} ago")
+              if @recent_users.any?
+                div(class: "space-y-1") do
+                  @recent_users.each do |user|
+                    div(class: "flex items-center justify-between py-2 px-3 rounded hover:bg-base-300 transition-colors") do
+                      div(class: "flex items-center gap-3 flex-1 min-w-0") do
+                        div(class: "avatar placeholder flex-shrink-0") do
+                          div(class: "bg-primary text-primary-content w-6 h-6 rounded-full text-xs") do
+                            span { user.email[0].upcase }
+                          end
+                        end
+                        div(class: "min-w-0 flex-1") do
+                          div(class: "font-medium text-sm truncate") do
+                            plain(user.email)
+                            if user == Current.user
+                              span(class: "text-xs text-primary ml-2") { "(you)" }
+                            end
+                          end
+                          div(class: "flex items-center gap-2 text-xs text-base-content/70") do
+                            plain(time_ago_in_words(user.created_at) + " ago")
                             if user.admin?
-                              span(class: "badge badge-primary badge-sm ml-2") { "Admin" }
+                              span(class: "badge badge-primary badge-xs") { "admin" }
+                            end
+                            unless user.verified?
+                              span(class: "badge badge-warning badge-xs") { "pending" }
                             end
                           end
                         end
                       end
+                      div(class: "flex gap-1 flex-shrink-0") do
+                        link_to("Edit", edit_account_admin_user_path(user), 
+                          class: "btn btn-ghost btn-xs")
+                        if user.verified?
+                          link_to("View", account_admin_user_path(user), 
+                            class: "btn btn-ghost btn-xs")
+                        else
+                          button_to("Cancel", account_admin_invitation_path(user), 
+                            method: :delete,
+                            class: "btn btn-error btn-xs",
+                            confirm: "Cancel invitation?")
+                        end
+                      end
                     end
                   end
-                  
-                  div(class: "mt-4 text-center") do
-                    link_to("View All Users", account_admin_users_path, class: "link link-primary")
+                end
+                
+                if @total_users > 5
+                  div(class: "text-center mt-3 pt-3 border-t border-base-300") do
+                    link_to("View all #{@total_users} users →", account_admin_users_path, 
+                      class: "text-sm text-primary hover:underline")
                   end
-                else
-                  p(class: "text-base-content/70") { "No users found." }
+                end
+              else
+                div(class: "text-center py-6 text-base-content/70") do
+                  p(class: "text-sm mb-2") { "No users yet" }
+                  link_to("Send first invitation", new_account_admin_invitation_path, 
+                    class: "btn btn-primary btn-sm")
                 end
               end
+            end
 
-              # Quick actions section
-              card do
-                h2(class: "text-lg font-semibold text-base-content mb-4") { "Quick Actions" }
-                div(class: "grid grid-cols-2 md:grid-cols-3 gap-4") do
-                  action_card("Invite Users", "Send invitations to new users", account_admin_invitations_path, "user-plus")
-                  action_card("Account Settings", "Manage account preferences", account_admin_settings_path, "cog")
-                  action_card("User Management", "View and manage all users", account_admin_users_path, "users")
+            # Quick stats and pending items
+            if @account.users.unverified.any?
+              div(class: "bg-warning/10 border border-warning/30 rounded-box p-3 mt-4") do
+                div(class: "flex items-center justify-between") do
+                  div do
+                    div(class: "font-medium text-sm text-warning-content") { "Pending Invitations" }
+                    div(class: "text-xs text-base-content/70") do
+                      plain("#{pluralize(@account.users.unverified.count, "user")} waiting to verify")
+                    end
+                  end
+                  link_to("Manage", account_admin_invitations_path, class: "btn btn-warning btn-xs")
                 end
               end
             end
@@ -76,18 +124,8 @@ module Views
 
         private
 
-        def stats_card(title, value, icon)
-          card(class: "text-center") do
-            div(class: "text-2xl font-bold text-primary mb-1") { value.to_s }
-            div(class: "text-sm text-base-content/70") { title }
-          end
-        end
-
-        def action_card(title, description, path, icon)
-          link_to(path, class: "block p-4 border border-base-300 rounded-box hover:bg-base-200 transition-colors") do
-            div(class: "font-medium text-base-content mb-1") { title }
-            div(class: "text-sm text-base-content/70") { description }
-          end
+        def stat_inline(text, color_class = "text-base-content")
+          span(class: "#{color_class} font-medium") { text }
         end
       end
     end

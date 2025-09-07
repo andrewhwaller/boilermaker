@@ -13,103 +13,104 @@ module Views
         end
 
         def view_template
-          page_with_title("Manage Invitations") do
-            div(class: "space-y-6") do
-              # Header
-              div(class: "flex items-center justify-between mb-6") do
-                h1(class: "text-2xl font-bold text-base-content") { "Manage Invitations" }
-                div(class: "flex gap-2") do
-                  link_to("Send Invitation", new_account_admin_invitation_path, class: "btn btn-primary")
-                  link_to("Back to Dashboard", account_admin_dashboard_path, class: "btn btn-outline")
+          page_with_title("Invitations") do
+            # Compact header
+            div(class: "flex items-center justify-between mb-4") do
+              div(class: "flex items-center gap-4") do
+                link_to("← Dashboard", account_admin_dashboard_path, class: "text-sm text-base-content/70 hover:text-primary")
+                h1(class: "text-xl font-bold text-base-content") { "Invitations" }
+              end
+            end
+
+            # Two-column layout: form on left, pending on right
+            div(class: "grid grid-cols-1 lg:grid-cols-2 gap-6") do
+              # Invitation form - left column
+              div(class: "bg-base-200 rounded-box p-4") do
+                h2(class: "font-semibold text-base-content mb-3") { "Send New Invitation" }
+                
+                # Use a simple form without the complex form object for now
+                form_with(url: account_admin_invitations_path, local: true, class: "space-y-3") do |f|
+                  div do
+                    f.label :email, "Email", class: "label-text text-sm font-medium"
+                    f.email_field :email, class: "input input-sm input-bordered w-full mt-1", 
+                      placeholder: "user@example.com", required: true
+                  end
+
+                  div do
+                    label(class: "label cursor-pointer justify-start gap-2") do
+                      f.check_box :admin, class: "checkbox checkbox-primary checkbox-sm"
+                      span(class: "label-text text-sm") { "Grant admin privileges" }
+                    end
+                  end
+
+                  div do
+                    f.label :message, "Message (optional)", class: "label-text text-sm font-medium"
+                    f.text_area :message, class: "textarea textarea-sm textarea-bordered w-full mt-1", 
+                      rows: 2, placeholder: "Personal message...", maxlength: 500
+                  end
+
+                  f.submit "Send Invitation", class: "btn btn-primary btn-sm w-full"
                 end
               end
 
-              # Pending invitations
-              card do
-                h2(class: "text-lg font-semibold text-base-content mb-4") do
-                  "Pending Invitations (#{@pending_users.count})"
+              # Pending invitations - right column  
+              div(class: "bg-base-200 rounded-box p-4") do
+                div(class: "flex items-center justify-between mb-3") do
+                  h2(class: "font-semibold text-base-content") { "Pending (#{@pending_users.count})" }
+                  if @pending_users.any?
+                    span(class: "text-xs text-base-content/70") { "waiting for verification" }
+                  end
                 end
 
                 if @pending_users.any?
-                  div(class: "overflow-x-auto") do
-                    table(class: "table w-full") do
-                      thead do
-                        tr do
-                          th { "Email" }
-                          th { "Role" }
-                          th { "Invited" }
-                          th(class: "text-right") { "Actions" }
-                        end
-                      end
-
-                      tbody do
-                        @pending_users.each do |user|
-                          tr(class: "hover") do
-                            td do
-                              div(class: "flex items-center gap-3") do
-                                div(class: "avatar placeholder") do
-                                  div(class: "bg-warning text-warning-content w-8 rounded-full") do
-                                    span(class: "text-xs") { user.email[0].upcase }
-                                  end
-                                end
-                                div do
-                                  div(class: "font-medium") { user.email }
-                                  div(class: "text-sm text-warning") { "Invitation pending" }
-                                end
-                              end
+                  div(class: "space-y-1") do
+                    @pending_users.each do |user|
+                      div(class: "flex items-center justify-between py-2 px-2 rounded hover:bg-base-300 transition-colors") do
+                        div(class: "flex items-center gap-2 flex-1 min-w-0") do
+                          div(class: "avatar placeholder flex-shrink-0") do
+                            div(class: "bg-warning text-warning-content w-6 h-6 rounded-full text-xs") do
+                              span { user.email[0].upcase }
                             end
-
-                            td do
+                          end
+                          div(class: "min-w-0 flex-1") do
+                            div(class: "font-medium text-sm truncate") { user.email }
+                            div(class: "flex items-center gap-2 text-xs text-base-content/70") do
+                              plain(time_ago_in_words(user.created_at) + " ago")
                               if user.admin?
-                                span(class: "badge badge-primary badge-sm") { "Admin" }
-                              else
-                                span(class: "badge badge-ghost badge-sm") { "Member" }
-                              end
-                            end
-
-                            td(class: "text-sm text-base-content/70") do
-                              plain("#{time_ago_in_words(user.created_at)} ago")
-                            end
-
-                            td(class: "text-right") do
-                              div(class: "flex justify-end gap-2") do
-                                button_to("Resend", new_account_admin_invitation_path, 
-                                  params: { email: user.email },
-                                  method: :get,
-                                  class: "btn btn-outline btn-xs")
-                                button_to("Cancel", account_admin_invitation_path(user), 
-                                  method: :delete,
-                                  class: "btn btn-error btn-xs",
-                                  confirm: "Are you sure you want to cancel this invitation?")
+                                span(class: "badge badge-primary badge-xs") { "admin" }
                               end
                             end
                           end
+                        end
+                        
+                        div(class: "flex gap-1 flex-shrink-0") do
+                          button_to("↻", new_account_admin_invitation_path, 
+                            params: { email: user.email },
+                            method: :get,
+                            class: "btn btn-ghost btn-xs",
+                            title: "Resend invitation")
+                          button_to("✕", account_admin_invitation_path(user), 
+                            method: :delete,
+                            class: "btn btn-ghost btn-xs text-error",
+                            confirm: "Cancel invitation?",
+                            title: "Cancel invitation")
                         end
                       end
                     end
                   end
                 else
-                  div(class: "text-center py-8") do
-                    div(class: "text-base-content/70 mb-4") do
-                      p(class: "text-lg") { "No pending invitations" }
-                      p { "All users in your account have accepted their invitations." }
-                    end
-                    
-                    link_to("Send New Invitation", new_account_admin_invitation_path, 
-                      class: "btn btn-primary")
+                  div(class: "text-center py-6 text-base-content/70") do
+                    p(class: "text-sm") { "No pending invitations" }
                   end
                 end
               end
+            end
 
-              # Help section
-              card do
-                h3(class: "text-lg font-semibold text-base-content mb-4") { "About Invitations" }
-                div(class: "space-y-2 text-sm text-base-content/70") do
-                  p { "• Invitations are sent via email and allow new users to join your account" }
-                  p { "• Pending invitations show users who have been invited but haven't verified their email yet" }
-                  p { "• You can cancel pending invitations or resend them if needed" }
-                  p { "• Admin invitations grant account administration privileges to the new user" }
-                end
+            # Quick stats at bottom
+            if @pending_users.any?
+              div(class: "mt-4 text-center text-xs text-base-content/70") do
+                plain("#{pluralize(@pending_users.count, "invitation")} pending • ")
+                plain("Invitations expire if not accepted within reasonable time")
               end
             end
           end

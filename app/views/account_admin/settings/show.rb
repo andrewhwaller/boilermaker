@@ -6,76 +6,62 @@ module Views
       class Show < Views::Base
         include Phlex::Rails::Helpers::LinkTo
         include Phlex::Rails::Helpers::Pluralize
+        include Phlex::Rails::Helpers::TimeAgoInWords
 
         def initialize(account:)
           @account = account
         end
 
         def view_template
-          page_with_title("Account Settings") do
-            div(class: "space-y-6") do
-              # Header
-              div(class: "flex items-center justify-between mb-6") do
-                h1(class: "text-2xl font-bold text-base-content") { "Account Settings" }
+          page_with_title("Settings") do
+            # Compact header with inline editing
+            div(class: "flex items-center justify-between mb-4") do
+              div(class: "flex items-center gap-4") do
+                link_to("← Dashboard", account_admin_dashboard_path, class: "text-sm text-base-content/70 hover:text-primary")
+                h1(class: "text-xl font-bold text-base-content") { "Account Settings" }
+              end
+              link_to("Edit", edit_account_admin_settings_path, class: "btn btn-primary btn-sm")
+            end
+
+            # Single dense information panel
+            div(class: "bg-base-200 rounded-box p-4") do
+              div(class: "grid grid-cols-2 md:grid-cols-4 gap-6 mb-4") do
+                info_item("Account", @account.name || "Unnamed Account")
+                info_item("Users", pluralize(@account.users.count, "user"))
+                info_item("Admins", pluralize(@account.users.where(admin: true).count, "admin"))  
+                info_item("Created", @account.created_at.strftime("%b %Y"))
+              end
+
+              # Status indicators row
+              div(class: "flex items-center justify-between pt-3 border-t border-base-300") do
+                div(class: "flex items-center gap-4 text-sm") do
+                  status_indicator("Active", @account.users.where(verified: true).count, "text-success")
+                  status_indicator("Pending", @account.users.where(verified: false).count, "text-warning")
+                  if @account.users.where(verified: false).any?
+                    link_to("Manage Pending →", account_admin_invitations_path, 
+                      class: "text-xs text-primary hover:underline")
+                  end
+                end
+
+                # Quick action buttons
                 div(class: "flex gap-2") do
-                  link_to("Edit Settings", edit_account_admin_settings_path, class: "btn btn-primary")
-                  link_to("Back to Dashboard", account_admin_dashboard_path, class: "btn btn-outline")
+                  link_to("Users", account_admin_users_path, class: "btn btn-ghost btn-xs")
+                  link_to("+ User", new_account_admin_invitation_path, class: "btn btn-primary btn-xs")
                 end
               end
+            end
 
-              # Account information
-              card do
-                h2(class: "text-lg font-semibold text-base-content mb-4") { "Account Information" }
-                
-                div(class: "grid grid-cols-1 md:grid-cols-2 gap-6") do
-                  div do
-                    div(class: "text-sm text-base-content/70 mb-1") { "Account Name" }
-                    div(class: "text-lg font-medium") { @account.name || "Not set" }
+            # Quick reference section - ultra compact
+            div(class: "mt-4 text-xs text-base-content/70 text-center space-y-1") do
+              div { "Account ID: #{@account.id} • Last updated #{time_ago_in_words(@account.updated_at)} ago" }
+              if @account.users.any?
+                div do
+                  plain("Recent users: ")
+                  @account.users.order(created_at: :desc).limit(3).each_with_index do |user, i|
+                    plain(", ") if i > 0
+                    plain(user.email.split("@").first)
                   end
-
-                  div do
-                    div(class: "text-sm text-base-content/70 mb-1") { "Total Users" }
-                    div(class: "text-lg font-medium") do
-                      plain(pluralize(@account.users.count, "user"))
-                    end
-                  end
-
-                  div do
-                    div(class: "text-sm text-base-content/70 mb-1") { "Admin Users" }
-                    div(class: "text-lg font-medium") do
-                      plain(pluralize(@account.users.where(admin: true).count, "admin"))
-                    end
-                  end
-
-                  div do
-                    div(class: "text-sm text-base-content/70 mb-1") { "Created" }
-                    div(class: "text-lg font-medium") do
-                      plain(@account.created_at.strftime("%B %d, %Y"))
-                    end
-                  end
-                end
-              end
-
-              # User management stats
-              card do
-                h3(class: "text-lg font-semibold text-base-content mb-4") { "User Statistics" }
-                
-                div(class: "grid grid-cols-2 md:grid-cols-4 gap-4") do
-                  stat_card("Active Users", @account.users.where(verified: true).count, "text-success")
-                  stat_card("Pending Invitations", @account.users.where(verified: false).count, "text-warning")
-                  stat_card("Admin Users", @account.users.where(admin: true).count, "text-primary")
-                  stat_card("Total Users", @account.users.count, "text-base-content")
-                end
-              end
-
-              # Quick actions
-              card do
-                h3(class: "text-lg font-semibold text-base-content mb-4") { "Quick Actions" }
-                
-                div(class: "grid grid-cols-1 md:grid-cols-3 gap-4") do
-                  action_link("Manage Users", "View and edit user accounts", account_admin_users_path)
-                  action_link("Send Invitations", "Invite new users to your account", new_account_admin_invitation_path)
-                  action_link("View Invitations", "Manage pending invitations", account_admin_invitations_path)
+                  plain("...") if @account.users.count > 3
                 end
               end
             end
@@ -84,17 +70,16 @@ module Views
 
         private
 
-        def stat_card(title, value, color_class = "text-base-content")
+        def info_item(label, value)
           div(class: "text-center") do
-            div(class: "text-2xl font-bold #{color_class} mb-1") { value.to_s }
-            div(class: "text-sm text-base-content/70") { title }
+            div(class: "text-sm text-base-content/70") { label }
+            div(class: "font-semibold text-base-content") { value }
           end
         end
 
-        def action_link(title, description, path)
-          link_to(path, class: "block p-4 border border-base-300 rounded-box hover:bg-base-200 transition-colors") do
-            div(class: "font-medium text-base-content mb-1") { title }
-            div(class: "text-sm text-base-content/70") { description }
+        def status_indicator(label, count, color_class)
+          span(class: "#{color_class}") do
+            plain("#{count} #{label.downcase}")
           end
         end
       end

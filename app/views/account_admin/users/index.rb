@@ -15,125 +15,138 @@ module Views
         end
 
         def view_template
-          page_with_title("User Management") do
-            div(class: "space-y-6") do
-              # Header section
-              div(class: "flex items-center justify-between mb-6") do
-                h1(class: "text-2xl font-bold text-base-content") { "User Management" }
-                link_to("Back to Dashboard", account_admin_dashboard_path, class: "btn btn-outline")
+          page_with_title("Users") do
+            # Compact header with search and actions inline
+            div(class: "flex items-center justify-between mb-4") do
+              div(class: "flex items-center gap-4") do
+                link_to("← Dashboard", account_admin_dashboard_path, class: "text-sm text-base-content/70 hover:text-primary")
+                h1(class: "text-xl font-bold text-base-content") { "Users (#{@users.count})" }
               end
-
-              # Search and actions bar
-              div(class: "flex items-center justify-between gap-4 mb-6") do
-                # Search form
+              
+              div(class: "flex gap-2") do
                 form_with(url: account_admin_users_path, method: :get, local: true, class: "flex gap-2") do |f|
-                  f.text_field :search, placeholder: "Search users by email...",
+                  f.text_field :search, placeholder: "Search...", 
                     value: @search,
-                    class: "input input-bordered flex-1"
-                  f.submit "Search", class: "btn btn-outline"
+                    class: "input input-sm input-bordered w-32"
+                  f.submit "Go", class: "btn btn-sm btn-outline"
                 end
-
-                link_to("Invite User", new_account_admin_invitation_path, class: "btn btn-primary")
+                link_to("+ User", new_account_admin_invitation_path, class: "btn btn-primary btn-sm")
               end
+            end
 
-              # Users table
-              card do
-                h2(class: "text-lg font-semibold text-base-content mb-4") do
-                  "Users (#{@users.count})"
-                end
-
-                if @users.any?
-                  div(class: "overflow-x-auto") do
-                    table(class: "table w-full") do
-                      thead do
-                        tr do
-                          th { "User" }
-                          th { "Status" }
-                          th { "Role" }
-                          th { "Joined" }
-                          th(class: "text-right") { "Actions" }
+            # Dense user list
+            if @users.any?
+              div(class: "bg-base-200 rounded-box p-3") do
+                div(class: "space-y-1") do
+                  @users.each do |user|
+                    div(class: "flex items-center justify-between py-2 px-3 rounded hover:bg-base-300 transition-colors") do
+                      # User info section - denser layout
+                      div(class: "flex items-center gap-3 flex-1 min-w-0") do
+                        div(class: "avatar placeholder flex-shrink-0") do
+                          div(class: "bg-primary text-primary-content w-8 h-8 rounded-full text-sm") do
+                            span { user.email[0].upcase }
+                          end
                         end
-                      end
-
-                      tbody do
-                        @users.each do |user|
-                          tr(class: "hover") do
-                            td do
-                              div(class: "flex items-center gap-3") do
-                                div(class: "avatar placeholder") do
-                                  div(class: "bg-primary text-primary-content w-8 rounded-full") do
-                                    span(class: "text-xs") { user.email[0].upcase }
-                                  end
-                                end
-                                div do
-                                  div(class: "font-medium") { user.email }
-                                  div(class: "text-sm text-base-content/70") do
-                                    if user == Current.user
-                                      span(class: "text-primary") { "(You)" }
-                                    end
-                                  end
-                                end
-                              end
+                        
+                        div(class: "min-w-0 flex-1") do
+                          div(class: "font-medium text-sm truncate") do
+                            plain(user.email)
+                            if user == Current.user
+                              span(class: "text-xs text-primary ml-2") { "(you)" }
                             end
-
-                            td { user_status_badge(user) }
+                          end
+                          div(class: "flex items-center gap-3 text-xs text-base-content/70") do
+                            plain(time_ago_in_words(user.created_at) + " ago")
                             
-                            td { user_role_badge(user) }
-
-                            td(class: "text-sm text-base-content/70") do
-                              plain(time_ago_in_words(user.created_at) + " ago")
-                            end
-
-                            td(class: "text-right") do
-                              div(class: "flex justify-end gap-2") do
-                                link_to("View", account_admin_user_path(user), 
-                                  class: "btn btn-ghost btn-xs")
-                                link_to("Edit", edit_account_admin_user_path(user), 
-                                  class: "btn btn-outline btn-xs")
+                            # Inline status indicators
+                            div(class: "flex gap-1") do
+                              if user.verified?
+                                span(class: "badge badge-success badge-xs") { "verified" }
+                              else
+                                span(class: "badge badge-warning badge-xs") { "pending" }
+                              end
+                              
+                              if user.admin?
+                                span(class: "badge badge-primary badge-xs") { "admin" }
+                              end
+                              
+                              # Session count if available
+                              if user.sessions.any?
+                                span(class: "text-base-content/50") { "#{user.sessions.count} sessions" }
                               end
                             end
                           end
                         end
                       end
-                    end
-                  end
-                else
-                  div(class: "text-center py-8") do
-                    p(class: "text-base-content/70 mb-4") do
-                      if @search.present?
-                        "No users found matching \"#{@search}\""
-                      else
-                        "No users found."
+
+                      # Quick actions - more options visible
+                      div(class: "flex gap-1 flex-shrink-0") do
+                        if user.verified?
+                          # Toggle admin status quickly
+                          if user.admin? && user != Current.user
+                            button_to("Remove Admin", account_admin_user_path(user),
+                              method: :patch,
+                              params: { user: { admin: false } },
+                              class: "btn btn-warning btn-xs",
+                              confirm: "Remove admin privileges?")
+                          elsif !user.admin?
+                            button_to("Make Admin", account_admin_user_path(user),
+                              method: :patch,
+                              params: { user: { admin: true } },
+                              class: "btn btn-success btn-xs")
+                          end
+                          
+                          link_to("Edit", edit_account_admin_user_path(user), 
+                            class: "btn btn-ghost btn-xs")
+                          link_to("View", account_admin_user_path(user), 
+                            class: "btn btn-ghost btn-xs")
+                        else
+                          # Pending invitation actions
+                          button_to("Resend", new_account_admin_invitation_path,
+                            params: { email: user.email },
+                            method: :get,
+                            class: "btn btn-success btn-xs")
+                          button_to("Cancel", account_admin_invitation_path(user), 
+                            method: :delete,
+                            class: "btn btn-error btn-xs",
+                            confirm: "Cancel invitation?")
+                          link_to("Edit", edit_account_admin_user_path(user), 
+                            class: "btn btn-ghost btn-xs")
+                        end
                       end
-                    end
-                    
-                    if @search.present?
-                      link_to("Clear search", account_admin_users_path, class: "link link-primary")
                     end
                   end
                 end
+              end
+            else
+              div(class: "text-center py-8 bg-base-200 rounded-box") do
+                p(class: "text-base-content/70 mb-4") do
+                  if @search.present?
+                    "No users found matching \"#{@search}\""
+                  else
+                    "No users found."
+                  end
+                end
+                
+                if @search.present?
+                  link_to("Clear search", account_admin_users_path, class: "btn btn-outline btn-sm")
+                else
+                  link_to("Send first invitation", new_account_admin_invitation_path, class: "btn btn-primary btn-sm")
+                end
+              end
+            end
+
+            # Bulk actions footer if multiple users
+            if @users.count > 1
+              div(class: "mt-4 text-xs text-base-content/70 text-center") do
+                plain("#{pluralize(@users.where(verified: true).count, "verified user")}, ")
+                plain("#{pluralize(@users.where(admin: true).count, "admin")}, ")
+                plain("#{pluralize(@users.where(verified: false).count, "pending invitation")}")
               end
             end
           end
         end
 
-        private
-
-        def user_status_badge(user)
-          if user.verified?
-            span(class: "badge badge-success badge-sm") { "Verified" }
-          else
-            span(class: "badge badge-warning badge-sm") { "Unverified" }
-          end
-        end
-
-        def user_role_badge(user)
-          if user.admin?
-            span(class: "badge badge-primary badge-sm") { "Admin" }
-          else
-            span(class: "badge badge-ghost badge-sm") { "Member" }
-          end
-        end
       end
     end
   end

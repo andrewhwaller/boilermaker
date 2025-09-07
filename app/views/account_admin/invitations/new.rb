@@ -7,8 +7,8 @@ module Views
         include Phlex::Rails::Helpers::LinkTo
         include Phlex::Rails::Helpers::FormWith
 
-        def initialize(invitation: nil)
-          @invitation = invitation || InvitationForm.new
+        def initialize
+          # No initialization needed for simplified form
         end
 
         def view_template
@@ -27,9 +27,7 @@ module Views
               card do
                 h2(class: "text-lg font-semibold text-base-content mb-6") { "Invite New User" }
 
-                form_errors(@invitation)
-
-                form_with(model: @invitation, url: account_admin_invitations_path, local: true, class: "space-y-4") do |f|
+                form_with(url: account_admin_invitations_path, local: true, class: "space-y-4") do |f|
                   # Email field
                   div do
                     f.label :email, "Email Address", class: "label"

@@ -7,32 +7,39 @@ class AccountAdmin::InvitationsController < AccountAdmin::BaseController
   end
 
   def new
-    @invitation = InvitationForm.new
-    render Views::AccountAdmin::Invitations::New.new(invitation: @invitation)
+    render Views::AccountAdmin::Invitations::New.new
   end
 
   def create
-    @invitation = InvitationForm.new(invitation_params)
+    email = params[:email]&.strip&.downcase
+    admin = params[:admin] == "1"
+    message = params[:message]&.strip
     
-    if @invitation.valid?
-      user = User.create_with(user_creation_params).find_or_initialize_by(
-        email: @invitation.email,
-        account: Current.user.account
-      )
+    if email.blank? || !email.match?(URI::MailTo::EMAIL_REGEXP)
+      redirect_to account_admin_invitations_path, alert: "Please enter a valid email address."
+      return
+    end
+    
+    user = User.create_with(
+      password: SecureRandom.base58,
+      verified: false,
+      admin: admin,
+      account: Current.user.account
+    ).find_or_initialize_by(
+      email: email,
+      account: Current.user.account
+    )
 
-      if user.persisted? && user.verified?
-        redirect_to new_account_admin_invitation_path, 
-          alert: "#{user.email} is already a member of this account."
-      elsif user.save
-        send_invitation_instructions(user)
-        redirect_to account_admin_invitations_path, 
-          notice: "Invitation sent to #{user.email}"
-      else
-        @invitation.errors.merge!(user.errors)
-        render Views::AccountAdmin::Invitations::New.new(invitation: @invitation), status: :unprocessable_entity
-      end
+    if user.persisted? && user.verified?
+      redirect_to account_admin_invitations_path, 
+        alert: "#{user.email} is already a member of this account."
+    elsif user.save
+      send_invitation_instructions(user, message)
+      redirect_to account_admin_invitations_path, 
+        notice: "Invitation sent to #{user.email}"
     else
-      render Views::AccountAdmin::Invitations::New.new(invitation: @invitation), status: :unprocessable_entity
+      redirect_to account_admin_invitations_path,
+        alert: "Error sending invitation: #{user.errors.full_messages.join(', ')}"
     end
   end
 
@@ -60,28 +67,11 @@ class AccountAdmin::InvitationsController < AccountAdmin::BaseController
     }
   end
 
-  def send_invitation_instructions(user)
+  def send_invitation_instructions(user, message = nil)
     UserMailer.with(
       user: user, 
       inviter: Current.user,
-      message: @invitation.message
+      message: message
     ).invitation_instructions.deliver_later
-  end
-end
-
-# Simple form object for invitation validation
-class InvitationForm
-  include ActiveModel::Model
-  include ActiveModel::Attributes
-
-  attribute :email, :string
-  attribute :admin, :boolean, default: false
-  attribute :message, :string
-
-  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :message, length: { maximum: 500 }
-
-  def admin?
-    admin
   end
 end
