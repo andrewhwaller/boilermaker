@@ -39,10 +39,6 @@ module Views
             div do
               div(class: "flex items-center justify-between mb-2") do
                 h2(class: "font-semibold text-base-content") { "Users" }
-                form_with(url: account_admin_users_path, method: :get, local: true, class: "flex gap-1") do |f|
-                  f.text_field :search, placeholder: "Search...", class: "input input-xs input-bordered w-24"
-                  f.submit "Go", class: "btn btn-xs btn-outline"
-                end
               end
 
               if @recent_users.any?

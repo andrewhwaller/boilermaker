@@ -9,29 +9,20 @@ module Views
         include Phlex::Rails::Helpers::Pluralize
         include Phlex::Rails::Helpers::TimeAgoInWords
 
-        def initialize(users:, search: nil)
+        def initialize(users:)
           @users = users
-          @search = search
         end
 
         def view_template
           page_with_title("Users") do
-            # Compact header with search and actions inline
+            # Compact header
             div(class: "flex items-center justify-between mb-4") do
               div(class: "flex items-center gap-4") do
                 link_to("← Dashboard", account_admin_dashboard_path, class: "text-sm text-base-content/70 hover:text-primary")
                 h1(class: "text-xl font-bold text-base-content") { "Users (#{@users.count})" }
               end
               
-              div(class: "flex gap-2") do
-                form_with(url: account_admin_users_path, method: :get, local: true, class: "flex gap-2") do |f|
-                  f.text_field :search, placeholder: "Search...", 
-                    value: @search,
-                    class: "input input-sm input-bordered w-32"
-                  f.submit "Go", class: "btn btn-sm btn-outline"
-                end
-                link_to("+ User", new_account_admin_invitation_path, class: "btn btn-primary btn-sm")
-              end
+              link_to("+ User", new_account_admin_invitation_path, class: "btn btn-primary btn-sm")
             end
 
             # Dense users table
@@ -124,19 +115,8 @@ module Views
               end
             else
               div(class: "text-center py-8 bg-base-200 rounded-box") do
-                p(class: "text-base-content/70 mb-4") do
-                  if @search.present?
-                    "No users found matching \"#{@search}\""
-                  else
-                    "No users found."
-                  end
-                end
-                
-                if @search.present?
-                  link_to("Clear search", account_admin_users_path, class: "btn btn-outline btn-sm")
-                else
-                  link_to("Send first invitation", new_account_admin_invitation_path, class: "btn btn-primary btn-sm")
-                end
+                p(class: "text-base-content/70 mb-4") { "No users found." }
+                link_to("Send first invitation", new_account_admin_invitation_path, class: "btn btn-primary btn-sm")
               end
             end
 

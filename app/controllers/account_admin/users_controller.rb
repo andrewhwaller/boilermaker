@@ -3,12 +3,8 @@ class AccountAdmin::UsersController < AccountAdmin::BaseController
 
   def index
     @users = Current.user.account.users.order(created_at: :desc)
-    @users = @users.where("email ILIKE ?", "%#{params[:search]}%") if params[:search].present?
     
-    render Views::AccountAdmin::Users::Index.new(
-      users: @users,
-      search: params[:search]
-    )
+    render Views::AccountAdmin::Users::Index.new(users: @users)
   end
 
   def show
