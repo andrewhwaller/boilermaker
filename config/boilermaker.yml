@@ -10,18 +10,20 @@ default:
     two_factor_authentication: false
     multi_tenant: false
     personal_accounts: false
-
 development:
   app:
-    name: Test App
-    version: 2.0.0
+    name: Boilermaker
+    version: 1.0.0
     support_email: support@example.com
     description: A modern Rails application
   features:
-    user_registration: true
+    user_registration: false
     password_reset: false
     two_factor_authentication: false
     multi_tenant: false
     personal_accounts: false
-
+  ui:
+    theme:
+      light: light
+      dark: dracula
 test: {}
