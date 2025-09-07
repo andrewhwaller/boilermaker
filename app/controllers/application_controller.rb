@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   include Rails.application.routes.url_helpers
 
+  before_action :assign_theme_from_cookie
   before_action :set_current_request_details
   before_action :authenticate
   before_action :ensure_verified
@@ -27,4 +28,26 @@ class ApplicationController < ActionController::Base
     Current.user_agent = request.user_agent
     Current.ip_address = request.ip
   end
+
+  # Server-driven theme selection for first paint
+  def assign_theme_from_cookie
+    name = cookies[:theme_name].to_s.strip
+    Current.theme_name = resolve_theme_name(name)
+  rescue
+    Current.theme_name = resolve_theme_name(nil)
+  end
+
+  def resolve_theme_name(name)
+    # Accept configured names first
+    return name if [Boilermaker::Config.theme_light_name, Boilermaker::Config.theme_dark_name].include?(name)
+    # Accept custom themes
+    return name if %w[platinum graphite].include?(name)
+    # Accept built-in DaisyUI themes
+    if defined?(Boilermaker::Themes) && Boilermaker::Themes::BUILTINS.include?(name)
+      return name
+    end
+    # Fallback to configured light theme
+    Boilermaker::Config.theme_light_name
+  end
+
 end
