@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
 
   def resolve_theme_name(name)
     # Accept configured names first
-    return name if [Boilermaker::Config.theme_light_name, Boilermaker::Config.theme_dark_name].include?(name)
+    return name if [ Boilermaker::Config.theme_light_name, Boilermaker::Config.theme_dark_name ].include?(name)
     # Accept custom themes
     return name if %w[platinum graphite].include?(name)
     # Accept built-in DaisyUI themes
@@ -49,5 +49,4 @@ class ApplicationController < ActionController::Base
     # Fallback to configured light theme
     Boilermaker::Config.theme_light_name
   end
-
 end

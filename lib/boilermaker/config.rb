@@ -120,7 +120,7 @@ module Boilermaker
         validate_config!(config)
         write!(config)
         reload!
-        
+
         # Run post-update hooks but don't let failures break the main flow
         begin
           run_post_update_hooks

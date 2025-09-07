@@ -6,8 +6,8 @@ namespace :daisyui do
     light = Boilermaker::Themes::BUILTINS.include?(light_cfg) ? light_cfg : nil
     dark  = Boilermaker::Themes::BUILTINS.include?(dark_cfg)  ? dark_cfg  : nil
     # Fallbacks if either side is custom/blank
-    light ||= 'light'
-    dark  ||= 'dark'
+    light ||= "light"
+    dark  ||= "dark"
 
     # Write plugin options to include only these themes.
     path = Rails.root.join("app", "assets", "tailwind", "daisyui.prebuilt.css")
@@ -15,14 +15,14 @@ namespace :daisyui do
       @plugin "./daisyui.js" {
         /* Prebuilt DaisyUI themes to include in the build.
            Generated from config/boilermaker.yml (ui.theme.light/dark). */
-        themes: #{[light, dark].uniq.join(', ')};
+        themes: #{[ light, dark ].uniq.join(', ')};
       }
     CSS
 
     begin
-      Rails.logger.info("[daisyui:prebuilt] Wrote #{path} with themes: #{[light, dark].uniq.join(', ')}")
+      Rails.logger.info("[daisyui:prebuilt] Wrote #{path} with themes: #{[ light, dark ].uniq.join(', ')}")
     rescue
-      puts "[daisyui:prebuilt] Wrote #{path} with themes: #{[light, dark].uniq.join(', ')}"
+      puts "[daisyui:prebuilt] Wrote #{path} with themes: #{[ light, dark ].uniq.join(', ')}"
     end
   end
 end
