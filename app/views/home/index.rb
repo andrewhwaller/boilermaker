@@ -36,14 +36,14 @@ module Views
 
               div(class: "flex flex-wrap gap-2 mb-4") do
                 button(
-                  data: { action: "click->theme#corporate" },
+                  data: { action: "click->theme#light" },
                   class: "btn btn-outline btn-sm"
-                ) { "Corporate Theme" }
+                ) { "Light Theme" }
 
                 button(
-                  data: { action: "click->theme#business" },
+                  data: { action: "click->theme#dark" },
                   class: "btn btn-outline btn-sm"
-                ) { "Business Theme" }
+                ) { "Dark Theme" }
 
                 button(
                   data: { action: "click->theme#system" },
@@ -98,9 +98,9 @@ module Views
 
       def feature_card(name, feature_key)
         enabled = feature_enabled?(feature_key)
-        box_classes = enabled ? "border-success/50 bg-success/10" : "border-base-300 bg-base-100"
+        box_classes = "border border-base-300 bg-base-100"
 
-        div(class: "p-3 border rounded-box #{box_classes}") do
+        div(class: "p-3 rounded-box #{box_classes}") do
           div(class: "flex items-center justify-between") do
             span(class: "text-sm font-medium text-base-content") { name }
             span(class: "badge #{enabled ? 'badge-success' : 'badge-ghost'} badge-sm") do
