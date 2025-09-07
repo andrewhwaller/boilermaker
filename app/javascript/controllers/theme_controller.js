@@ -5,8 +5,8 @@ export default class extends Controller {
   static targets = ["button", "indicator"]
   static values = {
     storageKey: { type: String, default: "theme-preference" },
-    lightName:  { type: String, default: "platinum" },
-    darkName:   { type: String, default: "graphite" }
+    lightName: { type: String, default: "platinum" },
+    darkName: { type: String, default: "graphite" }
   }
 
   connect() {
@@ -21,6 +21,13 @@ export default class extends Controller {
 
   // Initialize theme on connect - prevents FOUC
   initializeTheme() {
+    // If server-rendered markup already has a theme, respect it to avoid FOUC
+    const currentAttr = this.element.getAttribute('data-theme')
+    if (currentAttr) {
+      // Sync toggle UI state without re-applying theme
+      this.updateToggleState()
+      return
+    }
     const mode = this.getCurrentMode()
     this.applyMode(mode)
   }
@@ -48,8 +55,8 @@ export default class extends Controller {
       const v = localStorage.getItem(this.storageKeyValue)
       if (!v) return null
       // Back-compat: map historical theme names to modes
-      if (["default", "platinum", "corporate"].includes(v)) return "light"
-      if (["forest", "graphite", "business"].includes(v)) return "dark"
+      if (["default", "platinum"].includes(v)) return "light"
+      if (["forest", "graphite"].includes(v)) return "dark"
       if (["light", "dark", "system"].includes(v)) return v
       return null
     } catch {
@@ -73,30 +80,64 @@ export default class extends Controller {
   // Apply mode by setting DaisyUI data-theme to configured light/dark names
   applyMode(mode) {
     // Add temporary class to enable smooth transitions
-    try { this.element.classList.add('theme-transition') } catch {}
+    this.element.classList.add('theme-transition')
     // Set DaisyUI data-theme attribute on the element this controller is attached to
     if (mode === "dark" || mode === "light") {
       const themeName = mode === "dark" ? this.darkNameValue : this.lightNameValue
       this.element.setAttribute("data-theme", themeName)
+      this.setThemeCookie(themeName)
     } else {
       // Remove data-theme to use system default
       this.element.removeAttribute("data-theme")
     }
-    
+
     // Update toggle UI state
     this.updateToggleState(mode)
-    
+
     // Dispatch theme change event for other controllers
     const appliedTheme = this.element.getAttribute('data-theme') || null
     this.dispatch("change", { detail: { mode, theme: appliedTheme } })
 
     // Remove transition class after animation completes
+    clearTimeout(this._transitionTimeout)
+    this._transitionTimeout = setTimeout(() => {
+      this.element.classList.remove('theme-transition')
+    }, 300)
+  }
+
+  // Persist chosen theme name so the server can render it on next request
+  setThemeCookie(name) {
     try {
-      clearTimeout(this._transitionTimeout)
-      this._transitionTimeout = setTimeout(() => {
-        this.element.classList.remove('theme-transition')
-      }, 300)
-    } catch {}
+      const value = encodeURIComponent(name)
+      document.cookie = `theme_name=${value}; path=/; max-age=31536000; samesite=lax`
+    } catch { }
+  }
+
+  // Cookie handling removed: server sets initial data-theme from cookie
+
+  // Helpers
+  prefersReducedMotion() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+  }
+
+  computeTravel() {
+    const pad = 2 // px, matches px-[2px]
+    const track = this.buttonTarget?.clientWidth || 0
+    const knob = this.indicatorTarget?.offsetWidth || 0
+    return Math.max(0, track - pad * 2 - knob)
+  }
+
+  setKnobPosition(x, immediate = false) {
+    if (!this.hasIndicatorTarget) return
+    if (immediate) {
+      const prev = this.indicatorTarget.style.transition
+      this.indicatorTarget.style.transition = 'none'
+      this.indicatorTarget.style.transform = `translateX(${x}px)`
+      void this.indicatorTarget.offsetWidth
+      this.indicatorTarget.style.transition = prev || ''
+    } else {
+      this.indicatorTarget.style.transform = `translateX(${x}px)`
+    }
   }
 
   // Set mode ("light" | "dark" | "system") and persist preference
@@ -112,20 +153,15 @@ export default class extends Controller {
     return true
   }
 
-  // Toggle between light and dark modes
-  toggleTheme() {
-    const current = this.getCurrentMode()
-    const next = current === "dark" ? "light" : "dark"
-    return this.setMode(next)
-  }
+  // --
 
   // System preference change handling
   setupSystemPreferenceListener() {
     if (!window.matchMedia) return
-    
+
     this.systemMediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
     this.systemChangeHandler = this.handleSystemPreferenceChange.bind(this)
-    
+
     if (this.systemMediaQuery.addEventListener) {
       this.systemMediaQuery.addEventListener("change", this.systemChangeHandler)
     }
@@ -141,7 +177,7 @@ export default class extends Controller {
 
   handleSystemPreferenceChange(event) {
     const stored = this.getStoredMode()
-    
+
     // Only react to system changes if user hasn't set explicit preference
     if (!stored || stored === "system") {
       const mode = event.matches ? "dark" : "light"
@@ -150,18 +186,8 @@ export default class extends Controller {
   }
 
   // Stimulus action methods (can be used with data-action)
-  // Backward-compat method names used by existing buttons
-  corporate() { return this.setMode("light") }
-  business() { return this.setMode("dark") }
-
-  // New explicit methods for modes
   light() { return this.setMode("light") }
   dark() { return this.setMode("dark") }
-  // Back-compat for any old actions
-  platinum() { return this.setMode("light") }
-  graphite() { return this.setMode("dark") }
-  default() { return this.setMode("light") }
-  forest() { return this.setMode("dark") }
 
   system() { return this.setMode("system") }
 
@@ -171,20 +197,13 @@ export default class extends Controller {
     return true
   }
 
-  // Handle keyboard shortcuts
-  handleKeyboard(event) {
-    // Check for Cmd/Ctrl + Shift + L
-    if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key === 'L') {
-      event.preventDefault()
-      this.toggle()
-    }
-  }
+  // --
 
   // Update toggle button visual state
   updateToggleState(mode = null) {
     // Only update if we have toggle targets
     if (!this.hasButtonTarget) return
-    
+
     // Determine current mode if not provided
     let isDark
     if (mode) {
@@ -198,25 +217,14 @@ export default class extends Controller {
     this.buttonTarget.setAttribute('aria-pressed', isDark.toString())
 
     // Position knob without animation for current mode
-    if (this.hasIndicatorTarget) {
-      try {
-        const pad = 2
-        const track = this.buttonTarget.clientWidth
-        const knob = this.indicatorTarget.offsetWidth
-        const travel = Math.max(0, track - pad * 2 - knob)
-        const target = isDark ? travel : 0
-        const prev = this.indicatorTarget.style.transition
-        this.indicatorTarget.style.transition = 'none'
-        this.indicatorTarget.style.transform = `translateX(${target}px)`
-        // force reflow to apply immediately
-        void this.indicatorTarget.offsetWidth
-        this.indicatorTarget.style.transition = prev || ''
-      } catch {}
-    }
+    const travel = this.computeTravel()
+    const target = isDark ? travel : 0
+    this.setKnobPosition(target, true)
   }
 
   // Animate first, then apply mode so theme changes after the motion
   animateToggle() {
+    if (this._animating) return false
     const current = this.getCurrentMode()
     const targetMode = current === 'dark' ? 'light' : 'dark'
     // Update visual pressed state immediately for a11y
@@ -225,35 +233,34 @@ export default class extends Controller {
 
     if (!this.hasIndicatorTarget) return this.setMode(targetMode)
 
-    try {
-      // Measure travel
-      const pad = 2
-      const track = this.buttonTarget.clientWidth
-      const knob = this.indicatorTarget.offsetWidth
-      const travel = Math.max(0, track - pad * 2 - knob)
-      const startX = current === 'dark' ? travel : 0
-      const endX = targetIsDark ? travel : 0
-      // set starting position explicitly to avoid jumps
-      const prev = this.indicatorTarget.style.transition
-      this.indicatorTarget.style.transition = 'none'
-      this.indicatorTarget.style.transform = `translateX(${startX}px)`
-      void this.indicatorTarget.offsetWidth
-      this.indicatorTarget.style.transition = prev || ''
+    // Respect reduced motion: skip animation
+    if (this.prefersReducedMotion()) return this.setMode(targetMode)
 
-      // Set transition and animate (slower start, quicker finish)
-      this.indicatorTarget.style.transition = 'transform 320ms cubic-bezier(0.6, 0, 1, 1)'
-      this.indicatorTarget.style.transform = `translateX(${endX}px)`
+    this._animating = true
+    // Measure travel
+    const travel = this.computeTravel()
+    const startX = current === 'dark' ? travel : 0
+    const endX = targetIsDark ? travel : 0
 
-      // On complete, apply the mode (updates data-theme and persists)
-      const onDone = (ev) => {
-        if (ev.propertyName !== 'transform') return
-        this.indicatorTarget.removeEventListener('transitionend', onDone)
-        this.setMode(targetMode)
-      }
-      this.indicatorTarget.addEventListener('transitionend', onDone)
-    } catch {
-      // Fallback: just set the mode
+    // If no movement is needed, apply immediately
+    if (startX === endX) {
+      this._animating = false
+      return this.setMode(targetMode)
+    }
+
+    // set starting position explicitly to avoid jumps
+    this.setKnobPosition(startX, true)
+
+    // Set transition and animate (slower start, quicker finish)
+    this.indicatorTarget.style.transition = 'transform 320ms cubic-bezier(0.6, 0, 1, 1)'
+    this.setKnobPosition(endX)
+
+    // On complete, apply the mode (updates data-theme and persists)
+    const onDone = (ev) => {
+      if (ev.propertyName !== 'transform') return
+      this._animating = false
       this.setMode(targetMode)
     }
+    this.indicatorTarget.addEventListener('transitionend', onDone, { once: true })
   }
 }
