@@ -48,6 +48,14 @@ module Views
               if @recent_users.any?
                 div(class: "overflow-x-auto -mx-2") do
                   table(class: "table table-xs w-full") do
+                    thead do
+                      tr(class: "border-b border-base-300") do
+                        th(class: "font-semibold text-xs px-2") { "User" }
+                        th(class: "font-semibold text-xs px-1") { "Role" }
+                        th(class: "font-semibold text-xs px-1") { "Joined" }
+                        th(class: "font-semibold text-xs px-1 text-right") { "Actions" }
+                      end
+                    end
                     tbody do
                       @recent_users.each do |user|
                         tr(class: "hover:bg-base-200/50 border-0") do

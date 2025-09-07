@@ -40,12 +40,12 @@ module Views
                 table(class: "table table-xs w-full") do
                   thead do
                     tr(class: "border-b border-base-300") do
-                      th(class: "font-semibold text-xs") { "User" }
-                      th(class: "font-semibold text-xs") { "Status" }
-                      th(class: "font-semibold text-xs") { "Role" }
-                      th(class: "font-semibold text-xs") { "Sessions" }
-                      th(class: "font-semibold text-xs") { "Joined" }
-                      th(class: "font-semibold text-xs text-right") { "Actions" }
+                      th(class: "font-semibold text-xs px-2") { "User" }
+                      th(class: "font-semibold text-xs px-1 text-center") { "Status" }
+                      th(class: "font-semibold text-xs px-1") { "Role" }
+                      th(class: "font-semibold text-xs px-1 text-center") { "Sessions" }
+                      th(class: "font-semibold text-xs px-1") { "Joined" }
+                      th(class: "font-semibold text-xs px-1 text-right") { "Actions" }
                     end
                   end
                   
@@ -65,7 +65,7 @@ module Views
                             end
                           end
                         end
-                        td(class: "py-1") do
+                        td(class: "py-1 text-center") do
                           if user.verified?
                             span(class: "text-xs text-success") { "✓" }
                           else
@@ -79,7 +79,7 @@ module Views
                             span(class: "text-xs text-base-content/60") { "Member" }
                           end
                         end
-                        td(class: "py-1 text-xs text-base-content/70") { user.sessions.count }
+                        td(class: "py-1 text-xs text-base-content/70 text-center") { user.sessions.count }
                         td(class: "py-1 text-xs text-base-content/70") { time_ago_in_words(user.created_at) }
                         td(class: "py-1 text-right") do
                           div(class: "flex justify-end gap-0.5") do
