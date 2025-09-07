@@ -8,11 +8,10 @@ module Views
         include Phlex::Rails::Helpers::Pluralize
         include Phlex::Rails::Helpers::TimeAgoInWords
 
-        def initialize(account:, total_users:, admin_users:, recent_users:)
+        def initialize(account:, total_users:, admin_users:)
           @account = account
           @total_users = total_users
           @admin_users = admin_users
-          @recent_users = recent_users
         end
 
         def view_template
@@ -30,97 +29,35 @@ module Views
               end
               
               div(class: "flex gap-2") do
-                link_to("+ User", new_account_admin_invitation_path, class: "btn btn-primary btn-sm")
+                link_to("Users", account_admin_users_path, class: "btn btn-primary btn-sm")
+                link_to("+ User", new_account_admin_invitation_path, class: "btn btn-success btn-sm")
                 link_to("Settings", account_admin_settings_path, class: "btn btn-outline btn-sm")
               end
             end
 
-            # Compact users table
-            div do
-              div(class: "flex items-center justify-between mb-2") do
-                h2(class: "font-semibold text-base-content") { "Users" }
-              end
-
-              if @recent_users.any?
-                div(class: "overflow-x-auto -mx-2") do
-                  table(class: "table table-xs w-full") do
-                    thead do
-                      tr(class: "border-b border-base-300") do
-                        th(class: "font-semibold text-base px-2") { "User" }
-                        th(class: "font-semibold text-base px-1") { "Role" }
-                        th(class: "font-semibold text-base px-1") { "Joined" }
-                        th(class: "font-semibold text-base px-1 text-right") { "Actions" }
-                      end
-                    end
-                    tbody do
-                      @recent_users.each do |user|
-                        tr(class: "hover:bg-base-200/50 border-0") do
-                          td(class: "py-1 px-2") do
-                            div(class: "flex items-center gap-2") do
-                              div(class: "w-6 h-6 rounded-full bg-primary text-primary-content flex items-center justify-center text-base") do
-                                user.email[0].upcase
-                              end
-                              div(class: "text-base truncate max-w-48") do
-                                plain(user.email)
-                                if user == Current.user
-                                  span(class: "text-base text-primary ml-1") { "(you)" }
-                                end
-                              end
-                            end
-                          end
-                          td(class: "py-1 px-1 text-base text-base-content/70") do
-                            if user.admin?
-                              span(class: "text-primary") { "Admin" }
-                            elsif !user.verified?
-                              span(class: "text-warning") { "Pending" }
-                            else
-                              span(class: "text-base-content/50") { "Member" }
-                            end
-                          end
-                          td(class: "py-1 px-1 text-base text-base-content/70") { time_ago_in_words(user.created_at) }
-                          td(class: "py-1 px-1 text-right") do
-                            div(class: "flex justify-end gap-0.5") do
-                              if user.verified? && user != Current.user
-                                if user.admin?
-                                  button_to("−", account_admin_user_path(user),
-                                    method: :patch,
-                                    params: { user: { admin: false } },
-                                    class: "btn btn-xs btn-square btn-warning",
-                                    confirm: "Remove admin?",
-                                    title: "Remove admin")
-                                else
-                                  button_to("+", account_admin_user_path(user),
-                                    method: :patch,
-                                    params: { user: { admin: true } },
-                                    class: "btn btn-xs btn-square btn-success",
-                                    title: "Make admin")
-                                end
-                              elsif !user.verified?
-                                button_to("✕", account_admin_invitation_path(user), 
-                                  method: :delete,
-                                  class: "btn btn-xs btn-square btn-error",
-                                  confirm: "Cancel?",
-                                  title: "Cancel invitation")
-                              end
-                            end
-                          end
-                        end
-                      end
-                    end
+            # Quick actions section
+            div(class: "bg-base-200 rounded-box p-4") do
+              h2(class: "font-semibold text-base-content mb-3") { "Quick Actions" }
+              
+              div(class: "grid grid-cols-2 gap-3") do
+                link_to(account_admin_users_path, class: "flex items-center gap-3 p-3 rounded-box hover:bg-base-300 transition-colors") do
+                  div(class: "flex items-center justify-center w-10 h-10 bg-primary text-primary-content rounded-box") do
+                    span(class: "text-lg") { "👥" }
+                  end
+                  div do
+                    div(class: "font-medium text-base-content") { "Manage Users" }
+                    div(class: "text-sm text-base-content/70") { "#{@total_users} users" }
                   end
                 end
                 
-                if @total_users > 5
-                  div(class: "text-center mt-2") do
-                    link_to("View all #{@total_users} users →", account_admin_users_path, 
-                      class: "text-base text-primary hover:underline")
+                link_to(new_account_admin_invitation_path, class: "flex items-center gap-3 p-3 rounded-box hover:bg-base-300 transition-colors") do
+                  div(class: "flex items-center justify-center w-10 h-10 bg-success text-success-content rounded-box") do
+                    span(class: "text-lg") { "✉️" }
                   end
-                end
-              else
-                div(class: "text-center py-4 text-base-content/70") do
-                  p(class: "text-sm mb-2") { "No users yet" }
-                  link_to("Send first invitation", new_account_admin_invitation_path, 
-                    class: "btn btn-primary btn-xs")
+                  div do
+                    div(class: "font-medium text-base-content") { "Invite Users" }
+                    div(class: "text-sm text-base-content/70") { "Send invitations" }
+                  end
                 end
               end
             end
