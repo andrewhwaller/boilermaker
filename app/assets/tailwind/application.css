@@ -112,6 +112,63 @@
   --radius-full: 0; /* sets `rounded-full` to square too */
 }
 
+@plugin "./daisyui/theme.js" {
+  name: "command-center";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+
+  /* True black command center backgrounds */
+  --color-base-100: #000000;
+  --color-base-200: #0a0a0a;
+  --color-base-300: #1a1a1a;
+  --color-base-content: #ffffff;
+
+  /* Terminal status colors - bright and high contrast */
+  --color-primary: #00ff41;
+  --color-primary-content: #000000;
+  --color-secondary: #cccccc;
+  --color-secondary-content: #000000;
+  --color-accent: #ff8c00;
+  --color-accent-content: #000000;
+  --color-neutral: #333333;
+  --color-neutral-content: #ffffff;
+
+  --color-info: #0080ff;
+  --color-info-content: #000000;
+  --color-success: #00ff41;
+  --color-success-content: #000000;
+  --color-warning: #ff8c00;
+  --color-warning-content: #000000;
+  --color-error: #ff4444;
+  --color-error-content: #ffffff;
+
+  /* square corners everywhere */
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0rem;
+
+  /* base sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  /* border size */
+  --border: 1px;
+
+  /* effects */
+  --depth: 0;
+  --noise: 0;
+
+  --radius-sm: 0;
+  --radius: 0;      /* used by `rounded` */
+  --radius-md: 0;   /* `rounded-md` */
+  --radius-lg: 0;   /* `rounded-lg` */
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-full: 0; /* sets `rounded-full` to square too */
+}
+
 @layer base {
   html {
     font-size: 14px;
@@ -149,4 +206,47 @@
 
 body {
   font-family: "CommitMonoIndustrial", monospace;
+}
+
+/* Command Center Terminal Styling */
+@layer components {
+  .terminal-header {
+    @apply text-xs font-medium uppercase tracking-wider text-base-content/70 border-b border-base-300;
+  }
+  
+  .terminal-status-active {
+    @apply text-success bg-success/10 px-2 py-1 font-medium uppercase tracking-wide;
+  }
+  
+  .terminal-status-warning {
+    @apply text-warning bg-warning/10 px-2 py-1 font-medium uppercase tracking-wide;
+  }
+  
+  .terminal-status-error {
+    @apply text-error bg-error/10 px-2 py-1 font-medium uppercase tracking-wide;
+  }
+  
+  .terminal-status-info {
+    @apply text-info bg-info/10 px-2 py-1 font-medium uppercase tracking-wide;
+  }
+  
+  .terminal-data {
+    @apply font-mono text-base-content bg-base-200/50 px-2 py-1;
+  }
+  
+  .terminal-button {
+    @apply px-3 py-1 font-medium uppercase tracking-wide transition-all duration-200 border;
+  }
+  
+  .terminal-button-primary {
+    @apply terminal-button bg-primary text-primary-content border-primary hover:bg-primary/80;
+  }
+  
+  .terminal-button-secondary {
+    @apply terminal-button bg-base-300 text-base-content border-base-300 hover:bg-base-200;
+  }
+  
+  .terminal-button-danger {
+    @apply terminal-button bg-error text-error-content border-error hover:bg-error/80;
+  }
 }
