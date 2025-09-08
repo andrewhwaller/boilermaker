@@ -1,0 +1,48 @@
+<%# Boilermaker engine layout: delegate to host app's Phlex layout so CSS/JS and nav are consistent %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Boilermaker Command Center</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="min-h-screen bg-black text-neutral-200 font-mono" data-theme="<%= Boilermaker::Config.theme_dark_name || 'graphite' %>">
+    <!-- Top Bar -->
+    <header class="border-b border-neutral/20 bg-black/90">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
+          <div class="tracking-widest text-sm text-neutral-300">EXPERIMENTAL INTERFACE</div>
+        </div>
+        <div class="text-primary font-semibold tracking-wider">BOILERMAKER</div>
+      </div>
+    </header>
+
+    <!-- Flash Messages -->
+    <% unless flash.empty? %>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 space-y-2">
+        <% flash.each do |type, message| %>
+          <% cls = case type.to_sym
+            when :notice, :success then 'alert alert-success'
+            when :alert, :error then 'alert alert-error'
+            else 'alert' end %>
+          <div class="<%= cls %>">
+            <span><%= message %></span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-1 gap-6">
+        <%= yield %>
+      </div>
+    </main>
+  </body>
+</html>

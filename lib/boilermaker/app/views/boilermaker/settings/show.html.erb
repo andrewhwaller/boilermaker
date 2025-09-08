@@ -1,115 +1,117 @@
-<div class="boilermaker-header">
-  <h1>Boilermaker Settings</h1>
-  <p class="boilermaker-subtitle">Configure your application settings and feature toggles</p>
+<div class="mb-6 flex items-center justify-between">
+  <div>
+    <h1 class="text-2xl font-bold text-base-content font-mono">Boilermaker Settings</h1>
+    <p class="text-sm text-base-content/70 font-mono">Configure your application settings and feature toggles</p>
+  </div>
+  <%= link_to "Edit", boilermaker.edit_settings_path, class: "btn btn-sm btn-primary" %>
+  
 </div>
 
 <!-- Application Configuration -->
-<div class="settings-section">
-  <h2>Application Configuration</h2>
+<div class="card bg-base-200 shadow-sm mb-6">
+  <div class="card-body">
+    <h2 class="card-title text-base-content font-mono">Application Configuration</h2>
   
-  <% if @settings.any? && @settings['app'] %>
-    <div class="config-grid">
-      <div class="config-item">
-        <span class="config-label">Application Name</span>
-        <span class="config-value"><%= @settings.dig('app', 'name') || 'Boilermaker' %></span>
-      </div>
-      
-      <div class="config-item">
-        <span class="config-label">Version</span>
-        <span class="config-value"><%= @settings.dig('app', 'version') || '1.0.0' %></span>
-      </div>
-      
-      <div class="config-item">
-        <span class="config-label">Support Email</span>
-        <span class="config-value"><%= @settings.dig('app', 'support_email') || 'support@example.com' %></span>
-      </div>
-      
-      <% if @settings.dig('app', 'description') %>
-        <div class="config-item config-item-full">
-          <span class="config-label">Description</span>
-          <span class="config-value"><%= @settings.dig('app', 'description') %></span>
+    <% if @settings.any? && @settings['app'] %>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono">
+        <div class="bg-base-300 rounded-box p-4">
+          <div class="text-xs text-base-content/70">Application Name</div>
+          <div class="text-base text-base-content"><%= @settings.dig('app', 'name') || 'Boilermaker' %></div>
         </div>
-      <% end %>
-    </div>
-  <% else %>
-    <div class="empty-state">
-      <p>No application configuration found.</p>
-    </div>
-  <% end %>
+        <div class="bg-base-300 rounded-box p-4">
+          <div class="text-xs text-base-content/70">Version</div>
+          <div class="text-base text-base-content"><%= @settings.dig('app', 'version') || '1.0.0' %></div>
+        </div>
+        <div class="bg-base-300 rounded-box p-4">
+          <div class="text-xs text-base-content/70">Support Email</div>
+          <div class="text-base text-base-content"><%= @settings.dig('app', 'support_email') || 'support@example.com' %></div>
+        </div>
+        <% if @settings.dig('app', 'description') %>
+          <div class="md:col-span-3 bg-base-300 rounded-box p-4">
+            <div class="text-xs text-base-content/70">Description</div>
+            <div class="text-sm text-base-content"><%= @settings.dig('app', 'description') %></div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center py-6 text-base-content/70">No application configuration found.</div>
+    <% end %>
+  </div>
 </div>
 
 <!-- Theme Configuration -->
-<div class="settings-section">
-  <h2>Theme Configuration</h2>
-  
-  <div class="config-grid">
-    <div class="config-item">
-      <span class="config-label">Light Theme</span>
-      <span class="config-value"><%= @settings.dig('ui', 'theme', 'light') || 'platinum' %></span>
-    </div>
-    
-    <div class="config-item">
-      <span class="config-label">Dark Theme</span>
-      <span class="config-value"><%= @settings.dig('ui', 'theme', 'dark') || 'graphite' %></span>
+<div class="card bg-base-200 shadow-sm mb-6">
+  <div class="card-body">
+    <h2 class="card-title text-base-content font-mono">Theme Configuration</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono">
+      <div class="bg-base-300 rounded-box p-4">
+        <div class="text-xs text-base-content/70">Light Theme</div>
+        <div class="text-base text-base-content"><%= @settings.dig('ui', 'theme', 'light') || 'platinum' %></div>
+      </div>
+      <div class="bg-base-300 rounded-box p-4">
+        <div class="text-xs text-base-content/70">Dark Theme</div>
+        <div class="text-base text-base-content"><%= @settings.dig('ui', 'theme', 'dark') || 'graphite' %></div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- Feature Toggles -->
-<div class="settings-section">
-  <h2>Feature Toggles</h2>
-  
-  <% if @features.any? %>
-    <div class="features-grid">
-      <% @features.each do |feature, enabled| %>
-        <div class="feature-item">
-          <div class="feature-info">
-            <span class="feature-name"><%= feature.humanize %></span>
-            <span class="feature-description">
-              <% case feature %>
-              <% when 'user_registration' %>
-                Allow new users to register accounts
-              <% when 'password_reset' %>
-                Enable password reset functionality
-              <% when 'two_factor_authentication' %>
-                Require TOTP/recovery codes for login
-              <% when 'multi_tenant' %>
-                Support multiple organizations/accounts
-              <% when 'personal_accounts' %>
-                Enable personal user accounts
+<div class="card bg-base-200 shadow-sm mb-6">
+  <div class="card-body">
+    <h2 class="card-title text-base-content font-mono">Feature Toggles</h2>
+    <% if @features.any? %>
+      <div class="divide-y divide-base-300">
+        <% @features.each do |feature, enabled| %>
+          <div class="flex items-center justify-between py-3">
+            <div class="min-w-0">
+              <div class="text-sm font-mono text-base-content"><%= feature.humanize %></div>
+              <div class="text-xs text-base-content/70">
+                <% case feature %>
+                <% when 'user_registration' %>
+                  Allow new users to register accounts
+                <% when 'password_reset' %>
+                  Enable password reset functionality
+                <% when 'two_factor_authentication' %>
+                  Require TOTP/recovery codes for login
+                <% when 'multi_tenant' %>
+                  Support multiple organizations/accounts
+                <% when 'personal_accounts' %>
+                  Enable personal user accounts
+                <% else %>
+                  Feature toggle setting
+                <% end %>
+              </div>
+            </div>
+            <div>
+              <% if enabled %>
+                <span class="badge badge-success badge-sm font-mono">ENABLED</span>
               <% else %>
-                Feature toggle setting
+                <span class="badge badge-neutral badge-sm font-mono">DISABLED</span>
               <% end %>
-            </span>
+            </div>
           </div>
-          
-          <div class="feature-status <%= enabled ? 'enabled' : 'disabled' %>">
-            <%= enabled ? 'Enabled' : 'Disabled' %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  <% else %>
-    <div class="empty-state">
-      <p>No features configured.</p>
-    </div>
-  <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center py-6 text-base-content/70">No features configured.</div>
+    <% end %>
+  </div>
 </div>
 
 <!-- Actions -->
-<div class="actions-section">
-  <div class="action-info">
-    <p class="action-title">Development Settings</p>
-    <p class="action-subtitle">These settings are only editable in development mode</p>
+<div class="flex items-center justify-between bg-base-200 rounded-box p-4 mb-6">
+  <div>
+    <p class="text-sm font-semibold text-base-content font-mono">Development Settings</p>
+    <p class="text-xs text-base-content/70 font-mono">These settings are only editable in development mode</p>
   </div>
-  
-  <div class="action-buttons">
-    <%= link_to "Edit Settings", boilermaker.edit_settings_path, class: "btn btn-primary" %>
+  <div class="flex gap-2">
+    <%= link_to "Edit Settings", boilermaker.edit_settings_path, class: "btn btn-primary btn-sm" %>
   </div>
 </div>
 
 <% if Rails.env.development? %>
-  <div class="notice-box">
-    <p>After changing critical settings, restart your development server for changes to take full effect.</p>
+  <div class="alert alert-warning font-mono">
+    <span>After changing critical settings, restart your development server for changes to take full effect.</span>
   </div>
-<% end %> 
+<% end %>
