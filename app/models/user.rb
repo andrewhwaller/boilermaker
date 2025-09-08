@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   belongs_to :account
+  has_many :account_memberships, dependent: :destroy
+  has_many :accounts, through: :account_memberships
   has_secure_password
 
   generates_token_for :email_verification, expires_in: 2.days do
@@ -19,6 +21,7 @@ class User < ApplicationRecord
   normalizes :email, with: -> { _1.strip.downcase }
 
   scope :unverified, -> { where(verified: false) }
+  scope :verified, -> { where(verified: true) }
 
   before_validation if: :email_changed?, on: :update do
     self.verified = false
@@ -34,5 +37,17 @@ class User < ApplicationRecord
 
   def admin?
     admin
+  end
+
+  # Returns the membership for the given account (or current single account)
+  def membership_for(account = nil)
+    account ||= self.account
+    account_memberships.find_by(account_id: account&.id)
+  end
+
+  # Account-scoped admin via membership; app-level admins inherit access
+  def account_admin_for?(account = nil)
+    return true if admin?
+    membership_for(account)&.admin? || false
   end
 end
