@@ -12,36 +12,68 @@
     <%= javascript_importmap_tags %>
   </head>
   <body class="min-h-screen bg-black text-neutral-200 font-mono" data-theme="<%= Boilermaker::Config.theme_dark_name || 'graphite' %>">
-    <!-- Top Bar -->
-    <header class="border-b border-neutral/20 bg-black/90">
+    <!-- TOP COMMAND BAR -->
+    <header class="border-b-2 border-primary/30 bg-black">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
-          <div class="tracking-widest text-sm text-neutral-300">EXPERIMENTAL INTERFACE</div>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
+            <div class="text-xs text-success uppercase tracking-widest font-mono font-bold">SYS.ONLINE</div>
+          </div>
+          <div class="text-xs text-base-content/70 uppercase tracking-widest font-mono">EXPERIMENTAL INTERFACE</div>
         </div>
-        <div class="text-primary font-semibold tracking-wider">BOILERMAKER</div>
+        <div class="flex items-center gap-4">
+          <div class="text-xs text-base-content/50 font-mono">
+            ENV: <%= Rails.env.upcase %>
+          </div>
+          <div class="text-primary font-bold tracking-wider font-mono text-lg">BOILERMAKER</div>
+        </div>
       </div>
     </header>
 
-    <!-- Flash Messages -->
+    <!-- SYSTEM MESSAGES -->
     <% unless flash.empty? %>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 space-y-2">
         <% flash.each do |type, message| %>
-          <% cls = case type.to_sym
-            when :notice, :success then 'alert alert-success'
-            when :alert, :error then 'alert alert-error'
-            else 'alert' end %>
-          <div class="<%= cls %>">
-            <span><%= message %></span>
+          <% 
+            status_config = case type.to_sym
+            when :notice, :success 
+              { color: 'success', label: 'SYS.SUCCESS', bg: 'bg-success/10', border: 'border-success/30', text: 'text-success' }
+            when :alert, :error 
+              { color: 'error', label: 'SYS.ERROR', bg: 'bg-error/10', border: 'border-error/30', text: 'text-error' }
+            else 
+              { color: 'info', label: 'SYS.INFO', bg: 'bg-info/10', border: 'border-info/30', text: 'text-info' }
+            end 
+          %>
+          <div class="<%= status_config[:bg] %> border <%= status_config[:border] %> p-4">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-<%= status_config[:color] %> rounded-full animate-pulse"></div>
+              <span class="<%= status_config[:text] %> font-mono uppercase tracking-wide text-xs font-bold"><%= status_config[:label] %>:</span>
+              <span class="text-base-content font-mono text-sm"><%= message %></span>
+            </div>
           </div>
         <% end %>
       </div>
     <% end %>
 
-    <!-- Main Content -->
+    <!-- MAIN CONTROL INTERFACE -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="grid grid-cols-1 gap-6">
         <%= yield %>
+      </div>
+      
+      <!-- SYSTEM STATUS BAR -->
+      <div class="mt-8 border-t border-primary/30 pt-4">
+        <div class="flex items-center justify-between text-xs font-mono">
+          <div class="flex items-center gap-4">
+            <span class="text-base-content/50">SYSTEM.TIME: <%= Time.current.strftime("%H:%M:%S UTC") %></span>
+            <span class="text-base-content/50">BUILD.ENV: <%= Rails.env.upcase %></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-1 h-1 bg-success rounded-full"></div>
+            <span class="text-success">INTERFACE.OPERATIONAL</span>
+          </div>
+        </div>
       </div>
     </main>
   </body>
