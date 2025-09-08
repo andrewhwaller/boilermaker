@@ -71,11 +71,11 @@ module Boilermaker
       end
 
       def primary_color
-        get("ui.colors.primary") || "#000000"
+        get("ui.brand.primary_color") || get("ui.colors.primary") || "#000000"
       end
 
       def secondary_color
-        get("ui.colors.secondary") || "#ffffff"
+        get("ui.brand.secondary_color") || get("ui.colors.secondary") || "#ffffff"
       end
 
       def theme_light_name

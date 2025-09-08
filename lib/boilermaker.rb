@@ -11,6 +11,10 @@ require_relative "boilermaker/config/routes"
 
 module Boilermaker
   class << self
+    def restart
+      run_command "rails restart"
+    end
+
     def config
       Config
     end
