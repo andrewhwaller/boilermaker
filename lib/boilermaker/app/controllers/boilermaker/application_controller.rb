@@ -1,5 +1,6 @@
 module Boilermaker
   class ApplicationController < ActionController::Base
+    layout "boilermaker"
     # For development and testing, skip CSRF verification to make API testing easier
     # In production, this should be properly handled with valid tokens
     protect_from_forgery with: :exception, unless: -> { Rails.env.development? || Rails.env.test? }
