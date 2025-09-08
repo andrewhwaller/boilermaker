@@ -25,5 +25,5 @@ development:
   ui:
     theme:
       light: platinum
-      dark: dark
+      dark: graphite
 test: {}
