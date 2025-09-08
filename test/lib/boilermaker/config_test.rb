@@ -5,6 +5,7 @@ require Rails.root.join("lib", "boilermaker")
 
 class Boilermaker::ConfigTest < ActiveSupport::TestCase
   def setup
+    @original_data = Boilermaker::Config.instance_variable_get(:@data)
     # Create a temporary config for testing
     @temp_config = {
       "app" => {
@@ -35,6 +36,11 @@ class Boilermaker::ConfigTest < ActiveSupport::TestCase
 
     # Stub the data loading for tests
     Boilermaker::Config.instance_variable_set(:@data, @temp_config)
+  end
+
+  def teardown
+    # Restore original config to avoid leaking into other tests in the process
+    Boilermaker::Config.instance_variable_set(:@data, @original_data)
   end
 
   test "get method returns correct values" do

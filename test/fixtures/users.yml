@@ -1,11 +1,12 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-lazaro_nixon:
-  email: lazaronixon@hotmail.com
+app_admin:
+  email: app_admin@example.com
   password_digest: $2a$12$NNMImhUMdv3QGyqlG9zTs.Z2/3gBhMQc5RU9x9.wUPE3zS4jzYbvW
   verified: true
   otp_secret: JBSWY3DPEHPK3PXP
   account_id: 1
+  admin: true
 
 regular_user:
   email: regular@example.com
@@ -13,3 +14,4 @@ regular_user:
   verified: true
   otp_secret: KBSWY3DPEHPK3PXQ
   account_id: 1
+  admin: false

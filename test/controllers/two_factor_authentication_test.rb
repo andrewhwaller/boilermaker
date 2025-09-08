@@ -2,7 +2,7 @@ require "test_helper"
 
 class TwoFactorAuthenticationTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:lazaro_nixon)
+    @user = users(:app_admin)
     # Ensure user starts without 2FA enabled and is verified
     @user.update!(otp_required_for_sign_in: false, verified: true)
   end
