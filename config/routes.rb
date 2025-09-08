@@ -46,8 +46,7 @@ Rails.application.routes.draw do
     end
   end
 
-  # Invitations
-  resource :invitation, only: [ :new, :create ]
+  # Invitations are account-scoped under /account/invitations
 
   # Masquerading
   post "users/:user_id/masquerade", to: "masquerades#create", as: :user_masquerade
@@ -55,12 +54,19 @@ Rails.application.routes.draw do
   # Settings
   resource :settings, only: [ :show ]
 
-  # Account Admin
-  namespace :account_admin do
-    resource :dashboard, only: [ :show ]
+  # Account management (per-account admin)
+  get "account", to: "account/dashboards#show", as: :account
+  scope :account, module: :account, as: :account do
     resources :users, only: [ :index, :show, :edit, :update ]
     resources :invitations, only: [ :index, :new, :create, :destroy ]
     resource :settings, only: [ :show, :edit, :update ]
+  end
+
+  # Application administration (app-level admin)
+  get "admin", to: "admin/dashboards#show", as: :admin
+  namespace :admin do
+    resources :accounts, only: [ :index, :show ]
+    resources :users, only: [ :index, :show ]
   end
 
   # Mount Boilermaker engine for admin functionality only in development and test
