@@ -1,66 +1,69 @@
-<div class="mb-6">
-  <h1 class="text-2xl font-bold text-base-content font-mono">Edit Boilermaker Settings</h1>
-  <p class="text-sm text-base-content/70 font-mono">Configure your application settings and feature toggles</p>
-  
+<div class="mb-6 border-b border-primary/30 pb-4">
+  <h1 class="text-2xl font-bold text-primary font-mono uppercase tracking-wider">A1-CONFIG EDITOR</h1>
+  <p class="text-xs text-base-content/70 font-mono uppercase tracking-wide">MODIFY SYSTEM CONFIGURATION & FEATURE TOGGLES</p>
 </div>
 
 <%= form_with url: boilermaker.settings_path, method: :patch, local: true, scope: :settings, class: "space-y-6" do |form| %>
   
-  <!-- Application Configuration -->
-  <div class="card bg-base-200 shadow-sm">
-    <div class="card-body">
-      <h2 class="card-title text-base-content font-mono">Application Configuration</h2>
+  <!-- A2-APPLICATION CONFIG -->
+  <div class="bg-base-200 border border-base-300">
+    <div class="bg-primary/20 border-b border-primary/30 px-4 py-2">
+      <h2 class="text-xs font-bold text-primary uppercase tracking-wider font-mono">A2-APPLICATION CONFIG</h2>
+    </div>
+    <div class="p-4">
     
     <%= form.fields_for :app do |app_form| %>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="form-group">
-          <%= app_form.label :name, "Application Name", class: "label" %>
+          <%= app_form.label :name, "APP.NAME", class: "text-xs text-info uppercase tracking-wide font-mono font-bold" %>
           <%= app_form.text_field :name, 
                 value: @settings.dig('app', 'name') || 'Boilermaker', 
-                class: "input input-bordered w-full font-mono",
-                placeholder: "Enter application name" %>
+                class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-3 py-2 focus:border-primary focus:outline-none",
+                placeholder: "[ENTER APP NAME]" %>
         </div>
         
         <div class="form-group">
-          <%= app_form.label :version, "Version", class: "label" %>
+          <%= app_form.label :version, "APP.VERSION", class: "text-xs text-info uppercase tracking-wide font-mono font-bold" %>
           <%= app_form.text_field :version, 
                 value: @settings.dig('app', 'version') || '1.0.0', 
-                class: "input input-bordered w-full font-mono",
-                placeholder: "e.g., 1.0.0" %>
+                class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-3 py-2 focus:border-primary focus:outline-none",
+                placeholder: "[e.g., 1.0.0]" %>
         </div>
         
         <div class="form-group">
-          <%= app_form.label :support_email, "Support Email", class: "label" %>
+          <%= app_form.label :support_email, "SUPPORT.EMAIL", class: "text-xs text-info uppercase tracking-wide font-mono font-bold" %>
           <%= app_form.email_field :support_email, 
                 value: @settings.dig('app', 'support_email') || 'support@example.com', 
-                class: "input input-bordered w-full font-mono",
-                placeholder: "support@example.com" %>
+                class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-3 py-2 focus:border-primary focus:outline-none",
+                placeholder: "[support@example.com]" %>
         </div>
         
         <div class="form-group form-group-full md:col-span-2">
-          <%= app_form.label :description, "Description", class: "label" %>
+          <%= app_form.label :description, "APP.DESCRIPTION", class: "text-xs text-info uppercase tracking-wide font-mono font-bold" %>
           <%= app_form.text_area :description, 
                 value: @settings.dig('app', 'description') || 'A modern Rails application', 
-                class: "textarea textarea-bordered w-full font-mono",
+                class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-3 py-2 focus:border-primary focus:outline-none",
                 rows: 4,
-                placeholder: "Brief description of your application" %>
+                placeholder: "[BRIEF APPLICATION DESCRIPTION]" %>
         </div>
       </div>
     <% end %>
     </div>
   </div>
 
-  <!-- Feature Toggles -->
-  <div class="card bg-base-200 shadow-sm">
-    <div class="card-body">
-      <h2 class="card-title text-base-content font-mono">Feature Toggles</h2>
+  <!-- B1-FEATURE TOGGLES -->
+  <div class="bg-base-200 border border-base-300">
+    <div class="bg-success/20 border-b border-success/30 px-4 py-2">
+      <h2 class="text-xs font-bold text-success uppercase tracking-wider font-mono">B1-FEATURE TOGGLES</h2>
+    </div>
+    <div class="p-4">
     
     <%= form.fields_for :features do |features_form| %>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="toggle-item">
+      <div class="space-y-4">
+        <div class="flex items-center justify-between py-3 border-b border-base-300/50">
           <div class="toggle-info">
-            <span class="toggle-name">User Registration</span>
-            <span class="toggle-description">Allow new users to register accounts</span>
+            <span class="text-sm font-mono text-base-content uppercase tracking-wide font-bold">USER.REGISTRATION</span>
+            <div class="text-xs text-base-content/70 font-mono">ALLOW NEW USER ACCOUNT CREATION</div>
           </div>
           <div>
             <%= features_form.check_box :user_registration, 
@@ -69,10 +72,10 @@
           </div>
         </div>
         
-        <div class="toggle-item">
+        <div class="flex items-center justify-between py-3 border-b border-base-300/50">
           <div class="toggle-info">
-            <span class="toggle-name">Password Reset</span>
-            <span class="toggle-description">Enable password reset functionality</span>
+            <span class="text-sm font-mono text-base-content uppercase tracking-wide font-bold">PASSWORD.RESET</span>
+            <div class="text-xs text-base-content/70 font-mono">ENABLE PASSWORD RECOVERY SYSTEM</div>
           </div>
           <div>
             <%= features_form.check_box :password_reset, 
@@ -81,10 +84,10 @@
           </div>
         </div>
         
-        <div class="toggle-item">
+        <div class="flex items-center justify-between py-3 border-b border-base-300/50">
           <div class="toggle-info">
-            <span class="toggle-name">Two-Factor Authentication</span>
-            <span class="toggle-description">Require TOTP/recovery codes for login</span>
+            <span class="text-sm font-mono text-base-content uppercase tracking-wide font-bold">TWO.FACTOR.AUTH</span>
+            <div class="text-xs text-base-content/70 font-mono">REQUIRE TOTP/RECOVERY CODES FOR LOGIN</div>
           </div>
           <div>
             <%= features_form.check_box :two_factor_authentication, 
@@ -93,10 +96,10 @@
           </div>
         </div>
         
-        <div class="toggle-item">
+        <div class="flex items-center justify-between py-3 border-b border-base-300/50">
           <div class="toggle-info">
-            <span class="toggle-name">Multi-Tenant Support</span>
-            <span class="toggle-description">Support multiple organizations/accounts</span>
+            <span class="text-sm font-mono text-base-content uppercase tracking-wide font-bold">MULTI.TENANT</span>
+            <div class="text-xs text-base-content/70 font-mono">SUPPORT MULTIPLE ORGANIZATIONS/ACCOUNTS</div>
           </div>
           <div>
             <%= features_form.check_box :multi_tenant, 
@@ -105,10 +108,10 @@
           </div>
         </div>
         
-        <div class="toggle-item toggle-item-full">
+        <div class="flex items-center justify-between py-3">
           <div class="toggle-info">
-            <span class="toggle-name">Personal Accounts</span>
-            <span class="toggle-description">Enable personal user accounts</span>
+            <span class="text-sm font-mono text-base-content uppercase tracking-wide font-bold">PERSONAL.ACCOUNTS</span>
+            <div class="text-xs text-base-content/70 font-mono">ENABLE PERSONAL USER ACCOUNTS</div>
           </div>
           <div>
             <%= features_form.check_box :personal_accounts, 
@@ -121,10 +124,12 @@
     </div>
   </div>
 
-  <!-- UI Theme Selection -->
-  <div class="card bg-base-200 shadow-sm">
-    <div class="card-body">
-      <h2 class="card-title text-base-content font-mono">UI Theme</h2>
+  <!-- C1-UI THEME -->
+  <div class="bg-base-200 border border-base-300">
+    <div class="bg-warning/20 border-b border-warning/30 px-4 py-2">
+      <h2 class="text-xs font-bold text-warning uppercase tracking-wider font-mono">C1-UI THEME</h2>
+    </div>
+    <div class="p-4">
 
     <div class="form-grid">
       <%= form.fields_for :ui do |ui_form| %>
@@ -132,7 +137,7 @@
           <% builtins_light = Boilermaker::Themes::LIGHT %>
           <% builtins_dark  = Boilermaker::Themes::DARK %>
           <% custom_light = [["platinum (custom)", "platinum"]] %>
-          <% custom_dark  = [["graphite (custom)", "graphite"]] %>
+          <% custom_dark  = [["graphite (custom)", "graphite"], ["command-center (custom)", "command-center"]] %>
           <% grouped_light = [
             ["Custom", custom_light],
             ["Light (built-in)", builtins_light.sort.map { |n| [n, n] }]
@@ -143,43 +148,54 @@
           ] %>
 
           <div class="form-group">
-            <%= theme_form.label :light, "Light Theme", class: "label" %>
+            <%= theme_form.label :light, "THEME.LIGHT", class: "text-xs text-warning uppercase tracking-wide font-mono font-bold" %>
             <%= theme_form.select :light,
                   grouped_options_for_select(grouped_light, @settings.dig('ui', 'theme', 'light') || 'platinum'),
                   {},
-                  class: "select select-bordered w-full font-mono" %>
+                  class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-3 py-2 focus:border-primary focus:outline-none" %>
           </div>
 
           <div class="form-group">
-            <%= theme_form.label :dark, "Dark Theme", class: "label" %>
+            <%= theme_form.label :dark, "THEME.DARK", class: "text-xs text-warning uppercase tracking-wide font-mono font-bold" %>
             <%= theme_form.select :dark,
                   grouped_options_for_select(grouped_dark, @settings.dig('ui', 'theme', 'dark') || 'graphite'),
                   {},
-                  class: "select select-bordered w-full font-mono" %>
+                  class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-3 py-2 focus:border-primary focus:outline-none" %>
           </div>
         <% end %>
       <% end %>
     </div>
 
-    <p class="text-xs text-base-content/70 font-mono">Built-in DaisyUI themes must be included at build time. Saving updates the prebuilt theme list so Tailwind bundles only the selected built-ins; custom themes (platinum/graphite) are always available.</p>
+    <p class="text-xs text-base-content/70 font-mono bg-base-300/30 p-3 border-l-2 border-warning/50">
+      SYSTEM NOTE: Built-in DaisyUI themes must be included at build time. Saving updates the prebuilt theme list so Tailwind bundles only the selected built-ins; custom themes (platinum/graphite/command-center) are always available.
+    </p>
     </div>
   </div>
 
-  <!-- Actions -->
-  <div class="flex items-center justify-between bg-base-200 rounded-box p-4">
-    <div>
-      <p class="text-sm font-semibold text-base-content font-mono">Development Settings</p>
-      <p class="text-xs text-base-content/70 font-mono">Changes will be applied to development environment only</p>
+  <!-- D1-ACTIONS -->
+  <div class="bg-base-200 border border-base-300">
+    <div class="bg-error/20 border-b border-error/30 px-4 py-2">
+      <h2 class="text-xs font-bold text-error uppercase tracking-wider font-mono">D1-ACTIONS</h2>
     </div>
-    <div class="flex gap-2">
-      <%= link_to "Cancel", boilermaker.settings_path, class: "btn btn-ghost" %>
-      <%= form.submit "Update Settings", class: "btn btn-primary" %>
+    <div class="p-4 flex items-center justify-between">
+      <div>
+        <p class="text-sm font-semibold text-base-content font-mono uppercase tracking-wide">DEVELOPMENT.ENVIRONMENT</p>
+        <p class="text-xs text-base-content/70 font-mono">CHANGES APPLIED TO DEV ENV ONLY</p>
+      </div>
+      <div class="flex gap-2">
+        <%= link_to "[CANCEL]", boilermaker.settings_path, class: "text-base-content/70 hover:text-base-content font-mono uppercase tracking-wide border border-base-300 px-3 py-1" %>
+        <%= form.submit "[UPDATE CONFIG]", class: "bg-primary text-primary-content hover:bg-primary/80 font-mono uppercase tracking-wide border border-primary px-3 py-1 cursor-pointer" %>
+      </div>
     </div>
   </div>
   
 <% end %>
 
-<div class="alert alert-warning font-mono">
-  <span>After changing critical settings, restart your development server for changes to take full effect. Feature toggles that are disabled may still show related UI elements until restart.</span>
-  
+<div class="bg-warning/10 border border-warning/30 p-4">
+  <div class="flex items-center gap-2 mb-2">
+    <div class="w-2 h-2 bg-warning rounded-full animate-pulse"></div>
+    <span class="text-warning font-mono uppercase tracking-wide text-xs font-bold">SYSTEM WARNING:</span>
+  </div>
+  <span class="text-base-content/80 font-mono text-sm block mb-2">RESTART DEV SERVER AFTER CRITICAL CONFIG CHANGES FOR FULL EFFECT</span>
+  <span class="text-base-content/60 font-mono text-xs">DISABLED FEATURE TOGGLES MAY SHOW UI ELEMENTS UNTIL RESTART</span>
 </div> 
