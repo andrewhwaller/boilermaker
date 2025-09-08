@@ -1,72 +1,77 @@
-<div class="mb-6 flex items-center justify-between">
+<div class="mb-6 flex items-center justify-between border-b border-primary/30 pb-4">
   <div>
-    <h1 class="text-2xl font-bold text-base-content font-mono">Boilermaker Settings</h1>
-    <p class="text-sm text-base-content/70 font-mono">Configure your application settings and feature toggles</p>
+    <h1 class="text-2xl font-bold text-primary font-mono uppercase tracking-wider">A1-BOILERMAKER CONFIG</h1>
+    <p class="text-xs text-base-content/70 font-mono uppercase tracking-wide">SYSTEM CONFIGURATION & FEATURE TOGGLES</p>
   </div>
-  <%= link_to "Edit", boilermaker.edit_settings_path, class: "btn btn-sm btn-primary" %>
-  
+  <%= link_to "[EDIT]", boilermaker.edit_settings_path, class: "text-warning hover:text-warning/80 font-mono uppercase tracking-wide" %>
 </div>
 
-<!-- Application Configuration -->
-<div class="card bg-base-200 shadow-sm mb-6">
-  <div class="card-body">
-    <h2 class="card-title text-base-content font-mono">Application Configuration</h2>
+<!-- A2-APPLICATION CONFIG -->
+<div class="bg-base-200 border border-base-300 mb-6">
+  <div class="bg-primary/20 border-b border-primary/30 px-4 py-2">
+    <h2 class="text-xs font-bold text-primary uppercase tracking-wider font-mono">A2-APPLICATION CONFIG</h2>
+  </div>
+  <div class="p-4">
   
     <% if @settings.any? && @settings['app'] %>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono">
-        <div class="bg-base-300 rounded-box p-4">
-          <div class="text-xs text-base-content/70">Application Name</div>
-          <div class="text-base text-base-content"><%= @settings.dig('app', 'name') || 'Boilermaker' %></div>
+        <div class="bg-info/10 border border-info/30 p-4">
+          <div class="text-xs text-info uppercase tracking-wide">APP.NAME</div>
+          <div class="text-base text-base-content font-bold"><%= @settings.dig('app', 'name') || 'Boilermaker' %></div>
         </div>
-        <div class="bg-base-300 rounded-box p-4">
-          <div class="text-xs text-base-content/70">Version</div>
-          <div class="text-base text-base-content"><%= @settings.dig('app', 'version') || '1.0.0' %></div>
+        <div class="bg-info/10 border border-info/30 p-4">
+          <div class="text-xs text-info uppercase tracking-wide">APP.VERSION</div>
+          <div class="text-base text-base-content font-bold"><%= @settings.dig('app', 'version') || '1.0.0' %></div>
         </div>
-        <div class="bg-base-300 rounded-box p-4">
-          <div class="text-xs text-base-content/70">Support Email</div>
-          <div class="text-base text-base-content"><%= @settings.dig('app', 'support_email') || 'support@example.com' %></div>
+        <div class="bg-info/10 border border-info/30 p-4">
+          <div class="text-xs text-info uppercase tracking-wide">SUPPORT.EMAIL</div>
+          <div class="text-base text-base-content font-bold"><%= @settings.dig('app', 'support_email') || 'support@example.com' %></div>
         </div>
         <% if @settings.dig('app', 'description') %>
-          <div class="md:col-span-3 bg-base-300 rounded-box p-4">
-            <div class="text-xs text-base-content/70">Description</div>
-            <div class="text-sm text-base-content"><%= @settings.dig('app', 'description') %></div>
+          <div class="md:col-span-3 bg-info/10 border border-info/30 p-4">
+            <div class="text-xs text-info uppercase tracking-wide">APP.DESCRIPTION</div>
+            <div class="text-sm text-base-content font-bold"><%= @settings.dig('app', 'description') %></div>
           </div>
         <% end %>
       </div>
     <% else %>
-      <div class="text-center py-6 text-base-content/70">No application configuration found.</div>
+      <div class="text-center py-6 text-error uppercase tracking-wide font-mono">NO CONFIG DATA AVAILABLE</div>
     <% end %>
   </div>
 </div>
 
-<!-- Theme Configuration -->
-<div class="card bg-base-200 shadow-sm mb-6">
-  <div class="card-body">
-    <h2 class="card-title text-base-content font-mono">Theme Configuration</h2>
+<!-- A3-THEME CONFIG -->
+<div class="bg-base-200 border border-base-300 mb-6">
+  <div class="bg-warning/20 border-b border-warning/30 px-4 py-2">
+    <h2 class="text-xs font-bold text-warning uppercase tracking-wider font-mono">A3-THEME CONFIG</h2>
+  </div>
+  <div class="p-4">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono">
-      <div class="bg-base-300 rounded-box p-4">
-        <div class="text-xs text-base-content/70">Light Theme</div>
-        <div class="text-base text-base-content"><%= @settings.dig('ui', 'theme', 'light') || 'platinum' %></div>
+      <div class="bg-warning/10 border border-warning/30 p-4">
+        <div class="text-xs text-warning uppercase tracking-wide">THEME.LIGHT</div>
+        <div class="text-base text-base-content font-bold"><%= @settings.dig('ui', 'theme', 'light') || 'platinum' %></div>
       </div>
-      <div class="bg-base-300 rounded-box p-4">
-        <div class="text-xs text-base-content/70">Dark Theme</div>
-        <div class="text-base text-base-content"><%= @settings.dig('ui', 'theme', 'dark') || 'graphite' %></div>
+      <div class="bg-warning/10 border border-warning/30 p-4">
+        <div class="text-xs text-warning uppercase tracking-wide">THEME.DARK</div>
+        <div class="text-base text-base-content font-bold"><%= @settings.dig('ui', 'theme', 'dark') || 'graphite' %></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Feature Toggles -->
-<div class="card bg-base-200 shadow-sm mb-6">
-  <div class="card-body">
-    <h2 class="card-title text-base-content font-mono">Feature Toggles</h2>
+<!-- B1-FEATURE TOGGLES -->
+<div class="bg-base-200 border border-base-300 mb-6">
+  <div class="bg-success/20 border-b border-success/30 px-4 py-2">
+    <h2 class="text-xs font-bold text-success uppercase tracking-wider font-mono">B1-FEATURE TOGGLES</h2>
+  </div>
+  <div class="p-4">
     <% if @features.any? %>
-      <div class="divide-y divide-base-300">
+      <div class="divide-y divide-base-300/50">
         <% @features.each do |feature, enabled| %>
-          <div class="flex items-center justify-between py-3">
+          <div class="flex items-center justify-between py-3 hover:bg-base-300/20">
             <div class="min-w-0">
-              <div class="text-sm font-mono text-base-content"><%= feature.humanize %></div>
-              <div class="text-xs text-base-content/70">
+              <div class="text-sm font-mono text-base-content uppercase tracking-wide"><%= feature.upcase.gsub('_', '.') %></div>
+              <div class="text-xs text-base-content/70 font-mono">
                 <% case feature %>
                 <% when 'user_registration' %>
                   Allow new users to register accounts
@@ -85,33 +90,42 @@
             </div>
             <div>
               <% if enabled %>
-                <span class="badge badge-success badge-sm font-mono">ENABLED</span>
+                <span class="bg-success/20 text-success border border-success/50 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wide">[ONLINE]</span>
               <% else %>
-                <span class="badge badge-neutral badge-sm font-mono">DISABLED</span>
+                <span class="bg-base-300/50 text-base-content/50 border border-base-300 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wide">[OFFLINE]</span>
               <% end %>
             </div>
           </div>
         <% end %>
       </div>
     <% else %>
-      <div class="text-center py-6 text-base-content/70">No features configured.</div>
+      <div class="text-center py-6 text-error uppercase tracking-wide font-mono">NO FEATURE DATA AVAILABLE</div>
     <% end %>
   </div>
 </div>
 
-<!-- Actions -->
-<div class="flex items-center justify-between bg-base-200 rounded-box p-4 mb-6">
-  <div>
-    <p class="text-sm font-semibold text-base-content font-mono">Development Settings</p>
-    <p class="text-xs text-base-content/70 font-mono">These settings are only editable in development mode</p>
+<!-- C1-DEV CONTROLS -->
+<div class="bg-base-200 border border-base-300 mb-6">
+  <div class="bg-error/20 border-b border-error/30 px-4 py-2">
+    <h2 class="text-xs font-bold text-error uppercase tracking-wider font-mono">C1-DEV CONTROLS</h2>
   </div>
-  <div class="flex gap-2">
-    <%= link_to "Edit Settings", boilermaker.edit_settings_path, class: "btn btn-primary btn-sm" %>
+  <div class="p-4 flex items-center justify-between">
+    <div>
+      <p class="text-sm font-semibold text-base-content font-mono uppercase tracking-wide">DEVELOPMENT.MODE</p>
+      <p class="text-xs text-base-content/70 font-mono">CONFIG EDITABLE IN DEV ENVIRONMENT ONLY</p>
+    </div>
+    <div class="flex gap-2">
+      <%= link_to "[EDIT CONFIG]", boilermaker.edit_settings_path, class: "text-primary hover:text-primary/80 font-mono uppercase tracking-wide border border-primary/30 px-3 py-1" %>
+    </div>
   </div>
 </div>
 
 <% if Rails.env.development? %>
-  <div class="alert alert-warning font-mono">
-    <span>After changing critical settings, restart your development server for changes to take full effect.</span>
+  <div class="bg-warning/10 border border-warning/30 p-4">
+    <div class="flex items-center gap-2">
+      <div class="w-2 h-2 bg-warning rounded-full animate-pulse"></div>
+      <span class="text-warning font-mono uppercase tracking-wide text-xs font-bold">SYSTEM NOTICE:</span>
+    </div>
+    <span class="text-base-content/80 font-mono text-sm">RESTART DEV SERVER AFTER CRITICAL CONFIG CHANGES FOR FULL EFFECT</span>
   </div>
 <% end %>
