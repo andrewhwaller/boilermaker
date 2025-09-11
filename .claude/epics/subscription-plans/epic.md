@@ -4,7 +4,8 @@ status: backlog
 created: 2025-08-30T15:46:10Z
 progress: 0%
 prd: .claude/prds/subscription-plans.md
-github: [Will be updated when synced to GitHub]
+github: https://github.com/andrewhwaller/boilermaker/issues/74
+last_sync: 2025-09-11T15:06:21Z
 ---
 
 # Epic: Subscription Plan Management

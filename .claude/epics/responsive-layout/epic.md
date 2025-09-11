@@ -5,6 +5,7 @@ created: 2025-08-30T15:46:10Z
 progress: 0%
 prd: .claude/prds/responsive-layout.md
 github: https://github.com/andrewhwaller/boilermaker/issues/27
+last_sync: 2025-09-11T15:06:21Z
 ---
 
 # Epic: Responsive Layout and Navigation

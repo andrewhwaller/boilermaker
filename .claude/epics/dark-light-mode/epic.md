@@ -6,6 +6,7 @@ progress: 16%
 prd: .claude/prds/dark-light-mode.md
 github: https://github.com/andrewhwaller/boilermaker/issues/34
 updated: 2025-09-07T20:49:32Z
+last_sync: 2025-09-11T15:06:21Z
 ---
 
 # Epic: Dark/Light Mode Functionality
