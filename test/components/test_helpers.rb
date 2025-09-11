@@ -74,7 +74,7 @@ module ComponentTestHelpers
   # @param component_class [Class] The component class to instantiate
   # @param attribute_sets [Array<Hash>] Array of attribute hashes to test
   # @param block [Proc] Block to run additional assertions on each instance
-  def test_attribute_combinations(component_class, attribute_sets, &block)
+  def assert_attribute_combinations(component_class, attribute_sets, &block)
     attribute_sets.each do |attrs|
       component = component_class.new(**attrs)
       
