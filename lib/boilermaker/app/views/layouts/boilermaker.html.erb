@@ -16,17 +16,12 @@
     <header class="border-b-2 border-primary/30 bg-black">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
         <div class="flex items-center gap-4">
+          <div class="text-base text-base-content/70 uppercase tracking-widest font-mono">BOILERMAKER COMMAND INTERFACE</div>
           <div class="flex items-center gap-2">
-            <div class="w-2 h-2 rounded-full bg-success animate-pulse"></div>
-            <div class="text-xs text-success uppercase tracking-widest font-mono font-bold">SYS.ONLINE</div>
           </div>
-          <div class="text-xs text-base-content/70 uppercase tracking-widest font-mono">EXPERIMENTAL INTERFACE</div>
         </div>
         <div class="flex items-center gap-4">
-          <div class="text-xs text-base-content/50 font-mono">
-            ENV: <%= Rails.env.upcase %>
-          </div>
-          <div class="text-primary font-bold tracking-wider font-mono text-lg">BOILERMAKER</div>
+          <span class="text-base-content/50">SYSTEM TIME: <%= Time.current.strftime("%H:%M:%S UTC") %></span>
         </div>
       </div>
     </header>
@@ -64,16 +59,6 @@
       
       <!-- SYSTEM STATUS BAR -->
       <div class="mt-8 border-t border-primary/30 pt-4">
-        <div class="flex items-center justify-between text-xs font-mono">
-          <div class="flex items-center gap-4">
-            <span class="text-base-content/50">SYSTEM.TIME: <%= Time.current.strftime("%H:%M:%S UTC") %></span>
-            <span class="text-base-content/50">BUILD.ENV: <%= Rails.env.upcase %></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="w-1 h-1 bg-success rounded-full"></div>
-            <span class="text-success">INTERFACE.OPERATIONAL</span>
-          </div>
-        </div>
       </div>
     </main>
   </body>

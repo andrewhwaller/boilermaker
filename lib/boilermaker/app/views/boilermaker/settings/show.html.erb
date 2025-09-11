@@ -1,131 +1,69 @@
-<div class="mb-6 flex items-center justify-between border-b border-primary/30 pb-4">
-  <div>
-    <h1 class="text-2xl font-bold text-primary font-mono uppercase tracking-wider">A1-BOILERMAKER CONFIG</h1>
-    <p class="text-xs text-base-content/70 font-mono uppercase tracking-wide">SYSTEM CONFIGURATION & FEATURE TOGGLES</p>
+<div class="mb-4 border-b border-primary/30 pb-2">
+  <div class="flex items-center justify-between">
+    <h1 class="text-base font-bold text-primary font-mono uppercase tracking-wider">SYSTEM CONFIGURATION</h1>
+    <%= link_to "MODIFY", boilermaker.edit_settings_path, class: "btn btn-xs btn-warning font-mono text-sm" %>
   </div>
-  <%= link_to "[EDIT]", boilermaker.edit_settings_path, class: "text-warning hover:text-warning/80 font-mono uppercase tracking-wide" %>
 </div>
 
-<!-- A2-APPLICATION CONFIG -->
-<div class="bg-base-200 border border-base-300 mb-6">
-  <div class="bg-primary/20 border-b border-primary/30 px-4 py-2">
-    <h2 class="text-xs font-bold text-primary uppercase tracking-wider font-mono">A2-APPLICATION CONFIG</h2>
-  </div>
-  <div class="p-4">
-  
-    <% if @settings.any? && @settings['app'] %>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono">
-        <div class="bg-info/10 border border-info/30 p-4">
-          <div class="text-xs text-info uppercase tracking-wide">APP.NAME</div>
-          <div class="text-base text-base-content font-bold"><%= @settings.dig('app', 'name') || 'Boilermaker' %></div>
-        </div>
-        <div class="bg-info/10 border border-info/30 p-4">
-          <div class="text-xs text-info uppercase tracking-wide">APP.VERSION</div>
-          <div class="text-base text-base-content font-bold"><%= @settings.dig('app', 'version') || '1.0.0' %></div>
-        </div>
-        <div class="bg-info/10 border border-info/30 p-4">
-          <div class="text-xs text-info uppercase tracking-wide">SUPPORT.EMAIL</div>
-          <div class="text-base text-base-content font-bold"><%= @settings.dig('app', 'support_email') || 'support@example.com' %></div>
-        </div>
-        <% if @settings.dig('app', 'description') %>
-          <div class="md:col-span-3 bg-info/10 border border-info/30 p-4">
-            <div class="text-xs text-info uppercase tracking-wide">APP.DESCRIPTION</div>
-            <div class="text-sm text-base-content font-bold"><%= @settings.dig('app', 'description') %></div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+  <!-- LEFT COLUMN: APPLICATION -->
+  <div class="bg-base-200 border border-base-300">
+    <div class="bg-primary/20 border-b border-primary/30 px-3 py-1">
+      <h2 class="text-xs font-bold text-primary uppercase tracking-wide font-mono">APPLICATION METADATA</h2>
+    </div>
+    <div class="p-3">
+      <% if @settings.any? && @settings['app'] %>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 font-mono text-sm">
+          <div class="bg-info/10 border border-info/30 p-2">
+            <div class="text-xs text-info">NAME</div>
+            <div class="font-bold"><%= @settings.dig('app', 'name') || 'Boilermaker' %></div>
           </div>
-        <% end %>
-      </div>
-    <% else %>
-      <div class="text-center py-6 text-error uppercase tracking-wide font-mono">NO CONFIG DATA AVAILABLE</div>
-    <% end %>
-  </div>
-</div>
-
-<!-- A3-THEME CONFIG -->
-<div class="bg-base-200 border border-base-300 mb-6">
-  <div class="bg-warning/20 border-b border-warning/30 px-4 py-2">
-    <h2 class="text-xs font-bold text-warning uppercase tracking-wider font-mono">A3-THEME CONFIG</h2>
-  </div>
-  <div class="p-4">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono">
-      <div class="bg-warning/10 border border-warning/30 p-4">
-        <div class="text-xs text-warning uppercase tracking-wide">THEME.LIGHT</div>
-        <div class="text-base text-base-content font-bold"><%= @settings.dig('ui', 'theme', 'light') || 'platinum' %></div>
-      </div>
-      <div class="bg-warning/10 border border-warning/30 p-4">
-        <div class="text-xs text-warning uppercase tracking-wide">THEME.DARK</div>
-        <div class="text-base text-base-content font-bold"><%= @settings.dig('ui', 'theme', 'dark') || 'graphite' %></div>
-      </div>
+          <div class="bg-info/10 border border-info/30 p-2">
+            <div class="text-xs text-info">VERSION</div>
+            <div class="font-bold"><%= @settings.dig('app', 'version') || '1.0.0' %></div>
+          </div>
+          <div class="md:col-span-2 bg-info/10 border border-info/30 p-2">
+            <div class="text-xs text-info">SUPPORT</div>
+            <div class="font-bold text-xs"><%= @settings.dig('app', 'support_email') || 'support@example.com' %></div>
+          </div>
+          <% if @settings.dig('app', 'description') %>
+            <div class="md:col-span-2 bg-info/10 border border-info/30 p-2">
+              <div class="text-xs text-info">DESCRIPTION</div>
+              <div class="text-xs"><%= @settings.dig('app', 'description') %></div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-3 text-error text-xs font-mono">NO DATA</div>
+      <% end %>
     </div>
   </div>
-</div>
 
-<!-- B1-FEATURE TOGGLES -->
-<div class="bg-base-200 border border-base-300 mb-6">
-  <div class="bg-success/20 border-b border-success/30 px-4 py-2">
-    <h2 class="text-xs font-bold text-success uppercase tracking-wider font-mono">B1-FEATURE TOGGLES</h2>
-  </div>
-  <div class="p-4">
-    <% if @features.any? %>
-      <div class="divide-y divide-base-300/50">
-        <% @features.each do |feature, enabled| %>
-          <div class="flex items-center justify-between py-3 hover:bg-base-300/20">
-            <div class="min-w-0">
-              <div class="text-sm font-mono text-base-content uppercase tracking-wide"><%= feature.upcase.gsub('_', '.') %></div>
-              <div class="text-xs text-base-content/70 font-mono">
-                <% case feature %>
-                <% when 'user_registration' %>
-                  Allow new users to register accounts
-                <% when 'password_reset' %>
-                  Enable password reset functionality
-                <% when 'two_factor_authentication' %>
-                  Require TOTP/recovery codes for login
-                <% when 'multi_tenant' %>
-                  Support multiple organizations/accounts
-                <% when 'personal_accounts' %>
-                  Enable personal user accounts
+  <!-- RIGHT COLUMN: FEATURES & THEMES -->
+  <div class="bg-base-200 border border-base-300">
+    <div class="bg-success/20 border-b border-success/30 px-3 py-1 flex items-center justify-between">
+      <h2 class="text-xs font-bold text-success uppercase tracking-wide font-mono">FEATURES</h2>
+      <div class="text-xs text-warning/70 font-mono">THEMES: <%= @settings.dig('ui', 'theme', 'light') || 'platinum' %> / <%= @settings.dig('ui', 'theme', 'dark') || 'graphite' %></div>
+    </div>
+    <div class="p-3">
+      <% if @features.any? %>
+        <div class="grid grid-cols-1 gap-2 font-mono text-xs">
+          <% @features.each do |feature, enabled| %>
+            <div class="flex items-center justify-between p-2 hover:bg-base-300/20 border border-base-300/30">
+              <div class="uppercase tracking-wide"><%= feature.gsub('_', '.') %></div>
+              <div class="ml-2">
+                <% if enabled %>
+                  <span class="bg-success/30 text-success px-2 py-0.5 font-bold">ON</span>
                 <% else %>
-                  Feature toggle setting
+                  <span class="bg-base-300/50 text-base-content/50 px-2 py-0.5">OFF</span>
                 <% end %>
               </div>
             </div>
-            <div>
-              <% if enabled %>
-                <span class="bg-success/20 text-success border border-success/50 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wide">[ONLINE]</span>
-              <% else %>
-                <span class="bg-base-300/50 text-base-content/50 border border-base-300 px-3 py-1 text-xs font-mono font-bold uppercase tracking-wide">[OFFLINE]</span>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    <% else %>
-      <div class="text-center py-6 text-error uppercase tracking-wide font-mono">NO FEATURE DATA AVAILABLE</div>
-    <% end %>
-  </div>
-</div>
-
-<!-- C1-DEV CONTROLS -->
-<div class="bg-base-200 border border-base-300 mb-6">
-  <div class="bg-error/20 border-b border-error/30 px-4 py-2">
-    <h2 class="text-xs font-bold text-error uppercase tracking-wider font-mono">C1-DEV CONTROLS</h2>
-  </div>
-  <div class="p-4 flex items-center justify-between">
-    <div>
-      <p class="text-sm font-semibold text-base-content font-mono uppercase tracking-wide">DEVELOPMENT.MODE</p>
-      <p class="text-xs text-base-content/70 font-mono">CONFIG EDITABLE IN DEV ENVIRONMENT ONLY</p>
-    </div>
-    <div class="flex gap-2">
-      <%= link_to "[EDIT CONFIG]", boilermaker.edit_settings_path, class: "text-primary hover:text-primary/80 font-mono uppercase tracking-wide border border-primary/30 px-3 py-1" %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-2 text-error text-xs font-mono">NO DATA</div>
+      <% end %>
     </div>
   </div>
 </div>
-
-<% if Rails.env.development? %>
-  <div class="bg-warning/10 border border-warning/30 p-4">
-    <div class="flex items-center gap-2">
-      <div class="w-2 h-2 bg-warning rounded-full animate-pulse"></div>
-      <span class="text-warning font-mono uppercase tracking-wide text-xs font-bold">SYSTEM NOTICE:</span>
-    </div>
-    <span class="text-base-content/80 font-mono text-sm">RESTART DEV SERVER AFTER CRITICAL CONFIG CHANGES FOR FULL EFFECT</span>
-  </div>
-<% end %>
