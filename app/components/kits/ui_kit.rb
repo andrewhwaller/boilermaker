@@ -16,7 +16,8 @@ module Components
         {
           form: Components::Kits::FormKit.components,
           navigation: Components::Kits::NavigationKit.components,
-          base: { base: Components::Base }
+          base: { base: Components::Base },
+          feedback: { alert: Components::Alert, toast: Components::Toast }
         }
       end
 
@@ -26,6 +27,21 @@ module Components
 
       def navigation
         Components::Kits::NavigationKit
+      end
+
+      def feedback
+        {
+          alert: Components::Alert,
+          toast: Components::Toast
+        }
+      end
+
+      def alert
+        Components::Alert
+      end
+
+      def toast
+        Components::Toast
       end
 
       def list_components
