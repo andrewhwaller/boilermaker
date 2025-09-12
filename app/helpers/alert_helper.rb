@@ -3,12 +3,12 @@
 module AlertHelper
   # Map Rails flash message types to Alert component variants
   FLASH_TO_VARIANT = {
-    'notice' => :success,
-    'alert' => :error,
-    'success' => :success,
-    'error' => :error,
-    'warning' => :warning,
-    'info' => :info
+    "notice" => :success,
+    "alert" => :error,
+    "success" => :success,
+    "error" => :error,
+    "warning" => :warning,
+    "info" => :info
   }.freeze
 
   # Render all flash messages as Alert components
@@ -16,7 +16,7 @@ module AlertHelper
   def render_flash_alerts
     flash.filter_map do |type, message|
       next if message.blank?
-      
+
       variant = FLASH_TO_VARIANT[type.to_s] || :info
       Components::Alert.new(message: message, variant: variant, dismissible: true)
     end
@@ -29,7 +29,7 @@ module AlertHelper
   # @param duration [Integer] Duration in milliseconds (0 for no auto-dismiss)
   # @param options [Hash] Additional options to pass to the Toast component
   # @return [Components::Toast] Toast component instance
-  def flash_toast(message, variant: :info, position: 'top-end', duration: 5000, **options)
+  def flash_toast(message, variant: :info, position: "top-end", duration: 5000, **options)
     Components::Toast.new(
       message: message,
       variant: variant,
@@ -65,13 +65,13 @@ module AlertHelper
   # @param flash_type [String, Symbol] Rails flash message type
   # @return [Boolean] Whether this flash type represents an error
   def flash_type_error?(flash_type)
-    ['alert', 'error'].include?(flash_type.to_s)
+    [ "alert", "error" ].include?(flash_type.to_s)
   end
 
   # Check if a flash type should be rendered as a success
   # @param flash_type [String, Symbol] Rails flash message type
   # @return [Boolean] Whether this flash type represents success
   def flash_type_success?(flash_type)
-    ['notice', 'success'].include?(flash_type.to_s)
+    [ "notice", "success" ].include?(flash_type.to_s)
   end
 end
