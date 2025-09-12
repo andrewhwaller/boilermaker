@@ -10,7 +10,7 @@ class Components::Toast < Components::Base
 
   POSITIONS = {
     "top-start" => "toast-top toast-start",
-    "top-center" => "toast-top toast-center", 
+    "top-center" => "toast-top toast-center",
     "top-end" => "toast-top toast-end",
     "middle-start" => "toast-middle toast-start",
     "middle-center" => "toast-middle toast-center",
@@ -22,7 +22,7 @@ class Components::Toast < Components::Base
 
   ICONS = {
     success: "✓",
-    error: "✕", 
+    error: "✕",
     warning: "⚠",
     info: "ℹ"
   }.freeze
@@ -70,7 +70,7 @@ class Components::Toast < Components::Base
           if @show_icon && ICONS[@variant]
             span(class: "text-lg shrink-0", "aria-hidden": "true") { ICONS[@variant] }
           end
-          
+
           div(class: "flex-1") do
             if @message.is_a?(String)
               span { @message }
@@ -83,7 +83,7 @@ class Components::Toast < Components::Base
           # Always include dismiss button for toasts
           button(
             type: "button",
-            class: "btn btn-sm btn-circle btn-ghost ml-2 shrink-0",
+            class: "btn btn-circle btn-ghost ml-2 shrink-0",
             "aria-label": "Dismiss notification",
             "data-dismiss": "toast"
           ) do
