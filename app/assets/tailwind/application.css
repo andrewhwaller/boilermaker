@@ -3,10 +3,6 @@
 @import "./daisyui.prebuilt.css";
 @plugin "./daisyui.js";
 
-:root {
-  --size-field: 0.15rem !important;
-}
-
 /* Define custom theme via DaisyUI theme plugin (docs syntax) */
 @plugin "./daisyui/theme.js" {
   name: "platinum";
@@ -43,7 +39,7 @@
 
   /* base sizes */
   --size-selector: 0.25rem;
-  --size-field: 0.25rem;
+  --size-field: 0.175rem !important;
 
   /* border size */
   --border: 1px;
@@ -79,8 +75,8 @@
   --color-secondary-content: oklch(16% 0.010 250);
   --color-accent: oklch(78% 0.080 200);
   --color-accent-content: oklch(16% 0.010 200);
-  --color-neutral: oklch(30% 0.020 250);
-  --color-neutral-content: oklch(88% 0.010 250);
+  --color-neutral: oklch(22% 0.015 250);
+  --color-neutral-content: oklch(92% 0.008 250);
 
   --color-info: oklch(80% 0.120 240);
   --color-info-content: oklch(16% 0.010 240);
@@ -98,7 +94,7 @@
 
   /* base sizes */
   --size-selector: 0.25rem;
-  --size-field: 0.25rem;
+  --size-field: 0.175rem !important;
 
   /* border size */
   --border: 1px;
@@ -129,24 +125,24 @@
   --color-base-300: #1a1a1a;
   --color-base-content: #ffffff;
 
-  /* Terminal status colors - bright and high contrast */
-  --color-primary: #00ff41;
+  /* ATC-inspired command center - minimal golden accent palette */
+  --color-primary: #d79326;
   --color-primary-content: #000000;
-  --color-secondary: #cccccc;
-  --color-secondary-content: #000000;
-  --color-accent: #ff8c00;
+  --color-secondary: #130f04;
+  --color-secondary-content: #d79326;
+  --color-accent: #c89225;
   --color-accent-content: #000000;
-  --color-neutral: #333333;
-  --color-neutral-content: #ffffff;
+  --color-neutral: oklch(20% 0.005 0);
+  --color-neutral-content: #ededed;
 
-  --color-info: #0080ff;
+  --color-info: #97aed4;
   --color-info-content: #000000;
-  --color-success: #00ff41;
-  --color-success-content: #000000;
-  --color-warning: #ff8c00;
+  --color-success: #2e904d;
+  --color-success-content: #ededed;
+  --color-warning: #d79326;
   --color-warning-content: #000000;
-  --color-error: #ff4444;
-  --color-error-content: #ffffff;
+  --color-error: oklch(50% 0.200 25);
+  --color-error-content: oklch(95% 0.005 25);
 
   /* square corners everywhere */
   --radius-selector: 0rem;
@@ -155,7 +151,7 @@
 
   /* base sizes */
   --size-selector: 0.25rem;
-  --size-field: 0.25rem;
+  --size-field: 0.175rem !important;
 
   /* border size */
   --border: 1px;
@@ -177,7 +173,7 @@
 
 @layer base {
   html {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   :root {
@@ -214,6 +210,24 @@ body {
   font-family: "CommitMonoIndustrial", monospace;
 }
 
-.btn {
-  padding-inline: 0.5rem;
+.input, .select {
+  --size-field: 0.2rem !important;
+  padding: .3rem .1rem .3rem .4rem;
+}
+
+.textarea {
+  padding: 0.25rem;
+}
+
+.btn:focus-visible,
+.input:focus,
+.select:focus,
+.textarea:focus,
+.checkbox:focus-visible,
+.radio:focus-visible,
+.range:focus-visible,
+.file-input:focus,
+.collapse:focus-visible {
+  outline: auto;
+  outline-offset: 0;
 }
