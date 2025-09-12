@@ -23,9 +23,9 @@ module Views
               end
 
               div(class: "flex gap-2") do
-                link_to("Users", account_users_path, class: "btn btn-primary btn-sm")
-                link_to("+ User", new_account_invitation_path, class: "btn btn-success btn-sm")
-                link_to("Settings", account_settings_path, class: "btn btn-outline btn-sm")
+                link_to("Users", account_users_path, class: "btn btn-primary")
+                link_to("+ User", new_account_invitation_path, class: "btn btn-success")
+                link_to("Settings", account_settings_path, class: "btn btn-outline")
               end
             end
 

@@ -16,7 +16,7 @@ module Views
           page_with_title("Account") do
             div(class: "flex items-center justify-between mb-4") do
               h1(class: "text-xl font-bold") { @account.name || "(unnamed)" }
-              link_to("All Accounts", admin_accounts_path, class: "btn btn-sm")
+              link_to("All Accounts", admin_accounts_path, class: "btn")
             end
 
             div(class: "bg-base-200 rounded-box p-4 mb-4") do

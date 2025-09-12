@@ -49,7 +49,7 @@ module Views
                       rows: 2, placeholder: "Personal message...", maxlength: 500
                   end
 
-                  f.submit "Send Invitation", class: "btn btn-primary btn-sm w-full"
+                  f.submit "Send Invitation", class: "btn btn-primary w-full"
                 end
               end
 
@@ -87,11 +87,11 @@ module Views
                           button_to("↻", new_account_invitation_path,
                             params: { email: user.email },
                             method: :get,
-                            class: "btn btn-ghost btn-xs",
+                            class: "btn btn-ghost",
                             title: "Resend invitation")
                           button_to("✕", account_invitation_path(user),
                             method: :delete,
-                            class: "btn btn-ghost btn-xs text-error",
+                            class: "btn btn-ghost text-error",
                             confirm: "Cancel invitation?",
                             title: "Cancel invitation")
                         end

@@ -20,7 +20,7 @@ module Views
                 link_to("← Dashboard", account_path, class: "text-sm text-base-content/70 hover:text-primary")
                 h1(class: "text-xl font-bold text-base-content") { "Account Settings" }
               end
-              link_to("Edit", edit_account_settings_path, class: "btn btn-primary btn-sm")
+              link_to("Edit", edit_account_settings_path, class: "btn btn-primary")
             end
 
             # Single dense information panel
@@ -45,8 +45,8 @@ module Views
 
                 # Quick action buttons
                 div(class: "flex gap-2") do
-                  link_to("Users", account_users_path, class: "btn btn-ghost btn-xs")
-                  link_to("+ User", new_account_invitation_path, class: "btn btn-primary btn-xs")
+                  link_to("Users", account_users_path, class: "btn btn-ghost")
+                  link_to("+ User", new_account_invitation_path, class: "btn btn-primary")
                 end
               end
             end

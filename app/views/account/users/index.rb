@@ -23,7 +23,7 @@ module Views
                 h1(class: "text-xl font-bold text-base-content") { "Users (#{@users.count})" }
               end
 
-              link_to("+ User", new_account_invitation_path, class: "btn btn-primary btn-sm")
+              link_to("+ User", new_account_invitation_path, class: "btn btn-primary")
             end
 
             # Verified Users section
@@ -52,7 +52,7 @@ module Views
             if @users.empty? && @invitations.empty?
               div(class: "text-center py-8 bg-base-200 rounded-box") do
                 p(class: "text-base-content/70 mb-4") { "No users or invitations yet." }
-                link_to("Send first invitation", new_account_invitation_path, class: "btn btn-primary btn-sm")
+                link_to("Send first invitation", new_account_invitation_path, class: "btn btn-primary")
               end
             end
           end

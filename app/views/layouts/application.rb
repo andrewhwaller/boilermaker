@@ -43,8 +43,6 @@ module Views
             link(rel: "manifest", href: "/pwa/manifest.json")
 
             javascript_importmap_tags
-
-            # Theme initialization handled by Stimulus controller - remove inline script
           end
 
           body(class: "min-h-screen bg-base-100 text-base-content") do

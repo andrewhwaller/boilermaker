@@ -37,22 +37,22 @@ module Views
               div(class: "flex flex-wrap gap-2 mb-4") do
                 button(
                   data: { action: "click->theme#light" },
-                  class: "btn btn-outline btn-sm"
+                  class: "btn btn-outline"
                 ) { "Light Theme" }
 
                 button(
                   data: { action: "click->theme#dark" },
-                  class: "btn btn-outline btn-sm"
+                  class: "btn btn-outline"
                 ) { "Dark Theme" }
 
                 button(
                   data: { action: "click->theme#system" },
-                  class: "btn btn-outline btn-sm"
+                  class: "btn btn-outline"
                 ) { "System Theme" }
 
                 button(
                   data: { action: "click->theme#toggle" },
-                  class: "btn btn-accent btn-sm"
+                  class: "btn btn-accent"
                 ) { "Toggle Theme" }
               end
 

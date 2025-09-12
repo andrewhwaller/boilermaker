@@ -15,7 +15,7 @@ module Views
           page_with_title("User") do
             div(class: "flex items-center justify-between mb-4") do
               h1(class: "text-xl font-bold") { @user.email }
-              link_to("All Users", admin_users_path, class: "btn btn-sm")
+              link_to("All Users", admin_users_path, class: "btn")
             end
 
             div(class: "bg-base-200 rounded-box p-4") do
