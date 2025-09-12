@@ -3,7 +3,7 @@
 class Components::Loading < Components::Base
   TYPES = {
     spinner: "loading-spinner",
-    dots: "loading-dots", 
+    dots: "loading-dots",
     ring: "loading-ring",
     ball: "loading-ball",
     bars: "loading-bars",
@@ -23,20 +23,20 @@ class Components::Loading < Components::Base
     accent: "text-accent",
     neutral: "text-neutral",
     info: "text-info",
-    success: "text-success", 
+    success: "text-success",
     warning: "text-warning",
     error: "text-error"
   }.freeze
 
   def initialize(
     type: :spinner,
-    size: :md, 
+    size: :md,
     color: nil,
     text: nil,
     **attributes
   )
     @type = type
-    @size = size  
+    @size = size
     @color = color
     @text = text
     @attributes = attributes
@@ -45,7 +45,7 @@ class Components::Loading < Components::Base
   def view_template(&block)
     div(class: container_classes, **@attributes) do
       span(class: loading_classes, "aria-hidden": "true")
-      
+
       if @text.present?
         span(class: "ml-2 text-sm") { @text }
       end
@@ -57,7 +57,7 @@ class Components::Loading < Components::Base
   private
 
   def container_classes
-    classes = ["flex items-center"]
+    classes = [ "flex items-center" ]
     classes << "justify-center" unless @text.present?
     classes.join(" ")
   end

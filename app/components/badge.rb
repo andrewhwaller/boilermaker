@@ -3,7 +3,7 @@
 class Components::Badge < Components::Base
   VARIANTS = {
     primary: "badge-primary",
-    secondary: "badge-secondary", 
+    secondary: "badge-secondary",
     accent: "badge-accent",
     neutral: "badge-neutral",
     info: "badge-info",
@@ -14,7 +14,7 @@ class Components::Badge < Components::Base
 
   SIZES = {
     xs: "badge-xs",
-    sm: "badge-sm", 
+    sm: "badge-sm",
     md: "",  # Default size, no class needed
     lg: "badge-lg"
   }.freeze

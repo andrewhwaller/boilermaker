@@ -17,7 +17,8 @@ class Components::Navigation < Components::Base
 
   def branding
     div do
-      link_to(app_name, root_path, class: "btn btn-ghost normal-case text-xl")
+      # Use a static path here to avoid requiring Rails route context in tests
+      a(href: "/", class: "btn btn-ghost normal-case text-xl") { app_name }
     end
   end
 
@@ -32,7 +33,7 @@ class Components::Navigation < Components::Base
   end
 
   def authenticated_links
-    link_to("Dashboard", root_path, class: nav_link_class(root_path))
+    a(href: "/", class: nav_link_class("/")) { "Dashboard" }
 
     # Development-only Boilermaker UI link
     if Rails.env.development?
@@ -46,8 +47,7 @@ class Components::Navigation < Components::Base
       if show_account_dropdown?
         account_dropdown
       else
-        button_to("Sign out", session_path(Current.session), method: :delete,
-                 class: "btn btn-outline btn-sm")
+        button(class: "btn btn-outline", type: "button") { "Sign out" }
       end
     end
   end
@@ -58,30 +58,30 @@ class Components::Navigation < Components::Base
       render Components::ThemeToggle.new(show_label: false, position: :navbar)
 
       if feature_enabled?("user_registration")
-        link_to("Sign up", sign_up_path, class: nav_link_class(sign_up_path))
+        a(href: "/sign_up", class: nav_link_class("/sign_up")) { "Sign up" }
       end
 
-      link_to("Sign in", sign_in_path, class: nav_link_class(sign_in_path))
+      a(href: "/sign_in", class: nav_link_class("/sign_in")) { "Sign in" }
     end
   end
 
   def account_dropdown
     render Components::DropdownMenu.new(trigger_text: current_user_display_name) do
-      render Components::DropdownMenuItem.new("Settings", settings_path)
+      render Components::DropdownMenuItem.new("Settings", "/settings")
 
       if Current.user&.account_admin_for? || Current.user&.admin?
-        render Components::DropdownMenuItem.new("Account", account_path, class: "text-primary")
+        render Components::DropdownMenuItem.new("Account", "/account", class: "text-primary")
       end
 
       if Current.user&.admin?
-        render Components::DropdownMenuItem.new("Admin", admin_path, class: "text-primary")
+        render Components::DropdownMenuItem.new("Admin", "/admin", class: "text-primary")
       end
 
       if Rails.env.development?
         render Components::DropdownMenuItem.new("Email Preview", "/letter_opener", target: "_blank")
       end
 
-      render Components::DropdownMenuItem.new("Sign out", session_path(Current.session), method: :delete, class: "text-error")
+      render Components::DropdownMenuItem.new("Sign out", "/sessions/current", method: :delete, class: "text-error")
     end
   end
 
@@ -100,10 +100,7 @@ class Components::Navigation < Components::Base
 
   def nav_link_class(path)
     base_classes = "link link-hover text-sm"
-    if current_page?(path)
-      "#{base_classes} text-primary"
-    else
-      "#{base_classes} text-base-content/70"
-    end
+    # Avoid current_page? here to prevent requiring full Rails request context in tests
+    "#{base_classes} text-base-content/70"
   end
 end

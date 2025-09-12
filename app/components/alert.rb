@@ -43,7 +43,7 @@ class Components::Alert < Components::Base
           if @show_icon && ICONS[@variant]
             span(class: "text-lg shrink-0", "aria-hidden": "true") { ICONS[@variant] }
           end
-          
+
           div(class: "flex-1") do
             if @message.is_a?(String)
               span { @message }
