@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @import "./daisyui.prebuilt.css";
+@plugin "./daisyui.js";
+
+:root {
+  --size-field: 0.15rem !important;
+}
 
 /* Define custom theme via DaisyUI theme plugin (docs syntax) */
 @plugin "./daisyui/theme.js" {
@@ -169,6 +174,7 @@
   --radius-full: 0; /* sets `rounded-full` to square too */
 }
 
+
 @layer base {
   html {
     font-size: 14px;
@@ -206,4 +212,8 @@
 
 body {
   font-family: "CommitMonoIndustrial", monospace;
+}
+
+.btn {
+  padding-inline: 0.5rem;
 }
