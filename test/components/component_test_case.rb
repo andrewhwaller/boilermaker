@@ -49,7 +49,7 @@ class ComponentTestCase < ActiveSupport::TestCase
   def assert_has_css_class(component, css_classes, message = nil)
     doc = render_and_parse(component)
     classes = Array(css_classes)
-    
+
     classes.each do |css_class|
       elements = doc.css(".#{css_class}")
       message ||= "Expected component to contain element with CSS class '#{css_class}'"
@@ -65,7 +65,7 @@ class ComponentTestCase < ActiveSupport::TestCase
     html = render_component(component)
     doc = parse_html(html)
     classes = Array(css_classes)
-    
+
     classes.each do |css_class|
       elements = doc.css(".#{css_class}")
       message ||= "Expected component to NOT contain element with CSS class '#{css_class}'"
@@ -92,10 +92,10 @@ class ComponentTestCase < ActiveSupport::TestCase
     html = render_component(component)
     doc = parse_html(html)
     element = doc.css(selector).first
-    
+
     message ||= "Expected to find element matching '#{selector}'"
     assert element, message
-    
+
     attributes.each do |attr_name, expected_value|
       actual_value = element[attr_name.to_s]
       attr_message = message || "Expected element '#{selector}' to have #{attr_name}='#{expected_value}'"
@@ -111,15 +111,15 @@ class ComponentTestCase < ActiveSupport::TestCase
     html = render_component(component)
     doc = parse_html(html)
     button = doc.css("button").first
-    
+
     message ||= "Expected to find a button element"
     assert button, message
-    
+
     actual_classes = button["class"]&.split(" ") || []
-    
+
     # Always expect base btn class for Daisy UI buttons
     assert_includes actual_classes, "btn", "Expected button to have base 'btn' class"
-    
+
     expected_classes.each do |expected_class|
       class_message = message || "Expected button to have Daisy UI class '#{expected_class}'"
       assert_includes actual_classes, expected_class, class_message
@@ -127,13 +127,13 @@ class ComponentTestCase < ActiveSupport::TestCase
   end
 
   # Verify Daisy UI form control classes are correctly applied
-  # @param component [Phlex::HTML] The component to test  
+  # @param component [Phlex::HTML] The component to test
   # @param expected_classes [Array<String>] Expected Daisy UI form classes
   # @param message [String] Optional custom assertion message
   def assert_daisy_form_classes(component, expected_classes, message = nil)
     html = render_component(component)
     doc = parse_html(html)
-    
+
     expected_classes.each do |expected_class|
       elements = doc.css(".#{expected_class}")
       class_message = message || "Expected component to have Daisy UI form class '#{expected_class}'"
@@ -149,12 +149,12 @@ class ComponentTestCase < ActiveSupport::TestCase
     html = render_component(component)
     doc = parse_html(html)
     classes = []
-    
+
     doc.css("*").each do |element|
       element_classes = element["class"]&.split(" ") || []
       classes.concat(element_classes)
     end
-    
+
     classes.uniq.sort
   end
 
@@ -173,7 +173,7 @@ class ComponentTestCase < ActiveSupport::TestCase
   # @param message [String] Optional custom assertion message
   def assert_renders_successfully(component, message = nil)
     message ||= "Expected component to render without errors"
-    
+
     begin
       render_component(component)
       assert true, message

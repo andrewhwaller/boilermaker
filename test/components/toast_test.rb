@@ -24,7 +24,7 @@ class ToastTest < ComponentTestCase
 
   test "has correct base CSS classes" do
     toast = Components::Toast.new(message: "Test")
-    assert_has_css_class(toast, ["toast", "alert"])
+    assert_has_css_class(toast, [ "toast", "alert" ])
   end
 
   test "renders all variants correctly" do

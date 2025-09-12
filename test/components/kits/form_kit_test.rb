@@ -9,6 +9,11 @@ class Components::Kits::FormKitTest < ActiveSupport::TestCase
     assert_equal Components::Button, components[:button]
     assert_equal Components::Input, components[:input]
     assert_equal Components::Label, components[:label]
+    assert_equal Components::FormField, components[:form_field]
+    assert_equal Components::Textarea, components[:textarea]
+    assert_equal Components::Select, components[:select]
+    assert_equal Components::Checkbox, components[:checkbox]
+    assert_equal Components::Radio, components[:radio]
   end
 
   test "field convenience method creates FormField component" do

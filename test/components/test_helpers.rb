@@ -4,19 +4,19 @@
 module ComponentTestHelpers
   # Common Daisy UI class sets for verification
   DAISY_BUTTON_VARIANTS = {
-    primary: ["btn", "btn-primary"],
-    secondary: ["btn", "btn-secondary"], 
-    destructive: ["btn", "btn-error"],
-    outline: ["btn", "btn-outline"],
-    ghost: ["btn", "btn-ghost"],
-    link: ["btn", "btn-link"]
+    primary: [ "btn", "btn-primary" ],
+    secondary: [ "btn", "btn-secondary" ],
+    destructive: [ "btn", "btn-error" ],
+    outline: [ "btn", "btn-outline" ],
+    ghost: [ "btn", "btn-ghost" ],
+    link: [ "btn", "btn-link" ]
   }.freeze
 
   DAISY_FORM_CLASSES = [
     "form-control",
     "label",
     "input",
-    "textarea", 
+    "textarea",
     "select",
     "checkbox",
     "radio",
@@ -27,7 +27,7 @@ module ComponentTestHelpers
   DAISY_LAYOUT_CLASSES = [
     "navbar",
     "navbar-start",
-    "navbar-center", 
+    "navbar-center",
     "navbar-end",
     "drawer",
     "drawer-content",
@@ -60,12 +60,12 @@ module ComponentTestHelpers
     html = render_component(component)
     doc = parse_html(html)
     element = doc.css(selector).first
-    
+
     assert element, "Expected to find element matching '#{selector}'"
-    
+
     expected_attrs.each do |attr_name, expected_value|
       actual_value = element[attr_name.to_s]
-      assert_equal expected_value, actual_value, 
+      assert_equal expected_value, actual_value,
         "Expected #{selector} to have #{attr_name}='#{expected_value}', got '#{actual_value}'"
     end
   end
@@ -77,10 +77,10 @@ module ComponentTestHelpers
   def assert_attribute_combinations(component_class, attribute_sets, &block)
     attribute_sets.each do |attrs|
       component = component_class.new(**attrs)
-      
+
       # Basic rendering test
       assert_renders_successfully(component)
-      
+
       # Run custom assertions if block provided
       block.call(component, attrs) if block
     end
@@ -111,7 +111,7 @@ module ComponentTestHelpers
       admin?: false,
       account_admin_for?: false
     }.merge(user_attrs))
-    
+
     Current.user = mock_user
     yield
   ensure
@@ -123,10 +123,10 @@ module ComponentTestHelpers
   # @param breakpoints [Array<String>] Breakpoint prefixes to verify (sm:, md:, lg:, xl:)
   def assert_responsive_classes(component, breakpoints = [])
     all_classes = extract_css_classes(component)
-    
+
     breakpoints.each do |breakpoint|
       responsive_classes = all_classes.select { |cls| cls.start_with?("#{breakpoint}:") }
-      assert responsive_classes.any?, 
+      assert responsive_classes.any?,
         "Expected component to have responsive classes for breakpoint '#{breakpoint}:'"
     end
   end
@@ -143,16 +143,16 @@ module ComponentTestHelpers
     doc_true = parse_html(html_true)
     element_true = doc_true.css(selector).first
     assert element_true, "Expected to find element matching '#{selector}'"
-    assert element_true.has_attribute?(html_attr), 
+    assert element_true.has_attribute?(html_attr),
       "Expected element to have '#{html_attr}' attribute when #{boolean_attr}: true"
 
-    # Test with boolean_attr: false  
+    # Test with boolean_attr: false
     component_false = component_class.new(boolean_attr => false)
     html_false = render_component(component_false)
     doc_false = parse_html(html_false)
     element_false = doc_false.css(selector).first
     assert element_false, "Expected to find element matching '#{selector}'"
-    assert !element_false.has_attribute?(html_attr), 
+    assert !element_false.has_attribute?(html_attr),
       "Expected element to NOT have '#{html_attr}' attribute when #{boolean_attr}: false"
   end
 
@@ -164,7 +164,7 @@ module ComponentTestHelpers
     html = render_component(component)
     doc = parse_html(html)
     data_attrs = {}
-    
+
     doc.css(selector).each do |element|
       element.attributes.each do |name, attr|
         if name.start_with?("data-")
@@ -172,7 +172,7 @@ module ComponentTestHelpers
         end
       end
     end
-    
+
     data_attrs
   end
 end
