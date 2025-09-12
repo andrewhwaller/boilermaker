@@ -172,12 +172,12 @@ class AlertHelperTest < ActionView::TestCase
   # Test constant mapping coverage
   test "FLASH_TO_VARIANT constant has expected mappings" do
     expected_mappings = {
-      'notice' => :success,
-      'alert' => :error,
-      'success' => :success,
-      'error' => :error,
-      'warning' => :warning,
-      'info' => :info
+      "notice" => :success,
+      "alert" => :error,
+      "success" => :success,
+      "error" => :error,
+      "warning" => :warning,
+      "info" => :info
     }
 
     assert_equal expected_mappings, AlertHelper::FLASH_TO_VARIANT
