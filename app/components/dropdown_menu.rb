@@ -20,7 +20,7 @@ class Components::DropdownMenu < Components::Base
   def trigger
     button(
       type: "button",
-      class: "btn btn-ghost btn-sm",
+      class: "btn btn-ghost",
       data: { action: nil },
       tabindex: 0,
       role: "button"
