@@ -32,28 +32,6 @@ class Views::Home::Components < Views::Base
 
       # Main Content
       div(class: "max-w-6xl mx-auto p-8 space-y-16") do
-        # Overview Section
-        section(id: "overview") do
-          h2(class: "text-3xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Component Library Overview" }
-          div(class: "prose max-w-none mb-8") do
-            p(class: "text-lg text-base-content/80 leading-relaxed mb-4") do
-              "This showcase demonstrates the comprehensive Phlex component library implemented for this Rails application. "
-              "All components follow consistent patterns, use Daisy UI classes for styling, and support both light and dark themes."
-            end
-
-            div(class: "bg-base-200 rounded-lg p-6 mb-6") do
-              h3(class: "text-lg font-semibold mb-4") { "Key Features" }
-              ul(class: "space-y-2") do
-                li { "✓ Consistent component architecture with proper inheritance" }
-                li { "✓ Full variant support (colors, sizes, styles)" }
-                li { "✓ Accessibility compliance with ARIA attributes" }
-                li { "✓ Rails integration with form helpers and flash messages" }
-                li { "✓ Comprehensive testing patterns and infrastructure" }
-                li { "✓ Dark/light theme support using semantic tokens" }
-              end
-            end
-          end
-        end
         # Links Section
         section(id: "links") do
           h2(class: "text-2xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Link Components" }
