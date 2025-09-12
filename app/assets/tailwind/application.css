@@ -5,7 +5,7 @@
 
 /* Define custom theme via DaisyUI theme plugin (docs syntax) */
 @plugin "./daisyui/theme.js" {
-  name: "platinum";
+  name: "work-station";
   prefersdark: false;
   color-scheme: light;
 
@@ -128,7 +128,7 @@
   /* ATC-inspired command center - minimal golden accent palette */
   --color-primary: #d79326;
   --color-primary-content: #000000;
-  --color-secondary: #130f04;
+  --color-secondary: #1f1a0d;
   --color-secondary-content: #d79326;
   --color-accent: #c89225;
   --color-accent-content: #000000;

@@ -74,7 +74,7 @@
             <%= ui_form.fields_for :theme do |theme_form| %>
               <% builtins_light = Boilermaker::Themes::LIGHT %>
               <% builtins_dark  = Boilermaker::Themes::DARK %>
-              <% custom_light = [["platinum (custom)", "platinum"]] %>
+              <% custom_light = [["work-station (custom)", "work-station"]] %>
               <% custom_dark  = [["graphite (custom)", "graphite"], ["command-center (custom)", "command-center"]] %>
               <% grouped_light = [
                 ["Custom", custom_light],
@@ -89,7 +89,7 @@
                 <div>
                   <%= theme_form.label :light, "LIGHT", class: "text-xs text-warning font-mono font-bold" %>
                   <%= theme_form.select :light,
-                        grouped_options_for_select(grouped_light, @settings.dig('ui', 'theme', 'light') || 'platinum'),
+                        grouped_options_for_select(grouped_light, @settings.dig('ui', 'theme', 'light') || 'work-station'),
                         {},
                         class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none" %>
                 </div>

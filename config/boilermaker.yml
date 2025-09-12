@@ -24,6 +24,6 @@ development:
     personal_accounts: false
   ui:
     theme:
-      light: platinum
+      light: work-station
       dark: command-center
 test: {}

@@ -79,7 +79,7 @@ module Boilermaker
       end
 
       def theme_light_name
-        get("ui.theme.light") || "platinum"
+        get("ui.theme.light") || "work-station"
       end
 
       def theme_dark_name
