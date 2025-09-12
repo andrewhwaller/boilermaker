@@ -471,44 +471,6 @@ class Views::Home::Components < Views::Base
             end
           end
 
-          component_section("Avatar Component", "User avatars with different sizes and fallbacks") do
-            div(class: "space-y-6") do
-              # Avatar sizes
-              div do
-                h4(class: "font-medium mb-3") { "Avatar Sizes" }
-                div(class: "flex items-center gap-4") do
-                  Avatar(size: :xs, initials: "XS")
-                  Avatar(size: :sm, initials: "SM")
-                  Avatar(size: :md, initials: "MD")
-                  Avatar(size: :lg, initials: "LG")
-                  Avatar(size: :xl, initials: "XL")
-                end
-              end
-              code_example("Avatar Sizes", <<~RUBY.strip)
-                Avatar(size: :xs, initials: "XS")
-                Avatar(size: :sm, initials: "SM")
-                Avatar(size: :md, initials: "MD")
-                Avatar(size: :lg, initials: "LG")
-                Avatar(size: :xl, initials: "XL")
-              RUBY
-
-              # Avatar with images
-              div do
-                h4(class: "font-medium mb-3") { "Avatar with Images" }
-                div(class: "flex items-center gap-4") do
-                  Avatar(size: :md, src: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face")
-                  Avatar(size: :md, initials: "JD", alt: "John Doe")
-                  Avatar(size: :md, initials: "AB", class: "ring ring-primary ring-offset-2")
-                end
-              end
-              code_example("Avatar with Images", <<~RUBY.strip)
-                Avatar(size: :md, src: "https://.../face")
-                Avatar(size: :md, initials: "JD", alt: "John Doe")
-                Avatar(size: :md, initials: "AB", class: "ring ring-primary ring-offset-2")
-              RUBY
-            end
-          end
-
           component_section("Loading Component", "Loading spinners for different contexts") do
             div(class: "space-y-6") do
               # Loading sizes

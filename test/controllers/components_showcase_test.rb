@@ -37,7 +37,6 @@ class ComponentsShowcaseTest < ActionView::TestCase
     assert html.include?("Primary"), "Missing Primary text"
     assert html.include?("Button"), "Missing Button text"
     assert html.include?("Badge"), "Missing Badge text"
-    assert html.include?("Avatar"), "Missing Avatar text"
     assert html.include?("Alert"), "Missing Alert text"
   end
 
