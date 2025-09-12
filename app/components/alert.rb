@@ -28,8 +28,7 @@ class Components::Alert < Components::Base
 
     alert_classes = [
       "alert",
-      VARIANTS[@variant],
-      @dismissible ? "alert-dismissible" : nil
+      VARIANTS[@variant]
     ].compact.join(" ")
 
     # ARIA attributes for accessibility
@@ -58,7 +57,7 @@ class Components::Alert < Components::Base
         if @dismissible
           button(
             type: "button",
-            class: "btn btn-sm btn-circle btn-ghost ml-2 shrink-0",
+            class: "btn btn-circle btn-ghost ml-2 shrink-0",
             "aria-label": "Dismiss alert",
             "data-dismiss": "alert"
           ) do
