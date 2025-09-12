@@ -1,14 +1,7 @@
 # frozen_string_literal: true
 
 class Components::Select < Components::Base
-  SIZES = {
-    xs: "select-xs",
-    sm: "select-sm",
-    md: nil,
-    lg: "select-lg"
-  }.freeze
-
-  def initialize(name: nil, options: [], selected: nil, prompt: nil, required: false, error: nil, id: nil, size: :md, **attributes)
+  def initialize(name: nil, options: [], selected: nil, prompt: nil, required: false, error: nil, id: nil, **attributes)
     @name = name
     @options = options
     @selected = selected
@@ -16,7 +9,6 @@ class Components::Select < Components::Base
     @required = required
     @error = error
     @id = id
-    @size = size
     @attributes = attributes
   end
 
@@ -39,7 +31,7 @@ class Components::Select < Components::Base
   private
 
   def select_classes
-    base_classes = [ "select", "select-bordered", "w-full", SIZES[@size] ]
+    base_classes = [ "select", "select-bordered", "w-full" ]
     base_classes << "select-error" if @error
     custom_classes = @attributes[:class]
 

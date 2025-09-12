@@ -1,14 +1,7 @@
 # frozen_string_literal: true
 
 class Components::Checkbox < Components::Base
-  SIZES = {
-    xs: "checkbox-xs",
-    sm: "checkbox-sm",
-    md: nil,
-    lg: "checkbox-lg"
-  }.freeze
-
-  def initialize(name: nil, value: "1", checked: false, label: nil, required: false, error: nil, id: nil, size: :md, **attributes)
+  def initialize(name: nil, value: "1", checked: false, label: nil, required: false, error: nil, id: nil, **attributes)
     @name = name
     @value = value
     @checked = checked
@@ -16,7 +9,6 @@ class Components::Checkbox < Components::Base
     @required = required
     @error = error
     @id = id
-    @size = size
     @attributes = attributes
   end
 
@@ -48,7 +40,7 @@ class Components::Checkbox < Components::Base
   end
 
   def checkbox_classes
-    base_classes = [ "checkbox", SIZES[@size] ]
+    base_classes = [ "checkbox" ]
     base_classes << "checkbox-error" if @error
     custom_classes = @attributes[:class]
 

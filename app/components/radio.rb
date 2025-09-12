@@ -1,20 +1,12 @@
 # frozen_string_literal: true
 
 class Components::Radio < Components::Base
-  SIZES = {
-    xs: "radio-xs",
-    sm: "radio-sm",
-    md: nil,
-    lg: "radio-lg"
-  }.freeze
-
-  def initialize(name: nil, options: [], selected: nil, required: false, error: nil, size: :md, **attributes)
+  def initialize(name: nil, options: [], selected: nil, required: false, error: nil, **attributes)
     @name = name
     @options = options
     @selected = selected
     @required = required
     @error = error
-    @size = size
     @attributes = attributes
   end
 
@@ -52,7 +44,7 @@ class Components::Radio < Components::Base
   end
 
   def radio_classes
-    base_classes = [ "radio", SIZES[@size] ]
+    base_classes = [ "radio" ]
     base_classes << "radio-error" if @error
     custom_classes = @attributes[:class]
 

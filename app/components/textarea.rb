@@ -1,14 +1,7 @@
 # frozen_string_literal: true
 
 class Components::Textarea < Components::Base
-  SIZES = {
-    xs: "textarea-xs",
-    sm: "textarea-sm",
-    md: nil,
-    lg: "textarea-lg"
-  }.freeze
-
-  def initialize(name: nil, value: nil, placeholder: nil, rows: 3, required: false, error: nil, id: nil, size: :md, **attributes)
+  def initialize(name: nil, value: nil, placeholder: nil, rows: 3, required: false, error: nil, id: nil, **attributes)
     @name = name
     @value = value
     @placeholder = placeholder
@@ -16,7 +9,6 @@ class Components::Textarea < Components::Base
     @required = required
     @error = error
     @id = id
-    @size = size
     @attributes = attributes
   end
 
@@ -46,7 +38,7 @@ class Components::Textarea < Components::Base
   end
 
   def textarea_classes
-    base_classes = [ "textarea", "textarea-bordered", "w-full", SIZES[@size] ]
+    base_classes = [ "textarea", "textarea-bordered", "w-full" ]
     base_classes << "textarea-error" if @error
     custom_classes = @attributes[:class]
 

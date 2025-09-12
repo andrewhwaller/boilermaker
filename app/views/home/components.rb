@@ -173,32 +173,26 @@ class Views::Home::Components < Views::Base
               end
 
               div do
-                h4(class: "font-medium mb-2") { "Select sizes" }
+                h4(class: "font-medium mb-2") { "Select" }
                 div(class: "space-y-2") do
-                  Select(name: "s[sm]", options: %w[a b c], size: :sm)
-                  Select(name: "s[md]", options: %w[a b c])
-                  Select(name: "s[lg]", options: %w[a b c], size: :lg)
+                  Select(name: "s[default]", options: %w[a b c])
                 end
               end
 
               div do
-                h4(class: "font-medium mb-2") { "Textarea sizes" }
+                h4(class: "font-medium mb-2") { "Textarea" }
                 div(class: "space-y-2") do
-                  Textarea(name: "t[sm]", rows: 2, placeholder: "Small", size: :sm)
-                  Textarea(name: "t[md]", rows: 2, placeholder: "Default")
-                  Textarea(name: "t[lg]", rows: 2, placeholder: "Large", size: :lg)
+                  Textarea(name: "t[default]", rows: 2, placeholder: "Default")
                 end
               end
 
               div do
-                h4(class: "font-medium mb-2") { "Checkbox / Radio sizes" }
+                h4(class: "font-medium mb-2") { "Checkbox / Radio" }
                 div(class: "space-y-2") do
                   div(class: "flex items-center gap-4") do
-                    Checkbox(name: "c[sm]", label: "Small", size: :sm)
-                    Checkbox(name: "c[md]", label: "Default")
-                    Checkbox(name: "c[lg]", label: "Large", size: :lg)
+                    Checkbox(name: "c[default]", label: "Default")
                   end
-                  Radio(name: "r[size]", options: [ [ "Small", "sm" ], [ "Default", "md" ], [ "Large", "lg" ] ], size: :sm)
+                  Radio(name: "r[default]", options: [ [ "Option 1", "1" ], [ "Option 2", "2" ], [ "Option 3", "3" ] ])
                 end
               end
             end

@@ -25,7 +25,7 @@ class Components::Badge < Components::Base
     ghost: "badge-ghost"
   }.freeze
 
-  def initialize(variant: :neutral, size: :md, style: :filled, **attributes)
+  def initialize(variant: :secondary, size: :md, style: :filled, **attributes)
     @variant = variant
     @size = size
     @style = style

@@ -32,7 +32,7 @@ module Views
                 form_with(url: account_invitations_path, local: true, class: "space-y-3") do |f|
                   div do
                     f.label :email, "Email", class: "label-text text-sm font-medium"
-                    f.email_field :email, class: "input input-sm input-bordered w-full mt-1",
+                    f.email_field :email, class: "input input-bordered w-full mt-1",
                       placeholder: "user@example.com", required: true
                   end
 
