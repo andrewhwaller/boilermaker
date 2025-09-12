@@ -25,5 +25,5 @@ development:
   ui:
     theme:
       light: platinum
-      dark: graphite
+      dark: command-center
 test: {}
