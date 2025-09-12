@@ -1,7 +1,10 @@
 <div class="mb-4 border-b border-primary/30 pb-2">
   <div class="flex items-center justify-between">
     <h1 class="text-base font-bold text-primary font-mono uppercase tracking-wider">SYSTEM CONFIGURATION</h1>
-    <%= link_to "MODIFY", boilermaker.edit_settings_path, class: "btn btn-xs btn-warning font-mono text-sm" %>
+    <div class="flex gap-2">
+      <%= link_to "RETURN", main_app.root_path, class: "btn btn-secondary font-mono" %>
+      <%= link_to "MODIFY", boilermaker.edit_settings_path, class: "btn btn-warning font-mono" %>
+    </div>
   </div>
 </div>
 

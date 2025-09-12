@@ -2,6 +2,7 @@
   <div class="flex items-center justify-between">
     <h1 class="font-bold text-primary font-mono uppercase tracking-wider">CONFIGURE SYSTEM</h1>
     <div class="flex gap-2">
+      <%= link_to "RETURN", main_app.root_path, class: "btn btn-xs btn-secondary font-mono text-sm" %>
       <%= link_to "REVERT", boilermaker.settings_path, class: "btn btn-xs btn-ghost text-error font-mono text-sm" %>
       <button type="submit" form="settings_form" class="btn btn-xs btn-success font-mono text-sm">PERSIST</button>
     </div>
