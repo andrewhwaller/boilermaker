@@ -10,7 +10,11 @@ module Components
           button: Components::Button,
           input: Components::Input,
           label: Components::Label,
-          form_field: Components::FormField
+          form_field: Components::FormField,
+          textarea: Components::Textarea,
+          select: Components::Select,
+          checkbox: Components::Checkbox,
+          radio: Components::Radio
         }
       end
 
