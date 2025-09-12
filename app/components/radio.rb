@@ -1,0 +1,65 @@
+# frozen_string_literal: true
+
+class Components::Radio < Components::Base
+  SIZES = {
+    xs: "radio-xs",
+    sm: "radio-sm",
+    md: nil,
+    lg: "radio-lg"
+  }.freeze
+
+  def initialize(name: nil, options: [], selected: nil, required: false, error: nil, size: :md, **attributes)
+    @name = name
+    @options = options
+    @selected = selected
+    @required = required
+    @error = error
+    @size = size
+    @attributes = attributes
+  end
+
+  def view_template
+    div(class: "form-control") do
+      @options.each_with_index do |(text, value), index|
+        render_radio_option(text, value, index)
+      end
+      render_error_message if @error
+    end
+  end
+
+  private
+
+  def render_radio_option(text, value, index)
+    div(class: "label cursor-pointer") do
+      span(class: label_classes) { text }
+      input(
+        type: "radio",
+        name: @name,
+        id: "#{generate_id_from_name(@name)}_#{index}",
+        value: value,
+        checked: value.to_s == @selected.to_s,
+        required: (@required && index == 0) ? "required" : nil,
+        class: radio_classes,
+        **@attributes.except(:class)
+      )
+    end
+  end
+
+  def label_classes
+    base_classes = [ "label-text" ]
+    base_classes << "text-error" if @error
+    base_classes.join(" ")
+  end
+
+  def radio_classes
+    base_classes = [ "radio", SIZES[@size] ]
+    base_classes << "radio-error" if @error
+    custom_classes = @attributes[:class]
+
+    [ base_classes, custom_classes ].flatten.compact.join(" ")
+  end
+
+  def render_error_message
+    div(class: "label-text-alt text-error mt-1") { @error }
+  end
+end
