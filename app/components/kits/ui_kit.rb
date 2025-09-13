@@ -17,7 +17,7 @@ module Components
           form: Components::Kits::FormKit.components,
           navigation: Components::Kits::NavigationKit.components,
           base: { base: Components::Base },
-          feedback: { alert: Components::Alert, toast: Components::Toast }
+          feedback: { alert: Components::Alert }
         }
       end
 
@@ -31,8 +31,7 @@ module Components
 
       def feedback
         {
-          alert: Components::Alert,
-          toast: Components::Toast
+          alert: Components::Alert
         }
       end
 
@@ -40,9 +39,6 @@ module Components
         Components::Alert
       end
 
-      def toast
-        Components::Toast
-      end
 
       def list_components
         list = []
