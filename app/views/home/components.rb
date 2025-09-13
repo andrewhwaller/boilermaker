@@ -23,6 +23,7 @@ class Views::Home::Components < Views::Base
             nav_link("Form Components", "#form-components")
             nav_link("Feedback", "#feedback")
             nav_link("Utility", "#utility")
+            nav_link("Tables", "#tables")
             nav_link("Layout", "#layout")
             nav_link("Testing", "#testing")
             nav_link("Style Guide", "#style-guide")
@@ -479,6 +480,274 @@ class Views::Home::Components < Views::Base
                 Loading(size: :sm, text: "Saving changes...")
               RUBY
             end
+          end
+        end
+
+        # Table Components Section
+        section(id: "tables") do
+          h2(class: "text-2xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Table Components" }
+
+          component_section("Basic Table", "Simple data table with headers and rows") do
+            Table(
+              headers: ["Name", "Email", "Role", "Status"],
+              data: [
+                ["John Doe", "john@example.com", "Admin", "Active"],
+                ["Jane Smith", "jane@example.com", "User", "Active"],
+                ["Mike Johnson", "mike@example.com", "Editor", "Inactive"]
+              ]
+            )
+
+            code_example("Ruby Code", <<~RUBY.strip)
+              Table(
+                headers: ["Name", "Email", "Role", "Status"],
+                data: [
+                  ["John Doe", "john@example.com", "Admin", "Active"],
+                  ["Jane Smith", "jane@example.com", "User", "Active"]
+                ]
+              )
+            RUBY
+          end
+
+          component_section("Table Variants", "Different table styling options") do
+            div(class: "space-y-8") do
+              # Zebra striping
+              div do
+                h4(class: "font-medium mb-3") { "Zebra Striped Table" }
+                Table(
+                  variant: :zebra,
+                  headers: ["Product", "Price", "Stock"],
+                  data: [
+                    ["Laptop", "$999", "5"],
+                    ["Mouse", "$25", "50"],
+                    ["Keyboard", "$75", "20"],
+                    ["Monitor", "$299", "8"]
+                  ]
+                )
+              end
+
+              # Pin rows (sticky header)
+              div do
+                h4(class: "font-medium mb-3") { "Sticky Header Table" }
+                div(class: "max-h-48 overflow-y-auto") do
+                  Table(
+                    variant: :pin_rows,
+                    headers: ["ID", "Name", "Status", "Created"],
+                    data: [
+                      ["001", "Project Alpha", "Active", "2024-01-15"],
+                      ["002", "Project Beta", "Active", "2024-01-20"],
+                      ["003", "Project Gamma", "Pending", "2024-01-25"],
+                      ["004", "Project Delta", "Active", "2024-02-01"],
+                      ["005", "Project Echo", "Completed", "2024-02-05"],
+                      ["006", "Project Foxtrot", "Active", "2024-02-10"]
+                    ]
+                  )
+                end
+                p(class: "text-sm text-base-content/60 mt-2") { "Scroll to see sticky header effect" }
+              end
+            end
+
+            code_example("Table Variants", <<~RUBY.strip)
+              Table(variant: :zebra, headers: [...], data: [...])
+              Table(variant: :pin_rows, headers: [...], data: [...])
+              Table(variant: :pin_cols, headers: [...], data: [...])
+            RUBY
+          end
+
+          component_section("Table Sizes", "Different table size options") do
+            div(class: "space-y-8") do
+              # Extra small table
+              div do
+                h4(class: "font-medium mb-3") { "Extra Small Table" }
+                Table(
+                  size: :xs,
+                  headers: ["#", "Task", "Status"],
+                  data: [
+                    ["1", "Review code", "Done"],
+                    ["2", "Update docs", "In Progress"]
+                  ]
+                )
+              end
+
+              # Large table
+              div do
+                h4(class: "font-medium mb-3") { "Large Table" }
+                Table(
+                  size: :lg,
+                  headers: ["Department", "Manager", "Budget", "Employees"],
+                  data: [
+                    ["Engineering", "Sarah Connor", "$500,000", "12"],
+                    ["Marketing", "John Matrix", "$200,000", "6"]
+                  ]
+                )
+              end
+            end
+
+            code_example("Table Sizes", <<~RUBY.strip)
+              Table(size: :xs, headers: [...], data: [...])
+              Table(size: :sm, headers: [...], data: [...])
+              Table(size: :md, headers: [...], data: [...])   # Default
+              Table(size: :lg, headers: [...], data: [...])
+            RUBY
+          end
+
+          component_section("Custom Table Structure", "Building tables with subcomponents") do
+            p(class: "text-base-content/70 mb-4") { "Use table subcomponents for complete control over structure and styling:" }
+            
+            Table(variant: :zebra) do
+              thead do
+                tr do
+                  render Components::Table::Header.new(sortable: true, sorted: :asc) { "Student" }
+                  render Components::Table::Header.new(sortable: true) { "Score" }
+                  render Components::Table::Header.new { "Grade" }
+                  render Components::Table::Header.new { "Actions" }
+                end
+              end
+              tbody do
+                render Components::Table::Row.new(variant: :active) do
+                  render Components::Table::Cell.new { "Alice Johnson" }
+                  render Components::Table::Cell.new(align: :center) { "95" }
+                  render Components::Table::Cell.new(align: :center) do
+                    Badge(variant: :success) { "A" }
+                  end
+                  render Components::Table::Cell.new(align: :center) do
+                    div(class: "flex gap-1 justify-center") do
+                      Button(variant: :outline, class: "btn-xs") { "Edit" }
+                      Button(variant: :destructive, class: "btn-xs") { "Delete" }
+                    end
+                  end
+                end
+                render Components::Table::Row.new do
+                  render Components::Table::Cell.new { "Bob Wilson" }
+                  render Components::Table::Cell.new(align: :center) { "87" }
+                  render Components::Table::Cell.new(align: :center) do
+                    Badge(variant: :warning) { "B+" }
+                  end
+                  render Components::Table::Cell.new(align: :center) do
+                    div(class: "flex gap-1 justify-center") do
+                      Button(variant: :outline, class: "btn-xs") { "Edit" }
+                      Button(variant: :destructive, class: "btn-xs") { "Delete" }
+                    end
+                  end
+                end
+                render Components::Table::Row.new do
+                  render Components::Table::Cell.new { "Carol Brown" }
+                  render Components::Table::Cell.new(align: :center) { "78" }
+                  render Components::Table::Cell.new(align: :center) do
+                    Badge(variant: :info) { "C+" }
+                  end
+                  render Components::Table::Cell.new(align: :center) do
+                    div(class: "flex gap-1 justify-center") do
+                      Button(variant: :outline, class: "btn-xs") { "Edit" }
+                      Button(variant: :destructive, class: "btn-xs") { "Delete" }
+                    end
+                  end
+                end
+              end
+            end
+
+            code_example("Custom Table Structure", <<~RUBY.strip)
+              Table do
+                thead do
+                  tr do
+                    render Components::Table::Header.new(sortable: true, sorted: :asc) { "Student" }
+                    render Components::Table::Header.new(sortable: true) { "Score" }
+                    render Components::Table::Header.new { "Actions" }
+                  end
+                end
+                tbody do
+                  render Components::Table::Row.new(variant: :active) do
+                    render Components::Table::Cell.new { "Alice Johnson" }
+                    render Components::Table::Cell.new(align: :center) { "95" }
+                    render Components::Table::Cell.new(align: :center) do
+                      div(class: "flex gap-1 justify-center") do
+                        Button(variant: :outline, class: "btn-xs") { "Edit" }
+                        Button(variant: :destructive, class: "btn-xs") { "Delete" }
+                      end
+                    end
+                  end
+                end
+              end
+            RUBY
+          end
+
+          component_section("Hash Data Rendering", "Tables with hash-based data") do
+            div(class: "space-y-6") do
+              p(class: "text-base-content/70") { "Tables can render hash data by matching keys to headers:" }
+              
+              Table(
+                headers: ["name", "age", "department", "salary"],
+                data: [
+                  { "name" => "Alice Johnson", "age" => "28", "department" => "Engineering", "salary" => "$85,000" },
+                  { "name" => "Bob Wilson", "age" => "35", "department" => "Design", "salary" => "$75,000" },
+                  { "name" => "Carol Brown", "age" => "31", "department" => "Product", "salary" => "$90,000" }
+                ]
+              )
+            end
+
+            code_example("Hash Data", <<~RUBY.strip)
+              Table(
+                headers: ["name", "age", "department", "salary"],
+                data: [
+                  { "name" => "Alice", "age" => "28", "department" => "Engineering" },
+                  { "name" => "Bob", "age" => "35", "department" => "Design" }
+                ]
+              )
+            RUBY
+          end
+
+          component_section("Empty Table State", "Handling tables with no data") do
+            div(class: "space-y-6") do
+              p(class: "text-base-content/70") { "Tables gracefully handle empty data with a helpful message:" }
+              
+              Table(
+                headers: ["User", "Last Login", "Status"],
+                data: []
+              )
+            end
+
+            code_example("Empty Table", <<~RUBY.strip)
+              Table(
+                headers: ["User", "Last Login", "Status"],
+                data: []   # Shows "No data available" message
+              )
+            RUBY
+          end
+
+          component_section("Responsive Table", "Tables with responsive behavior") do
+            div(class: "space-y-4") do
+              p(class: "text-base-content/70 mb-4") { "Wide tables automatically scroll horizontally on smaller screens. Try resizing your browser window or viewing on mobile:" }
+              
+              div(class: "overflow-x-auto") do
+                Table(
+                  variant: :zebra,
+                  size: :sm,
+                  headers: ["ID", "Product Name", "SKU", "Category", "Brand", "Price", "Cost", "Margin", "Stock", "Reserved", "Available", "Last Updated", "Status", "Supplier", "Location", "Actions"],
+                  data: [
+                    ["001", "MacBook Pro 16-inch M3 Max", "MBP16M3MAX", "Laptops", "Apple", "$3,499", "$2,800", "20%", "5", "2", "3", "2024-01-15 10:30", "In Stock", "Apple Inc", "Warehouse A", "Edit"],
+                    ["002", "Dell XPS 13 Developer Edition", "XPS13DEV", "Laptops", "Dell", "$1,299", "$950", "27%", "12", "1", "11", "2024-01-20 14:45", "In Stock", "Dell Direct", "Warehouse B", "Edit"],
+                    ["003", "ThinkPad X1 Carbon Gen 11", "X1C11", "Laptops", "Lenovo", "$1,899", "$1,400", "26%", "8", "0", "8", "2024-01-18 09:15", "In Stock", "Lenovo Corp", "Warehouse A", "Edit"],
+                    ["004", "iPhone 15 Pro Max 1TB", "IP15PM1TB", "Smartphones", "Apple", "$1,599", "$1,200", "25%", "25", "5", "20", "2024-01-22 11:20", "In Stock", "Apple Inc", "Warehouse C", "Edit"],
+                    ["005", "AirPods Max Silver", "APMAX-SLV", "Audio", "Apple", "$549", "$380", "31%", "8", "2", "6", "2024-01-18 16:30", "Low Stock", "Apple Inc", "Warehouse C", "Edit"]
+                  ]
+                )
+              end
+              
+              p(class: "text-sm text-base-content/60 mt-2") { "This table will scroll horizontally when the content exceeds the container width." }
+            end
+
+            code_example("Responsive Table", <<~RUBY.strip)
+              # Wrap table in scrollable container for wide tables
+              div(class: "overflow-x-auto") do
+                Table(
+                  variant: :zebra,
+                  size: :sm,
+                  headers: ["ID", "Product", "SKU", "Category", "Brand", "Price", "Stock"],
+                  data: [
+                    ["001", "MacBook Pro 16-inch M3 Max", "MBP16M3MAX", "Laptops", "Apple", "$3,499", "5"]
+                  ]
+                )
+              end
+            RUBY
           end
         end
 
