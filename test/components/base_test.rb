@@ -59,9 +59,9 @@ class BaseTest < ComponentTestCase
     attributes = { class: "attr-class" }
     component = TestComponent.new(**attributes)
 
-    result = component.test_css_classes("string-class", ["array", "classes"], nil, "another")
+    result = component.test_css_classes("string-class", [ "array", "classes" ], nil, "another")
 
-    expected = ["string-class", "array", "classes", "another", "attr-class"]
+    expected = [ "string-class", "array", "classes", "another", "attr-class" ]
     assert_equal expected, result
   end
 
@@ -71,34 +71,34 @@ class BaseTest < ComponentTestCase
 
     result = component.test_css_classes(nil, [], "valid-class", nil)
 
-    expected = ["valid-class", "attr-class"]
+    expected = [ "valid-class", "attr-class" ]
     assert_equal expected, result
   end
 
   test "css_classes works without attribute class" do
     component = TestComponent.new
 
-    result = component.test_css_classes("class-one", ["class-two", "class-three"])
+    result = component.test_css_classes("class-one", [ "class-two", "class-three" ])
 
-    expected = ["class-one", "class-two", "class-three"]
+    expected = [ "class-one", "class-two", "class-three" ]
     assert_equal expected, result
   end
 
   test "css_classes flattens nested arrays" do
-    attributes = { class: ["nested", "attr-classes"] }
+    attributes = { class: [ "nested", "attr-classes" ] }
     component = TestComponent.new(**attributes)
 
-    result = component.test_css_classes("base", [["nested", "array"], "single"])
+    result = component.test_css_classes("base", [ [ "nested", "array" ], "single" ])
 
-    expected = ["base", "nested", "array", "single", "nested", "attr-classes"]
+    expected = [ "base", "nested", "array", "single", "nested", "attr-classes" ]
     assert_equal expected, result
   end
 
   # Integration test
   test "component renders with helper methods" do
-    attributes = { 
-      class: "custom-class", 
-      data: { controller: "test" }, 
+    attributes = {
+      class: "custom-class",
+      data: { controller: "test" },
       custom_param: "should-be-filtered",
       id: "test-id"
     }
@@ -110,7 +110,7 @@ class BaseTest < ComponentTestCase
 
     # Should have combined classes
     assert_includes div["class"], "base-class"
-    assert_includes div["class"], "another-class"  
+    assert_includes div["class"], "another-class"
     assert_includes div["class"], "custom-class"
 
     # Should have filtered attributes
@@ -128,7 +128,7 @@ class BaseTest < ComponentTestCase
   # Test generate_id_from_name (existing method)
   test "generate_id_from_name handles brackets and underscores" do
     component = TestComponent.new
-    
+
     assert_equal "user_name", component.send(:generate_id_from_name, "user[name]")
     assert_equal "user_address_street", component.send(:generate_id_from_name, "user[address][street]")
     assert_equal "simple_name", component.send(:generate_id_from_name, "simple_name")
