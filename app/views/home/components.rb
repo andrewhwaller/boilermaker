@@ -913,9 +913,9 @@ class Views::Home::Components < Views::Base
             div(class: "space-y-6") do
               h4(class: "font-medium mb-3") { "Dropdown Menu" }
               DropdownMenu(trigger_text: "Account Menu") do
-                DropdownMenuItem("Profile", "#")
-                DropdownMenuItem("Settings", "#")
-                DropdownMenuItem("Sign out", "#", method: :delete, class: "text-error")
+                DropdownMenuItem("#", "Profile")
+                DropdownMenuItem("#", "Settings")
+                DropdownMenuItem("#", "Sign out", method: :delete, class: "text-error")
               end
             end
           end
