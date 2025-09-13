@@ -61,7 +61,7 @@ class TableRowTest < ComponentTestCase
 
     assert_has_attributes(row, "tr", {
       id: "custom-row",
-      "data-testid": "row-component", 
+      "data-testid": "row-component",
       "data-id": "123"
     })
   end
@@ -92,7 +92,7 @@ class TableRowTest < ComponentTestCase
     # Invalid variant should not break rendering
     row_invalid_variant = Components::Table::Row.new(variant: :invalid)
     assert_renders_successfully(row_invalid_variant)
-    
+
     # Should not add invalid class
     html = render_component(row_invalid_variant)
     refute html.include?("invalid"), "Invalid variant should not add invalid class"
@@ -107,7 +107,7 @@ class TableRowTest < ComponentTestCase
     # Row without variant should not have class attribute if no other classes
     row_no_variant = Components::Table::Row.new
     html = render_component(row_no_variant)
-    
+
     # Should either not have class attribute, or have clean class string
     if html.include?('class="')
       refute html.match?(/class="[^"]*\s{2,}[^"]*"/), "Should not have multiple consecutive spaces"
@@ -131,7 +131,7 @@ class TableRowTest < ComponentTestCase
     row_with_content = Components::Table::Row.new do
       td { "Accessible content" }
     end
-    
+
     html = render_component(row_with_content)
     assert html.include?("Accessible content"), "Row content should be accessible to screen readers"
   end
@@ -147,7 +147,7 @@ class TableRowTest < ComponentTestCase
     end
 
     html = render_component(complex_row)
-    
+
     assert html.include?("hover"), "Should maintain row variant"
     assert html.include?("Bold Cell"), "Should render complex cell content"
     assert html.include?("Small text"), "Should render nested elements"

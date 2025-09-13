@@ -36,7 +36,7 @@ class TableHeaderTest < ComponentTestCase
     # Should have cursor pointer class
     assert html.include?("cursor-pointer"), "Sortable header should have cursor-pointer class"
     assert html.include?("select-none"), "Sortable header should have select-none class"
-    
+
     # Should have sort indicator
     assert html.include?("↕"), "Sortable header should have unsorted indicator"
   end
@@ -66,7 +66,7 @@ class TableHeaderTest < ComponentTestCase
 
     # Should not have cursor pointer class
     refute html.include?("cursor-pointer"), "Non-sortable header should not have cursor-pointer class"
-    
+
     # Should not have sort indicators
     refute html.include?("↑"), "Non-sortable header should not have sort arrows"
     refute html.include?("↓"), "Non-sortable header should not have sort arrows"
@@ -95,7 +95,7 @@ class TableHeaderTest < ComponentTestCase
     end
 
     html = render_component(header)
-    
+
     assert html.include?("Name"), "Should render header text"
     assert html.include?("↑"), "Should render sort indicator"
     assert html.include?("cursor-pointer"), "Should be clickable"
@@ -106,7 +106,7 @@ class TableHeaderTest < ComponentTestCase
     # Invalid sorted value should not break rendering
     header_invalid = Components::Table::Header.new(sortable: true, sorted: :invalid)
     assert_renders_successfully(header_invalid)
-    
+
     header_invalid_test = Components::Table::Header.new(sortable: true, sorted: :invalid)
     html = render_component(header_invalid_test)
     assert html.include?("↕"), "Invalid sort should default to unsorted indicator"

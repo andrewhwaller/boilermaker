@@ -62,14 +62,14 @@ class TableTest < ComponentTestCase
 
   # Test table with headers
   test "renders table with headers correctly" do
-    headers = ["Name", "Email", "Role"]
+    headers = [ "Name", "Email", "Role" ]
     table = Components::Table.new(headers: headers)
 
     html = render_component(table)
-    
+
     # Should have thead element
     assert html.include?("<thead>"), "Table should have thead element"
-    
+
     # Should have th elements for each header
     headers.each do |header|
       assert html.include?("<th>#{header}</th>"), "Table should have th element for #{header}"
@@ -78,21 +78,21 @@ class TableTest < ComponentTestCase
 
   # Test table with array data
   test "renders table with array data correctly" do
-    headers = ["Name", "Age"]
+    headers = [ "Name", "Age" ]
     data = [
-      ["John", "30"],
-      ["Jane", "25"]
+      [ "John", "30" ],
+      [ "Jane", "25" ]
     ]
-    
+
     table = Components::Table.new(headers: headers, data: data)
     html = render_component(table)
 
     # Should have tbody element
     assert html.include?("<tbody>"), "Table should have tbody element"
-    
+
     # Should have tr elements for each row
     assert html.scan(/<tr>/).length >= 2, "Table should have at least 2 tr elements in tbody"
-    
+
     # Should have td elements with data
     assert html.include?("<td>John</td>"), "Table should have John data"
     assert html.include?("<td>30</td>"), "Table should have age 30 data"
@@ -102,12 +102,12 @@ class TableTest < ComponentTestCase
 
   # Test table with hash data
   test "renders table with hash data correctly" do
-    headers = ["name", "age", "role"]
+    headers = [ "name", "age", "role" ]
     data = [
       { "name" => "John", "age" => "30", "role" => "Admin" },
       { "name" => "Jane", "age" => "25", "role" => "User" }
     ]
-    
+
     table = Components::Table.new(headers: headers, data: data)
     html = render_component(table)
 
@@ -120,28 +120,28 @@ class TableTest < ComponentTestCase
 
   # Test table with empty data
   test "renders table with empty data correctly" do
-    headers = ["Name", "Email"]
+    headers = [ "Name", "Email" ]
     table = Components::Table.new(headers: headers, data: [])
 
     html = render_component(table)
-    
+
     # Should show "No data available" message
     assert html.include?("No data available"), "Table should show no data message when empty"
-    
+
     # Should have proper colspan
     assert html.include?('colspan="2"'), "Empty message should span all columns"
   end
 
   # Test table without headers
   test "renders table without headers correctly" do
-    data = [["John", "30"], ["Jane", "25"]]
+    data = [ [ "John", "30" ], [ "Jane", "25" ] ]
     table = Components::Table.new(data: data)
 
     html = render_component(table)
-    
+
     # Should not have thead element
     refute html.include?("<thead>"), "Table without headers should not have thead"
-    
+
     # Should still have tbody with data
     assert html.include?("<tbody>"), "Table should have tbody element"
     assert html.include?("<td>John</td>"), "Table should have data"
@@ -171,7 +171,7 @@ class TableTest < ComponentTestCase
     end
 
     assert_renders_successfully(table_with_block)
-    
+
     # Use separate instance for HTML testing
     table_content_test = Components::Table.new do
       "Custom table content"
@@ -188,7 +188,7 @@ class TableTest < ComponentTestCase
       size: :sm
     )
 
-    assert_has_css_class(zebra_compact, ["table", "table-zebra", "table-sm"])
+    assert_has_css_class(zebra_compact, [ "table", "table-zebra", "table-sm" ])
 
     # Pin rows large table
     pin_rows_large = Components::Table.new(
@@ -196,7 +196,7 @@ class TableTest < ComponentTestCase
       size: :lg
     )
 
-    assert_has_css_class(pin_rows_large, ["table", "table-pin-rows", "table-lg"])
+    assert_has_css_class(pin_rows_large, [ "table", "table-pin-rows", "table-lg" ])
   end
 
   # Test edge cases
@@ -214,7 +214,7 @@ class TableTest < ComponentTestCase
     assert_renders_successfully(table_nil_data)
 
     # Mixed data types in array
-    mixed_data = [["string", 123], [true, nil]]
+    mixed_data = [ [ "string", 123 ], [ true, nil ] ]
     table_mixed = Components::Table.new(data: mixed_data)
     assert_renders_successfully(table_mixed)
   end
@@ -232,9 +232,9 @@ class TableTest < ComponentTestCase
 
   # Test accessibility
   test "maintains accessibility standards" do
-    headers = ["Name", "Email", "Role"]
-    data = [["John", "john@example.com", "Admin"]]
-    
+    headers = [ "Name", "Email", "Role" ]
+    data = [ [ "John", "john@example.com", "Admin" ] ]
+
     # Should be a table element for semantic meaning
     table_tag = Components::Table.new(headers: headers, data: data)
     assert_has_tag(table_tag, "table")
@@ -242,7 +242,7 @@ class TableTest < ComponentTestCase
     # Test table structure
     table_structure = Components::Table.new(headers: headers, data: data)
     html = render_component(table_structure)
-    
+
     # Should have proper table structure
     assert html.include?("<thead>"), "Table should have thead for accessibility"
     assert html.include?("<tbody>"), "Table should have tbody for accessibility"
@@ -253,27 +253,27 @@ class TableTest < ComponentTestCase
   # Test data type handling
   test "handles different data types correctly" do
     # String data
-    string_data = [["text", "more text"]]
+    string_data = [ [ "text", "more text" ] ]
     table_string = Components::Table.new(data: string_data)
     html_string = render_component(table_string)
     assert html_string.include?("text"), "Should handle string data"
 
-    # Numeric data  
-    numeric_data = [[123, 456.78]]
+    # Numeric data
+    numeric_data = [ [ 123, 456.78 ] ]
     table_numeric = Components::Table.new(data: numeric_data)
     html_numeric = render_component(table_numeric)
     assert html_numeric.include?("123"), "Should handle integer data"
     assert html_numeric.include?("456.78"), "Should handle float data"
 
     # Boolean data
-    boolean_data = [[true, false]]
+    boolean_data = [ [ true, false ] ]
     table_boolean = Components::Table.new(data: boolean_data)
     html_boolean = render_component(table_boolean)
     assert html_boolean.include?("true"), "Should handle boolean true"
     assert html_boolean.include?("false"), "Should handle boolean false"
 
     # Nil data
-    nil_data = [[nil, "not nil"]]
+    nil_data = [ [ nil, "not nil" ] ]
     table_nil = Components::Table.new(data: nil_data)
     html_nil = render_component(table_nil)
     assert html_nil.include?("not nil"), "Should handle nil values gracefully"
@@ -282,21 +282,21 @@ class TableTest < ComponentTestCase
   # Test performance with larger datasets
   test "handles moderate datasets efficiently" do
     # Create 50 rows of data
-    large_data = 50.times.map { |i| ["User #{i}", "user#{i}@example.com", "Role #{i % 3}"] }
-    headers = ["Name", "Email", "Role"]
-    
+    large_data = 50.times.map { |i| [ "User #{i}", "user#{i}@example.com", "Role #{i % 3}" ] }
+    headers = [ "Name", "Email", "Role" ]
+
     # Should render without errors
     table_render = Components::Table.new(headers: headers, data: large_data)
     assert_renders_successfully(table_render)
-    
+
     # Test content
     table_content = Components::Table.new(headers: headers, data: large_data)
     html = render_component(table_content)
-    
+
     # Should contain first and last entries
     assert html.include?("User 0"), "Should render first row"
     assert html.include?("User 49"), "Should render last row"
-    
+
     # Should have correct number of data rows (50 + 1 header row)
     tr_count = html.scan(/<tr>/).length
     assert tr_count >= 50, "Should have at least 50 data rows"

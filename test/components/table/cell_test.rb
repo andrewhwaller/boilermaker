@@ -55,22 +55,22 @@ class TableCellTest < ComponentTestCase
   # Test cell with colspan
   test "renders cell with colspan correctly" do
     cell = Components::Table::Cell.new(colspan: 2)
-    
+
     assert_has_attributes(cell, "td", { colspan: "2" })
   end
 
   # Test cell with rowspan
   test "renders cell with rowspan correctly" do
     cell = Components::Table::Cell.new(rowspan: 3)
-    
+
     assert_has_attributes(cell, "td", { rowspan: "3" })
   end
 
   # Test cell with both colspan and rowspan
   test "renders cell with both colspan and rowspan correctly" do
     cell = Components::Table::Cell.new(colspan: 2, rowspan: 3)
-    
-    assert_has_attributes(cell, "td", { 
+
+    assert_has_attributes(cell, "td", {
       colspan: "2",
       rowspan: "3"
     })
@@ -115,13 +115,13 @@ class TableCellTest < ComponentTestCase
   # Test cell with custom class and alignment
   test "combines custom class with alignment class" do
     cell = Components::Table::Cell.new(align: :center, class: "font-bold")
-    
+
     html = render_component(cell)
     assert html.include?("font-bold"), "Should include custom class"
     assert html.include?("text-center"), "Should include alignment class"
-    
+
     # Both classes should be present in the same class attribute
-    assert html.match?(/class="[^"]*font-bold[^"]*text-center[^"]*"/) || 
+    assert html.match?(/class="[^"]*font-bold[^"]*text-center[^"]*"/) ||
            html.match?(/class="[^"]*text-center[^"]*font-bold[^"]*"/),
            "Both classes should be in the same class attribute"
   end
@@ -135,7 +135,7 @@ class TableCellTest < ComponentTestCase
     # Nil colspan/rowspan should work
     cell_nil_span = Components::Table::Cell.new(colspan: nil, rowspan: nil)
     assert_renders_successfully(cell_nil_span)
-    
+
     html = render_component(cell_nil_span)
     refute html.include?("colspan"), "Nil colspan should not appear in HTML"
     refute html.include?("rowspan"), "Nil rowspan should not appear in HTML"
@@ -184,7 +184,7 @@ class TableCellTest < ComponentTestCase
     end
 
     html = render_component(complex_cell)
-    
+
     assert html.include?("text-center"), "Should maintain alignment"
     assert html.include?('colspan="2"'), "Should maintain colspan"
     assert html.include?("Bold"), "Should render complex content"
