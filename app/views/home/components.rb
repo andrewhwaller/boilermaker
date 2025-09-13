@@ -489,11 +489,11 @@ class Views::Home::Components < Views::Base
 
           component_section("Basic Table", "Simple data table with headers and rows") do
             Table(
-              headers: ["Name", "Email", "Role", "Status"],
+              headers: [ "Name", "Email", "Role", "Status" ],
               data: [
-                ["John Doe", "john@example.com", "Admin", "Active"],
-                ["Jane Smith", "jane@example.com", "User", "Active"],
-                ["Mike Johnson", "mike@example.com", "Editor", "Inactive"]
+                [ "John Doe", "john@example.com", "Admin", "Active" ],
+                [ "Jane Smith", "jane@example.com", "User", "Active" ],
+                [ "Mike Johnson", "mike@example.com", "Editor", "Inactive" ]
               ]
             )
 
@@ -508,37 +508,72 @@ class Views::Home::Components < Views::Base
             RUBY
           end
 
-          component_section("Table Variants", "Different table styling options") do
+          component_section("Industrial Table Variants", "Data-dense styling for technical applications") do
             div(class: "space-y-8") do
-              # Zebra striping
+              # Industrial zebra striping
               div do
-                h4(class: "font-medium mb-3") { "Zebra Striped Table" }
+                h4(class: "font-medium mb-3") { "System Monitor - Zebra Striped" }
                 Table(
                   variant: :zebra,
-                  headers: ["Product", "Price", "Stock"],
+                  headers: [ "PID", "Process", "CPU%", "Memory", "Status", "Uptime" ],
                   data: [
-                    ["Laptop", "$999", "5"],
-                    ["Mouse", "$25", "50"],
-                    ["Keyboard", "$75", "20"],
-                    ["Monitor", "$299", "8"]
+                    [ "1432", "postgres", "12.3", "1.2GB", "RUNNING", "72:15:33" ],
+                    [ "2891", "redis-server", "3.1", "256MB", "RUNNING", "48:22:15" ],
+                    [ "3024", "nginx", "0.8", "128MB", "RUNNING", "91:03:42" ],
+                    [ "3156", "sidekiq", "5.7", "512MB", "RUNNING", "12:45:28" ],
+                    [ "4023", "webpack-dev", "18.4", "892MB", "RUNNING", "02:13:09" ]
                   ]
                 )
               end
 
-              # Pin rows (sticky header)
+              # Dense data variant
               div do
-                h4(class: "font-medium mb-3") { "Sticky Header Table" }
+                h4(class: "font-medium mb-3") { "Dense Data Table" }
+                Table(
+                  variant: :dense,
+                  headers: [ "Node", "IP", "Load", "Mem", "Disk", "Net I/O", "Status" ],
+                  data: [
+                    [ "web-01", "10.0.1.12", "0.45", "78%", "23%", "1.2MB/s", "HEALTHY" ],
+                    [ "web-02", "10.0.1.13", "0.67", "82%", "31%", "2.1MB/s", "HEALTHY" ],
+                    [ "db-01", "10.0.2.10", "1.23", "94%", "67%", "15.7MB/s", "WARNING" ],
+                    [ "cache-01", "10.0.3.15", "0.12", "34%", "8%", "0.8MB/s", "HEALTHY" ],
+                    [ "lb-01", "10.0.0.5", "0.89", "45%", "12%", "45.2MB/s", "HEALTHY" ]
+                  ]
+                )
+              end
+
+              # Bordered technical data
+              div do
+                h4(class: "font-medium mb-3") { "Technical Specifications - Bordered" }
+                Table(
+                  variant: :bordered,
+                  headers: [ "Component", "Model", "Spec", "Temp °C", "Voltage", "Status" ],
+                  data: [
+                    [ "CPU", "Intel i7-12700K", "3.6GHz 12C/20T", "42", "1.25V", "OPTIMAL" ],
+                    [ "GPU", "RTX 4080", "16GB GDDR6X", "67", "12V", "OPTIMAL" ],
+                    [ "RAM", "DDR5-5600", "32GB CL36", "35", "1.1V", "OPTIMAL" ],
+                    [ "SSD", "Samsung 980 PRO", "2TB NVMe", "38", "3.3V", "OPTIMAL" ]
+                  ]
+                )
+              end
+
+              # Sticky header for data monitoring
+              div do
+                h4(class: "font-medium mb-3") { "Log Monitor - Sticky Headers" }
                 div(class: "max-h-48 overflow-y-auto") do
                   Table(
                     variant: :pin_rows,
-                    headers: ["ID", "Name", "Status", "Created"],
+                    size: :sm,
+                    headers: [ "Timestamp", "Level", "Service", "Message", "Source" ],
                     data: [
-                      ["001", "Project Alpha", "Active", "2024-01-15"],
-                      ["002", "Project Beta", "Active", "2024-01-20"],
-                      ["003", "Project Gamma", "Pending", "2024-01-25"],
-                      ["004", "Project Delta", "Active", "2024-02-01"],
-                      ["005", "Project Echo", "Completed", "2024-02-05"],
-                      ["006", "Project Foxtrot", "Active", "2024-02-10"]
+                      [ "2024-01-15T10:30:15Z", "INFO", "web-server", "Request processed successfully", "nginx" ],
+                      [ "2024-01-15T10:30:16Z", "WARN", "database", "Connection pool near limit", "postgres" ],
+                      [ "2024-01-15T10:30:17Z", "ERROR", "auth-service", "Invalid token provided", "oauth" ],
+                      [ "2024-01-15T10:30:18Z", "INFO", "cache", "Cache miss, fetching from DB", "redis" ],
+                      [ "2024-01-15T10:30:19Z", "DEBUG", "scheduler", "Job queued for processing", "sidekiq" ],
+                      [ "2024-01-15T10:30:20Z", "INFO", "web-server", "Static asset served", "nginx" ],
+                      [ "2024-01-15T10:30:21Z", "WARN", "monitoring", "Disk space below threshold", "system" ],
+                      [ "2024-01-15T10:30:22Z", "INFO", "database", "Transaction committed", "postgres" ]
                     ]
                   )
                 end
@@ -546,10 +581,11 @@ class Views::Home::Components < Views::Base
               end
             end
 
-            code_example("Table Variants", <<~RUBY.strip)
+            code_example("Industrial Table Variants", <<~RUBY.strip)
               Table(variant: :zebra, headers: [...], data: [...])
-              Table(variant: :pin_rows, headers: [...], data: [...])
-              Table(variant: :pin_cols, headers: [...], data: [...])
+              Table(variant: :dense, headers: [...], data: [...])    # Maximum data density
+              Table(variant: :bordered, headers: [...], data: [...]) # Enhanced grid lines
+              Table(variant: :pin_rows, headers: [...], data: [...]) # Sticky headers
             RUBY
           end
 
@@ -560,10 +596,10 @@ class Views::Home::Components < Views::Base
                 h4(class: "font-medium mb-3") { "Extra Small Table" }
                 Table(
                   size: :xs,
-                  headers: ["#", "Task", "Status"],
+                  headers: [ "#", "Task", "Status" ],
                   data: [
-                    ["1", "Review code", "Done"],
-                    ["2", "Update docs", "In Progress"]
+                    [ "1", "Review code", "Done" ],
+                    [ "2", "Update docs", "In Progress" ]
                   ]
                 )
               end
@@ -573,10 +609,10 @@ class Views::Home::Components < Views::Base
                 h4(class: "font-medium mb-3") { "Large Table" }
                 Table(
                   size: :lg,
-                  headers: ["Department", "Manager", "Budget", "Employees"],
+                  headers: [ "Department", "Manager", "Budget", "Employees" ],
                   data: [
-                    ["Engineering", "Sarah Connor", "$500,000", "12"],
-                    ["Marketing", "John Matrix", "$200,000", "6"]
+                    [ "Engineering", "Sarah Connor", "$500,000", "12" ],
+                    [ "Marketing", "John Matrix", "$200,000", "6" ]
                   ]
                 )
               end
@@ -592,7 +628,7 @@ class Views::Home::Components < Views::Base
 
           component_section("Custom Table Structure", "Building tables with subcomponents") do
             p(class: "text-base-content/70 mb-4") { "Use table subcomponents for complete control over structure and styling:" }
-            
+
             Table(variant: :zebra) do
               thead do
                 tr do
@@ -609,11 +645,9 @@ class Views::Home::Components < Views::Base
                   render Components::Table::Cell.new(align: :center) do
                     Badge(variant: :success) { "A" }
                   end
-                  render Components::Table::Cell.new(align: :center) do
-                    div(class: "flex gap-1 justify-center") do
-                      Button(variant: :outline, class: "btn-xs") { "Edit" }
-                      Button(variant: :destructive, class: "btn-xs") { "Delete" }
-                    end
+                  render Components::Table::Actions.new do
+                    button(class: "btn btn-ghost btn-xs") { "Edit" }
+                    button(class: "btn btn-ghost btn-xs") { "Delete" }
                   end
                 end
                 render Components::Table::Row.new do
@@ -622,11 +656,9 @@ class Views::Home::Components < Views::Base
                   render Components::Table::Cell.new(align: :center) do
                     Badge(variant: :warning) { "B+" }
                   end
-                  render Components::Table::Cell.new(align: :center) do
-                    div(class: "flex gap-1 justify-center") do
-                      Button(variant: :outline, class: "btn-xs") { "Edit" }
-                      Button(variant: :destructive, class: "btn-xs") { "Delete" }
-                    end
+                  render Components::Table::Actions.new do
+                    button(class: "btn btn-ghost btn-xs") { "Edit" }
+                    button(class: "btn btn-ghost btn-xs") { "Delete" }
                   end
                 end
                 render Components::Table::Row.new do
@@ -635,11 +667,9 @@ class Views::Home::Components < Views::Base
                   render Components::Table::Cell.new(align: :center) do
                     Badge(variant: :info) { "C+" }
                   end
-                  render Components::Table::Cell.new(align: :center) do
-                    div(class: "flex gap-1 justify-center") do
-                      Button(variant: :outline, class: "btn-xs") { "Edit" }
-                      Button(variant: :destructive, class: "btn-xs") { "Delete" }
-                    end
+                  render Components::Table::Actions.new do
+                    button(class: "btn btn-ghost btn-xs") { "Edit" }
+                    button(class: "btn btn-ghost btn-xs") { "Delete" }
                   end
                 end
               end
@@ -658,11 +688,9 @@ class Views::Home::Components < Views::Base
                   render Components::Table::Row.new(variant: :active) do
                     render Components::Table::Cell.new { "Alice Johnson" }
                     render Components::Table::Cell.new(align: :center) { "95" }
-                    render Components::Table::Cell.new(align: :center) do
-                      div(class: "flex gap-1 justify-center") do
-                        Button(variant: :outline, class: "btn-xs") { "Edit" }
-                        Button(variant: :destructive, class: "btn-xs") { "Delete" }
-                      end
+                    render Components::Table::Actions.new do
+                      button(class: "btn btn-ghost btn-xs") { "Edit" }
+                      button(class: "btn btn-ghost btn-xs") { "Delete" }
                     end
                   end
                 end
@@ -673,9 +701,9 @@ class Views::Home::Components < Views::Base
           component_section("Hash Data Rendering", "Tables with hash-based data") do
             div(class: "space-y-6") do
               p(class: "text-base-content/70") { "Tables can render hash data by matching keys to headers:" }
-              
+
               Table(
-                headers: ["name", "age", "department", "salary"],
+                headers: [ "name", "age", "department", "salary" ],
                 data: [
                   { "name" => "Alice Johnson", "age" => "28", "department" => "Engineering", "salary" => "$85,000" },
                   { "name" => "Bob Wilson", "age" => "35", "department" => "Design", "salary" => "$75,000" },
@@ -698,9 +726,9 @@ class Views::Home::Components < Views::Base
           component_section("Empty Table State", "Handling tables with no data") do
             div(class: "space-y-6") do
               p(class: "text-base-content/70") { "Tables gracefully handle empty data with a helpful message:" }
-              
+
               Table(
-                headers: ["User", "Last Login", "Status"],
+                headers: [ "User", "Last Login", "Status" ],
                 data: []
               )
             end
@@ -713,39 +741,151 @@ class Views::Home::Components < Views::Base
             RUBY
           end
 
-          component_section("Responsive Table", "Tables with responsive behavior") do
+          component_section("Industrial Data Monitor", "Wide technical tables with horizontal scrolling") do
             div(class: "space-y-4") do
-              p(class: "text-base-content/70 mb-4") { "Wide tables automatically scroll horizontally on smaller screens. Try resizing your browser window or viewing on mobile:" }
-              
+              p(class: "text-base-content/70 mb-4") { "Industrial monitoring dashboards often require wide data tables. This example shows server metrics with horizontal scrolling:" }
+
               div(class: "overflow-x-auto") do
                 Table(
-                  variant: :zebra,
+                  variant: :dense,
                   size: :sm,
-                  headers: ["ID", "Product Name", "SKU", "Category", "Brand", "Price", "Cost", "Margin", "Stock", "Reserved", "Available", "Last Updated", "Status", "Supplier", "Location", "Actions"],
+                  headers: [ "Server", "IP Address", "Region", "CPU Load", "Memory", "Disk I/O", "Network In", "Network Out", "Connections", "Uptime", "Load Avg", "Processes", "Last Check", "Status", "Alerts", "Actions" ],
                   data: [
-                    ["001", "MacBook Pro 16-inch M3 Max", "MBP16M3MAX", "Laptops", "Apple", "$3,499", "$2,800", "20%", "5", "2", "3", "2024-01-15 10:30", "In Stock", "Apple Inc", "Warehouse A", "Edit"],
-                    ["002", "Dell XPS 13 Developer Edition", "XPS13DEV", "Laptops", "Dell", "$1,299", "$950", "27%", "12", "1", "11", "2024-01-20 14:45", "In Stock", "Dell Direct", "Warehouse B", "Edit"],
-                    ["003", "ThinkPad X1 Carbon Gen 11", "X1C11", "Laptops", "Lenovo", "$1,899", "$1,400", "26%", "8", "0", "8", "2024-01-18 09:15", "In Stock", "Lenovo Corp", "Warehouse A", "Edit"],
-                    ["004", "iPhone 15 Pro Max 1TB", "IP15PM1TB", "Smartphones", "Apple", "$1,599", "$1,200", "25%", "25", "5", "20", "2024-01-22 11:20", "In Stock", "Apple Inc", "Warehouse C", "Edit"],
-                    ["005", "AirPods Max Silver", "APMAX-SLV", "Audio", "Apple", "$549", "$380", "31%", "8", "2", "6", "2024-01-18 16:30", "Low Stock", "Apple Inc", "Warehouse C", "Edit"]
+                    [ "prod-web-01", "172.16.1.10", "us-east-1a", "23.4%", "78.2%", "1.2MB/s", "45.6MB/s", "23.1MB/s", "156", "15d 4h 23m", "1.23", "87", "2024-01-15 14:30:15", "HEALTHY", "0", "SSH" ],
+                    [ "prod-web-02", "172.16.1.11", "us-east-1b", "45.7%", "82.1%", "2.4MB/s", "67.8MB/s", "34.2MB/s", "203", "12d 18h 45m", "1.89", "92", "2024-01-15 14:30:18", "WARNING", "2", "SSH" ],
+                    [ "prod-db-01", "172.16.2.10", "us-east-1a", "67.8%", "94.3%", "15.7MB/s", "12.3MB/s", "8.9MB/s", "45", "22d 7h 12m", "2.34", "34", "2024-01-15 14:30:12", "CRITICAL", "5", "SSH" ],
+                    [ "prod-cache-01", "172.16.3.15", "us-east-1c", "12.1%", "34.7%", "0.8MB/s", "89.2MB/s", "67.4MB/s", "1,234", "8d 14h 56m", "0.45", "23", "2024-01-15 14:30:20", "HEALTHY", "0", "SSH" ],
+                    [ "prod-lb-01", "172.16.0.5", "us-east-1a", "34.5%", "45.8%", "0.2MB/s", "156.7MB/s", "142.3MB/s", "2,789", "31d 2h 18m", "1.12", "15", "2024-01-15 14:30:16", "HEALTHY", "1", "SSH" ]
                   ]
                 )
               end
-              
-              p(class: "text-sm text-base-content/60 mt-2") { "This table will scroll horizontally when the content exceeds the container width." }
+
+              p(class: "text-sm text-base-content/60 mt-2") { "Dense variant optimizes space for maximum data visibility. Table scrolls horizontally on smaller screens." }
             end
 
-            code_example("Responsive Table", <<~RUBY.strip)
-              # Wrap table in scrollable container for wide tables
+            code_example("Industrial Data Table", <<~RUBY.strip)
+              # Dense, scrollable industrial monitoring table
               div(class: "overflow-x-auto") do
                 Table(
-                  variant: :zebra,
-                  size: :sm,
-                  headers: ["ID", "Product", "SKU", "Category", "Brand", "Price", "Stock"],
+                  variant: :dense,   # Maximum data density for monitoring
+                  size: :sm,        # Compact size for more rows visible
+                  headers: ["Server", "IP", "CPU", "Memory", "Disk I/O", "Status"],
                   data: [
-                    ["001", "MacBook Pro 16-inch M3 Max", "MBP16M3MAX", "Laptops", "Apple", "$3,499", "5"]
+                    ["prod-web-01", "172.16.1.10", "23.4%", "78.2%", "1.2MB/s", "HEALTHY"]
                   ]
                 )
+              end
+            RUBY
+          end
+
+          component_section("Table Actions", "Action buttons and dropdowns for table rows") do
+            div(class: "space-y-6") do
+              p(class: "text-base-content/70") { "Use the Actions component for clean, industrial-styled action buttons in table rows:" }
+
+              Table(variant: :zebra, size: :sm) do
+                thead do
+                  tr do
+                    render Components::Table::Header.new { "Server" }
+                    render Components::Table::Header.new { "Status" }
+                    render Components::Table::Header.new { "CPU" }
+                    render Components::Table::Header.new { "Actions" }
+                  end
+                end
+                tbody do
+                  render Components::Table::Row.new do
+                    render Components::Table::Cell.new { "prod-web-01" }
+                    render Components::Table::Cell.new { Badge(variant: :success) { "ONLINE" } }
+                    render Components::Table::Cell.new(align: :center) { "23%" }
+                    render Components::Table::Actions.new do
+                      button(class: "btn btn-ghost btn-xs") { "View" }
+                      button(class: "btn btn-ghost btn-xs") { "Edit" }
+                      button(class: "btn btn-ghost btn-xs") { "Stop" }
+                    end
+                  end
+                  render Components::Table::Row.new do
+                    render Components::Table::Cell.new { "prod-web-02" }
+                    render Components::Table::Cell.new { Badge(variant: :warning) { "RESTART" } }
+                    render Components::Table::Cell.new(align: :center) { "67%" }
+                    render Components::Table::Actions.new do
+                      button(class: "btn btn-ghost btn-xs") { "View" }
+                      button(class: "btn btn-ghost btn-xs") { "Edit" }
+                      button(class: "btn btn-ghost btn-xs") { "Stop" }
+                    end
+                  end
+                  render Components::Table::Row.new do
+                    render Components::Table::Cell.new { "prod-db-01" }
+                    render Components::Table::Cell.new { Badge(variant: :error) { "ERROR" } }
+                    render Components::Table::Cell.new(align: :center) { "89%" }
+                    render Components::Table::Actions.new do
+                      button(class: "btn btn-ghost btn-xs") { "View" }
+                      button(class: "btn btn-ghost btn-xs") { "Edit" }
+                      button(class: "btn btn-ghost btn-xs") { "Restart" }
+                    end
+                  end
+                end
+              end
+
+              div(class: "mt-6") do
+                h4(class: "font-medium mb-3") { "Actions with Pre-configured Items" }
+                p(class: "text-sm text-base-content/60 mb-4") { "Actions component supports pre-configured button, link, and dropdown items:" }
+
+                Table(size: :sm) do
+                  thead do
+                    tr do
+                      render Components::Table::Header.new { "User" }
+                      render Components::Table::Header.new { "Role" }
+                      render Components::Table::Header.new { "Actions" }
+                    end
+                  end
+                  tbody do
+                    render Components::Table::Row.new do
+                      render Components::Table::Cell.new { "admin@example.com" }
+                      render Components::Table::Cell.new { "Administrator" }
+                      render Components::Table::Actions.new(
+                        items: [
+                          { type: :link, text: "Profile", href: "/users/1" },
+                          { type: :button, text: "Reset Password", attributes: { data: { action: "reset-password", user_id: "1" } } },
+                          {
+                            type: :dropdown,
+                            items: [
+                              { type: :button, text: "Deactivate", attributes: { data: { action: "deactivate", user_id: "1" } } },
+                              { type: :button, text: "Delete", attributes: { data: { action: "delete", user_id: "1" } } }
+                            ]
+                          }
+                        ]
+                      )
+                    end
+                  end
+                end
+              end
+            end
+
+            code_example("Table Actions", <<~RUBY.strip)
+              # Custom action buttons with blocks
+              render Components::Table::Actions.new do
+                button(class: "btn btn-ghost btn-xs") { "View" }
+                button(class: "btn btn-ghost btn-xs") { "Edit" }
+                button(class: "btn btn-ghost btn-xs") { "Delete" }
+              end
+
+              # Pre-configured action items
+              render Components::Table::Actions.new(
+                items: [
+                  { type: :link, text: "View", href: "/items/1" },
+                  { type: :button, text: "Edit", attributes: { data: { action: "edit", item_id: "1" } } },
+                  {
+                    type: :dropdown,
+                    items: [
+                      { type: :button, text: "Archive", attributes: { data: { action: "archive", item_id: "1" } } },
+                      { type: :button, text: "Delete", attributes: { data: { action: "delete", item_id: "1" } } }
+                    ]
+                  }
+                ]
+              )
+
+              # You can also use the Cell component with actions flag
+              render Components::Table::Cell.new(actions: true) do
+                # Custom action content
               end
             RUBY
           end
