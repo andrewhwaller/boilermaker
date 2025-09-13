@@ -16,19 +16,10 @@ class Components::Table::Cell < Components::Base
   end
 
   def view_template(&block)
-    cell_attributes = @attributes.dup
-    cell_attributes[:colspan] = @colspan if @colspan
-    cell_attributes[:rowspan] = @rowspan if @rowspan
+    attrs = filtered_attributes
+    attrs[:colspan] = @colspan if @colspan
+    attrs[:rowspan] = @rowspan if @rowspan
 
-    cell_classes = [
-      ALIGNMENTS[@align],
-      (@actions ? "table-actions" : nil)
-    ].compact.reject(&:empty?).join(" ")
-
-    cell_attributes[:class] = [ cell_attributes[:class], cell_classes ].compact.join(" ") unless cell_classes.empty?
-
-    td(**cell_attributes) do
-      yield if block
-    end
+    td(class: css_classes(ALIGNMENTS[@align], (@actions ? "table-actions" : nil)), **attrs, &block)
   end
 end

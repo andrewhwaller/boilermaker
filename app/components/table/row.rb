@@ -12,12 +12,6 @@ class Components::Table::Row < Components::Base
   end
 
   def view_template(&block)
-    row_classes = [
-      VARIANTS[@variant]
-    ].compact.reject(&:empty?).join(" ")
-
-    tr(class: row_classes.empty? ? nil : row_classes, **@attributes) do
-      yield if block
-    end
+    tr(class: css_classes(VARIANTS[@variant]), **filtered_attributes, &block)
   end
 end

@@ -8,13 +8,11 @@ class Components::Table::Actions < Components::Base
   end
 
   def view_template(&block)
-    td(class: action_classes, **@attributes) do
-      div(class: "flex items-center gap-1") do
-        if block
-          yield
-        else
-          render_default_actions
-        end
+    td(class: css_classes(*action_classes), **filtered_attributes) do
+      if block_given?
+        div(class: "flex items-center gap-1", &block)
+      else
+        div(class: "flex items-center gap-1") { render_default_actions }
       end
     end
   end
@@ -22,18 +20,13 @@ class Components::Table::Actions < Components::Base
   private
 
   def action_classes
-    base_classes = [ "whitespace-nowrap" ]
-
-    case @align
-    when :left
-      base_classes << "text-left"
-    when :center
-      base_classes << "text-center"
-    when :right
-      base_classes << "text-right"
+    base = [ "whitespace-nowrap" ]
+    base << case @align
+    when :left then "text-left"
+    when :center then "text-center"
+    else "text-right"
     end
-
-    base_classes.join(" ")
+    base
   end
 
   def render_default_actions

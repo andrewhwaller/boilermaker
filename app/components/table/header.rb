@@ -8,11 +8,9 @@ class Components::Table::Header < Components::Base
   end
 
   def view_template(&block)
-    classes = [ "cursor-pointer select-none" ] if @sortable
-
-    th(class: classes, **@attributes) do
+    th(class: css_classes((@sortable ? "cursor-pointer select-none" : nil)), **filtered_attributes) do
       div(class: "flex items-center gap-1") do
-        span { yield if block }
+        span(&block)
 
         if @sortable
           span(class: "text-xs opacity-60") do
