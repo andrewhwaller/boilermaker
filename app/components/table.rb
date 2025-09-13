@@ -4,7 +4,9 @@ class Components::Table < Components::Base
   VARIANTS = {
     zebra: "table-zebra",
     pin_rows: "table-pin-rows",
-    pin_cols: "table-pin-cols"
+    pin_cols: "table-pin-cols",
+    dense: "table-dense",
+    bordered: "table-bordered"
   }.freeze
 
   SIZES = {

@@ -3,14 +3,15 @@
 class Components::Table::Cell < Components::Base
   ALIGNMENTS = {
     left: "text-left",
-    center: "text-center", 
+    center: "text-center",
     right: "text-right"
   }.freeze
 
-  def initialize(align: :left, colspan: nil, rowspan: nil, **attributes)
+  def initialize(align: :left, colspan: nil, rowspan: nil, actions: false, **attributes)
     @align = align
     @colspan = colspan
     @rowspan = rowspan
+    @actions = actions
     @attributes = attributes
   end
 
@@ -18,12 +19,13 @@ class Components::Table::Cell < Components::Base
     cell_attributes = @attributes.dup
     cell_attributes[:colspan] = @colspan if @colspan
     cell_attributes[:rowspan] = @rowspan if @rowspan
-    
+
     cell_classes = [
-      ALIGNMENTS[@align]
+      ALIGNMENTS[@align],
+      (@actions ? "table-actions" : nil)
     ].compact.reject(&:empty?).join(" ")
 
-    cell_attributes[:class] = [cell_attributes[:class], cell_classes].compact.join(" ") unless cell_classes.empty?
+    cell_attributes[:class] = [ cell_attributes[:class], cell_classes ].compact.join(" ") unless cell_classes.empty?
 
     td(**cell_attributes) do
       yield if block
