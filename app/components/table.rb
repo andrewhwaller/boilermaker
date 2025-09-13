@@ -12,7 +12,7 @@ class Components::Table < Components::Base
   SIZES = {
     xs: "table-xs",
     sm: "table-sm",
-    md: "",  # Default size, no class needed
+    md: nil,  # Default size, no class needed
     lg: "table-lg"
   }.freeze
 
@@ -25,18 +25,11 @@ class Components::Table < Components::Base
   end
 
   def view_template(&block)
-    table_classes = [
-      "table",
-      VARIANTS[@variant],
-      SIZES[@size]
-    ].compact.reject(&:empty?).join(" ")
-
-    table(class: table_classes, **@attributes) do
-      if block
-        yield
-      else
-        render_default_table
-      end
+    table_classes = css_classes("table", VARIANTS[@variant], SIZES[@size])
+    if block
+      table(class: table_classes, **filtered_attributes, &block)
+    else
+      table(class: table_classes, **filtered_attributes) { render_default_table }
     end
   end
 

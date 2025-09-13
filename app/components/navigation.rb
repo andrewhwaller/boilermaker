@@ -2,9 +2,6 @@
 
 class Components::Navigation < Components::Base
   include ApplicationHelper
-  include Phlex::Rails::Helpers::LinkTo
-  include Phlex::Rails::Helpers::CurrentPage
-  include Phlex::Rails::Helpers::ButtonTo
 
   def view_template
     nav(class: "navbar bg-base-100 border-b border-base-300") do
@@ -37,7 +34,7 @@ class Components::Navigation < Components::Base
 
     # Development-only Boilermaker UI link
     if Rails.env.development?
-      link_to("Boilermaker UI", "/boilermaker/settings", class: nav_link_class("/boilermaker/settings"))
+      a(href: "/boilermaker/settings", class: nav_link_class("/boilermaker/settings")) { "Boilermaker UI" }
     end
 
     div(class: "ml-auto flex items-center gap-4") do
@@ -67,21 +64,21 @@ class Components::Navigation < Components::Base
 
   def account_dropdown
     render Components::DropdownMenu.new(trigger_text: current_user_display_name) do
-      render Components::DropdownMenuItem.new("Settings", "/settings")
+      render Components::DropdownMenuItem.new("/settings", "Settings")
 
       if Current.user&.account_admin_for? || Current.user&.admin?
-        render Components::DropdownMenuItem.new("Account", "/account", class: "text-primary")
+        render Components::DropdownMenuItem.new("/account", "Account", class: "text-primary")
       end
 
       if Current.user&.admin?
-        render Components::DropdownMenuItem.new("Admin", "/admin", class: "text-primary")
+        render Components::DropdownMenuItem.new("/admin", "Admin", class: "text-primary")
       end
 
       if Rails.env.development?
-        render Components::DropdownMenuItem.new("Email Preview", "/letter_opener", target: "_blank")
+        render Components::DropdownMenuItem.new("/letter_opener", "Email Preview", target: "_blank")
       end
 
-      render Components::DropdownMenuItem.new("Sign out", "/sessions/current", method: :delete, class: "text-error")
+      render Components::DropdownMenuItem.new("/sessions/current", "Sign out", method: :delete, class: "text-error")
     end
   end
 

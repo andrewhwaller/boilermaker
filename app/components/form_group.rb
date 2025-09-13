@@ -15,10 +15,8 @@ class Components::FormGroup < Components::Base
 
   def view_template
     div(class: "form-control w-full") do
-      # Label
       Label(for_id: @id, required: @required) { @label_text }
 
-      # Input
       Input(
         type: @input_type,
         name: @name,
@@ -27,7 +25,6 @@ class Components::FormGroup < Components::Base
         **@input_attrs
       )
 
-      # Optional help text
       if @help_text.present?
         label(class: "label") do
           span(class: "label-text-alt") { @help_text }

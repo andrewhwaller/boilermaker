@@ -15,17 +15,17 @@ class Components::Badge < Components::Base
   SIZES = {
     xs: "badge-xs",
     sm: "badge-sm",
-    md: "",  # Default size, no class needed
+    md: nil,
     lg: "badge-lg"
   }.freeze
 
   STYLES = {
-    filled: "",  # Default style, no class needed
+    filled: nil,
     outline: "badge-outline",
     ghost: "badge-ghost"
   }.freeze
 
-  def initialize(variant: :secondary, size: :md, style: :filled, **attributes)
+  def initialize(variant: :neutral, size: :md, style: :filled, **attributes)
     @variant = variant
     @size = size
     @style = style
@@ -33,14 +33,7 @@ class Components::Badge < Components::Base
   end
 
   def view_template(&block)
-    badge_classes = [
-      "badge",
-      VARIANTS[@variant],
-      SIZES[@size],
-      STYLES[@style]
-    ].compact.reject(&:empty?).join(" ")
-
-    span(class: badge_classes, **@attributes) do
+    span(class: css_classes("badge", VARIANTS[@variant], SIZES[@size], STYLES[@style]), **filtered_attributes) do
       yield if block
     end
   end

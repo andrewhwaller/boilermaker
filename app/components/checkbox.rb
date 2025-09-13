@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Components::Checkbox < Components::Base
+  include FormErrorHandling
   def initialize(name: nil, value: "1", checked: false, label: nil, required: false, error: nil, id: nil, **attributes)
     @name = name
     @value = value
@@ -24,7 +25,7 @@ class Components::Checkbox < Components::Base
           checked: @checked,
           required: (@required ? "required" : nil),
           class: checkbox_classes,
-          **@attributes.except(:class)
+          **filtered_attributes
         )
       end
       render_error_message if @error
@@ -34,20 +35,10 @@ class Components::Checkbox < Components::Base
   private
 
   def label_classes
-    base_classes = [ "label-text" ]
-    base_classes << "text-error" if @error
-    base_classes.join(" ")
+    [ "label-text", (@error ? "text-error" : nil) ]
   end
 
   def checkbox_classes
-    base_classes = [ "checkbox" ]
-    base_classes << "checkbox-error" if @error
-    custom_classes = @attributes[:class]
-
-    [ base_classes, custom_classes ].flatten.compact.join(" ")
-  end
-
-  def render_error_message
-    div(class: "label-text-alt text-error mt-1") { @error }
+    css_classes("checkbox", error_classes_for("checkbox"))
   end
 end

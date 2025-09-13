@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Components::Textarea < Components::Base
+  include FormErrorHandling
   def initialize(name: nil, value: nil, placeholder: nil, rows: 3, required: false, error: nil, id: nil, **attributes)
     @name = name
     @value = value
@@ -33,19 +34,11 @@ class Components::Textarea < Components::Base
     }
 
     attrs[:required] = "required" if @required
-    attrs.merge!(@attributes.except(:class))
+    attrs.merge!(filtered_attributes)
     attrs.compact
   end
 
   def textarea_classes
-    base_classes = [ "textarea", "textarea-bordered", "w-full" ]
-    base_classes << "textarea-error" if @error
-    custom_classes = @attributes[:class]
-
-    [ base_classes, custom_classes ].flatten.compact.join(" ")
-  end
-
-  def render_error_message
-    div(class: "label-text-alt text-error mt-1") { @error }
+    css_classes("textarea", "textarea-bordered", "w-full", error_classes_for("textarea"))
   end
 end

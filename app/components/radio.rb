@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Components::Radio < Components::Base
+  include FormErrorHandling
   def initialize(name: nil, options: [], selected: nil, required: false, error: nil, **attributes)
     @name = name
     @options = options
@@ -22,7 +23,7 @@ class Components::Radio < Components::Base
   private
 
   def render_radio_option(text, value, index)
-    div(class: "label cursor-pointer") do
+    label(class: "label cursor-pointer") do
       span(class: label_classes) { text }
       input(
         type: "radio",
@@ -32,26 +33,16 @@ class Components::Radio < Components::Base
         checked: value.to_s == @selected.to_s,
         required: (@required && index == 0) ? "required" : nil,
         class: radio_classes,
-        **@attributes.except(:class)
+        **filtered_attributes
       )
     end
   end
 
   def label_classes
-    base_classes = [ "label-text" ]
-    base_classes << "text-error" if @error
-    base_classes.join(" ")
+    [ "label-text", (@error ? "text-error" : nil) ]
   end
 
   def radio_classes
-    base_classes = [ "radio" ]
-    base_classes << "radio-error" if @error
-    custom_classes = @attributes[:class]
-
-    [ base_classes, custom_classes ].flatten.compact.join(" ")
-  end
-
-  def render_error_message
-    div(class: "label-text-alt text-error mt-1") { @error }
+    css_classes("radio", error_classes_for("radio"))
   end
 end

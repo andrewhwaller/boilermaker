@@ -43,8 +43,8 @@ class Components::Loading < Components::Base
   end
 
   def view_template(&block)
-    div(class: container_classes, **@attributes) do
-      span(class: loading_classes, "aria-hidden": "true")
+    div(class: css_classes("flex items-center", (@text.present? ? nil : "justify-center")), **filtered_attributes) do
+      span(class: css_classes("loading", TYPES[@type], SIZES[@size], (@color ? COLORS[@color] : nil)), "aria-hidden": "true")
 
       if @text.present?
         span(class: "ml-2 text-sm") { @text }
@@ -52,22 +52,5 @@ class Components::Loading < Components::Base
 
       yield if block
     end
-  end
-
-  private
-
-  def container_classes
-    classes = [ "flex items-center" ]
-    classes << "justify-center" unless @text.present?
-    classes.join(" ")
-  end
-
-  def loading_classes
-    [
-      "loading",
-      TYPES[@type],
-      SIZES[@size],
-      @color ? COLORS[@color] : nil
-    ].compact.join(" ")
   end
 end

@@ -22,18 +22,11 @@ class Components::Button < Components::Base
   end
 
   def view_template(&block)
-    button_classes = [
-      "btn",
-      "disabled:opacity-50",
-      VARIANTS[@variant],
-      (@uppercase ? "uppercase" : nil)
-    ].join(" ").strip
-
-    # Do not propagate any internal API options like :size to the DOM
-    attr_hash = @attributes.dup
-    attr_hash.delete(:size)
-
-    button(type: @type, class: button_classes, **attr_hash) do
+    button(
+      type: @type,
+      class: css_classes("btn", "disabled:opacity-50", VARIANTS[@variant], (@uppercase ? "uppercase" : nil)),
+      **filtered_attributes(:size)
+    ) do
       yield if block
     end
   end

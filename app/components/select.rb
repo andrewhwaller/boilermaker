@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Components::Select < Components::Base
+  include FormErrorHandling
   def initialize(name: nil, options: [], selected: nil, prompt: nil, required: false, error: nil, id: nil, **attributes)
     @name = name
     @options = options
@@ -19,7 +20,7 @@ class Components::Select < Components::Base
         id: @id || generate_id_from_name(@name),
         class: select_classes,
         required: (@required ? "required" : nil),
-        **@attributes.except(:class)
+        **filtered_attributes
       ) do
         render_prompt if @prompt
         render_options
@@ -31,11 +32,7 @@ class Components::Select < Components::Base
   private
 
   def select_classes
-    base_classes = [ "select", "select-bordered", "w-full" ]
-    base_classes << "select-error" if @error
-    custom_classes = @attributes[:class]
-
-    [ base_classes, custom_classes ].flatten.compact.join(" ")
+    css_classes("select", "select-bordered", "w-full", error_classes_for("select"))
   end
 
   def render_prompt
@@ -57,9 +54,5 @@ class Components::Select < Components::Base
 
   def render_option(text, value)
     option(value: value, selected: value.to_s == @selected.to_s) { text }
-  end
-
-  def render_error_message
-    div(class: "label-text-alt text-error mt-1") { @error }
   end
 end
