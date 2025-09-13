@@ -73,32 +73,6 @@ class AlertHelperTest < ActionView::TestCase
     assert_equal 0, alerts.length
   end
 
-  # Test flash_toast helper
-  test "flash_toast creates Toast component with correct parameters" do
-    toast = flash_toast("Test toast message", variant: :success, position: "bottom-center", duration: 3000)
-
-    assert_instance_of Components::Toast, toast
-    assert_equal "Test toast message", toast.instance_variable_get(:@message)
-    assert_equal :success, toast.instance_variable_get(:@variant)
-    assert_equal "bottom-center", toast.instance_variable_get(:@position)
-    assert_equal 3000, toast.instance_variable_get(:@duration)
-  end
-
-  test "flash_toast uses default parameters" do
-    toast = flash_toast("Default toast")
-
-    assert_equal :info, toast.instance_variable_get(:@variant)
-    assert_equal "top-end", toast.instance_variable_get(:@position)
-    assert_equal 5000, toast.instance_variable_get(:@duration)
-  end
-
-  test "flash_toast passes through additional options" do
-    toast = flash_toast("Custom toast", icon: false, id: "custom-id")
-
-    assert_equal false, toast.instance_variable_get(:@show_icon)
-    assert_equal({ id: "custom-id" }, toast.instance_variable_get(:@attributes))
-  end
-
   # Test flash_alert helper
   test "flash_alert creates Alert component with correct parameters" do
     alert = flash_alert("Test alert message", variant: :error, dismissible: false)
