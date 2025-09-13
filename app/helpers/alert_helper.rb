@@ -22,23 +22,6 @@ module AlertHelper
     end
   end
 
-  # Create a Toast component for temporary notifications
-  # @param message [String] The message to display
-  # @param variant [Symbol] The toast variant (:success, :error, :warning, :info)
-  # @param position [String] The position of the toast (e.g., 'top-end', 'bottom-center')
-  # @param duration [Integer] Duration in milliseconds (0 for no auto-dismiss)
-  # @param options [Hash] Additional options to pass to the Toast component
-  # @return [Components::Toast] Toast component instance
-  def flash_toast(message, variant: :info, position: "top-end", duration: 5000, **options)
-    Components::Toast.new(
-      message: message,
-      variant: variant,
-      position: position,
-      duration: duration,
-      **options
-    )
-  end
-
   # Create an Alert component with flash-style configuration
   # @param message [String] The message to display
   # @param variant [Symbol] The alert variant (:success, :error, :warning, :info)
