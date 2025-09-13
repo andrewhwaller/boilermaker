@@ -37,12 +37,11 @@ class TableRowTest < ComponentTestCase
   # Test row content rendering
   test "renders row content correctly" do
     # Test with cell content
-    row_with_cells = Components::Table::Row.new do
-      td { "Cell 1" }
-      td { "Cell 2" }
+    row_with_cells = Components::Table::Row.new
+    html = render_component(row_with_cells) do |r|
+      r.td { "Cell 1" }
+      r.td { "Cell 2" }
     end
-
-    html = render_component(row_with_cells)
     assert html.include?("Cell 1"), "Row should render cell content"
     assert html.include?("Cell 2"), "Row should render multiple cells"
 
@@ -69,20 +68,14 @@ class TableRowTest < ComponentTestCase
   # Test row variants with content
   test "renders row variants with content correctly" do
     # Active row with content
-    active_row = Components::Table::Row.new(variant: :active) do
-      td { "Active Cell" }
-    end
-
-    html = render_component(active_row)
+    active_row = Components::Table::Row.new(variant: :active)
+    html = render_component(active_row) { |r| r.td { "Active Cell" } }
     assert html.include?("active"), "Row should have active class"
     assert html.include?("Active Cell"), "Row should render content"
 
     # Hover row with content
-    hover_row = Components::Table::Row.new(variant: :hover) do
-      td { "Hover Cell" }
-    end
-
-    html = render_component(hover_row)
+    hover_row = Components::Table::Row.new(variant: :hover)
+    html = render_component(hover_row) { |r| r.td { "Hover Cell" } }
     assert html.include?("hover"), "Row should have hover class"
     assert html.include?("Hover Cell"), "Row should render content"
   end
@@ -128,25 +121,21 @@ class TableRowTest < ComponentTestCase
     assert_has_tag(row, "tr")
 
     # Row with content should be accessible
-    row_with_content = Components::Table::Row.new do
-      td { "Accessible content" }
-    end
-
-    html = render_component(row_with_content)
+    row_with_content = Components::Table::Row.new
+    html = render_component(row_with_content) { |r| r.td { "Accessible content" } }
     assert html.include?("Accessible content"), "Row content should be accessible to screen readers"
   end
 
   # Test with complex content
   test "handles complex cell content" do
-    complex_row = Components::Table::Row.new(variant: :hover) do
-      td(class: "font-bold") { "Bold Cell" }
-      td do
-        span(class: "text-sm") { "Small text" }
+    complex_row = Components::Table::Row.new(variant: :hover)
+    html = render_component(complex_row) do |r|
+      r.td(class: "font-bold") { "Bold Cell" }
+      r.td do
+        r.span(class: "text-sm") { "Small text" }
       end
-      td(colspan: 2) { "Spanning cell" }
+      r.td(colspan: 2) { "Spanning cell" }
     end
-
-    html = render_component(complex_row)
 
     assert html.include?("hover"), "Should maintain row variant"
     assert html.include?("Bold Cell"), "Should render complex cell content"

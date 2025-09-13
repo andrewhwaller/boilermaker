@@ -20,8 +20,9 @@ class TableHeaderTest < ComponentTestCase
 
   # Test header content
   test "renders header content correctly" do
-    header_with_text = Components::Table::Header.new { "Column Name" }
-    assert_has_text(header_with_text, "Column Name")
+    header_with_text = Components::Table::Header.new
+    html = render_component(header_with_text) { "Column Name" }
+    assert_includes html, "Column Name"
 
     # Test with empty content
     header_empty = Components::Table::Header.new
@@ -90,11 +91,8 @@ class TableHeaderTest < ComponentTestCase
 
   # Test header with content and sorting
   test "renders header with content and sorting together" do
-    header = Components::Table::Header.new(sortable: true, sorted: :asc) do
-      "Name"
-    end
-
-    html = render_component(header)
+    header = Components::Table::Header.new(sortable: true, sorted: :asc)
+    html = render_component(header) { "Name" }
 
     assert html.include?("Name"), "Should render header text"
     assert html.include?("↑"), "Should render sort indicator"

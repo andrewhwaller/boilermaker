@@ -12,8 +12,20 @@ class ComponentTestCase < ActiveSupport::TestCase
   # Render a component to HTML string
   # @param component [Phlex::HTML] The component instance to render
   # @return [String] The rendered HTML output
-  def render_component(component)
-    component.call
+  def render_component(component, &block)
+    # When a block is provided, render fresh without caching to
+    # allow different content blocks.
+    if block_given?
+      return component.call(&block)
+    end
+
+    @__render_cache ||= {}
+    key = component.object_id
+    return @__render_cache[key] if @__render_cache.key?(key)
+
+    html = component.call
+    @__render_cache[key] = html
+    html
   end
 
   # Parse rendered HTML into a Nokogiri document for inspection

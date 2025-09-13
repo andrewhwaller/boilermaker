@@ -32,10 +32,10 @@ class NavigationTest < ComponentTestCase
       sign_in_links = doc.css('a[href*="sign_in"]')
       assert sign_in_links.any?, "Should have sign in link for unauthenticated users"
 
-      # Should have theme toggle
-      # Theme toggle component would be rendered, check for its presence
+      # Should have theme toggle control
       html = render_component(navigation)
-      assert html.include?("ThemeToggle"), "Should render theme toggle component"
+      assert html.include?('role="switch"') || html.include?('data-theme-target="button"'),
+        "Should render theme toggle control"
     end
   end
 
@@ -49,10 +49,12 @@ class NavigationTest < ComponentTestCase
       dashboard_links = doc.css('a[href="/"]')
       assert dashboard_links.any?, "Should have dashboard link for authenticated users"
 
-      # Should have sign out button
+      # Should have a way to sign out (button or dropdown item)
       sign_out_buttons = doc.css("button")
       sign_out_present = sign_out_buttons.any? { |btn| btn.text.include?("Sign out") }
-      assert sign_out_present, "Should have sign out button for authenticated users"
+      sign_out_link_present = doc.css("a").any? { |a| a.text.include?("Sign out") }
+      assert(sign_out_present || sign_out_link_present,
+        "Should provide a Sign out control for authenticated users")
     end
   end
 
@@ -154,9 +156,9 @@ class NavigationTest < ComponentTestCase
     navigation = Components::Navigation.new
     html = render_component(navigation)
 
-    # Should include theme toggle component
-    # Since it renders Components::ThemeToggle, check for its inclusion
-    assert html.include?("ThemeToggle"), "Should include ThemeToggle component"
+    # Should include theme toggle control (switch role or target)
+    assert html.include?('role="switch"') || html.include?('data-theme-target="button"'),
+      "Should include ThemeToggle switch control"
   end
 
   # Test dropdown menu integration for authenticated users
@@ -226,14 +228,14 @@ class NavigationTest < ComponentTestCase
         end
       else
         # Test with no current user
-        original_user = Current.user
-        Current.user = nil
+        original_session = Current.session
+        Current.session = nil
 
         navigation = Components::Navigation.new
         assert_renders_successfully(navigation,
           "Navigation should render successfully for #{state[:description]}")
 
-        Current.user = original_user
+        Current.session = original_session
       end
     end
   end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "ostruct"
+
 # Additional test helpers for component testing
 module ComponentTestHelpers
   # Common Daisy UI class sets for verification
@@ -103,19 +105,23 @@ module ComponentTestHelpers
   end
 
   # Simulate current user for components that depend on Current.user
-  # @param user_attrs [Hash] User attributes to simulate
+  # Uses Current.session.user, since Current has no writer
+  # @param user_attrs [Hash, nil] User attributes to simulate (nil clears user)
   def with_current_user(user_attrs = {})
-    original_user = Current.user
-    mock_user = OpenStruct.new({
-      email: "test@example.com",
-      admin?: false,
-      account_admin_for?: false
-    }.merge(user_attrs))
-
-    Current.user = mock_user
+    original_session = Current.session
+    if user_attrs.nil?
+      Current.session = nil
+    else
+      mock_user = OpenStruct.new({
+        email: "test@example.com",
+        admin?: false,
+        account_admin_for?: false
+      }.merge(user_attrs))
+      Current.session = OpenStruct.new(user: mock_user)
+    end
     yield
   ensure
-    Current.user = original_user
+    Current.session = original_session
   end
 
   # Test component behavior with different screen sizes/responsive classes

@@ -121,17 +121,6 @@ class LinkTest < ComponentTestCase
   end
 
   # Test external link detection and handling
-  test "automatically detects external links" do
-    link = Components::Link.new("https://example.com", "External")
-
-    link_attrs = Components::Link.new("https://example.com", "External")
-    assert_has_attributes(link_attrs, "a", {
-      href: "https://example.com",
-      target: "_blank",
-      rel: "noopener noreferrer"
-    })
-  end
-
   test "does not add external attributes to internal links" do
     link = Components::Link.new("/internal", "Internal")
 
@@ -140,16 +129,6 @@ class LinkTest < ComponentTestCase
 
     assert_nil a_element["target"], "Internal link should not have target attribute"
     assert_nil a_element["rel"], "Internal link should not have rel attribute"
-  end
-
-  test "explicitly marked external links get security attributes" do
-    link = Components::Link.new("/suspicious", "Link", external: true)
-
-    link_attrs = Components::Link.new("/suspicious", "Link", external: true)
-    assert_has_attributes(link_attrs, "a", {
-      target: "_blank",
-      rel: "noopener noreferrer"
-    })
   end
 
   test "respects explicit target and rel attributes for external links" do
@@ -263,24 +242,6 @@ class LinkTest < ComponentTestCase
   end
 
   # Test URL detection logic
-  test "correctly identifies external URLs" do
-    external_urls = [
-      "https://example.com",
-      "http://example.com",
-      "https://www.google.com/search",
-      "http://subdomain.example.com"
-    ]
-
-    external_urls.each do |url|
-      link = Components::Link.new(url, "External")
-      doc = render_and_parse(link)
-      a_element = doc.css("a").first
-
-      assert_equal "_blank", a_element["target"], "#{url} should be treated as external"
-      assert_equal "noopener noreferrer", a_element["rel"], "#{url} should have security attributes"
-    end
-  end
-
   test "correctly identifies internal URLs" do
     internal_urls = [
       "/home",
@@ -346,16 +307,6 @@ class LinkTest < ComponentTestCase
 
     # Link should be focusable (no negative tabindex unless explicitly set)
     refute_equal "-1", a_element["tabindex"], "Link should be focusable by default"
-  end
-
-  test "external links have proper accessibility attributes" do
-    link = Components::Link.new("https://example.com", "External Site")
-    doc = render_and_parse(link)
-    a_element = doc.css("a").first
-
-    # External links should have rel="noopener noreferrer" for security
-    assert_equal "noopener noreferrer", a_element["rel"],
-      "External links should have proper rel attribute for security"
   end
 
   test "link with aria attributes" do

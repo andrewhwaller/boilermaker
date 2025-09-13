@@ -176,14 +176,13 @@ class TableCellTest < ComponentTestCase
 
   # Test with complex content
   test "handles complex cell content" do
-    complex_cell = Components::Table::Cell.new(align: :center, colspan: 2) do
-      div(class: "flex items-center gap-2") do
-        span(class: "font-bold") { "Bold" }
-        span(class: "text-sm text-gray-500") { "Small" }
+    complex_cell = Components::Table::Cell.new(align: :center, colspan: 2)
+    html = render_component(complex_cell) do |c|
+      c.div(class: "flex items-center gap-2") do
+        c.span(class: "font-bold") { "Bold" }
+        c.span(class: "text-sm text-gray-500") { "Small" }
       end
     end
-
-    html = render_component(complex_cell)
 
     assert html.include?("text-center"), "Should maintain alignment"
     assert html.include?('colspan="2"'), "Should maintain colspan"
