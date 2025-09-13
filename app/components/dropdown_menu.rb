@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class Components::DropdownMenu < Components::Base
-  include Phlex::Rails::Helpers::LinkTo
-  include Phlex::Rails::Helpers::ButtonTo
-
   def initialize(trigger_text:)
     @trigger_text = trigger_text
   end
@@ -20,12 +17,12 @@ class Components::DropdownMenu < Components::Base
   def trigger
     button(
       type: "button",
-      class: "btn btn-ghost btn-sm",
+      class: "btn btn-ghost",
       data: { action: nil },
       tabindex: 0,
       role: "button"
     ) do
-      @trigger_text
+      @trigger_text if @trigger_text
       chevron
     end
   end

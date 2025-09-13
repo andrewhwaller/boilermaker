@@ -11,13 +11,10 @@ class Components::ExampleCard < Components::Base
       div(class: "card-body") do
         h3(class: "card-title") { @title }
 
-        # Using Phlex Kit syntax - no need for `render` or `.new`
         div(class: "space-y-4") do
-          # Clean component rendering with Kit
           Button(variant: :primary) { "Primary Action" }
           Button(variant: :secondary) { "Secondary Action" }
 
-          # Form field example
           FormGroup(
             label_text: "Example Input",
             input_type: :text,
@@ -26,7 +23,6 @@ class Components::ExampleCard < Components::Base
           )
         end
 
-        # Custom content block
         if block_given?
           div(class: "divider")
           div do

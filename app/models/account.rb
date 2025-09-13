@@ -1,5 +1,7 @@
 class Account < ApplicationRecord
   has_many :users, dependent: :destroy
+  has_many :account_memberships, dependent: :destroy
+  has_many :members, through: :account_memberships, source: :user
 
   validates :name, presence: true
 

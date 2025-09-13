@@ -12,8 +12,6 @@ class Components::Input < Components::Base
   end
 
   def view_template
-    default_classes = "input input-bordered w-full"
-
     input(
       type: @type,
       name: @name,
@@ -21,8 +19,8 @@ class Components::Input < Components::Base
       value: @value,
       placeholder: @placeholder,
       required: @required,
-      class: [ default_classes, @attributes[:class] ].compact.join(" "),
-      **@attributes.except(:class)
+      class: css_classes("input", "input-bordered", "w-full"),
+      **filtered_attributes
     )
   end
 end

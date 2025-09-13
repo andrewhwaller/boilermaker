@@ -100,6 +100,56 @@ class Views::Base < Components::Base
     content_for?(:title) ? content_for(:title) : "Boilermaker"
   end
 
+  # Helper method to render flash message as alert
+  # Maps Rails flash types to alert variants
+  def flash_alert(message, type = :info, **options)
+    return if message.blank?
+
+    variant = case type.to_sym
+    when :notice then :success
+    when :alert then :error
+    when :success then :success
+    when :error then :error
+    when :warning then :warning
+    else :info
+    end
+
+    render Components::Alert.new(message: message, variant: variant, **options)
+  end
+
+  # Helper method to render flash message as toast
+  # Maps Rails flash types to toast variants
+  def flash_toast(message, type = :info, **options)
+    return if message.blank?
+
+    variant = case type.to_sym
+    when :notice then :success
+    when :alert then :error
+    when :success then :success
+    when :error then :error
+    when :warning then :warning
+    else :info
+    end
+
+    render Components::Toast.new(message: message, variant: variant, **options)
+  end
+
+  # Helper method to render all flash messages as alerts
+  def render_flash_alerts(flash_hash = {}, **options)
+    flash_hash.each do |type, message|
+      next if message.blank?
+      flash_alert(message, type, **options)
+    end
+  end
+
+  # Helper method to render all flash messages as toasts
+  def render_flash_toasts(flash_hash = {}, **options)
+    flash_hash.each do |type, message|
+      next if message.blank?
+      flash_toast(message, type, **options)
+    end
+  end
+
   protected
 
   # Helper to handle both content_for and direct block content

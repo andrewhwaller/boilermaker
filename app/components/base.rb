@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 class Components::Base < Phlex::HTML
-  # Include the Components kit for clean component rendering
   include Components
-
-  # Include any helpers you want to be available across all components
   include Phlex::Rails::Helpers::Routes
 
   if Rails.env.development?
@@ -16,9 +13,15 @@ class Components::Base < Phlex::HTML
 
   protected
 
-  # Helper method to generate HTML IDs from form field names
-  # Converts "user[email]" to "user_email"
   def generate_id_from_name(name)
     name.to_s.gsub(/[\[\]]/, "_").gsub(/__+/, "_").chomp("_")
+  end
+
+  def filtered_attributes(*exclude_keys)
+    @attributes.except(*exclude_keys, :class)
+  end
+
+  def css_classes(*class_arrays)
+    [ *class_arrays, @attributes[:class] ].compact.flatten
   end
 end

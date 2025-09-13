@@ -1,7 +1,7 @@
 
 
 module Boilermaker
-  class SettingsController < ApplicationController
+  class SettingsController < Boilermaker::ApplicationController
     before_action :add_engine_view_path
     before_action :load_settings, only: [ :show, :edit ]
     skip_before_action :verify_authenticity_token if Rails.env.development?

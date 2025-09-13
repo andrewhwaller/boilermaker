@@ -1,193 +1,167 @@
-<div class="boilermaker-header">
-  <h1>Edit Boilermaker Settings</h1>
-  <p class="boilermaker-subtitle">Configure your application settings and feature toggles</p>
+<div class="border-b border-primary/30 pb-2">
+  <div class="flex items-center justify-between">
+    <h1 class="font-bold text-primary font-mono uppercase tracking-wider">CONFIGURE SYSTEM</h1>
+    <div class="flex gap-2">
+      <%= link_to "RETURN", main_app.root_path, class: "btn btn-xs btn-secondary font-mono text-sm" %>
+      <%= link_to "REVERT", boilermaker.settings_path, class: "btn btn-xs btn-ghost text-error font-mono text-sm" %>
+      <button type="submit" form="settings_form" class="btn btn-xs btn-success font-mono text-sm">PERSIST</button>
+    </div>
+  </div>
 </div>
 
-<%= form_with url: boilermaker.settings_path, method: :patch, local: true, scope: :settings, class: "settings-form" do |form| %>
+<div class="bg-warning/10 border border-warning/30 px-3 py-2 flex items-center gap-2">
+  <div class="w-1 h-1 bg-warning rounded-full animate-pulse"></div>
+  <span class="text-warning font-mono text-xs">APPLICATION SERVER WILL BE RESTARTED AFTER CONFIG CHANGES</span>
+</div>
+
+<%= form_with url: boilermaker.settings_path, method: :patch, local: true, scope: :settings, id: "settings_form" do |form| %>
   
-  <!-- Application Configuration -->
-  <div class="settings-section">
-    <h2>Application Configuration</h2>
-    
-    <%= form.fields_for :app do |app_form| %>
-      <div class="form-grid">
-        <div class="form-group">
-          <%= app_form.label :name, "Application Name", class: "form-label" %>
-          <%= app_form.text_field :name, 
-                value: @settings.dig('app', 'name') || 'Boilermaker', 
-                class: "form-control",
-                placeholder: "Enter application name" %>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+    <!-- LEFT COLUMN: APPLICATION & THEMES -->
+    <div class="space-y-3">
+      <!-- APPLICATION -->
+      <div class="bg-base-200 border border-base-300">
+        <div class="bg-primary/20 border-b border-primary/30 px-3 py-1">
+          <h2 class="text-xs font-bold text-primary uppercase tracking-wide font-mono">APPLICATION</h2>
         </div>
-        
-        <div class="form-group">
-          <%= app_form.label :version, "Version", class: "form-label" %>
-          <%= app_form.text_field :version, 
-                value: @settings.dig('app', 'version') || '1.0.0', 
-                class: "form-control",
-                placeholder: "e.g., 1.0.0" %>
-        </div>
-        
-        <div class="form-group">
-          <%= app_form.label :support_email, "Support Email", class: "form-label" %>
-          <%= app_form.email_field :support_email, 
-                value: @settings.dig('app', 'support_email') || 'support@example.com', 
-                class: "form-control",
-                placeholder: "support@example.com" %>
-        </div>
-        
-        <div class="form-group form-group-full">
-          <%= app_form.label :description, "Description", class: "form-label" %>
-          <%= app_form.text_area :description, 
-                value: @settings.dig('app', 'description') || 'A modern Rails application', 
-                class: "form-control",
-                rows: 3,
-                placeholder: "Brief description of your application" %>
-        </div>
-      </div>
-    <% end %>
-  </div>
-
-  <!-- Feature Toggles -->
-  <div class="settings-section">
-    <h2>Feature Toggles</h2>
-    
-    <%= form.fields_for :features do |features_form| %>
-      <div class="toggles-grid">
-        <div class="toggle-item">
-          <div class="toggle-info">
-            <span class="toggle-name">User Registration</span>
-            <span class="toggle-description">Allow new users to register accounts</span>
-          </div>
-          <div class="toggle-switch">
-            <%= features_form.check_box :user_registration, 
-                  { checked: @features['user_registration'] == true, class: "toggle-checkbox", id: "toggle_user_registration" }, 
-                  "true", "false" %>
-            <label for="toggle_user_registration" class="toggle-label">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
-        
-        <div class="toggle-item">
-          <div class="toggle-info">
-            <span class="toggle-name">Password Reset</span>
-            <span class="toggle-description">Enable password reset functionality</span>
-          </div>
-          <div class="toggle-switch">
-            <%= features_form.check_box :password_reset, 
-                  { checked: @features['password_reset'] == true, class: "toggle-checkbox", id: "toggle_password_reset" }, 
-                  "true", "false" %>
-            <label for="toggle_password_reset" class="toggle-label">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
-        
-        <div class="toggle-item">
-          <div class="toggle-info">
-            <span class="toggle-name">Two-Factor Authentication</span>
-            <span class="toggle-description">Require TOTP/recovery codes for login</span>
-          </div>
-          <div class="toggle-switch">
-            <%= features_form.check_box :two_factor_authentication, 
-                  { checked: @features['two_factor_authentication'] == true, class: "toggle-checkbox", id: "toggle_two_factor_authentication" }, 
-                  "true", "false" %>
-            <label for="toggle_two_factor_authentication" class="toggle-label">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
-        
-        <div class="toggle-item">
-          <div class="toggle-info">
-            <span class="toggle-name">Multi-Tenant Support</span>
-            <span class="toggle-description">Support multiple organizations/accounts</span>
-          </div>
-          <div class="toggle-switch">
-            <%= features_form.check_box :multi_tenant, 
-                  { checked: @features['multi_tenant'] == true, class: "toggle-checkbox", id: "toggle_multi_tenant" }, 
-                  "true", "false" %>
-            <label for="toggle_multi_tenant" class="toggle-label">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
-        
-        <div class="toggle-item toggle-item-full">
-          <div class="toggle-info">
-            <span class="toggle-name">Personal Accounts</span>
-            <span class="toggle-description">Enable personal user accounts</span>
-          </div>
-          <div class="toggle-switch">
-            <%= features_form.check_box :personal_accounts, 
-                  { checked: @features['personal_accounts'] == true, class: "toggle-checkbox", id: "toggle_personal_accounts" }, 
-                  "true", "false" %>
-            <label for="toggle_personal_accounts" class="toggle-label">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
+        <div class="p-3">
+          <%= form.fields_for :app do |app_form| %>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <%= app_form.label :name, "NAME", class: "text-xs text-info font-mono font-bold" %>
+                <%= app_form.text_field :name, 
+                      value: @settings.dig('app', 'name') || 'Boilermaker', 
+                      class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none",
+                      placeholder: "App name" %>
+              </div>
+              
+              <div>
+                <%= app_form.label :version, "VERSION", class: "text-xs text-info font-mono font-bold" %>
+                <%= app_form.text_field :version, 
+                      value: @settings.dig('app', 'version') || '1.0.0', 
+                      class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none",
+                      placeholder: "1.0.0" %>
+              </div>
+              
+              <div class="md:col-span-2">
+                <%= app_form.label :support_email, "SUPPORT", class: "text-xs text-info font-mono font-bold" %>
+                <%= app_form.email_field :support_email, 
+                      value: @settings.dig('app', 'support_email') || 'support@example.com', 
+                      class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none",
+                      placeholder: "support@example.com" %>
+              </div>
+              
+              <div class="md:col-span-2">
+                <%= app_form.label :description, "DESCRIPTION", class: "text-xs text-info font-mono font-bold" %>
+                <%= app_form.text_area :description, 
+                      value: @settings.dig('app', 'description') || 'A modern Rails application', 
+                      class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none",
+                      rows: 2,
+                      placeholder: "Brief description" %>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
-    <% end %>
-  </div>
 
-  <!-- UI Theme Selection -->
-  <div class="settings-section">
-    <h2>UI Theme</h2>
+      <!-- THEMES -->
+      <div class="bg-base-200 border border-base-300">
+        <div class="bg-warning/20 border-b border-warning/30 px-3 py-1">
+          <h2 class="text-xs font-bold text-warning uppercase tracking-wide font-mono">THEMES</h2>
+        </div>
+        <div class="p-3">
+          <%= form.fields_for :ui do |ui_form| %>
+            <%= ui_form.fields_for :theme do |theme_form| %>
+              <% builtins_light = Boilermaker::Themes::LIGHT %>
+              <% builtins_dark  = Boilermaker::Themes::DARK %>
+              <% custom_light = [["work-station (custom)", "work-station"]] %>
+              <% custom_dark  = [["graphite (custom)", "graphite"], ["command-center (custom)", "command-center"]] %>
+              <% grouped_light = [
+                ["Custom", custom_light],
+                ["Light (built-in)", builtins_light.sort.map { |n| [n, n] }]
+              ] %>
+              <% grouped_dark = [
+                ["Custom", custom_dark],
+                ["Dark (built-in)", builtins_dark.sort.map { |n| [n, n] }]
+              ] %>
 
-    <div class="form-grid">
-      <%= form.fields_for :ui do |ui_form| %>
-        <%= ui_form.fields_for :theme do |theme_form| %>
-          <% builtins_light = Boilermaker::Themes::LIGHT %>
-          <% builtins_dark  = Boilermaker::Themes::DARK %>
-          <% custom_light = [["platinum (custom)", "platinum"]] %>
-          <% custom_dark  = [["graphite (custom)", "graphite"]] %>
-          <% grouped_light = [
-            ["Custom", custom_light],
-            ["Light (built-in)", builtins_light.sort.map { |n| [n, n] }]
-          ] %>
-          <% grouped_dark = [
-            ["Custom", custom_dark],
-            ["Dark (built-in)", builtins_dark.sort.map { |n| [n, n] }]
-          ] %>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <%= theme_form.label :light, "LIGHT", class: "text-xs text-warning font-mono font-bold" %>
+                  <%= theme_form.select :light,
+                        grouped_options_for_select(grouped_light, @settings.dig('ui', 'theme', 'light') || 'work-station'),
+                        {},
+                        class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none" %>
+                </div>
 
-          <div class="form-group">
-            <%= theme_form.label :light, "Light Theme", class: "form-label" %>
-            <%= theme_form.select :light,
-                  grouped_options_for_select(grouped_light, @settings.dig('ui', 'theme', 'light') || 'platinum'),
-                  {},
-                  class: "form-control" %>
-          </div>
-
-          <div class="form-group">
-            <%= theme_form.label :dark, "Dark Theme", class: "form-label" %>
-            <%= theme_form.select :dark,
-                  grouped_options_for_select(grouped_dark, @settings.dig('ui', 'theme', 'dark') || 'graphite'),
-                  {},
-                  class: "form-control" %>
-          </div>
-        <% end %>
-      <% end %>
+                <div>
+                  <%= theme_form.label :dark, "DARK", class: "text-xs text-warning font-mono font-bold" %>
+                  <%= theme_form.select :dark,
+                        grouped_options_for_select(grouped_dark, @settings.dig('ui', 'theme', 'dark') || 'graphite'),
+                        {},
+                        class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none" %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+          
+          <p class="text-xs text-base-content/60 font-mono bg-base-300/30 px-2 py-1 mt-3 border-l border-warning/50">
+            Custom themes always available; built-ins included at build time only
+          </p>
+        </div>
+      </div>
     </div>
 
-    <p class="help-text">Built-in DaisyUI themes must be included at build time. Saving updates the prebuilt theme list so Tailwind bundles only the selected built-ins; custom themes (platinum/graphite) are always available.</p>
-  </div>
+    <!-- RIGHT COLUMN: FEATURES -->
+    <div>
+      <div class="bg-base-200 border border-base-300">
+        <div class="bg-success/20 border-b border-success/30 px-3 py-1">
+          <h2 class="text-xs font-bold text-success uppercase tracking-wide font-mono">FEATURES</h2>
+        </div>
+        <div class="p-3">
+          <%= form.fields_for :features do |features_form| %>
+            <div class="grid grid-cols-1 gap-2">
+              <div class="flex items-center justify-between p-2 border border-base-300/50">
+                <span class="text-xs font-mono text-base-content uppercase">USER REGISTRATION</span>
+                <%= features_form.check_box :user_registration, 
+                      { checked: @features['user_registration'] == true, class: "toggle toggle-success toggle-sm", id: "toggle_user_registration" }, 
+                      "true", "false" %>
+              </div>
+              
+              <div class="flex items-center justify-between p-2 border border-base-300/50">
+                <span class="text-xs font-mono text-base-content uppercase">PASSWORD RESET</span>
+                <%= features_form.check_box :password_reset, 
+                      { checked: @features['password_reset'] == true, class: "toggle toggle-success toggle-sm", id: "toggle_password_reset" }, 
+                      "true", "false" %>
+              </div>
+              
+              <div class="flex items-center justify-between p-2 border border-base-300/50">
+                <span class="text-xs font-mono text-base-content uppercase">2FA</span>
+                <%= features_form.check_box :two_factor_authentication, 
+                      { checked: @features['two_factor_authentication'] == true, class: "toggle toggle-success toggle-sm", id: "toggle_two_factor_authentication" }, 
+                      "true", "false" %>
+              </div>
+              
+              <div class="flex items-center justify-between p-2 border border-base-300/50">
+                <span class="text-xs font-mono text-base-content uppercase">MULTI TENANT</span>
+                <%= features_form.check_box :multi_tenant, 
+                      { checked: @features['multi_tenant'] == true, class: "toggle toggle-success toggle-sm", id: "toggle_multi_tenant" }, 
+                      "true", "false" %>
+              </div>
+              
+              <div class="flex items-center justify-between p-2 border border-base-300/50">
+                <span class="text-xs font-mono text-base-content uppercase">PERSONAL ACCOUNTS</span>
+                <%= features_form.check_box :personal_accounts, 
+                      { checked: @features['personal_accounts'] == true, class: "toggle toggle-success toggle-sm", id: "toggle_personal_accounts" }, 
+                      "true", "false" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
 
-  <!-- Actions -->
-  <div class="actions-section">
-    <div class="action-info">
-      <p class="action-title">Development Settings</p>
-      <p class="action-subtitle">Changes will be applied to development environment only</p>
-    </div>
-    
-    <div class="action-buttons">
-      <%= link_to "Cancel", boilermaker.settings_path, class: "btn btn-secondary" %>
-      <%= form.submit "Update Settings", class: "btn btn-primary" %>
     </div>
   </div>
   
 <% end %>
 
-<div class="notice-box">
-  <p>After changing critical settings, restart your development server for changes to take full effect. Feature toggles that are disabled may still show related UI elements until restart.</p>
-</div> 

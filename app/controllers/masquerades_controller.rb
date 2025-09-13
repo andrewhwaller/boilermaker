@@ -14,12 +14,12 @@ class MasqueradesController < ApplicationController
 
   private
     def set_user
-      @user = Current.user.account.users.find(params[:user_id])
+      @user = User.find(params[:user_id])
     end
 
-    def authorize_admin
-      unless Current.user == Current.user.account.users.first || Rails.env.development?
-        redirect_to(root_path, alert: "Access denied")
-      end
+  def authorize_admin
+    unless Current.user&.admin?
+      redirect_to(root_path, alert: "Access denied")
     end
+  end
 end

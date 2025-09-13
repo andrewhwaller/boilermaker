@@ -1,115 +1,72 @@
-<div class="boilermaker-header">
-  <h1>Boilermaker Settings</h1>
-  <p class="boilermaker-subtitle">Configure your application settings and feature toggles</p>
+<div class="mb-4 border-b border-primary/30 pb-2">
+  <div class="flex items-center justify-between">
+    <h1 class="text-base font-bold text-primary font-mono uppercase tracking-wider">SYSTEM CONFIGURATION</h1>
+    <div class="flex gap-2">
+      <%= link_to "RETURN", main_app.root_path, class: "btn btn-secondary font-mono" %>
+      <%= link_to "MODIFY", boilermaker.edit_settings_path, class: "btn btn-warning font-mono" %>
+    </div>
+  </div>
 </div>
 
-<!-- Application Configuration -->
-<div class="settings-section">
-  <h2>Application Configuration</h2>
-  
-  <% if @settings.any? && @settings['app'] %>
-    <div class="config-grid">
-      <div class="config-item">
-        <span class="config-label">Application Name</span>
-        <span class="config-value"><%= @settings.dig('app', 'name') || 'Boilermaker' %></span>
-      </div>
-      
-      <div class="config-item">
-        <span class="config-label">Version</span>
-        <span class="config-value"><%= @settings.dig('app', 'version') || '1.0.0' %></span>
-      </div>
-      
-      <div class="config-item">
-        <span class="config-label">Support Email</span>
-        <span class="config-value"><%= @settings.dig('app', 'support_email') || 'support@example.com' %></span>
-      </div>
-      
-      <% if @settings.dig('app', 'description') %>
-        <div class="config-item config-item-full">
-          <span class="config-label">Description</span>
-          <span class="config-value"><%= @settings.dig('app', 'description') %></span>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+  <!-- LEFT COLUMN: APPLICATION -->
+  <div class="bg-base-200 border border-base-300">
+    <div class="bg-primary/20 border-b border-primary/30 px-3 py-1">
+      <h2 class="text-xs font-bold text-primary uppercase tracking-wide font-mono">APPLICATION METADATA</h2>
+    </div>
+    <div class="p-3">
+      <% if @settings.any? && @settings['app'] %>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 font-mono text-sm">
+          <div class="bg-info/10 border border-info/30 p-2">
+            <div class="text-xs text-info">NAME</div>
+            <div class="font-bold"><%= @settings.dig('app', 'name') || 'Boilermaker' %></div>
+          </div>
+          <div class="bg-info/10 border border-info/30 p-2">
+            <div class="text-xs text-info">VERSION</div>
+            <div class="font-bold"><%= @settings.dig('app', 'version') || '1.0.0' %></div>
+          </div>
+          <div class="md:col-span-2 bg-info/10 border border-info/30 p-2">
+            <div class="text-xs text-info">SUPPORT</div>
+            <div class="font-bold text-xs"><%= @settings.dig('app', 'support_email') || 'support@example.com' %></div>
+          </div>
+          <% if @settings.dig('app', 'description') %>
+            <div class="md:col-span-2 bg-info/10 border border-info/30 p-2">
+              <div class="text-xs text-info">DESCRIPTION</div>
+              <div class="text-xs"><%= @settings.dig('app', 'description') %></div>
+            </div>
+          <% end %>
         </div>
+      <% else %>
+        <div class="text-center py-3 text-error text-xs font-mono">NO DATA</div>
       <% end %>
     </div>
-  <% else %>
-    <div class="empty-state">
-      <p>No application configuration found.</p>
-    </div>
-  <% end %>
-</div>
-
-<!-- Theme Configuration -->
-<div class="settings-section">
-  <h2>Theme Configuration</h2>
-  
-  <div class="config-grid">
-    <div class="config-item">
-      <span class="config-label">Light Theme</span>
-      <span class="config-value"><%= @settings.dig('ui', 'theme', 'light') || 'platinum' %></span>
-    </div>
-    
-    <div class="config-item">
-      <span class="config-label">Dark Theme</span>
-      <span class="config-value"><%= @settings.dig('ui', 'theme', 'dark') || 'graphite' %></span>
-    </div>
   </div>
-</div>
 
-<!-- Feature Toggles -->
-<div class="settings-section">
-  <h2>Feature Toggles</h2>
-  
-  <% if @features.any? %>
-    <div class="features-grid">
-      <% @features.each do |feature, enabled| %>
-        <div class="feature-item">
-          <div class="feature-info">
-            <span class="feature-name"><%= feature.humanize %></span>
-            <span class="feature-description">
-              <% case feature %>
-              <% when 'user_registration' %>
-                Allow new users to register accounts
-              <% when 'password_reset' %>
-                Enable password reset functionality
-              <% when 'two_factor_authentication' %>
-                Require TOTP/recovery codes for login
-              <% when 'multi_tenant' %>
-                Support multiple organizations/accounts
-              <% when 'personal_accounts' %>
-                Enable personal user accounts
-              <% else %>
-                Feature toggle setting
-              <% end %>
-            </span>
-          </div>
-          
-          <div class="feature-status <%= enabled ? 'enabled' : 'disabled' %>">
-            <%= enabled ? 'Enabled' : 'Disabled' %>
-          </div>
+  <!-- RIGHT COLUMN: FEATURES & THEMES -->
+  <div class="bg-base-200 border border-base-300">
+    <div class="bg-success/20 border-b border-success/30 px-3 py-1 flex items-center justify-between">
+      <h2 class="text-xs font-bold text-success uppercase tracking-wide font-mono">FEATURES</h2>
+      <div class="text-xs text-warning/70 font-mono">THEMES: <%= @settings.dig('ui', 'theme', 'light') || 'work-station' %> / <%= @settings.dig('ui', 'theme', 'dark') || 'graphite' %></div>
+    </div>
+    <div class="p-3">
+      <% if @features.any? %>
+        <div class="grid grid-cols-1 gap-2 font-mono text-xs">
+          <% @features.each do |feature, enabled| %>
+            <div class="flex items-center justify-between p-2 hover:bg-base-300/20 border border-base-300/30">
+              <div class="uppercase tracking-wide"><%= feature.gsub('_', '.') %></div>
+              <div class="ml-2">
+                <% if enabled %>
+                  <span class="bg-success/30 text-success px-2 py-0.5 font-bold">ON</span>
+                <% else %>
+                  <span class="bg-base-300/50 text-base-content/50 px-2 py-0.5">OFF</span>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
         </div>
+      <% else %>
+        <div class="text-center py-2 text-error text-xs font-mono">NO DATA</div>
       <% end %>
     </div>
-  <% else %>
-    <div class="empty-state">
-      <p>No features configured.</p>
-    </div>
-  <% end %>
-</div>
-
-<!-- Actions -->
-<div class="actions-section">
-  <div class="action-info">
-    <p class="action-title">Development Settings</p>
-    <p class="action-subtitle">These settings are only editable in development mode</p>
-  </div>
-  
-  <div class="action-buttons">
-    <%= link_to "Edit Settings", boilermaker.edit_settings_path, class: "btn btn-primary" %>
   </div>
 </div>
-
-<% if Rails.env.development? %>
-  <div class="notice-box">
-    <p>After changing critical settings, restart your development server for changes to take full effect.</p>
-  </div>
-<% end %> 
