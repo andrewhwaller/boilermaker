@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Components::ThemeToggle < Components::Base
+  include ApplicationHelper
+
   def initialize(show_label: true, position: :inline)
     @show_label = show_label
     @position = position
@@ -9,6 +11,11 @@ class Components::ThemeToggle < Components::Base
   def view_template
     div(
       class: theme_toggle_classes,
+      data: {
+        controller: "theme",
+        "theme-light-name-value": boilermaker_config.theme_light_name,
+        "theme-dark-name-value": boilermaker_config.theme_dark_name
+      }
     ) do
       control_label if @show_label
       toggle_button
@@ -42,7 +49,7 @@ class Components::ThemeToggle < Components::Base
       class: button_classes,
       data: {
         action: "click->theme#toggle",
-        "theme-target": "button"
+        "theme-target": "toggle"
       },
       aria: {
         label: "Toggle theme"
@@ -50,12 +57,11 @@ class Components::ThemeToggle < Components::Base
       role: "switch",
       title: toggle_title
     ) do
-      # Slider track (knob placement handled via CSS transform by theme)
+      # Slider track (knob placement handled via CSS)
       div(class: "pointer-events-none absolute inset-0 flex items-center px-[2px]") do
         span(
           class: indicator_classes,
-          style: "--toggle-travel: #{travel_for_position}px",
-          data: { "theme-target": "indicator" }
+          style: "--toggle-travel: #{travel_for_position}px"
         )
       end
 

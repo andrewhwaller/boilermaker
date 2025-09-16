@@ -26,4 +26,8 @@ development:
     theme:
       light: work-station
       dark: command-center
+    navigation:
+      show_branding: true
+      show_account_dropdown: true
+      layout_mode: sidebar
 test: {}

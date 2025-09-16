@@ -30,6 +30,7 @@ module Boilermaker
     end
 
     def load_settings
+      Boilermaker::Config.reload! unless Boilermaker::Config.data
       @settings = Boilermaker::Config.data || {}
       @features = @settings.dig("features") || {}
     end
@@ -38,7 +39,10 @@ module Boilermaker
     def settings_params
       params.require(:settings).permit(
         app: [ :name, :version, :support_email, :description ],
-        ui: { theme: [ :light, :dark ] },
+        ui: {
+          theme: [ :light, :dark ],
+          navigation: [ :layout_mode ]
+        },
         features: [ :user_registration, :password_reset, :two_factor_authentication, :multi_tenant, :personal_accounts ]
       )
     end

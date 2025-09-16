@@ -103,8 +103,21 @@
                 </div>
               </div>
             <% end %>
+
+            <!-- NAVIGATION LAYOUT -->
+            <%= ui_form.fields_for :navigation do |nav_form| %>
+              <div class="mt-4 pt-3 border-t border-warning/20">
+                <div>
+                  <%= nav_form.label :layout_mode, "LAYOUT MODE", class: "text-xs text-warning font-mono font-bold" %>
+                  <%= nav_form.select :layout_mode,
+                        options_for_select([["Navbar (horizontal)", "navbar"], ["Sidebar (vertical)", "sidebar"]], @settings.dig('ui', 'navigation', 'layout_mode') || 'navbar'),
+                        {},
+                        class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none" %>
+                </div>
+              </div>
+            <% end %>
           <% end %>
-          
+
           <p class="text-xs text-base-content/60 font-mono bg-base-300/30 px-2 py-1 mt-3 border-l border-warning/50">
             Custom themes always available; built-ins included at build time only
           </p>
