@@ -2,6 +2,7 @@
 
 class Components::Navigation < Components::Base
   include ApplicationHelper
+  include NavigationHelpers
 
   def initialize(request: nil)
     @request = request
@@ -109,18 +110,6 @@ class Components::Navigation < Components::Base
     end
   end
 
-  def current_user_display_name
-    Current.user&.email&.split("@")&.first&.capitalize || "Account"
-  end
-
-  # Configuration-based helper methods
-  def show_branding?
-    boilermaker_config.get("ui.navigation.show_branding") != false
-  end
-
-  def show_account_dropdown?
-    boilermaker_config.get("ui.navigation.show_account_dropdown") != false
-  end
 
   def nav_link_class(path)
     base_classes = "link link-hover text-sm"
@@ -135,15 +124,6 @@ class Components::Navigation < Components::Base
     end
   end
 
-  def nav_item_class(path)
-    base = "btn btn-sm"
-
-    if current_route?(path)
-      "#{base} btn-secondary"
-    else
-      "#{base} btn-ghost"
-    end
-  end
 
   def nav_separator
     div(class: "w-px h-4 bg-base-300/50")
@@ -231,24 +211,6 @@ class Components::Navigation < Components::Base
   end
 
   def mobile_nav_item_class(path)
-    base = "btn btn-sm w-full justify-start normal-case font-mono text-xs tracking-wider border-0 rounded-none"
-
-    if current_route?(path)
-      "#{base} btn-secondary"  # Secondary if active
-    else
-      "#{base} btn-ghost"      # Ghost otherwise
-    end
-  end
-
-  # Current route detection
-  def current_route?(path)
-    return false unless @request
-
-    # Handle root path specially
-    if path == root_path || path == "/"
-      @request.path == "/" || @request.path == root_path
-    else
-      @request.path.start_with?(path)
-    end
+    nav_item_class(path, base_classes: "btn btn-sm w-full justify-start normal-case font-mono text-xs tracking-wider border-0 rounded-none")
   end
 end

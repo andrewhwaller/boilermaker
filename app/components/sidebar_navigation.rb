@@ -2,6 +2,7 @@
 
 class Components::SidebarNavigation < Components::Base
   include ApplicationHelper
+  include NavigationHelpers
 
   def initialize(request: nil)
     @request = request
@@ -122,37 +123,6 @@ class Components::SidebarNavigation < Components::Base
   end
 
   def sidebar_nav_item_class(path)
-    base = "btn btn-sm w-full justify-start normal-case font-mono text-xs tracking-wider border-0 rounded-none"
-
-    if current_route?(path)
-      "#{base} btn-secondary"  # Active state - secondary button
-    else
-      "#{base} btn-ghost"      # Inactive state - ghost button
-    end
-  end
-
-  # Current route detection
-  def current_route?(path)
-    return false unless @request
-
-    # Handle root path specially
-    if path == root_path || path == "/"
-      @request.path == "/" || @request.path == root_path
-    else
-      @request.path.start_with?(path)
-    end
-  end
-
-  def current_user_display_name
-    Current.user&.email&.split("@")&.first&.capitalize || "User"
-  end
-
-  # Configuration-based helper methods
-  def show_branding?
-    boilermaker_config.get("ui.navigation.show_branding") != false
-  end
-
-  def show_account_dropdown?
-    boilermaker_config.get("ui.navigation.show_account_dropdown") != false
+    nav_item_class(path, base_classes: "btn btn-sm w-full justify-start normal-case font-mono text-xs tracking-wider border-0 rounded-none")
   end
 end

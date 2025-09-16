@@ -154,7 +154,8 @@ class Components::ThemeToggle < Components::Base
     case @position
     when :navbar then 28
     when :sidebar then 60
-    else 68 # inline/mobile default
+    when :mobile then 50
+    else 68 # inline default
     end
   end
 end

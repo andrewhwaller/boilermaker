@@ -9,7 +9,7 @@ class Views::Home::Components < Views::Base
           h1(class: "text-2xl font-bold text-base-content") { "Phlex Component Showcase" }
           div(class: "flex items-center gap-4") do
             p(class: "text-sm text-base-content/70") { "Comprehensive component library documentation" }
-            ThemeToggle
+            render Components::ThemeToggle.new
           end
         end
 
