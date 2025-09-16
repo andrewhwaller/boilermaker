@@ -25,8 +25,11 @@ class Components::ThemeToggle < Components::Base
       orientation = @show_label ? "flex-col" : ""
       "#{base_classes} #{orientation} fixed bottom-4 right-4 z-50"
     when :navbar
-      orientation = @show_label ? "flex-col" : ""
-      "#{base_classes} #{orientation}"
+      # Compact vertical layout for navbar - constrained height
+      "#{base_classes} flex-col gap-0 items-center justify-center h-6"
+    when :sidebar
+      # Standard vertical layout for sidebar
+      "#{base_classes} flex-col gap-1"
     else # :inline
       orientation = @show_label ? "flex-col" : ""
       "#{base_classes} #{orientation}"
@@ -36,42 +39,116 @@ class Components::ThemeToggle < Components::Base
   def toggle_button
     button(
       type: "button",
-      class: "group relative inline-flex h-9 w-28 shrink-0 cursor-pointer rounded-box overflow-hidden " \
-             "border border-base-300 bg-base-200 transition-colors duration-200 " \
-             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " \
-             "focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 " \
-             "disabled:cursor-not-allowed disabled:opacity-50 " \
-             "hover:bg-base-300",
+      class: button_classes,
       data: {
-        action: "click->theme#animateToggle",
+        action: "click->theme#toggle",
         "theme-target": "button"
       },
       aria: {
-        label: "Toggle theme",
-        pressed: "false"
+        label: "Toggle theme"
       },
       role: "switch",
       title: toggle_title
     ) do
-      # Simple, reliable slider: flex-align left/right based on aria-pressed
-      div(class: "pointer-events-none absolute inset-0 flex items-center px-[2px] justify-start") do
+      # Slider track (knob placement handled via CSS transform by theme)
+      div(class: "pointer-events-none absolute inset-0 flex items-center px-[2px]") do
         span(
-          class: "h-7 w-8 z-10 rounded-selector bg-base-100 shadow-sm ring-0 will-change-transform",
+          class: indicator_classes,
+          style: "--toggle-travel: #{travel_for_position}px",
           data: { "theme-target": "indicator" }
         )
       end
 
       # Industrial/technical labels
-      span(class: "pointer-events-none absolute inset-y-0 left-2 z-0 flex items-center text-[9px] font-mono tracking-wider uppercase text-base-content/60 select-none") { "POS" }
-      span(class: "pointer-events-none absolute inset-y-0 right-2 z-0 flex items-center text-[9px] font-mono tracking-wider uppercase text-base-content/60 select-none") { "NEG" }
+      span(class: pos_label_classes) { "POS" }
+      span(class: neg_label_classes) { "NEG" }
     end
   end
 
   def control_label
-    span(class: "uppercase tracking-widest text-[9px] font-mono text-base-content/60 select-none") { "Display Polarity" }
+    label_class = case @position
+    when :navbar
+      "uppercase tracking-widest text-[6px] font-mono text-base-content/50 select-none"
+    when :sidebar
+      "uppercase tracking-widest text-[8px] font-mono text-base-content/60 select-none"
+    else
+      "uppercase tracking-widest text-[9px] font-mono text-base-content/60 select-none"
+    end
+
+    span(class: label_class) { "Display Polarity" }
   end
 
   def toggle_title
     "Toggle display polarity between positive and negative"
+  end
+
+  # Initial ARIA is set by the controller on connect; CSS uses [data-theme].
+
+  # Size-specific classes based on position
+  def button_classes
+    base = "group relative inline-flex shrink-0 cursor-pointer rounded-box overflow-hidden " \
+           "border border-base-300 bg-base-200 transition-colors duration-200 " \
+           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " \
+           "focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 " \
+           "disabled:cursor-not-allowed disabled:opacity-50 " \
+           "hover:bg-base-300"
+
+    size = case @position
+    when :navbar
+      "h-4 w-14"
+    when :sidebar
+      "h-7 w-24"
+    else
+      "h-9 w-28"
+    end
+
+    "#{base} #{size}"
+  end
+
+  def indicator_classes
+    base = "z-10 rounded-selector bg-base-100 shadow-sm ring-0 will-change-transform theme-toggle-indicator"
+    size = case @position
+    when :navbar
+      "h-3 w-6"
+    when :sidebar
+      "h-6 w-8"
+    else
+      "h-7 w-10"
+    end
+    "#{base} #{size}"
+  end
+
+  def pos_label_classes
+    base = "pointer-events-none absolute inset-y-0 left-1 z-0 flex items-center font-mono tracking-wider uppercase text-base-content/60 select-none"
+    text_size = case @position
+    when :navbar
+      "text-[7px]"
+    when :sidebar
+      "text-[8px]"
+    else
+      "text-[9px]"
+    end
+    "#{base} #{text_size}"
+  end
+
+  def neg_label_classes
+    base = "pointer-events-none absolute inset-y-0 right-1 z-0 flex items-center font-mono tracking-wider uppercase text-base-content/60 select-none"
+    text_size = case @position
+    when :navbar
+      "text-[7px]"
+    when :sidebar
+      "text-[8px]"
+    else
+      "text-[9px]"
+    end
+    "#{base} #{text_size}"
+  end
+
+  def travel_for_position
+    case @position
+    when :navbar then 28
+    when :sidebar then 60
+    else 68 # inline/mobile default
+    end
   end
 end

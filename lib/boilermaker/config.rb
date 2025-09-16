@@ -83,7 +83,7 @@ module Boilermaker
       end
 
       def theme_dark_name
-        get("ui.theme.dark") || "graphite"
+        get("ui.theme.dark") || "command-center"
       end
 
       # Settings form support
@@ -166,6 +166,12 @@ module Boilermaker
         if params_hash.dig("ui", "theme").is_a?(Hash)
           dev["ui"] ||= {}
           dev["ui"]["theme"] = (dev["ui"]["theme"] || {}).merge(params_hash["ui"]["theme"])
+        end
+
+        # Update navigation settings
+        if params_hash.dig("ui", "navigation").is_a?(Hash)
+          dev["ui"] ||= {}
+          dev["ui"]["navigation"] = (dev["ui"]["navigation"] || {}).merge(params_hash["ui"]["navigation"])
         end
       end
 
