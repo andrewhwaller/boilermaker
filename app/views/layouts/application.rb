@@ -118,9 +118,9 @@ module Views
       # Navigation rendering
       def render_navigation
         if sidebar_layout?
-          render Components::SidebarNavigation.new(request: helpers.request)
+          render Components::SidebarNavigation.new(request: view_context.request)
         else
-          render Components::Navigation.new(request: helpers.request)
+          render Components::Navigation.new(request: view_context.request)
         end
       end
 
