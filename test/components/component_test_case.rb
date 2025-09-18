@@ -12,18 +12,30 @@ class ComponentTestCase < ActiveSupport::TestCase
   # Render a component to HTML string
   # @param component [Phlex::HTML] The component instance to render
   # @return [String] The rendered HTML output
+  def render(...)
+    view_context.render(...)
+  end
+
+  def view_context
+    controller.view_context
+  end
+
+  def controller
+    @controller ||= ActionView::TestCase::TestController.new
+  end
+
   def render_component(component, &block)
     # When a block is provided, render fresh without caching to
     # allow different content blocks.
     if block_given?
-      return component.call(&block)
+      return render(component, &block)
     end
 
     @__render_cache ||= {}
     key = component.object_id
     return @__render_cache[key] if @__render_cache.key?(key)
 
-    html = component.call
+    html = render(component)
     @__render_cache[key] = html
     html
   end
