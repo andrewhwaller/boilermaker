@@ -2,9 +2,9 @@
   <div class="flex items-center justify-between">
     <h1 class="font-bold text-primary font-mono uppercase tracking-wider">CONFIGURE SYSTEM</h1>
     <div class="flex gap-2">
-      <%= link_to "RETURN", main_app.root_path, class: "btn btn-xs btn-secondary font-mono text-sm" %>
-      <%= link_to "REVERT", boilermaker.settings_path, class: "btn btn-xs btn-ghost text-error font-mono text-sm" %>
-      <button type="submit" form="settings_form" class="btn btn-xs btn-success font-mono text-sm">PERSIST</button>
+      <%= link_to "RETURN", main_app.root_path, class: "btn btn-sm btn-secondary font-mono" %>
+      <%= link_to "REVERT", boilermaker.settings_path, class: "btn btn-sm btn-ghost text-error font-mono" %>
+      <button type="submit" form="settings_form" class="btn btn-sm btn-success font-mono">PERSIST</button>
     </div>
   </div>
 </div>
@@ -31,7 +31,7 @@
                 <%= app_form.label :name, "NAME", class: "text-xs text-info font-mono font-bold" %>
                 <%= app_form.text_field :name, 
                       value: @settings.dig('app', 'name') || 'Boilermaker', 
-                      class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none",
+                      class: "input input-bordered w-full",
                       placeholder: "App name" %>
               </div>
               
@@ -39,7 +39,7 @@
                 <%= app_form.label :version, "VERSION", class: "text-xs text-info font-mono font-bold" %>
                 <%= app_form.text_field :version, 
                       value: @settings.dig('app', 'version') || '1.0.0', 
-                      class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none",
+                      class: "input input-bordered w-full",
                       placeholder: "1.0.0" %>
               </div>
               
@@ -47,7 +47,7 @@
                 <%= app_form.label :support_email, "SUPPORT", class: "text-xs text-info font-mono font-bold" %>
                 <%= app_form.email_field :support_email, 
                       value: @settings.dig('app', 'support_email') || 'support@example.com', 
-                      class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none",
+                      class: "input input-bordered w-full",
                       placeholder: "support@example.com" %>
               </div>
               
@@ -55,7 +55,7 @@
                 <%= app_form.label :description, "DESCRIPTION", class: "text-xs text-info font-mono font-bold" %>
                 <%= app_form.text_area :description, 
                       value: @settings.dig('app', 'description') || 'A modern Rails application', 
-                      class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none",
+                      class: "input input-bordered w-full",
                       rows: 2,
                       placeholder: "Brief description" %>
               </div>
@@ -91,7 +91,7 @@
                   <%= theme_form.select :light,
                         grouped_options_for_select(grouped_light, @settings.dig('ui', 'theme', 'light') || 'work-station'),
                         {},
-                        class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none" %>
+                        class: "select select-bordered w-full" %>
                 </div>
 
                 <div>
@@ -99,7 +99,7 @@
                   <%= theme_form.select :dark,
                         grouped_options_for_select(grouped_dark, @settings.dig('ui', 'theme', 'dark') || 'graphite'),
                         {},
-                        class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none" %>
+                        class: "select select-bordered w-full" %>
                 </div>
               </div>
             <% end %>
@@ -112,7 +112,7 @@
                   <%= nav_form.select :layout_mode,
                         options_for_select([["Navbar (horizontal)", "navbar"], ["Sidebar (vertical)", "sidebar"]], @settings.dig('ui', 'navigation', 'layout_mode') || 'navbar'),
                         {},
-                        class: "w-full bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none" %>
+                        class: "select select-bordered w-full" %>
                 </div>
               </div>
             <% end %>
