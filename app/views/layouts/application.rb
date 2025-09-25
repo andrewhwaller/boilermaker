@@ -3,10 +3,7 @@
 module Views
   module Layouts
     class Application < Phlex::HTML
-      # Include the Components kit for component access
       include Components
-
-      # Include Rails helpers
       include Phlex::Rails::Helpers::Routes
       include Phlex::Rails::Helpers::ContentFor
       include Phlex::Rails::Helpers::CSPMetaTag
@@ -38,7 +35,6 @@ module Views
             csrf_meta_tags
             csp_meta_tag
 
-            # Ensure theme matches localStorage/system before CSS loads to avoid flashes
             script do
               plain %(
                 (function(){
@@ -69,17 +65,12 @@ module Views
             link(rel: "manifest", href: "/pwa/manifest.json")
 
             javascript_importmap_tags
-
-            # JS-driven indicator transform; no additional CSS needed here
           end
 
           body(class: body_classes) do
-            # Navigation
             render_navigation
 
-            # Content area
             div(class: content_wrapper_classes) do
-              # Flash messages
               unless flash.empty?
                 div(class: flash_container_classes) do
                   flash.each do |type, message|
@@ -90,7 +81,6 @@ module Views
                 end
               end
 
-              # Main content
               main(class: main_content_classes) do
                 yield_content_or(&block)
               end
@@ -99,14 +89,12 @@ module Views
         end
       end
 
-      # Helper method to get page title with fallback
       def page_title
         content_for?(:title) ? content_for(:title) : "Boilermaker"
       end
 
       private
 
-      # Layout mode detection
       def sidebar_layout?
         Boilermaker.config.get("ui.navigation.layout_mode") == "sidebar"
       end
@@ -115,7 +103,6 @@ module Views
         !sidebar_layout?
       end
 
-      # Navigation rendering
       def render_navigation
         if sidebar_layout?
           render Components::SidebarNavigation.new(request: view_context.request)
@@ -124,7 +111,6 @@ module Views
         end
       end
 
-      # Layout-specific classes
       def body_classes
         base = "min-h-screen bg-base-100 text-base-content"
         sidebar_layout? ? "#{base} pl-64" : base
@@ -150,7 +136,6 @@ module Views
         end
       end
 
-      # Helper to handle both content_for and direct block content
       def yield_content_or(&block)
         if block_given?
           yield
