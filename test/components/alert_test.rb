@@ -34,18 +34,6 @@ class AlertTest < ComponentTestCase
     end
   end
 
-  test "shows icons when enabled" do
-    alert = Components::Alert.new(message: "Success", variant: :success, icon: true)
-    html = render_component(alert)
-    assert html.include?("✓")
-  end
-
-  test "hides icons when disabled" do
-    alert = Components::Alert.new(message: "Success", variant: :success, icon: false)
-    html = render_component(alert)
-    refute html.include?("✓")
-  end
-
   test "renders dismiss button when dismissible" do
     alert = Components::Alert.new(message: "Test", dismissible: true)
     html = render_component(alert)

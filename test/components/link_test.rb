@@ -245,7 +245,7 @@ class LinkTest < ComponentTestCase
   test "correctly identifies internal URLs" do
     internal_urls = [
       "/home",
-      "/users/1",
+      "/users/abc123",
       "/search?q=test",
       "#anchor",
       "mailto:test@example.com",
