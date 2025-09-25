@@ -19,9 +19,8 @@ class Components::Account::UserTable < Components::Base
             th { "Email" }
             th { "Status" }
             th { "Role" }
-            th { "Sessions" } unless @compact
             th { "Joined" }
-            th { "Actions" }
+            th(class: "text-right") { "Actions" }
           end
         end
 
@@ -32,9 +31,12 @@ class Components::Account::UserTable < Components::Base
               td { user.email }
               td { span(class: "text-success font-medium uppercase text-xs") { "Verified" } }
               td { user_role(user) }
-              td { user.sessions.count } unless @compact
-              td { user.created_at.strftime("%m/%d/%Y") }
-              td { link_to("Edit", edit_account_user_path(user), class: "btn btn-ghost btn-xs") }
+              td { user.created_at.strftime("%b %d %Y") }
+              td(class: "text-right") do
+                div(class: "flex justify-end gap-3") do
+                  link_to("EDIT", edit_account_user_path(user), class: "text-primary hover:underline cursor-pointer")
+                end
+              end
             end
           end
         end
@@ -59,5 +61,9 @@ class Components::Account::UserTable < Components::Base
 
   def user_role(user)
     span(class: "text-primary font-medium uppercase text-xs") { "Admin" } if user.account_admin_for?(Current.user.account)
+  end
+
+  def formatted_date(value)
+    value.strftime("").sub("Sep", "Sept")
   end
 end
