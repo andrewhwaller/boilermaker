@@ -1,4 +1,5 @@
 class Session < ApplicationRecord
+  include Hashid::Rails
   belongs_to :user
 
   before_create do

@@ -1,4 +1,5 @@
 class AccountMembership < ApplicationRecord
+  include Hashid::Rails
   belongs_to :user
   belongs_to :account
 

@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include Hashid::Rails
   belongs_to :account
   has_many :account_memberships, dependent: :destroy
   has_many :accounts, through: :account_memberships
