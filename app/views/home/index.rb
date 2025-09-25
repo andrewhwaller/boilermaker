@@ -6,16 +6,11 @@ module Views
       include Phlex::Rails::Helpers::LinkTo
       include Phlex::Rails::Helpers::ButtonTo
 
-      def initialize(notice: nil)
-        @notice = notice
+      def initialize
       end
 
       def view_template
         page_with_title("Dashboard") do
-          if @notice
-            div(class: "alert alert-success mb-6") { span { plain(@notice) } }
-          end
-
           div(class: "space-y-6") do
             # Welcome section
             card do
@@ -87,7 +82,7 @@ module Views
 
             # Sign out section
             card do
-              button_to("Sign out", session_path(Current.session), method: :delete,
+              button_to("Sign out", session_path("current"), method: :delete,
                 class: "btn btn-error")
             end
           end
