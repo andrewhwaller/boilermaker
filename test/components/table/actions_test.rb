@@ -36,8 +36,8 @@ class ActionsTest < ComponentTestCase
 
   def test_renders_button_actions
     items = [
-      { type: :button, text: "Edit", attributes: { data: { action: "edit", id: "1" } } },
-      { type: :button, text: "Delete", attributes: { data: { action: "delete", id: "1" } } }
+      { type: :button, text: "Edit", attributes: { data: { action: "edit", id: "abC123xy" } } },
+      { type: :button, text: "Delete", attributes: { data: { action: "delete", id: "abC123xy" } } }
     ]
 
     component = Components::Table::Actions.new(items: items)
@@ -45,14 +45,14 @@ class ActionsTest < ComponentTestCase
     html = render_component(component)
     doc = parse_html(html)
     assert_equal 2, doc.css("button.btn.btn-ghost.btn-xs").length
-    assert doc.css("button[data-action='edit'][data-id='1']").any? && html.include?("Edit")
-    assert doc.css("button[data-action='delete'][data-id='1']").any? && html.include?("Delete")
+    assert doc.css("button[data-action='edit'][data-id='abC123xy']").any? && html.include?("Edit")
+    assert doc.css("button[data-action='delete'][data-id='abC123xy']").any? && html.include?("Delete")
   end
 
   def test_renders_link_actions
     items = [
-      { type: :link, text: "View", href: "/items/1" },
-      { type: :link, text: "Edit", href: "/items/1/edit" }
+      { type: :link, text: "View", href: "/items/abC123xy" },
+      { type: :link, text: "Edit", href: "/items/abC123xy/edit" }
     ]
 
     component = Components::Table::Actions.new(items: items)
@@ -60,8 +60,8 @@ class ActionsTest < ComponentTestCase
     html = render_component(component)
     doc = parse_html(html)
     assert_equal 2, doc.css("a.btn.btn-ghost.btn-xs").length
-    assert doc.css("a[href='/items/1']").any? && html.include?("View")
-    assert doc.css("a[href='/items/1/edit']").any? && html.include?("Edit")
+    assert doc.css("a[href='/items/abC123xy']").any? && html.include?("View")
+    assert doc.css("a[href='/items/abC123xy/edit']").any? && html.include?("Edit")
   end
 
   def test_renders_dropdown_actions
@@ -69,8 +69,8 @@ class ActionsTest < ComponentTestCase
       {
         type: :dropdown,
         items: [
-          { type: :link, text: "View", href: "/items/1" },
-          { type: :button, text: "Delete", attributes: { data: { action: "delete", id: "1" } } }
+          { type: :link, text: "View", href: "/items/abC123xy" },
+          { type: :button, text: "Delete", attributes: { data: { action: "delete", id: "abC123xy" } } }
         ]
       }
     ]
@@ -83,14 +83,14 @@ class ActionsTest < ComponentTestCase
     assert doc.css(".dropdown button.btn.btn-ghost.btn-xs").any?
     assert_includes html, "⋯"
     assert doc.css(".dropdown-content.menu").any?
-    assert doc.css("li a[href='/items/1']").any? && html.include?("View")
-    assert doc.css("li button[data-action='delete'][data-id='1']").any? && html.include?("Delete")
+    assert doc.css("li a[href='/items/abC123xy']").any? && html.include?("View")
+    assert doc.css("li button[data-action='delete'][data-id='abC123xy']").any? && html.include?("Delete")
   end
 
   def test_renders_mixed_action_types
     items = [
       { type: :button, text: "Edit" },
-      { type: :link, text: "View", href: "/items/1" },
+      { type: :link, text: "View", href: "/items/abC123xy" },
       {
         type: :dropdown,
         items: [
@@ -105,7 +105,7 @@ class ActionsTest < ComponentTestCase
     html = render_component(component)
     doc = parse_html(html)
     assert doc.css("button.btn.btn-ghost.btn-xs").any? && html.include?("Edit")
-    assert doc.css("a.btn.btn-ghost.btn-xs[href='/items/1']").any? && html.include?("View")
+    assert doc.css("a.btn.btn-ghost.btn-xs[href='/items/abC123xy']").any? && html.include?("View")
     assert doc.css(".dropdown button.btn.btn-ghost.btn-xs").any?
   end
 
