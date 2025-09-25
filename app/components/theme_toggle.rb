@@ -3,9 +3,11 @@
 class Components::ThemeToggle < Components::Base
   include ApplicationHelper
 
-  def initialize(show_label: true, position: :inline)
+  def initialize(show_label: true, position: :inline, light_theme: nil, dark_theme: nil)
     @show_label = show_label
     @position = position
+    @light_theme = light_theme
+    @dark_theme = dark_theme
   end
 
   def view_template
@@ -13,8 +15,8 @@ class Components::ThemeToggle < Components::Base
       class: theme_toggle_classes,
       data: {
         controller: "theme",
-        "theme-light-name-value": boilermaker_config.theme_light_name,
-        "theme-dark-name-value": boilermaker_config.theme_dark_name
+        "theme-light-name-value": light_theme_name,
+        "theme-dark-name-value": dark_theme_name
       }
     ) do
       control_label if @show_label
@@ -162,7 +164,15 @@ class Components::ThemeToggle < Components::Base
   end
 
   def initial_is_dark?
-    current_theme = Current.theme_name || boilermaker_config.theme_light_name
-    current_theme == boilermaker_config.theme_dark_name
+    current_theme = Current.theme_name || light_theme_name
+    current_theme == dark_theme_name
+  end
+
+  def light_theme_name
+    @light_theme || boilermaker_config.theme_light_name
+  end
+
+  def dark_theme_name
+    @dark_theme || boilermaker_config.theme_dark_name
   end
 end
