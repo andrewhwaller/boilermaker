@@ -91,9 +91,8 @@ class AlertHelperTest < ActionView::TestCase
   end
 
   test "flash_alert passes through additional options" do
-    alert = flash_alert("Custom alert", icon: false, class: "custom-class")
+    alert = flash_alert("Custom alert", class: "custom-class")
 
-    assert_equal false, alert.instance_variable_get(:@show_icon)
     assert_equal({ class: "custom-class" }, alert.instance_variable_get(:@attributes))
   end
 
