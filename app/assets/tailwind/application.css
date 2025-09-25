@@ -232,6 +232,29 @@ body {
   outline-offset: 0;
 }
 
+.input:not(.input-error):not(.input-success):not(.input-warning):not(.input-info),
+.input-bordered:not(.input-error):not(.input-success):not(.input-warning):not(.input-info),
+.textarea:not(.textarea-error):not(.textarea-success):not(.textarea-warning):not(.textarea-info),
+.textarea-bordered:not(.textarea-error):not(.textarea-success):not(.textarea-warning):not(.textarea-info),
+.select:not(.select-error):not(.select-success):not(.select-warning):not(.select-info),
+.select-bordered:not(.select-error):not(.select-success):not(.select-warning):not(.select-info) {
+  @apply bg-base-300/50 border border-base-300 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none;
+}
+
+.input-error, .textarea-error, .select-error {
+  @apply bg-base-300/50 text-base-content font-mono px-2 py-1 text-sm;
+}
+
+.input-error:focus-visible, .textarea-error:focus-visible, .select-error:focus-visible {
+  outline: 1px solid var(--color-primary) !important;
+  outline-offset: 1px !important;
+}
+
+*:focus-visible:not(.input):not(.textarea):not(.select) {
+  outline: 1px solid var(--color-primary) !important;
+  outline-offset: 1px !important;
+}
+
 /* Industrial Data-Dense Table Styling */
 .table {
   /* Dense, technical spacing */
