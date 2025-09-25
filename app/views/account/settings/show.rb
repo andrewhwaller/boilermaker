@@ -45,7 +45,7 @@ module Views
 
                 # Quick action buttons
                 div(class: "flex gap-2") do
-                  link_to("Users", account_users_path, class: "btn btn-ghost")
+                  link_to("Invitations", account_invitations_path, class: "btn btn-ghost")
                   link_to("+ User", new_account_invitation_path, class: "btn btn-primary")
                 end
               end
