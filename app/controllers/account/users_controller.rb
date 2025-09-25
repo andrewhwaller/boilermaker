@@ -2,10 +2,7 @@ class Account::UsersController < Account::BaseController
   before_action :set_user, only: [ :show, :edit, :update ]
 
   def index
-    @users = Current.user.account.users.verified.order(:last_name, :first_name)
-    @invitations = Current.user.account.users.unverified.order(created_at: :desc)
-
-    render Views::Account::Users::Index.new(users: @users, invitations: @invitations)
+    redirect_to account_invitations_path
   end
 
   def show
