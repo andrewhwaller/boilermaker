@@ -3,6 +3,7 @@
 class Components::Navigation < Components::Base
   include ApplicationHelper
   include NavigationHelpers
+  include Phlex::Rails::Helpers::ButtonTo
 
   def initialize(request: nil)
     @request = request
@@ -130,7 +131,9 @@ class Components::Navigation < Components::Base
   end
 
   def sign_out_button
-    button(class: "btn btn-ghost btn-sm normal-case font-mono text-xs tracking-wider border-0 rounded-none text-error hover:bg-error/10", type: "button") do
+    button_to session_path("current"),
+      method: :delete,
+      class: "btn btn-ghost btn-sm normal-case font-mono text-xs tracking-wider border-0 rounded-none text-error hover:bg-error/10" do
       "EXIT"
     end
   end
@@ -180,7 +183,9 @@ class Components::Navigation < Components::Base
       if show_account_dropdown?
         span(class: "text-xs text-base-content/70") { current_user_display_name.upcase }
       else
-        button(class: "text-xs font-mono font-medium tracking-wider text-error", type: "button") do
+        button_to session_path("current"),
+          method: :delete,
+          class: "text-xs font-mono font-medium tracking-wider text-error border-0 bg-transparent" do
           "EXIT"
         end
       end

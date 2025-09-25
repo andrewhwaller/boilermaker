@@ -46,13 +46,14 @@ class Components::ThemeToggle < Components::Base
   def toggle_button
     button(
       type: "button",
-      class: button_classes,
+      class: "#{button_classes} #{initial_toggle_class}",
       data: {
         action: "click->theme#toggle",
         "theme-target": "toggle"
       },
       aria: {
-        label: "Toggle theme"
+        label: "Toggle theme",
+        pressed: initial_is_dark?.to_s
       },
       role: "switch",
       title: toggle_title
@@ -88,9 +89,6 @@ class Components::ThemeToggle < Components::Base
     "Toggle display polarity between positive and negative"
   end
 
-  # Initial ARIA is set by the controller on connect; CSS uses [data-theme].
-
-  # Size-specific classes based on position
   def button_classes
     base = "group relative inline-flex shrink-0 cursor-pointer rounded-box overflow-hidden " \
            "border border-base-300 bg-base-200 transition-colors duration-200 " \
@@ -157,5 +155,14 @@ class Components::ThemeToggle < Components::Base
     when :mobile then 50
     else 68 # inline default
     end
+  end
+
+  def initial_toggle_class
+    initial_is_dark? ? "theme-toggle-dark" : ""
+  end
+
+  def initial_is_dark?
+    current_theme = Current.theme_name || boilermaker_config.theme_light_name
+    current_theme == boilermaker_config.theme_dark_name
   end
 end

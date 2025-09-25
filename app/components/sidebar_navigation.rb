@@ -3,6 +3,7 @@
 class Components::SidebarNavigation < Components::Base
   include ApplicationHelper
   include NavigationHelpers
+  include Phlex::Rails::Helpers::ButtonTo
 
   def initialize(request: nil)
     @request = request
@@ -105,9 +106,9 @@ class Components::SidebarNavigation < Components::Base
 
           # Sign out button
           div(class: "flex justify-center") do
-            a(href: session_path("current"),
-              class: "btn btn-ghost btn-sm normal-case font-mono text-xs tracking-wider border-0 rounded-none text-error hover:bg-error/10 w-full text-center",
-              data: { turbo_method: :delete }) do
+            button_to session_path("current"),
+              method: :delete,
+              class: "btn btn-ghost btn-sm normal-case font-mono text-xs tracking-wider border-0 rounded-none text-error hover:bg-error/10 w-full text-center" do
               "EXIT SYSTEM"
             end
           end
