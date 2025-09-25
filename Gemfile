@@ -26,6 +26,9 @@ gem "rotp"
 # QR Code generation for 2FA setup [https://github.com/whomwah/rqrcode]
 gem "rqrcode"
 
+# Obfuscate model IDs in URLs via Hashids [https://github.com/peterhellberg/hashid-rails]
+gem "hashid-rails", "~> 1.4", require: "hashid/rails"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
