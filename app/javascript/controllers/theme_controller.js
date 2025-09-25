@@ -7,10 +7,6 @@ export default class extends Controller {
     darkName: { type: String, default: "command-center" }
   }
 
-  connect() {
-    this.syncToggleState()
-  }
-
   toggle() {
     const currentTheme = document.documentElement.getAttribute("data-theme")
     const isDark = currentTheme === this.darkNameValue
