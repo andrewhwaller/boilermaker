@@ -50,7 +50,7 @@ module Views
                     div(class: "grid grid-cols-2 gap-4 text-sm") do
                       div do
                         div(class: "text-base-content/70") { "User ID" }
-                        div(class: "font-medium font-mono") { @user.id }
+                        div(class: "font-medium font-mono") { @user.hashid }
                       end
 
                       div do

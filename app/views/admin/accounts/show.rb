@@ -20,7 +20,7 @@ module Views
             end
 
             div(class: "bg-base-200 rounded-box p-4 mb-4") do
-              div { "ID: #{@account.id}" }
+              div { "ID: #{@account.hashid}" }
               div { "Users: #{pluralize(@account.users.count, 'user')}" }
             end
 
