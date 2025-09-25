@@ -337,7 +337,7 @@ class Views::Home::Components < Views::Base
           component_section("Dismissible Alerts", "Alert messages with close functionality") do
             div(class: "space-y-4 max-w-2xl") do
               Alert(
-                message: "This alert can be dismissed by clicking the X button.",
+                message: "This alert can be dismissed.",
                 variant: :info,
                 dismissible: true
               )
@@ -350,31 +350,6 @@ class Views::Home::Components < Views::Base
             code_example("Dismissible Alerts", <<~RUBY.strip)
               Alert(message: "Info alert", variant: :info, dismissible: true)
               Alert(message: "Warning alert", variant: :warning, dismissible: true)
-            RUBY
-          end
-
-          component_section("Toast Component", "Toast notifications for temporary feedback") do
-            div(class: "space-y-4") do
-              p(class: "text-base-content/70 mb-4") { "Toast components are floating notifications that appear temporarily. Below are alert-style examples of their content (actual toasts would float in corners):" }
-
-              div(class: "space-y-3 max-w-sm") do
-                Alert(message: "Profile updated successfully!", variant: :success)
-                Alert(message: "Connection restored", variant: :info)
-                Alert(message: "Session will expire soon", variant: :warning)
-                Alert(message: "Failed to save changes", variant: :error)
-              end
-
-              div(class: "mt-4 p-4 bg-base-200 rounded-lg") do
-                h4(class: "font-semibold mb-2") { "Toast Usage" }
-                p(class: "text-sm text-base-content/70 mb-2") { "Toasts are positioned floating containers that auto-dismiss after a set duration." }
-                p(class: "text-sm text-base-content/70") { "They automatically integrate with Rails flash messages through the flash helper." }
-              end
-            end
-            code_example("Toast Variants", <<~RUBY.strip)
-              Toast(message: "Saved", variant: :success, position: "top-end")
-              Toast(message: "Heads up", variant: :info, position: "bottom-center")
-              Toast(message: "Warning", variant: :warning, position: "top-center", duration: 8000)
-              Toast(message: "Error", variant: :error, position: "bottom-end", duration: 0)
             RUBY
           end
         end
@@ -632,42 +607,42 @@ class Views::Home::Components < Views::Base
             Table(variant: :zebra) do
               thead do
                 tr do
-                  render Components::Table::Header.new(sortable: true, sorted: :asc) { "Student" }
-                  render Components::Table::Header.new(sortable: true) { "Score" }
-                  render Components::Table::Header.new { "Grade" }
-                  render Components::Table::Header.new { "Actions" }
+                  render Table::Header.new(sortable: true, sorted: :asc) { "Student" }
+                  render Table::Header.new(sortable: true) { "Score" }
+                  render Table::Header.new { "Grade" }
+                  render Table::Header.new { "Actions" }
                 end
               end
               tbody do
-                render Components::Table::Row.new(variant: :active) do
-                  render Components::Table::Cell.new { "Alice Johnson" }
-                  render Components::Table::Cell.new(align: :center) { "95" }
-                  render Components::Table::Cell.new(align: :center) do
+                render Table::Row.new(variant: :active) do
+                  render Table::Cell.new { "Alice Johnson" }
+                  render Table::Cell.new(align: :center) { "95" }
+                  render Table::Cell.new(align: :center) do
                     Badge(variant: :success) { "A" }
                   end
-                  render Components::Table::Actions.new do
+                  render Table::Actions.new do
                     button(class: "btn btn-ghost btn-xs") { "Edit" }
                     button(class: "btn btn-ghost btn-xs") { "Delete" }
                   end
                 end
-                render Components::Table::Row.new do
-                  render Components::Table::Cell.new { "Bob Wilson" }
-                  render Components::Table::Cell.new(align: :center) { "87" }
-                  render Components::Table::Cell.new(align: :center) do
+                render Table::Row.new do
+                  render Table::Cell.new { "Bob Wilson" }
+                  render Table::Cell.new(align: :center) { "87" }
+                  render Table::Cell.new(align: :center) do
                     Badge(variant: :warning) { "B+" }
                   end
-                  render Components::Table::Actions.new do
+                  render Table::Actions.new do
                     button(class: "btn btn-ghost btn-xs") { "Edit" }
                     button(class: "btn btn-ghost btn-xs") { "Delete" }
                   end
                 end
-                render Components::Table::Row.new do
-                  render Components::Table::Cell.new { "Carol Brown" }
-                  render Components::Table::Cell.new(align: :center) { "78" }
-                  render Components::Table::Cell.new(align: :center) do
+                render Table::Row.new do
+                  render Table::Cell.new { "Carol Brown" }
+                  render Table::Cell.new(align: :center) { "78" }
+                  render Table::Cell.new(align: :center) do
                     Badge(variant: :info) { "C+" }
                   end
-                  render Components::Table::Actions.new do
+                  render Table::Actions.new do
                     button(class: "btn btn-ghost btn-xs") { "Edit" }
                     button(class: "btn btn-ghost btn-xs") { "Delete" }
                   end
@@ -679,16 +654,16 @@ class Views::Home::Components < Views::Base
               Table do
                 thead do
                   tr do
-                    render Components::Table::Header.new(sortable: true, sorted: :asc) { "Student" }
-                    render Components::Table::Header.new(sortable: true) { "Score" }
-                    render Components::Table::Header.new { "Actions" }
+                    render Table::Header.new(sortable: true, sorted: :asc) { "Student" }
+                    render Table::Header.new(sortable: true) { "Score" }
+                    render Table::Header.new { "Actions" }
                   end
                 end
                 tbody do
-                  render Components::Table::Row.new(variant: :active) do
-                    render Components::Table::Cell.new { "Alice Johnson" }
-                    render Components::Table::Cell.new(align: :center) { "95" }
-                    render Components::Table::Actions.new do
+                  render Table::Row.new(variant: :active) do
+                    render Table::Cell.new { "Alice Johnson" }
+                    render Table::Cell.new(align: :center) { "95" }
+                    render Table::Actions.new do
                       button(class: "btn btn-ghost btn-xs") { "Edit" }
                       button(class: "btn btn-ghost btn-xs") { "Delete" }
                     end
@@ -785,38 +760,38 @@ class Views::Home::Components < Views::Base
               Table(variant: :zebra, size: :sm) do
                 thead do
                   tr do
-                    render Components::Table::Header.new { "Server" }
-                    render Components::Table::Header.new { "Status" }
-                    render Components::Table::Header.new { "CPU" }
-                    render Components::Table::Header.new { "Actions" }
+                    render Table::Header.new { "Server" }
+                    render Table::Header.new { "Status" }
+                    render Table::Header.new { "CPU" }
+                    render Table::Header.new { "Actions" }
                   end
                 end
                 tbody do
-                  render Components::Table::Row.new do
-                    render Components::Table::Cell.new { "prod-web-01" }
-                    render Components::Table::Cell.new { Badge(variant: :success) { "ONLINE" } }
-                    render Components::Table::Cell.new(align: :center) { "23%" }
-                    render Components::Table::Actions.new do
+                  render Table::Row.new do
+                    render Table::Cell.new { "prod-web-01" }
+                    render Table::Cell.new { Badge(variant: :success) { "ONLINE" } }
+                    render Table::Cell.new(align: :center) { "23%" }
+                    render Table::Actions.new do
                       button(class: "btn btn-ghost btn-xs") { "View" }
                       button(class: "btn btn-ghost btn-xs") { "Edit" }
                       button(class: "btn btn-ghost btn-xs") { "Stop" }
                     end
                   end
-                  render Components::Table::Row.new do
-                    render Components::Table::Cell.new { "prod-web-02" }
-                    render Components::Table::Cell.new { Badge(variant: :warning) { "RESTART" } }
-                    render Components::Table::Cell.new(align: :center) { "67%" }
-                    render Components::Table::Actions.new do
+                  render Table::Row.new do
+                    render Table::Cell.new { "prod-web-02" }
+                    render Table::Cell.new { Badge(variant: :warning) { "RESTART" } }
+                    render Table::Cell.new(align: :center) { "67%" }
+                    render Table::Actions.new do
                       button(class: "btn btn-ghost btn-xs") { "View" }
                       button(class: "btn btn-ghost btn-xs") { "Edit" }
                       button(class: "btn btn-ghost btn-xs") { "Stop" }
                     end
                   end
-                  render Components::Table::Row.new do
-                    render Components::Table::Cell.new { "prod-db-01" }
-                    render Components::Table::Cell.new { Badge(variant: :error) { "ERROR" } }
-                    render Components::Table::Cell.new(align: :center) { "89%" }
-                    render Components::Table::Actions.new do
+                  render Table::Row.new do
+                    render Table::Cell.new { "prod-db-01" }
+                    render Table::Cell.new { Badge(variant: :error) { "ERROR" } }
+                    render Table::Cell.new(align: :center) { "89%" }
+                    render Table::Actions.new do
                       button(class: "btn btn-ghost btn-xs") { "View" }
                       button(class: "btn btn-ghost btn-xs") { "Edit" }
                       button(class: "btn btn-ghost btn-xs") { "Restart" }
@@ -832,24 +807,24 @@ class Views::Home::Components < Views::Base
                 Table(size: :sm) do
                   thead do
                     tr do
-                      render Components::Table::Header.new { "User" }
-                      render Components::Table::Header.new { "Role" }
-                      render Components::Table::Header.new { "Actions" }
+                      render Table::Header.new { "User" }
+                      render Table::Header.new { "Role" }
+                      render Table::Header.new { "Actions" }
                     end
                   end
                   tbody do
-                    render Components::Table::Row.new do
-                      render Components::Table::Cell.new { "admin@example.com" }
-                      render Components::Table::Cell.new { "Administrator" }
-                      render Components::Table::Actions.new(
+                    render Table::Row.new do
+                      render Table::Cell.new { "admin@example.com" }
+                      render Table::Cell.new { "Administrator" }
+                      render Table::Actions.new(
                         items: [
-                          { type: :link, text: "Profile", href: "/users/1" },
-                          { type: :button, text: "Reset Password", attributes: { data: { action: "reset-password", user_id: "1" } } },
+                          { type: :link, text: "Profile", href: "/users/yLA6m0oM" },
+                          { type: :button, text: "Reset Password", attributes: { data: { action: "reset-password", user_id: "yLA6m0oM" } } },
                           {
                             type: :dropdown,
                             items: [
-                              { type: :button, text: "Deactivate", attributes: { data: { action: "deactivate", user_id: "1" } } },
-                              { type: :button, text: "Delete", attributes: { data: { action: "delete", user_id: "1" } } }
+                              { type: :button, text: "Deactivate", attributes: { data: { action: "deactivate", user_id: "yLA6m0oM" } } },
+                              { type: :button, text: "Delete", attributes: { data: { action: "delete", user_id: "yLA6m0oM" } } }
                             ]
                           }
                         ]
@@ -862,29 +837,29 @@ class Views::Home::Components < Views::Base
 
             code_example("Table Actions", <<~RUBY.strip)
               # Custom action buttons with blocks
-              render Components::Table::Actions.new do
+              render Table::Actions.new do
                 button(class: "btn btn-ghost btn-xs") { "View" }
                 button(class: "btn btn-ghost btn-xs") { "Edit" }
                 button(class: "btn btn-ghost btn-xs") { "Delete" }
               end
 
               # Pre-configured action items
-              render Components::Table::Actions.new(
+              render Table::Actions.new(
                 items: [
-                  { type: :link, text: "View", href: "/items/1" },
-                  { type: :button, text: "Edit", attributes: { data: { action: "edit", item_id: "1" } } },
+                  { type: :link, text: "View", href: "/items/abC123xy" },
+                  { type: :button, text: "Edit", attributes: { data: { action: "edit", item_id: "abC123xy" } } },
                   {
                     type: :dropdown,
                     items: [
-                      { type: :button, text: "Archive", attributes: { data: { action: "archive", item_id: "1" } } },
-                      { type: :button, text: "Delete", attributes: { data: { action: "delete", item_id: "1" } } }
+                      { type: :button, text: "Archive", attributes: { data: { action: "archive", item_id: "abC123xy" } } },
+                      { type: :button, text: "Delete", attributes: { data: { action: "delete", item_id: "abC123xy" } } }
                     ]
                   }
                 ]
               )
 
               # You can also use the Cell component with actions flag
-              render Components::Table::Cell.new(actions: true) do
+              render Table::Cell.new(actions: true) do
                 # Custom action content
               end
             RUBY
@@ -1107,7 +1082,7 @@ class Views::Home::Components < Views::Base
               ul(class: "space-y-1 text-base-content/70") do
                 li { "• Links & Buttons" }
                 li { "• Form Inputs" }
-                li { "• Feedback (Alerts & Toasts)" }
+                li { "• Feedback (Alerts)" }
                 li { "• Utility (Badge, Avatar, Loading)" }
               end
             end
