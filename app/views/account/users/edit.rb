@@ -19,7 +19,7 @@ module Views
                 h1(class: "text-2xl font-bold text-base-content") { "Edit User" }
                 div(class: "flex gap-2") do
                   link_to("View User", account_user_path(@user), class: "btn btn-outline")
-                  link_to("Back to Users", account_users_path, class: "btn btn-ghost")
+                  link_to("Back to Account", account_path, class: "btn btn-ghost")
                 end
               end
 
