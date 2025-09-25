@@ -37,10 +37,10 @@ class Account::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
   end
 
-  test "index shows for account admin" do
+  test "index redirects account admin to invitations" do
     sign_in_as @admin_user
     get account_users_path
-    assert_response :success
+    assert_redirected_to account_invitations_path
   end
 
   test "update toggles membership admin role" do
