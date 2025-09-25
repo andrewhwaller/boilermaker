@@ -16,67 +16,77 @@ module Views
         form_with(model: <%= instance_name %>, local: true, class: "space-y-6") do |form|
           # Display errors if any
           if <%= instance_name %>.errors.any?
-            div(class: "bg-red-50 border border-red-200 rounded-md p-4 mb-6") do
-              div(class: "flex") do
-                div(class: "ml-3") do
-                  h3(class: "text-sm font-medium text-red-800") do
-                    plain "#{<%= instance_name %>.errors.count} error#{'s' if <%= instance_name %>.errors.count != 1} prohibited this <%= model_name.downcase %> from being saved:"
-                  end
-                  ul(class: "mt-2 text-sm text-red-700 list-disc list-inside") do
-                    <%= instance_name %>.errors.full_messages.each do |message|
-                      li { message }
-                    end
-                  end
-                end
-              end
-            end
+            error_message = "#{<%= instance_name %>.errors.count} error#{'s' if <%= instance_name %>.errors.count != 1} prohibited this <%= model_name.downcase %> from being saved: #{<%= instance_name %>.errors.full_messages.join(', ')}"
+            render Alert.new(message: error_message, variant: :error)
           end
 
 <% form_attributes.each do |attribute| -%>
-          # <%= attribute[:name].humanize %> field
-          div(class: "space-y-1") do
-            render Components::Label.new(for_id: "<%= singular_table_name %>_<%= attribute[:name] %>", required: true) do
-              "<%= attribute[:name].humanize %>"
-            end
 <% case attribute[:type] -%>
 <% when 'text' -%>
-            form.text_area(:<%= attribute[:name] %>, 
-                          id: "<%= singular_table_name %>_<%= attribute[:name] %>",
-                          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
-                          rows: 4)
+          render FormGroup.new(
+            label_text: "<%= attribute[:name].humanize %>",
+            name: :<%= attribute[:name] %>,
+            input_type: :textarea,
+            id: "<%= singular_table_name %>_<%= attribute[:name] %>",
+            required: true,
+            rows: 4
+          )
 <% when 'boolean' -%>
-            div(class: "flex items-center") do
-              form.check_box(:<%= attribute[:name] %>, 
-                            id: "<%= singular_table_name %>_<%= attribute[:name] %>",
-                            class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded")
+          div(class: "form-control") do
+            render Label.new(for_id: "<%= singular_table_name %>_<%= attribute[:name] %>") do
+              "<%= attribute[:name].humanize %>"
             end
-<% when 'integer', 'decimal', 'float' -%>
-            form.number_field(:<%= attribute[:name] %>, 
-                             id: "<%= singular_table_name %>_<%= attribute[:name] %>",
-                             class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm")
-<% when 'date' -%>
-            form.date_field(:<%= attribute[:name] %>, 
-                           id: "<%= singular_table_name %>_<%= attribute[:name] %>",
-                           class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm")
-<% when 'datetime' -%>
-            form.datetime_local_field(:<%= attribute[:name] %>, 
-                                     id: "<%= singular_table_name %>_<%= attribute[:name] %>",
-                                     class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm")
-<% when 'email' -%>
-            form.email_field(:<%= attribute[:name] %>, 
-                            id: "<%= singular_table_name %>_<%= attribute[:name] %>",
-                            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm")
-<% else -%>
-            form.text_field(:<%= attribute[:name] %>, 
-                           id: "<%= singular_table_name %>_<%= attribute[:name] %>",
-                           class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm")
-<% end -%>
+            render Checkbox.new(
+              name: :<%= attribute[:name] %>,
+              id: "<%= singular_table_name %>_<%= attribute[:name] %>"
+            )
           end
+<% when 'integer', 'decimal', 'float' -%>
+          render FormGroup.new(
+            label_text: "<%= attribute[:name].humanize %>",
+            name: :<%= attribute[:name] %>,
+            input_type: :number,
+            id: "<%= singular_table_name %>_<%= attribute[:name] %>",
+            required: true
+          )
+<% when 'date' -%>
+          render FormGroup.new(
+            label_text: "<%= attribute[:name].humanize %>",
+            name: :<%= attribute[:name] %>,
+            input_type: :date,
+            id: "<%= singular_table_name %>_<%= attribute[:name] %>",
+            required: true
+          )
+<% when 'datetime' -%>
+          render FormGroup.new(
+            label_text: "<%= attribute[:name].humanize %>",
+            name: :<%= attribute[:name] %>,
+            input_type: :"datetime-local",
+            id: "<%= singular_table_name %>_<%= attribute[:name] %>",
+            required: true
+          )
+<% when 'email' -%>
+          render FormGroup.new(
+            label_text: "<%= attribute[:name].humanize %>",
+            name: :<%= attribute[:name] %>,
+            input_type: :email,
+            id: "<%= singular_table_name %>_<%= attribute[:name] %>",
+            required: true
+          )
+<% else -%>
+          render FormGroup.new(
+            label_text: "<%= attribute[:name].humanize %>",
+            name: :<%= attribute[:name] %>,
+            input_type: :text,
+            id: "<%= singular_table_name %>_<%= attribute[:name] %>",
+            required: true
+          )
+<% end -%>
 
 <% end -%>
           # Submit button
           div(class: "flex justify-end") do
-            render Components::Button.new(type: "submit", variant: :primary) do
+            render Button.new(type: "submit", variant: :primary) do
               <%= instance_name %>.persisted? ? "Update <%= model_name %>" : "Create <%= model_name %>"
             end
           end

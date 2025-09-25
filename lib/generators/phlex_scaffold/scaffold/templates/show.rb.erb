@@ -16,33 +16,31 @@ module Views
 
       def view_template
         if notice
-          p(class: "text-green-600 mb-4") { plain(notice) }
+          render Alert.new(message: notice, variant: :success)
         end
 
-        div(class: "bg-white shadow overflow-hidden sm:rounded-lg") do
-          div(class: "px-4 py-5 sm:px-6") do
-            h1(class: "text-lg leading-6 font-medium text-gray-900") { "<%= model_name %> Details" }
-          end
-          
-          div(class: "border-t border-gray-200") do
-            dl do
-<% display_attributes.each_with_index do |attribute, index| -%>
-              div(class: "bg-<%= index.even? ? 'gray-50' : 'white' %> px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6") do
-                dt(class: "text-sm font-medium text-gray-500") { "<%= attribute[:name].humanize %>" }
-                dd(class: "mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2") { <%= instance_name %>.<%= attribute[:name] %> }
+        div(class: "card") do
+          div(class: "card-body") do
+            h1(class: "card-title") { "<%= model_name %> Details" }
+
+            div(class: "space-y-4") do
+<% display_attributes.each do |attribute| -%>
+              div(class: "form-control") do
+                render Label.new(for_id: nil) { "<%= attribute[:name].humanize %>" }
+                div(class: "text-base-content") { <%= instance_name %>.<%= attribute[:name] %> }
               end
 <% end -%>
             end
           end
         end
 
-        div(class: "mt-6 flex space-x-3") do
-          link_to("Edit", 
-                  edit_<%= singular_table_name %>_path(<%= instance_name %>), 
-                  class: "bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded")
-          link_to("Back", 
-                  <%= plural_table_name %>_path, 
-                  class: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded")
+        div(class: "mt-6 flex gap-2") do
+          render Button.new(variant: :primary) do
+            link_to("Edit", edit_<%= singular_table_name %>_path(<%= instance_name %>))
+          end
+          render Button.new(variant: :ghost) do
+            link_to("Back", <%= plural_table_name %>_path)
+          end
         end
       end
 

@@ -18,13 +18,13 @@ module Views
 
         render <%= namespaced? ? "Views::#{namespace.classify}::#{controller_class_name.pluralize}::" : "Views::#{controller_class_name.pluralize}::" %>Form.new(<%= param_name %>: <%= instance_name %>)
 
-        div(class: "mt-6 flex space-x-3") do
-          link_to("Show", 
-                  <%= instance_name %>, 
-                  class: "text-blue-600 hover:text-blue-900")
-          link_to("Back", 
-                  <%= plural_table_name %>_path, 
-                  class: "text-gray-600 hover:text-gray-900")
+        div(class: "mt-6 flex gap-2") do
+          render Button.new(variant: :secondary) do
+            link_to("Show", <%= instance_name %>)
+          end
+          render Button.new(variant: :ghost) do
+            link_to("Back", <%= plural_table_name %>_path)
+          end
         end
       end
 

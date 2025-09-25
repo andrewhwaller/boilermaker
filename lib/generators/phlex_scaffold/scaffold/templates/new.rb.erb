@@ -18,9 +18,9 @@ module Views
         render <%= namespaced? ? "Views::#{namespace.classify}::#{controller_class_name.pluralize}::" : "Views::#{controller_class_name.pluralize}::" %>Form.new(<%= param_name %>: <%= instance_name %>)
 
         div(class: "mt-4") do
-          link_to("Back", 
-                  <%= plural_table_name %>_path, 
-                  class: "text-gray-600 hover:text-gray-900")
+          render Button.new(variant: :ghost) do
+            link_to("Back", <%= plural_table_name %>_path)
+          end
         end
       end
 
