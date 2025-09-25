@@ -4,4 +4,8 @@
 # Uses Phlex's built-in Kit system for clean component rendering
 module Components
   extend Phlex::Kit
+
+  module Account
+    extend Phlex::Kit
+  end
 end
