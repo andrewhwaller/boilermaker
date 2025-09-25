@@ -62,11 +62,13 @@ class Components::Table::Actions < Components::Base
   end
 
   def render_action_dropdown(item)
-    div(class: "dropdown dropdown-end") do
+    div(class: "dropdown dropdown-end", style: "position: static;") do
       button(class: "btn btn-ghost btn-xs", tabindex: "0") do
         "⋯"
       end
-      ul(class: "dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52", tabindex: "0") do
+      ul(class: "dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52",
+         style: "z-index: 9999 !important; position: absolute;",
+         tabindex: "0") do
         item[:items].each do |dropdown_item|
           li do
             case dropdown_item[:type]
