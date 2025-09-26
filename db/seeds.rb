@@ -21,7 +21,7 @@ admin_user = User.create!(
   first_name: "Admin",
   last_name: "User",
   verified: true,
-  admin: true,
+  app_admin: true,
   account: admin_account
 )
 AccountMembership.create!(user: admin_user, account: admin_account, roles: { admin: true, member: true })
@@ -33,7 +33,7 @@ john = User.create!(
   first_name: "John",
   last_name: "Doe",
   verified: true,
-  admin: false,
+  app_admin: false,
   account: admin_account
 )
 AccountMembership.create!(user: john, account: admin_account, roles: { member: true, admin: false })
@@ -44,7 +44,7 @@ jane = User.create!(
   first_name: "Jane",
   last_name: "Smith",
   verified: true,
-  admin: false,
+  app_admin: false,
   account: admin_account
 )
 AccountMembership.create!(user: jane, account: admin_account, roles: { member: true, admin: false })
@@ -55,7 +55,7 @@ bob = User.create!(
   first_name: "Bob",
   last_name: "Wilson",
   verified: false,
-  admin: false,
+  app_admin: false,
   account: admin_account
 )
 AccountMembership.create!(user: bob, account: admin_account, roles: { member: true, admin: false })
@@ -66,7 +66,7 @@ alice = User.create!(
   first_name: "Alice",
   last_name: "Johnson",
   verified: true,
-  admin: true,
+  app_admin: true,
   account: admin_account
 )
 AccountMembership.create!(user: alice, account: admin_account, roles: { admin: true, member: true })
