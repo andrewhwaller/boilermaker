@@ -29,7 +29,7 @@ class Components::DropdownMenu < Components::Base
 
   def menu(&block)
     ul(
-      class: "dropdown-content menu menu-sm gap-1 p-2 shadow bg-base-100 rounded-box z-50 w-48 mt-2",
+      class: "dropdown-content menu menu-sm gap-1 p-2 shadow bg-base-200 border border-base-300 rounded-box z-50 w-48 mt-2",
       tabindex: 0,
       data: { dropdown_target: "menu" },
       &block
