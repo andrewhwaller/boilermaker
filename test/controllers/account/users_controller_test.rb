@@ -72,7 +72,7 @@ class Account::UsersControllerTest < ActionDispatch::IntegrationTest
     # ensure baseline membership exists
     membership = AccountMembership.find_or_create_by!(user: target, account: @account, roles: { admin: false, member: true })
 
-    assert_difference 'AccountMembership.count', -1 do
+    assert_difference "AccountMembership.count", -1 do
       delete account_user_path(target)
     end
 
@@ -87,7 +87,7 @@ class Account::UsersControllerTest < ActionDispatch::IntegrationTest
     # ensure baseline membership exists
     AccountMembership.find_or_create_by!(user: @admin_user, account: @account, roles: { admin: true, member: true })
 
-    assert_no_difference 'AccountMembership.count' do
+    assert_no_difference "AccountMembership.count" do
       delete account_user_path(@admin_user)
     end
 

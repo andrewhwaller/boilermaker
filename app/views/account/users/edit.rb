@@ -30,7 +30,7 @@ module Views
                   form_errors(@user)
 
                   # User attributes form
-                  form_with(model: [@user], url: account_user_path(@user), local: true, class: "space-y-6") do |f|
+                  form_with(model: [ @user ], url: account_user_path(@user), local: true, class: "space-y-6") do |f|
                     # Email field
                     div do
                       f.label :email, "Email Address", class: "label"
