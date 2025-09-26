@@ -57,7 +57,7 @@ module Views
 
                       div do
                         span(class: "text-base-content/70") { "Admin Users: " }
-                        span(class: "font-medium") { @account.users.where(admin: true).count }
+                        span(class: "font-medium") { @account.users.where(app_admin: true).count }
                       end
 
                       div do

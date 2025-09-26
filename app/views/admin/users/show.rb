@@ -40,7 +40,7 @@ module Views
                         Badge(variant: :warning) { "Unverified" }
                       end
 
-                      if @user.admin?
+                      if @user.app_admin?
                         Badge(variant: :error) { "App Admin" }
                       else
                         Badge(variant: :ghost) { "User" }

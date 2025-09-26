@@ -16,48 +16,92 @@ module Views
             div(class: "space-y-6") do
               # Header
               div(class: "flex items-center justify-between mb-6") do
-                h1(class: "font-bold text-base-content") { "Edit User" }
-                div(class: "flex gap-2") do
-                  link_to("View User", account_user_path(@user), class: "btn btn-outline")
-                  link_to("Back to Account", account_path, class: "btn btn-ghost")
+                div(class: "flex items-center gap-4") do
+                  link_to("← Back to Account", account_path, class: "text-sm text-base-content/70 hover:text-primary")
+                  h1(class: "text-2xl font-bold text-base-content") { "Edit User" }
                 end
               end
 
-              # User form
-              card do
-                h2(class: "font-semibold text-base-content mb-6") { "User Information" }
+              # User Information Card
+              div(class: "bg-base-200 border border-base-300 rounded-box overflow-hidden shadow-sm") do
+                div(class: "p-6") do
+                  h2(class: "font-semibold text-base-content uppercase mb-6") { "User Information" }
 
-                form_errors(@user)
+                  form_errors(@user)
 
-                form_with(model: [ @user ], url: account_user_path(@user), local: true, class: "space-y-4") do |f|
-                  # Email field
-                  div do
-                    f.label :email, class: "label"
-                    f.email_field :email, class: "input input-bordered w-full", required: true
-                    helper_text("The user's email address. Used for login and notifications.")
-                  end
+                  # User attributes form
+                  form_with(model: [@user], url: account_user_path(@user), local: true, class: "space-y-6") do |f|
+                    # Email field
+                    div do
+                      f.label :email, "Email Address", class: "label"
+                      f.email_field :email, class: "input input-bordered w-full", required: true
+                      helper_text("The user's email address. Used for login and notifications.")
+                    end
 
-                  # Admin toggle
-                  div do
-                    label(class: "label cursor-pointer justify-start gap-3") do
-                      f.check_box :admin, class: "checkbox checkbox-primary"
-                      div do
-                        span(class: "label-text font-medium") { "Account Administrator" }
-                        div(class: "text-xs text-base-content/70") do
-                          "Grant this user administrative privileges for this account"
-                        end
-                      end
+                    # Action buttons for user attributes
+                    div(class: "flex gap-3 pt-6 border-t border-base-300") do
+                      f.submit "Update User", class: "btn btn-primary"
+                      link_to("Cancel", account_path, class: "btn btn-outline")
                     end
                   end
 
-                  # Verified status toggle
-                  div do
-                    label(class: "label cursor-pointer justify-start gap-3") do
-                      f.check_box :verified, class: "checkbox checkbox-success"
-                      div do
-                        span(class: "label-text font-medium") { "Email Verified" }
-                        div(class: "text-xs text-base-content/70") do
-                          "Mark this user's email as verified"
+                  # Separate form for role management
+                  membership = @user.membership_for(Current.user.account)
+                  unless membership&.owner?
+                    div(class: "mt-6 pt-6 border-t border-base-300") do
+                      label(class: "label") do
+                        span(class: "label-text font-medium") { "Account Role" }
+                      end
+
+                      form_with(url: account_user_path(@user), method: :patch, local: true, class: "space-y-3", data: { controller: "auto-submit" }) do |f|
+                        # Admin role
+                        div do
+                          label(class: "flex items-center gap-3 cursor-pointer") do
+                            input(
+                              type: "radio",
+                              name: "role",
+                              value: "admin",
+                              checked: membership&.admin? || false,
+                              class: "radio radio-primary",
+                              data: { action: "change->auto-submit#submit" }
+                            )
+                            div do
+                              span(class: "text-sm font-medium uppercase") { "Admin" }
+                              div(class: "text-xs text-base-content/70") { "Can manage users and account settings" }
+                            end
+                          end
+                        end
+
+                        # Member role
+                        div do
+                          label(class: "flex items-center gap-3 cursor-pointer") do
+                            input(
+                              type: "radio",
+                              name: "role",
+                              value: "member",
+                              checked: !(membership&.admin?) || false,
+                              class: "radio radio-primary",
+                              data: { action: "change->auto-submit#submit" }
+                            )
+                            div do
+                              span(class: "text-sm font-medium uppercase") { "Member" }
+                              div(class: "text-xs text-base-content/70") { "Standard user access" }
+                            end
+                          end
+                        end
+                      end
+                    end
+                  else
+                    # Show owner role as non-editable
+                    div(class: "mt-6 pt-6 border-t border-base-300") do
+                      label(class: "label") do
+                        span(class: "label-text font-medium") { "Account Role" }
+                      end
+                      div(class: "flex items-center gap-3") do
+                        input(type: "radio", disabled: true, checked: true, class: "radio radio-primary")
+                        div do
+                          span(class: "text-sm font-medium text-primary uppercase") { "Owner" }
+                          div(class: "text-xs text-base-content/70") { "Account owner with full privileges" }
                         end
                       end
                     end
@@ -65,18 +109,36 @@ module Views
 
                   # Current user warning
                   if @user == Current.user
-                    div(class: "alert alert-info") do
+                    div(class: "alert alert-info mt-6") do
                       div do
                         strong { "Note: " }
-                        plain("You are editing your own account. Be careful when changing admin privileges.")
+                        plain("You are editing your own account. Be careful when changing privileges.")
                       end
                     end
                   end
+                end
+              end
 
-                  # Submit button
-                  div(class: "flex gap-3 pt-4") do
-                    f.submit "Update User", class: "btn btn-primary"
-                    link_to("Cancel", account_user_path(@user), class: "btn btn-outline")
+              # Danger Zone (only show for non-current users)
+              unless @user == Current.user
+                div(class: "bg-base-200 border border-error/30 rounded-box overflow-hidden shadow-sm") do
+                  div(class: "p-6") do
+                    h3(class: "font-semibold text-error uppercase mb-4") { "Danger Zone" }
+
+                    div(class: "space-y-4") do
+                      div do
+                        h4(class: "font-medium text-base-content mb-2") { "Remove User from Account" }
+                        p(class: "text-sm text-base-content/70 mb-4") do
+                          plain("This will remove #{@user.email} from this account. They will lose access to all account resources.")
+                        end
+
+                        form_with(url: account_user_path(@user), method: :delete, local: true, class: "inline") do |f|
+                          f.submit "Remove User",
+                            class: "btn btn-error btn-outline",
+                            confirm: "Are you sure you want to remove #{@user.email} from this account? This action cannot be undone."
+                        end
+                      end
+                    end
                   end
                 end
               end

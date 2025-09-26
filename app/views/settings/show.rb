@@ -11,15 +11,17 @@ module Views
 
       def view_template
         page_with_title("Settings") do
-          div(class: "max-w-2xl mx-auto space-y-6") do
-            # Email settings
+          div(class: "flex items-start justify-between mb-4") do
+            h1(class: "font-bold text-base-content uppercase") { "User Settings" }
+          end
+
+          div(class: "max-w-xl space-y-6") do
             render Components::Card.new(title: "Email", header_color: :primary) do
               turbo_frame_tag "profile_settings", class: "block" do
                 render Views::Identity::Emails::EditFrame.new(user: Current.user)
               end
             end
 
-            # Password settings
             render Components::Card.new(title: "Password", header_color: :primary) do
               turbo_frame_tag "password_settings", class: "block" do
                 render Views::Passwords::EditFrame.new(user: Current.user)
