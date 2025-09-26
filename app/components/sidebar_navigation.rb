@@ -10,16 +10,13 @@ class Components::SidebarNavigation < Components::Base
   end
 
   def view_template
-    aside(class: "fixed left-0 top-0 h-screen w-64 bg-base-100 border-r border-base-300/50 font-mono text-sm flex flex-col") do
-      # Header/Branding
+    aside(class: "fixed left-0 top-0 h-screen w-64 bg-base-100 border-r border-base-300/50 flex flex-col") do
       header_section if show_branding?
 
-      # Navigation Links
       nav(class: "flex-1 overflow-y-auto") do
         navigation_section
       end
 
-      # Footer Controls
       footer_section
     end
   end
@@ -27,7 +24,7 @@ class Components::SidebarNavigation < Components::Base
   private
 
   def header_section
-    div(class: "px-4 py-4 border-b border-base-300/50") do
+    div(class: "py-4 border-b border-base-300/50") do
       div(class: "flex items-center gap-3") do
         div(class: "w-2 h-8 bg-primary/70")
         div do
@@ -39,7 +36,7 @@ class Components::SidebarNavigation < Components::Base
   end
 
   def navigation_section
-    div(class: "p-4") do
+    div do
       if Current.user.present?
         authenticated_navigation
       else
@@ -49,7 +46,7 @@ class Components::SidebarNavigation < Components::Base
   end
 
   def authenticated_navigation
-    div(class: "space-y-2") do
+    div do
       sidebar_nav_item(root_path, "DASHBOARD")
 
       if Rails.env.development?
@@ -60,7 +57,6 @@ class Components::SidebarNavigation < Components::Base
       # Navigation separator
       div(class: "h-px bg-base-300/50 my-4")
 
-      # User specific links
       sidebar_nav_item(settings_path, "SETTINGS")
 
       if Current.user&.account_admin_for? || Current.user&.admin?
@@ -85,33 +81,15 @@ class Components::SidebarNavigation < Components::Base
 
   def footer_section
     div(class: "p-4 border-t border-base-300/50 space-y-3") do
-      # Theme toggle
       div(class: "flex justify-center") do
         render Components::ThemeToggle.new(show_label: true, position: :sidebar)
       end
 
       if Current.user.present?
-        # User info and sign out
-        div(class: "space-y-2") do
-          div(class: "text-center") do
-            p(class: "text-xs text-base-content/70 font-mono tracking-wider uppercase") { current_user_display_name }
-          end
-
-          if show_account_dropdown?
-            # Show account info instead of dropdown in sidebar
-            div(class: "text-center") do
-              span(class: "text-xs text-base-content/50") { "ACCOUNT" }
-            end
-          end
-
-          # Sign out button
-          div(class: "flex justify-center") do
-            button_to session_path("current"),
-              method: :delete,
-              class: "btn btn-ghost btn-sm normal-case font-mono text-xs tracking-wider border-0 rounded-none text-error hover:bg-error/10 w-full text-center" do
-              "EXIT SYSTEM"
-            end
-          end
+        button_to session_path("current"),
+          method: :delete,
+          class: "btn btn-ghost btn-sm normal-case font-mono text-xs tracking-wider border-0 rounded-none text-error hover:bg-error/10 w-full text-center" do
+          "EXIT SYSTEM"
         end
       end
     end
@@ -119,11 +97,11 @@ class Components::SidebarNavigation < Components::Base
 
   def sidebar_nav_item(path, label)
     a(href: path, class: sidebar_nav_item_class(path)) do
-      span(class: "text-xs font-mono font-medium tracking-wider") { label }
+      span(class: "font-medium tracking-wider") { label }
     end
   end
 
   def sidebar_nav_item_class(path)
-    nav_item_class(path, base_classes: "btn btn-sm w-full justify-start normal-case font-mono text-xs tracking-wider border-0 rounded-none")
+    nav_item_class(path, base_classes: "btn w-full justify-start normal-case font-mono tracking-wider border-0 rounded-none")
   end
 end
