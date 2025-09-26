@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration[8.0]
       t.boolean :verified, default: false
       t.boolean :otp_required_for_sign_in, default: false
       t.string :otp_secret
+      t.boolean :app_admin, default: false, null: false
       t.references :account, null: false, foreign_key: true
 
       t.timestamps
