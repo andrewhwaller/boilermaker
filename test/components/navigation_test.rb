@@ -32,8 +32,8 @@ class NavigationTest < ComponentTestCase
     end
   end
 
-  test "shows admin link for admin users" do
-    with_current_user(email: "admin@example.com", admin?: true) do
+  test "shows admin link for app admin users" do
+    with_current_user(email: "admin@example.com", app_admin?: true) do
       navigation = Components::Navigation.new
       html = render_component(navigation)
 

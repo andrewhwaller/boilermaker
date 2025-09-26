@@ -49,7 +49,7 @@ class InputTest < ComponentTestCase
   end
 
   test "handles various input types" do
-    input_types = [:text, :email, :password, :number, :tel, :url, :search, :date]
+    input_types = [ :text, :email, :password, :number, :tel, :url, :search, :date ]
 
     input_types.each do |type|
       input = Components::Input.new(type: type, name: :field)

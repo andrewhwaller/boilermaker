@@ -17,14 +17,14 @@ class LoadingTest < ComponentTestCase
   # Test default configuration
   test "renders with default dots type and medium size" do
     loading = Components::Loading.new
-    assert_has_css_class(loading, ["loading-ascii", "ascii-dots", "text-base"])
+    assert_has_css_class(loading, [ "loading-ascii", "ascii-dots", "text-base" ])
   end
 
   # Test all types
   test "renders all loading types correctly" do
     Components::Loading::TYPES.each do |type, expected_class|
       loading = Components::Loading.new(type: type)
-      assert_has_css_class(loading, ["loading-ascii", expected_class])
+      assert_has_css_class(loading, [ "loading-ascii", expected_class ])
     end
   end
 
