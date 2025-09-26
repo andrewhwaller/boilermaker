@@ -176,6 +176,24 @@
     font-size: 16px;
   }
 
+  /* Override default heading sizes to maintain semantic HTML with consistent typography */
+  h1 {
+    @apply text-lg text-base-content m-0;
+  }
+
+  h2 {
+    @apply text-base text-base-content m-0;
+  }
+
+  h3, h4, h5, h6 {
+    @apply text-sm text-base-content m-0;
+  }
+
+  /* Form labels should be small and understated */
+  .label {
+    @apply text-xs uppercase text-base-content/70;
+  }
+
   :root {
     --theme-fx-duration: 320ms;
     --theme-fx-ease: cubic-bezier(0.6, 0, 1, 1);
