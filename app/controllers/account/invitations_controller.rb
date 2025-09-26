@@ -23,7 +23,7 @@ class Account::InvitationsController < Account::BaseController
     user = User.create_with(
       password: SecureRandom.base58,
       verified: false,
-      admin: false,
+      app_admin: false,
       account: Current.user.account
     ).find_or_initialize_by(
       email: email,
