@@ -36,8 +36,8 @@ class User < ApplicationRecord
     sessions.where.not(id: Current.session).delete_all
   end
 
-  def admin?
-    admin
+  def app_admin?
+    app_admin
   end
 
   # Returns the membership for the given account (or current single account)
@@ -48,7 +48,7 @@ class User < ApplicationRecord
 
   # Account-scoped admin via membership; app-level admins inherit access
   def account_admin_for?(account = nil)
-    return true if admin?
+    return true if app_admin?
     membership_for(account)&.admin? || false
   end
 end
