@@ -9,7 +9,7 @@ module Views
         def view_template
           page_with_title("Admin") do
             div(class: "flex items-center justify-between mb-4") do
-              h1(class: "text-xl font-bold text-base-content") { "Application Admin" }
+              h1(class: "font-bold text-base-content") { "Application Admin" }
             end
 
             div(class: "bg-base-200 rounded-box p-4") do

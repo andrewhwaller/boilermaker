@@ -16,7 +16,7 @@ module Views
 
           def view_template
             div(class: "space-y-6") do
-              h1(class: "text-xl font-bold") { "Set up two-factor authentication" }
+              h1(class: "font-bold") { "Set up two-factor authentication" }
 
               p { "Two-factor authentication adds an extra layer of security to your account. In addition to your password, you'll need to enter a code from your phone to sign in." }
 
@@ -24,7 +24,7 @@ module Views
                 form_with(url: two_factor_authentication_profile_totp_path, class: "space-y-6") do |form|
                   div(class: "space-y-6") do
                     div(class: "space-y-4") do
-                      h2(class: "text-lg font-medium") { "1. Scan this QR code with your authenticator app" }
+                      h2(class: "font-medium") { "1. Scan this QR code with your authenticator app" }
 
                       figure(class: "flex flex-col items-center space-y-2") do
                         img(src: @qr_code, alt: "QR Code", class: "h-48 w-48")
@@ -33,7 +33,7 @@ module Views
                     end
 
                     div(class: "space-y-4") do
-                      h2(class: "text-lg font-medium") { "2. Enter the code from your authenticator app" }
+                      h2(class: "font-medium") { "2. Enter the code from your authenticator app" }
 
                       div(class: "space-y-2") do
                         form.text_field(:code,

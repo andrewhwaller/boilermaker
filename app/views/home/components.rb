@@ -6,9 +6,9 @@ class Views::Home::Components < Views::Base
       # Header with Navigation
       div(class: "sticky top-0 bg-base-200 border-b border-base-300 p-4 z-10") do
         div(class: "flex items-center justify-between max-w-6xl mx-auto") do
-          h1(class: "text-2xl font-bold text-base-content") { "Phlex Component Showcase" }
+          h1(class: "font-bold text-base-content") { "Phlex Component Showcase" }
           div(class: "flex items-center gap-4") do
-            p(class: "text-sm text-base-content/70") { "Comprehensive component library documentation" }
+            p(class: "text-base text-base-content/70") { "Comprehensive component library documentation" }
             render Components::ThemeToggle.new
           end
         end
@@ -16,6 +16,7 @@ class Views::Home::Components < Views::Base
         # Component navigation
         div(class: "max-w-6xl mx-auto mt-4") do
           nav(class: "flex flex-wrap gap-2") do
+            nav_link("Typography", "#typography")
             nav_link("Overview", "#overview")
             nav_link("Links", "#links")
             nav_link("Buttons", "#buttons")
@@ -33,9 +34,51 @@ class Views::Home::Components < Views::Base
 
       # Main Content
       div(class: "max-w-6xl mx-auto p-8 space-y-16") do
+        # Typography Section
+        section(id: "typography") do
+          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Typography System" }
+
+          component_section("Heading Hierarchy", "Current heading styles with default CSS") do
+            div(class: "space-y-6") do
+              div(class: "bg-base-200 rounded-lg p-6") do
+                h1 { "H1 Heading - Main page titles" }
+                h2 { "H2 Heading - Section headers" }
+                h3 { "H3 Heading - Subsection headers" }
+                h4 { "H4 Heading - Component titles" }
+                h5 { "H5 Heading - Minor headers" }
+                h6 { "H6 Heading - Fine print headers" }
+              end
+            end
+          end
+
+          component_section("Text Size Scale", "Available Tailwind text size classes") do
+            div(class: "space-y-3") do
+              div(class: "bg-base-200 rounded-lg p-6 space-y-2") do
+                p(class: "text-xs") { "text-xs (0.75rem) - Fine print, captions" }
+                p(class: "text-sm") { "text-sm (0.875rem) - Small text, labels" }
+                p(class: "text-base") { "text-base (1rem) - Default body text" }
+                p(class: "text-lg") { "text-lg (1.125rem) - Large body text" }
+                p(class: "text-xl") { "text-xl (1.25rem) - Large headings" }
+                p(class: "text-2xl") { "text-2xl (1.5rem) - Extra large headings" }
+                p(class: "text-3xl") { "text-3xl (1.875rem) - Very large headings" }
+              end
+            end
+          end
+
+          component_section("Body Text Examples", "Different text content with various sizes") do
+            div(class: "space-y-4") do
+              div(class: "bg-base-200 rounded-lg p-6") do
+                p(class: "text-base") { "This is regular body text using text-base. It should be comfortable to read and not too large or small." }
+                p(class: "text-sm text-base-content/70 mt-2") { "This is smaller supporting text using text-sm with reduced opacity." }
+                p(class: "text-xs text-base-content/60 mt-2") { "This is very small text using text-xs, suitable for fine print or metadata." }
+              end
+            end
+          end
+        end
+
         # Links Section
         section(id: "links") do
-          h2(class: "text-2xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Link Components" }
+          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Link Components" }
 
           component_section("Link Variants", "All link variants with proper styling and hover effects") do
             div(class: "flex flex-wrap gap-4") do
@@ -85,7 +128,7 @@ class Views::Home::Components < Views::Base
 
         # Buttons Section
         section(id: "buttons") do
-          h2(class: "text-2xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Button Components" }
+          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Button Components" }
 
           component_section("Button Variants", "Primary button styles for different contexts") do
             div(class: "flex flex-wrap gap-4") do
@@ -144,7 +187,7 @@ class Views::Home::Components < Views::Base
 
         # Form Input Components Section
         section(id: "form-inputs") do
-          h2(class: "text-2xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Form Input Components" }
+          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Form Input Components" }
 
           component_section("Textarea Component", "Multi-line text input with validation states") do
             div(class: "space-y-4 max-w-md") do
@@ -269,7 +312,7 @@ class Views::Home::Components < Views::Base
 
         # Form Components Section
         section(id: "form-components") do
-          h2(class: "text-2xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Form Layout Components" }
+          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Form Layout Components" }
 
           component_section("FormField Component", "Wrapper for form inputs with labels and validation") do
             div(class: "space-y-6 max-w-md") do
@@ -317,7 +360,7 @@ class Views::Home::Components < Views::Base
 
         # Feedback Components Section
         section(id: "feedback") do
-          h2(class: "text-2xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Feedback Components" }
+          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Feedback Components" }
 
           component_section("Alert Component", "Alert messages with different severity levels") do
             div(class: "space-y-4 max-w-2xl") do
@@ -356,7 +399,7 @@ class Views::Home::Components < Views::Base
 
         # Utility Components Section
         section(id: "utility") do
-          h2(class: "text-2xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Utility Components" }
+          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Utility Components" }
 
           component_section("Badge Component", "Badges with different colors, sizes, and styles") do
             div(class: "space-y-6") do
@@ -471,7 +514,7 @@ class Views::Home::Components < Views::Base
 
         # Table Components Section
         section(id: "tables") do
-          h2(class: "text-2xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Table Components" }
+          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Table Components" }
 
           component_section("Basic Table", "Simple data table with headers and rows") do
             Table(
@@ -879,7 +922,7 @@ class Views::Home::Components < Views::Base
 
         # Layout Components Section
         section(id: "layout") do
-          h2(class: "text-2xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Layout Components" }
+          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Layout Components" }
 
           component_section("Cards & Containers", "Card components for content organization") do
             div(class: "grid md:grid-cols-2 gap-6") do
@@ -943,7 +986,7 @@ class Views::Home::Components < Views::Base
 
         # Testing Infrastructure Section
         section(id: "testing") do
-          h2(class: "text-2xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Testing Infrastructure" }
+          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Testing Infrastructure" }
 
           component_section("Component Testing Patterns", "How to test Phlex components effectively") do
             div(class: "space-y-6") do
@@ -993,7 +1036,7 @@ class Views::Home::Components < Views::Base
 
         # Style Guide Section
         section(id: "style-guide") do
-          h2(class: "text-2xl font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Developer Style Guide" }
+          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Developer Style Guide" }
 
           component_section("Component Architecture", "How to build new Phlex components") do
             div(class: "space-y-6") do
@@ -1092,7 +1135,7 @@ class Views::Home::Components < Views::Base
       div(class: "mt-16 border-t border-base-300 bg-base-200 p-8") do
         div(class: "max-w-6xl mx-auto") do
           div(class: "text-center mb-6") do
-            h3(class: "text-lg font-semibold mb-2") { "Phlex Component Library" }
+            h3(class: "font-semibold mb-2") { "Phlex Component Library" }
             p(class: "text-base-content/70") { "All components automatically adapt to light and dark themes using semantic color tokens." }
           end
 
@@ -1143,7 +1186,7 @@ class Views::Home::Components < Views::Base
   def component_section(title, description = nil, &block)
     div(class: "space-y-6") do
       div do
-        h3(class: "text-lg font-semibold text-base-content mb-2") { title }
+        h3(class: "font-semibold text-base-content mb-2") { title }
         if description
           p(class: "text-sm text-base-content/70 mb-4") { description }
         end

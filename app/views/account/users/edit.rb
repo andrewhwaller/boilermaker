@@ -16,7 +16,7 @@ module Views
             div(class: "space-y-6") do
               # Header
               div(class: "flex items-center justify-between mb-6") do
-                h1(class: "text-2xl font-bold text-base-content") { "Edit User" }
+                h1(class: "font-bold text-base-content") { "Edit User" }
                 div(class: "flex gap-2") do
                   link_to("View User", account_user_path(@user), class: "btn btn-outline")
                   link_to("Back to Account", account_path, class: "btn btn-ghost")
@@ -25,7 +25,7 @@ module Views
 
               # User form
               card do
-                h2(class: "text-lg font-semibold text-base-content mb-6") { "User Information" }
+                h2(class: "font-semibold text-base-content mb-6") { "User Information" }
 
                 form_errors(@user)
 

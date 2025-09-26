@@ -15,7 +15,7 @@ module Views
         page_with_title("Sign up") do
           centered_container do
             card do
-              h1(class: "text-xl font-semibold text-base-content mb-6") { "Sign up" }
+              h1(class: "font-semibold text-base-content mb-6") { "Sign up" }
 
               form_errors(@user) if @user.errors.any?
 

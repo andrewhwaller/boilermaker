@@ -38,7 +38,7 @@ class Views::Base < Components::Base
 
     super(**attrs.merge(class: section_class)) do
       if title.present?
-        h2(class: "text-xl font-semibold text-base-content mb-4") { title }
+        h2(class: "font-semibold text-base-content mb-4") { title }
       end
       yield_content_or(&block)
     end

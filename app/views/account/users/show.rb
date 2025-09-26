@@ -17,7 +17,7 @@ module Views
             div(class: "space-y-6") do
               # Header
               div(class: "flex items-center justify-between mb-6") do
-                h1(class: "text-2xl font-bold text-base-content") { "User Details" }
+                h1(class: "font-bold text-base-content") { "User Details" }
                 div(class: "flex gap-2") do
                   link_to("Edit User", edit_account_user_path(@user), class: "btn btn-primary")
                   link_to("Back to Account", account_path, class: "btn btn-outline")
@@ -34,7 +34,7 @@ module Views
                   end
 
                   div(class: "flex-1") do
-                    h2(class: "text-xl font-semibold text-base-content mb-2") { @user.email }
+                    h2(class: "font-semibold text-base-content mb-2") { @user.email }
 
                     div(class: "flex flex-wrap gap-2 mb-4") do
                       if @user.verified?
@@ -82,7 +82,7 @@ module Views
               # Sessions info card
               if @user.sessions.any?
                 card do
-                  h3(class: "text-lg font-semibold text-base-content mb-4") { "Active Sessions" }
+                  h3(class: "font-semibold text-base-content mb-4") { "Active Sessions" }
 
                   div(class: "space-y-2") do
                     @user.sessions.order(created_at: :desc).limit(5).each do |session|
@@ -118,7 +118,7 @@ module Views
 
               # Account info
               card do
-                h3(class: "text-lg font-semibold text-base-content mb-4") { "Account Information" }
+                h3(class: "font-semibold text-base-content mb-4") { "Account Information" }
 
                 div(class: "grid grid-cols-2 gap-4 text-sm") do
                   div do

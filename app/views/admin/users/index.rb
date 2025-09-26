@@ -18,7 +18,7 @@ module Views
               div(class: "flex items-center justify-between mb-6") do
                 div(class: "flex items-center gap-4") do
                   link_to("← Admin", admin_path, class: "text-sm text-base-content/70 hover:text-primary")
-                  h1(class: "text-2xl font-bold text-base-content") { "All Users (#{@users.count})" }
+                  h1(class: "font-bold text-base-content") { "All Users (#{@users.count})" }
                 end
               end
 
@@ -67,7 +67,7 @@ module Views
               else
                 card do
                   div(class: "text-center py-12") do
-                    h3(class: "text-lg font-semibold text-base-content mb-2") { "No users found" }
+                    h3(class: "font-semibold text-base-content mb-2") { "No users found" }
                     p(class: "text-base-content/70") { "There are no users in the system yet." }
                   end
                 end

@@ -16,7 +16,7 @@ module Views
             div(class: "space-y-6") do
               # Header
               div(class: "flex items-center justify-between mb-6") do
-                h1(class: "text-2xl font-bold text-base-content") { "Edit Account Settings" }
+                h1(class: "font-bold text-base-content") { "Edit Account Settings" }
                 div(class: "flex gap-2") do
                   link_to("View Settings", account_settings_path, class: "btn btn-outline")
                   link_to("Back to Dashboard", account_path, class: "btn btn-ghost")
@@ -25,7 +25,7 @@ module Views
 
               # Settings form
               card do
-                h2(class: "text-lg font-semibold text-base-content mb-6") { "Account Information" }
+                h2(class: "font-semibold text-base-content mb-6") { "Account Information" }
 
                 form_errors(@account)
 
@@ -77,7 +77,7 @@ module Views
 
               # Help section
               card do
-                h3(class: "text-lg font-semibold text-base-content mb-4") { "About Account Settings" }
+                h3(class: "font-semibold text-base-content mb-4") { "About Account Settings" }
                 div(class: "space-y-2 text-sm text-base-content/70") do
                   p { "• Account Name: Used to identify your account throughout the application" }
                   p { "• Only account administrators can modify these settings" }

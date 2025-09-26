@@ -18,7 +18,7 @@ module Views
           page_with_title("Account") do
             div(class: "flex items-start justify-between mb-4") do
               div do
-                h1(class: "text-xl font-bold text-base-content uppercase") { "Manage Account" }
+                h1(class: "font-bold text-base-content uppercase") { "Manage Account" }
               end
             end
 

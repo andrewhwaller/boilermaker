@@ -14,19 +14,19 @@ module Views
           div(class: "space-y-6") do
             # Welcome section
             card do
-              h1(class: "text-2xl font-bold text-base-content mb-4") { "Welcome to #{app_name}" }
+              h1(class: "font-bold text-base-content mb-4") { "Welcome to #{app_name}" }
               p(class: "text-base-content/70 mb-4") { plain("Version #{app_version}") }
             end
 
             # User info section
             card do
-              h2(class: "text-xl font-semibold text-base-content mb-4") { "User Information" }
+              h2(class: "font-semibold text-base-content mb-4") { "User Information" }
               p(class: "text-base-content/70") { "You are currently signed in as #{Current.user.email}" }
             end
 
             # Theme testing section
             card do
-              h2(class: "text-lg font-semibold text-base-content mb-4") { "Theme Controls" }
+              h2(class: "font-semibold text-base-content mb-4") { "Theme Controls" }
               p(class: "text-base-content/70 mb-4") { "Test the theme system with these controls:" }
 
               div(class: "flex flex-wrap gap-2 mb-4") do
@@ -58,7 +58,7 @@ module Views
 
             # Feature showcase section
             card do
-              h2(class: "text-lg font-semibold text-base-content mb-4") { "Available Features" }
+              h2(class: "font-semibold text-base-content mb-4") { "Available Features" }
               div(class: "grid grid-cols-2 md:grid-cols-3 gap-4") do
                 feature_card("Two-Factor Authentication", "two_factor_authentication")
                 feature_card("User Invitations", "user_invitations")
@@ -72,7 +72,7 @@ module Views
             # Development tools section
             if Rails.env.development?
               card do
-                h2(class: "text-lg font-semibold text-base-content mb-4") { "Development Tools" }
+                h2(class: "font-semibold text-base-content mb-4") { "Development Tools" }
                 div(class: "space-y-2") do
                   link_to("Component Showcase", components_showcase_path, class: "link link-primary")
                   plain(" - Test all UI components in light and dark themes")

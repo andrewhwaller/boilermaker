@@ -7,10 +7,10 @@ module Views
 
       def view_template
         div(class: "space-y-6") do
-          h1(class: "text-xl font-bold") { "Active sessions" }
+          h1(class: "font-bold") { "Active sessions" }
 
           div(class: "space-y-4") do
-            h2(class: "text-lg font-semibold") { "Two-Factor Authentication" }
+            h2(class: "font-semibold") { "Two-Factor Authentication" }
 
             div(class: "flex items-center justify-between p-4 bg-white shadow rounded-lg") do
               div do

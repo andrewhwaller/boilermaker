@@ -18,7 +18,7 @@ module Views
             div(class: "flex items-center justify-between mb-4") do
               div(class: "flex items-center gap-4") do
                 link_to("← Dashboard", account_path, class: "text-sm text-base-content/70 hover:text-primary")
-                h1(class: "text-xl font-bold text-base-content") { "Account Settings" }
+                h1(class: "font-bold text-base-content") { "Account Settings" }
               end
               link_to("Edit", edit_account_settings_path, class: "btn btn-primary")
             end

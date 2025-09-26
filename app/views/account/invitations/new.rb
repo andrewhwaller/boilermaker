@@ -16,7 +16,7 @@ module Views
             div(class: "space-y-6") do
               # Header
               div(class: "flex items-center justify-between mb-6") do
-                h1(class: "text-2xl font-bold text-base-content") { "Send Invitation" }
+                h1(class: "font-bold text-base-content") { "Send Invitation" }
                 div(class: "flex gap-2") do
                   link_to("View Invitations", account_invitations_path, class: "btn btn-outline")
                   link_to("Back to Dashboard", account_path, class: "btn btn-ghost")
@@ -25,7 +25,7 @@ module Views
 
               # Invitation form
               card do
-                h2(class: "text-lg font-semibold text-base-content mb-6") { "Invite New User" }
+                h2(class: "font-semibold text-base-content mb-6") { "Invite New User" }
 
                 form_with(url: account_invitations_path, local: true, class: "space-y-4") do |f|
                   # Email field
@@ -72,7 +72,7 @@ module Views
 
               # Info card
               card do
-                h3(class: "text-lg font-semibold text-base-content mb-4") { "How Invitations Work" }
+                h3(class: "font-semibold text-base-content mb-4") { "How Invitations Work" }
                 div(class: "space-y-3 text-sm text-base-content/70") do
                   div(class: "flex gap-3") do
                     span(class: "badge badge-primary badge-sm flex-shrink-0") { "1" }

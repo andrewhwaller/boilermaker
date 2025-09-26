@@ -16,8 +16,7 @@ module Views
 
       def view_template
         turbo_frame_tag "profile_settings" do
-          div(class: "p-6 border border-base-300 bg-base-100") do
-            header
+          div do
             notifications
             form_section
           end
@@ -89,9 +88,9 @@ module Views
           end
 
           div do
-            render Components::Label.new(for_id: "password_challenge", text: "Current password")
+            render Components::Label.new(for_id: "email_password_challenge", text: "Current password")
             div(class: "mt-1") do
-              render Components::Input.new(type: "password", name: "password_challenge", id: "password_challenge", required: true)
+              render Components::Input.new(type: "password", name: "password_challenge", id: "email_password_challenge", required: true)
             end
           end
 
