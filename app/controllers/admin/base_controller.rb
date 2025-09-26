@@ -4,7 +4,7 @@ class Admin::BaseController < ApplicationController
   private
 
   def require_app_admin
-    unless Current.user&.admin?
+    unless Current.user&.app_admin?
       redirect_to root_path, alert: "Access denied. Application admin required."
     end
   end
