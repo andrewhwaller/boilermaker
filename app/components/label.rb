@@ -15,6 +15,7 @@ class Components::Label < Components::Base
         else
           plain @text
         end
+
         span(class: "text-error ml-1") { "*" } if @required
       end
     end

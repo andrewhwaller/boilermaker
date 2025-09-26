@@ -95,11 +95,11 @@ class Components::Navigation < Components::Base
     render Components::DropdownMenu.new(trigger_text: current_user_display_name) do
       render Components::DropdownMenuItem.new(settings_path, "Settings")
 
-      if Current.user&.account_admin_for? || Current.user&.admin?
+      if Current.user&.account_admin_for? || Current.user&.app_admin?
         render Components::DropdownMenuItem.new(account_path, "Account", class: "text-primary")
       end
 
-      if Current.user&.admin?
+      if Current.user&.app_admin?
         render Components::DropdownMenuItem.new(admin_path, "Admin", class: "text-primary")
       end
 
