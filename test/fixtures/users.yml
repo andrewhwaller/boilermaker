@@ -6,7 +6,7 @@ app_admin:
   verified: true
   otp_secret: JBSWY3DPEHPK3PXP
   account: one
-  admin: true
+  app_admin: true
 
 regular_user:
   email: regular@example.com
@@ -14,4 +14,4 @@ regular_user:
   verified: true
   otp_secret: KBSWY3DPEHPK3PXQ
   account: one
-  admin: false
+  app_admin: false
