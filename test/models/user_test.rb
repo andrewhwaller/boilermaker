@@ -90,16 +90,16 @@ class UserTest < ActiveSupport::TestCase
 
   test "account_admin_for? true for app admin and membership admin" do
     # app admin overrides
-    app_admin = @account.users.create!(email: "user_test_app_admin@example.com", password: "MyVerySecurePassword2024!", admin: true)
+    app_admin = @account.users.create!(email: "user_test_app_admin@example.com", password: "MyVerySecurePassword2024!", app_admin: true)
     assert app_admin.account_admin_for?(@account)
 
     # membership admin
-    member = @account.users.create!(email: "member@example.com", password: "MyVerySecurePassword2024!", admin: false, verified: true)
+    member = @account.users.create!(email: "member@example.com", password: "MyVerySecurePassword2024!", app_admin: false, verified: true)
     AccountMembership.create!(user: member, account: @account, roles: { admin: true, member: true })
     assert member.account_admin_for?(@account)
 
     # non-admin member
-    non_admin = @account.users.create!(email: "plain@example.com", password: "MyVerySecurePassword2024!", admin: false, verified: true)
+    non_admin = @account.users.create!(email: "plain@example.com", password: "MyVerySecurePassword2024!", app_admin: false, verified: true)
     AccountMembership.create!(user: non_admin, account: @account, roles: { admin: false, member: true })
     assert_not non_admin.account_admin_for?(@account)
   end
