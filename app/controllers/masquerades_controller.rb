@@ -18,7 +18,7 @@ class MasqueradesController < ApplicationController
     end
 
   def authorize_admin
-    unless Current.user&.admin?
+    unless Current.user&.app_admin?
       redirect_to(root_path, alert: "Access denied")
     end
   end
