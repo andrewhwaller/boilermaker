@@ -419,8 +419,23 @@ class Views::Home::Components < Views::Base
             end
           end
 
-          component_section("Loading Component", "Loading spinners for different contexts") do
+          component_section("Loading Component", "ASCII loading indicators for different contexts") do
             div(class: "space-y-6") do
+              # Loading types
+              div do
+                h4(class: "font-medium mb-3") { "Loading Types" }
+                div(class: "flex items-center gap-6") do
+                  Loading(type: :dots)
+                  Loading(type: :spinner)
+                  Loading(type: :pulse)
+                end
+              end
+              code_example("Loading Types", <<~RUBY.strip)
+                Loading(type: :dots)
+                Loading(type: :spinner)
+                Loading(type: :pulse)
+              RUBY
+
               # Loading sizes
               div do
                 h4(class: "font-medium mb-3") { "Loading Sizes" }
@@ -438,21 +453,17 @@ class Views::Home::Components < Views::Base
 
               # Loading with text
               div do
-                h4(class: "font-medium mb-3") { "Loading with Messages" }
+                h4(class: "font-medium mb-3") { "Loading with Text" }
                 div(class: "space-y-3") do
-                  div(class: "flex items-center gap-3") do
-                    Loading(size: :sm)
-                    span(class: "text-sm text-base-content/70") { "Loading..." }
-                  end
-                  div(class: "flex items-center gap-3") do
-                    Loading(size: :sm)
-                    span(class: "text-sm text-base-content/70") { "Saving changes..." }
-                  end
+                  Loading(type: :dots, size: :sm, text: "Processing...")
+                  Loading(type: :spinner, size: :sm, text: "Building...")
+                  Loading(type: :pulse, size: :sm, text: "Syncing...")
                 end
               end
               code_example("Loading with Text", <<~RUBY.strip)
-                Loading(size: :sm, text: "Loading...")
-                Loading(size: :sm, text: "Saving changes...")
+                Loading(type: :dots, text: "Processing...")
+                Loading(type: :spinner, text: "Building...")
+                Loading(type: :pulse, text: "Syncing...")
               RUBY
             end
           end
@@ -872,14 +883,23 @@ class Views::Home::Components < Views::Base
 
           component_section("Cards & Containers", "Card components for content organization") do
             div(class: "grid md:grid-cols-2 gap-6") do
-              ExampleCard(title: "Example Card") do
-                p(class: "text-base-content/70") { "This card demonstrates the surface and border tokens working in both light and dark modes." }
+              ExampleCard(title: "System Features") do
+                p(class: "text-base-content/70") { "This card demonstrates the command-line aesthetic with colored headers." }
               end
 
-              div(class: "card bg-base-100 shadow p-6") do
-                h3(class: "text-lg font-semibold text-base-content mb-3") { "Custom Card" }
-                p(class: "text-base-content/70 mb-4") { "This uses a typical elevated surface with custom styling." }
-                Button(variant: :primary) { "Action" }
+              FormCard(title: "Application Config", header_color: :warning) do
+                p(class: "text-base-content/70 mb-4") { "This form card uses a warning-colored header for configuration sections." }
+                Button(variant: :primary) { "Configure" }
+              end
+
+              div(class: "bg-base-200 border border-base-300") do
+                div(class: "bg-info/20 border-b border-info/30 px-3 py-1") do
+                  h3(class: "text-xs font-bold text-info uppercase tracking-wide font-mono") { "Themes" }
+                end
+                div(class: "p-6") do
+                  p(class: "text-base-content/70 mb-4") { "Custom card with info-colored terminal-style header." }
+                  Button(variant: :primary) { "Select Theme" }
+                end
               end
             end
           end
