@@ -54,10 +54,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_08_000001) do
     t.boolean "verified", default: false
     t.boolean "otp_required_for_sign_in", default: false
     t.string "otp_secret"
+    t.boolean "app_admin", default: false, null: false
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "admin", default: false, null: false
     t.index ["account_id"], name: "index_users_on_account_id"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
