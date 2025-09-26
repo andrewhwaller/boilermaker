@@ -46,7 +46,7 @@ class Views::Base < Components::Base
 
   # Helper method to render a card container
   def card(**attrs, &block)
-    card_class = "bg-base-200 border border-base-300 rounded-box p-6 shadow-sm"
+    card_class = "bg-base-200 border border-base-300 rounded-box p-6"
     card_class = [ card_class, attrs.delete(:class) ].compact.join(" ")
 
     div(**attrs.merge(class: card_class)) do
