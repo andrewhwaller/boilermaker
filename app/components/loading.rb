@@ -2,19 +2,16 @@
 
 class Components::Loading < Components::Base
   TYPES = {
-    spinner: "loading-spinner",
-    dots: "loading-dots",
-    ring: "loading-ring",
-    ball: "loading-ball",
-    bars: "loading-bars",
-    infinity: "loading-infinity"
+    dots: "ascii-dots",
+    spinner: "ascii-spinner",
+    pulse: "ascii-pulse"
   }.freeze
 
   SIZES = {
-    xs: "loading-xs",
-    sm: "loading-sm",
-    md: "loading-md",
-    lg: "loading-lg"
+    xs: "text-xs",
+    sm: "text-sm",
+    md: "text-base",
+    lg: "text-lg"
   }.freeze
 
   COLORS = {
@@ -29,7 +26,7 @@ class Components::Loading < Components::Base
   }.freeze
 
   def initialize(
-    type: :spinner,
+    type: :dots,
     size: :md,
     color: nil,
     text: nil,
@@ -44,7 +41,7 @@ class Components::Loading < Components::Base
 
   def view_template(&block)
     div(class: css_classes("flex items-center", (@text.present? ? nil : "justify-center")), **filtered_attributes) do
-      span(class: css_classes("loading", TYPES[@type], SIZES[@size], (@color ? COLORS[@color] : nil)), "aria-hidden": "true")
+      span(class: css_classes("loading-ascii", TYPES[@type], SIZES[@size], (@color ? COLORS[@color] : nil)), "aria-hidden": "true")
 
       if @text.present?
         span(class: "ml-2 text-sm") { @text }

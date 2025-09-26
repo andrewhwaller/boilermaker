@@ -7,10 +7,12 @@ class Components::ExampleCard < Components::Base
   end
 
   def view_template(&block)
-    div(class: "card bg-base-100 border border-base-300 shadow-sm") do
-      div(class: "card-body") do
-        h3(class: "card-title") { @title }
+    div(class: "bg-base-200 border border-base-300") do
+      div(class: "bg-primary/20 border-b border-primary/30 px-3 py-1") do
+        h3(class: "text-xs font-bold text-primary uppercase tracking-wide font-mono") { @title }
+      end
 
+      div(class: "p-6") do
         div(class: "space-y-4") do
           Button(variant: :primary) { "Primary Action" }
           Button(variant: :secondary) { "Secondary Action" }
