@@ -56,6 +56,7 @@ Rails.application.routes.draw do
 
   # Account management (per-account admin)
   get "account", to: "account/dashboards#show", as: :account
+  patch "account", to: "account/dashboards#update"
   scope :account, module: :account, as: :account do
     resources :users, only: [ :index, :show, :edit, :update, :destroy ]
     resources :invitations, only: [ :index, :new, :create, :destroy ]
