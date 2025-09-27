@@ -13,14 +13,44 @@ class Components::Card < Components::Base
 
     div(**@attrs.merge(class: card_class)) do
       if @title.present?
-        div(class: "bg-#{@header_color}/20 border-b border-#{@header_color}/30 px-3 py-1") do
-          h3(class: "text-xs font-bold text-#{@header_color} uppercase tracking-wide font-mono") { @title }
+        div(class: header_background_class) do
+          h3(class: header_title_class) { @title }
         end
       end
 
-      div(class: "p-6") do
+      content_class = @attrs.delete(:content_class) || "p-4"
+
+      div(class: content_class) do
         yield if block_given?
       end
+    end
+  end
+
+  private
+
+  def header_background_class
+    case @header_color
+    when :primary
+      "bg-primary/20 border-b border-primary/30 px-3 py-1"
+    when :secondary
+      "bg-secondary/20 border-b border-secondary/30 px-3 py-1"
+    when :accent
+      "bg-accent/20 border-b border-accent/30 px-3 py-1"
+    else
+      "bg-primary/20 border-b border-primary/30 px-3 py-1"
+    end
+  end
+
+  def header_title_class
+    case @header_color
+    when :primary
+      "text-primary font-bold uppercase tracking-wider"
+    when :secondary
+      "text-secondary font-bold uppercase tracking-wider"
+    when :accent
+      "text-accent font-bold uppercase tracking-wider"
+    else
+      "text-primary font-bold uppercase tracking-wider"
     end
   end
 end
