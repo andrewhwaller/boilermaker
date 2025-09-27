@@ -12,13 +12,13 @@ class Account::InvitationsControllerTest < ActionDispatch::IntegrationTest
     email = "new.invitee@example.com"
 
     assert_difference -> { User.count }, +1 do
-      post account_invitations_path, params: { email: email, admin: "1" }
+      post account_invitations_path, params: { email: email }
     end
 
-    assert_redirected_to account_invitations_path
+    assert_redirected_to account_path
     user = User.find_by!(email: email)
     m = AccountMembership.find_by!(user: user, account: @account)
-    assert_equal true, m.roles["admin"]
+    assert_equal false, m.roles["admin"]
     assert_equal true, m.roles["member"]
   end
 
@@ -52,6 +52,6 @@ class Account::InvitationsControllerTest < ActionDispatch::IntegrationTest
     assert_difference -> { User.where(id: invited.id).count }, -1 do
       delete account_invitation_path(invited)
     end
-    assert_redirected_to account_invitations_path
+    assert_redirected_to account_path
   end
 end
