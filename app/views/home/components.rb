@@ -2,7 +2,7 @@
 
 class Views::Home::Components < Views::Base
   def view_template
-    div(class: "min-h-screen bg-base-100") do
+    div(class: "min-h-screen") do
       # Header with Navigation
       div(class: "sticky top-0 bg-base-200 border-b border-base-300 p-4 z-10") do
         div(class: "flex items-center justify-between max-w-6xl mx-auto") do
