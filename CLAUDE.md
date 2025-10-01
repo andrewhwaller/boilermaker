@@ -1,6 +1,56 @@
 # CLAUDE.md
 
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 > Think carefully and implement the most concise solution that changes as little code as possible.
+
+## 🚨 CRITICAL DATABASE RULES - NEVER VIOLATE THESE 🚨
+
+### NEVER WIPE OR RESET THE DEVELOPMENT DATABASE
+
+- **NEVER run `rails db:drop` in development**
+- **NEVER run `rails db:reset` in development**
+- **NEVER run `rails db:setup` on an existing database**
+- **NEVER run destructive ActiveRecord commands like `User.destroy_all` in development console**
+- **NEVER truncate tables in development**
+- The development database contains important data that must be preserved
+- Only run migrations that are additive or safely reversible
+- If you need to test something destructive, use the test database only
+
+### NEVER KILL THE DEVELOPMENT SERVER
+
+- **NEVER kill the Rails server process (pid in tmp/pids/server.pid)**
+- **NEVER kill background bash processes running `bin/dev` or `bin/rails server`**
+- If you need to test something, use the existing running server
+
+## Essential Information
+
+This is a Rails 8 + Phlex application. **Always check the `/docs/` folder for detailed documentation before making changes.**
+
+## Quick Start
+
+```bash
+bin/rails server # Start development server
+rails db:migrate # Run pending migrations
+rails test       # Run test suite
+```
+
+## Documentation Structure
+
+📁 **`/docs/` - All detailed documentation lives here**
+
+Start with **/docs/overview.md** which indexes all documentation:
+- **[Architecture](docs/architecture.md)** - Application structure, patterns, and technology stack
+- **[File System Structure](docs/file_system_structure.md)** - Directory organization and conventions
+
+## Critical Information
+
+### When Creating New Features
+
+1. Check `/docs/architecture.md` for patterns and structure
+2. Follow existing code conventions in similar files
+3. Run tests after changes: `rails test`
+4. Write tests for every new function/feature
 
 ## USE SUB-AGENTS FOR CONTEXT OPTIMIZATION
 
