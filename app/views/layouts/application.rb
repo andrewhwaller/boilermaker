@@ -79,7 +79,7 @@ module Views
       end
 
       def body_classes
-        base = "min-h-screen bg-base-100 text-base-content"
+        base = "min-h-screen bg-base-100 text-base-content theme-transition"
         authenticated_with_sidebar? ? "#{base} pl-64" : base
       end
 
