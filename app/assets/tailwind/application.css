@@ -59,70 +59,15 @@
 }
 
 @plugin "./daisyui/theme.js" {
-  name: "graphite";
-  default: false;
-  prefersdark: true;
-  color-scheme: dark;
-
-  --color-base-100: oklch(14% 0.010 250);
-  --color-base-200: oklch(18% 0.010 250);
-  --color-base-300: oklch(24% 0.010 250);
-  --color-base-content: oklch(90% 0.010 250);
-
-  --color-primary: oklch(82% 0.120 255);
-  --color-primary-content: oklch(15% 0.010 255);
-  --color-secondary: oklch(70% 0.030 250);
-  --color-secondary-content: oklch(16% 0.010 250);
-  --color-accent: oklch(78% 0.080 200);
-  --color-accent-content: oklch(16% 0.010 200);
-  --color-neutral: oklch(22% 0.015 250);
-  --color-neutral-content: oklch(92% 0.008 250);
-
-  --color-info: oklch(80% 0.120 240);
-  --color-info-content: oklch(16% 0.010 240);
-  --color-success: oklch(72% 0.120 150);
-  --color-success-content: oklch(14% 0.010 150);
-  --color-warning: oklch(78% 0.140 80);
-  --color-warning-content: oklch(18% 0.010 80);
-  --color-error: oklch(70% 0.180 25);
-  --color-error-content: oklch(14% 0.010 25);
-
-  /* square corners everywhere */
-  --radius-selector: 0rem;
-  --radius-field: 0rem;
-  --radius-box: 0rem;
-
-  /* base sizes */
-  --size-selector: 0.25rem;
-  --size-field: 0.175rem !important;
-
-  /* border size */
-  --border: 1px;
-
-  /* effects */
-  --depth: 0;
-  --noise: 0;
-
-  --radius-sm: 0;
-  --radius: 0;      /* used by `rounded` */
-  --radius-md: 0;   /* `rounded-md` */
-  --radius-lg: 0;   /* `rounded-lg` */
-  --radius-xl: 0;
-  --radius-2xl: 0;
-  --radius-3xl: 0;
-  --radius-full: 0; /* sets `rounded-full` to square too */
-}
-
-@plugin "./daisyui/theme.js" {
   name: "command-center";
   default: false;
   prefersdark: true;
   color-scheme: dark;
 
-  /* True black command center backgrounds */
+  /* Rich black command center backgrounds */
   --color-base-100: #000000;
   --color-base-200: #0a0a0a;
-  --color-base-300: #1a1a1a;
+  --color-base-300: #2a2a2a;
   --color-base-content: #b8b8b8;
 
   /* ATC-inspired command center - minimal golden accent palette */
@@ -170,10 +115,126 @@
   --radius-full: 0; /* sets `rounded-full` to square too */
 }
 
+@plugin "./daisyui/theme.js" {
+  name: "drafting-table";
+  prefersdark: false;
+  color-scheme: light;
+
+  /* Clean monochrome backgrounds - high contrast white to light gray */
+  --color-base-100: oklch(99% 0 0);
+  --color-base-200: oklch(96% 0 0);
+  --color-base-300: oklch(92% 0 0);
+  --color-base-content: oklch(20% 0 0);
+
+  /* Professional monochrome palette - pure black primary */
+  --color-primary: #000000;
+  --color-primary-content: oklch(98% 0 0);
+  --color-secondary: #6b7280;
+  --color-secondary-content: oklch(98% 0 0);
+  --color-accent: #374151;
+  --color-accent-content: #ffffff;
+  --color-neutral: oklch(30% 0 0);
+  --color-neutral-content: oklch(96% 0 0);
+
+  /* Technical status colors - muted for drafting aesthetic */
+  --color-info: oklch(62% 0.09 230);
+  --color-info-content: #f8f9fa;
+  --color-success: oklch(60% 0.11 155);
+  --color-success-content: #f8f9fa;
+  --color-warning: oklch(68% 0.12 85);
+  --color-warning-content: #1a1a1a;
+  --color-error: oklch(58% 0.13 20);
+  --color-error-content: oklch(98% 0 0);
+
+  /* Very subtle corners for drafting-table - clean technical aesthetic */
+  --radius-selector: 0.15625rem;
+  --radius-field: 0.15625rem;
+  --radius-box: 0.15625rem;
+
+  /* Base sizes - match work-station structure */
+  --size-selector: 0.25rem;
+  --size-field: 0.175rem !important;
+
+  /* Border size - crisp lines like technical drawings */
+  --border: 1px;
+
+  /* Effects - minimal like technical drawings */
+  --depth: 0;
+  --noise: 0;
+
+  /* Radius utilities - consistent subtle rounding */
+  --radius-sm: 0.15625rem;
+  --radius: 0.15625rem;      /* used by `rounded` */
+  --radius-md: 0.15625rem;   /* `rounded-md` */
+  --radius-lg: 0.15625rem;   /* `rounded-lg` */
+  --radius-xl: 0.15625rem;
+  --radius-2xl: 0.15625rem;
+  --radius-3xl: 0.15625rem;
+  --radius-full: 0.15625rem; /* subtle rounding even for "full" */
+}
+
+@plugin "./daisyui/theme.js" {
+  name: "terminal";
+  prefersdark: true;
+  color-scheme: dark;
+
+  /* Deep terminal backgrounds - very dark with minimal green tint */
+  --color-base-100: #030503;
+  --color-base-200: #050805;
+  --color-base-300: #080b08;
+  --color-base-content: #40ff70;
+
+  /* Classic terminal green palette - brighter for contrast on dark */
+  --color-primary: #40ff70;
+  --color-primary-content: #000000;
+  --color-secondary: #1a4d2e;
+  --color-secondary-content: #40ff70;
+  --color-accent: #30dd5a;
+  --color-accent-content: #000000;
+  --color-neutral: oklch(18% 0.02 145);
+  --color-neutral-content: #40ff70;
+
+  /* Terminal status colors - bright for legibility on near-black */
+  --color-info: oklch(62% 0.16 200);
+  --color-info-content: #000000;
+  --color-success: #40ff70;
+  --color-success-content: #000000;
+  --color-warning: oklch(75% 0.18 90);
+  --color-warning-content: #000000;
+  --color-error: oklch(65% 0.20 25);
+  --color-error-content: #000000;
+
+  /* Square corners everywhere - terminal aesthetic */
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0rem;
+
+  /* Base sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.175rem !important;
+
+  /* Border size - crisp terminal lines */
+  --border: 1px;
+
+  /* Effects - flat terminal look */
+  --depth: 0;
+  --noise: 0;
+
+  /* Radius utilities - all square for terminal aesthetic */
+  --radius-sm: 0;
+  --radius: 0;      /* used by `rounded` */
+  --radius-md: 0;   /* `rounded-md` */
+  --radius-lg: 0;   /* `rounded-lg` */
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-full: 0; /* sets `rounded-full` to square too */
+}
+
 
 @layer base {
   html {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   /* Override default heading sizes to maintain semantic HTML with consistent typography */
@@ -195,16 +256,25 @@
   }
 
   :root {
-    --theme-fx-duration: 320ms;
+    --theme-fx-duration: 200ms;
     --theme-fx-ease: cubic-bezier(0.6, 0, 1, 1);
   }
 
   .theme-transition,
   .theme-transition * {
     transition-property: color, background-color, border-color, outline-color,
-      fill, stroke, box-shadow, text-decoration-color, caret-color;
+      fill, stroke, text-decoration-color, caret-color;
     transition-duration: var(--theme-fx-duration);
     transition-timing-function: var(--theme-fx-ease);
+    transition-delay: 0ms;
+  }
+
+  .theme-transition *:hover,
+  .theme-transition *:focus,
+  .theme-transition *:focus-visible,
+  .theme-transition *:active {
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   @media (prefers-reduced-motion: reduce) {
