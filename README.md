@@ -1,80 +1,166 @@
-# README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
 # Boilermaker
 
-An Rails application template with a modern stack.
+A modern Rails 8 application template with a component-based architecture.
+
+## Tech Stack
+
+- **Ruby 3.4.4** / **Rails 8.0.3**
+- **Phlex** - Ruby-based view components
+- **Stimulus** - JavaScript framework for progressive enhancement
+- **Turbo** - SPA-like page acceleration
+- **Tailwind CSS** - Utility-first CSS framework
+- **SQLite** - Database with Solid Queue, Solid Cache, and Solid Cable
+- **Minitest** - Testing framework with Capybara for system tests
 
 ## Features
 
-- **Ruby on Rails 8** with all the latest goodies
-- **Phlex Views** for a pure Ruby approach to HTML generation
-- **Tailwind CSS** for utility-first styling
-- **SQLite** with Litestream for simple, reliable databases
-- **Solid Queue** for background job processing
-- **Authentication** with sessions and two-factor auth
-- **Phlex View Scaffolding** for rapid prototyping with consistent architecture
+### Authentication & Security
+- Session-based authentication
+- Two-factor authentication (TOTP) with QR code generation (configurable)
+- Password reset functionality (configurable)
+- User registration (configurable)
+- Obfuscated model IDs via Hashids
 
-## Phlex View Scaffolding
+### Modern Rails Stack
+- **Solid Queue** - Database-backed background jobs
+- **Solid Cache** - Database-backed caching
+- **Solid Cable** - Database-backed Action Cable
+- **Propshaft** - Modern asset pipeline
+- **Importmap** - JavaScript without bundling
 
-This boilerplate includes a custom Phlex scaffolding system that generates Phlex views instead of ERB for Rails scaffolds.
+### Developer Experience
+- **Phlex Scaffolding** - Generate complete CRUD interfaces with Phlex views
+- **Overmind** - Process manager for development
+- **Letter Opener** - Preview emails in development
+- **Hotwire Spark** - Live reloading during development
+- **Brakeman** - Security vulnerability scanning
+- **Rubocop** - Rails Omakase style enforcement
 
-### Quick Setup (Recommended)
-
-1. Uncomment these lines in `config/application.rb`:
-
-```ruby
-config.generators do |g|
-  g.template_engine :phlex_scaffold
-end
-```
-
-2. Use regular Rails scaffolding, and get Phlex views automatically:
-
-```bash
-bin/rails generate scaffold Post title:string content:text published:boolean
-```
-
-### Alternative: Manual Generator
-
-If you prefer to keep ERB as the default, you can use the custom generator directly:
-
-```bash
-bin/rails generate phlex:scaffold Post title:string content:text published:boolean
-```
-
-For complete documentation, see [docs/phlex_scaffolding.md](docs/phlex_scaffolding.md).
+### Boilermaker Engine
+Internal Rails engine providing:
+- User settings management
+- Custom theme system with light/dark modes
+- Configurable feature flags
+- Account/multi-tenancy support (configurable)
 
 ## Getting Started
 
+### Prerequisites
+- Ruby 3.4.4
+- Rails 8.0.3
+- SQLite3
+
+### Installation
+
 1. Clone this repository
-2. Run `bin/setup` to install dependencies
-3. Run `bin/dev` to start the development server
-4. Start building your application with Phlex scaffolding!
+2. Install dependencies:
+```bash
+bin/setup
+```
 
-## Documentation
+3. Start the development server:
+```bash
+bin/dev
+```
 
-- [Phlex Architecture](docs/phlex_architecture.md) - Understanding the view layer
-- [Phlex Scaffolding](docs/phlex_scaffolding.md) - Rapid prototyping with Phlex
+The application will be available at `http://localhost:3000`.
+
+## Phlex View Scaffolding
+
+This template includes a custom Phlex scaffolding system configured by default in `config/application.rb`.
+
+### Generate a Scaffold
+
+```bash
+rails generate scaffold Post title:string content:text published:boolean
+```
+
+This generates:
+- Model with validations
+- Controller with standard CRUD actions
+- Phlex view components for index, show, edit, new, and form
+- Routes
+- Migration
+
+### File Structure
+
+Generated scaffolds create:
+```
+app/
+├── components/
+│   └── posts/
+│       ├── form_component.rb    # Reusable form component
+│       └── post_component.rb    # Individual post display
+├── controllers/
+│   └── posts_controller.rb
+├── models/
+│   └── post.rb
+└── views/
+    └── posts/
+        ├── index.rb             # List view
+        ├── show.rb              # Detail view
+        ├── new.rb               # New form
+        └── edit.rb              # Edit form
+```
+
+## Development
+
+### Running Tests
+
+```bash
+rails test                        # Run all tests
+rails test test/models/user_test.rb  # Run specific test
+rails test:system                 # Run system tests
+```
+
+### Code Quality
+
+```bash
+rubocop           # Run Rubocop
+brakeman          # Run security scan
+```
+
+### Database
+
+```bash
+rails db:migrate  # Run migrations
+rails db:create   # Create database
+```
+
+## Configuration
+
+### Feature Flags
+
+Configure features in `config/boilermaker.yml`:
+
+```yaml
+default:
+  features:
+    user_registration: true
+    password_reset: true
+    two_factor_authentication: false
+    multi_tenant: false
+    personal_accounts: false
+```
+
+Check feature status in code:
+```ruby
+Boilermaker.feature_enabled?(:two_factor_authentication)
+Boilermaker::Config.multi_tenant?
+```
+
+### Theme System
+
+The application includes custom themes optimized for productivity:
+
+- **work-station** - Clean, focused light theme for daytime work
+- **command-center** - Professional dark theme for extended coding sessions
+
+Configure themes in `config/boilermaker.yml`:
+
+```yaml
+ui:
+  theme:
+    light: work-station
+    dark: command-center
+```
