@@ -7,26 +7,20 @@ export default class extends Controller {
     darkName: { type: String, default: "command-center" }
   }
 
+  toggleTargetConnected() {
+    this.syncToggleState()
+  }
+
   toggle() {
     const currentTheme = document.documentElement.getAttribute("data-theme")
     const isDark = currentTheme === this.darkNameValue
     const newTheme = isDark ? this.lightNameValue : this.darkNameValue
     const newMode = isDark ? "light" : "dark"
 
-    // Update DOM
     document.documentElement.setAttribute("data-theme", newTheme)
+    localStorage.setItem("theme-preference", newMode)
+    document.cookie = `theme_name=${encodeURIComponent(newTheme)}; path=/; max-age=31536000; samesite=lax`
 
-    // Update storage
-    try {
-      localStorage.setItem("theme-preference", newMode)
-    } catch {}
-
-    // Update cookie
-    try {
-      document.cookie = `theme_name=${encodeURIComponent(newTheme)}; path=/; max-age=31536000; samesite=lax`
-    } catch {}
-
-    // Update UI
     this.syncToggleState()
   }
 
