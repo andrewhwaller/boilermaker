@@ -153,14 +153,19 @@ Boilermaker::Config.multi_tenant?
 
 The application includes custom themes optimized for productivity:
 
-- **work-station** - Clean, focused light theme for daytime work
-- **command-center** - Professional dark theme for extended coding sessions
+**Light Themes:**
+- **work-station** - Warm, focused theme with beige/brown tones for comfortable daytime work
+- **drafting-table** - Clean monochrome theme with crisp black/white/gray aesthetic
+
+**Dark Themes:**
+- **command-center** - Professional dark theme with golden accents for extended coding sessions
+- **terminal** - Classic green-on-black terminal aesthetic
 
 Configure themes in `config/boilermaker.yml`:
 
 ```yaml
 ui:
   theme:
-    light: work-station
-    dark: command-center
+    light: work-station      # or drafting-table
+    dark: command-center     # or terminal
 ```
