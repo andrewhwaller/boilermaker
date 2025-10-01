@@ -5,16 +5,16 @@ require_relative "component_test_case"
 class ThemeToggleTest < ComponentTestCase
   test "travel_for_position returns correct distances" do
     toggle = Components::ThemeToggle.new(position: :navbar)
-    assert_equal 28, toggle.send(:travel_for_position)
+    assert_equal 22, toggle.send(:travel_for_position)
 
     toggle = Components::ThemeToggle.new(position: :sidebar)
-    assert_equal 60, toggle.send(:travel_for_position)
-
-    toggle = Components::ThemeToggle.new(position: :mobile)
     assert_equal 50, toggle.send(:travel_for_position)
 
+    toggle = Components::ThemeToggle.new(position: :mobile)
+    assert_equal 44, toggle.send(:travel_for_position)
+
     toggle = Components::ThemeToggle.new(position: :inline)
-    assert_equal 68, toggle.send(:travel_for_position)
+    assert_equal 60, toggle.send(:travel_for_position)
   end
 
   test "initial_is_dark? detects dark theme correctly" do
