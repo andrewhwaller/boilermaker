@@ -152,10 +152,10 @@ class Components::ThemeToggle < Components::Base
 
   def travel_for_position
     case @position
-    when :navbar then 28
-    when :sidebar then 60
-    when :mobile then 50
-    else 68 # inline default
+    when :navbar then 22
+    when :sidebar then 50
+    when :mobile then 44
+    else 60
     end
   end
 
