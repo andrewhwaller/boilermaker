@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
     # Accept configured names first
     return name if [ Boilermaker::Config.theme_light_name, Boilermaker::Config.theme_dark_name ].include?(name)
     # Accept custom themes
-    return name if %w[work-station graphite].include?(name)
+    return name if Boilermaker::Themes::ALL.include?(name)
     # Accept built-in DaisyUI themes
     if defined?(Boilermaker::Themes) && Boilermaker::Themes::BUILTINS.include?(name)
       return name
