@@ -74,8 +74,8 @@
             <%= ui_form.fields_for :theme do |theme_form| %>
               <% builtins_light = Boilermaker::Themes::LIGHT %>
               <% builtins_dark  = Boilermaker::Themes::DARK %>
-              <% custom_light = [["work-station (custom)", "work-station"]] %>
-              <% custom_dark  = [["graphite (custom)", "graphite"], ["command-center (custom)", "command-center"]] %>
+              <% custom_light = Boilermaker::Themes::CUSTOM_LIGHT.map { |n| ["#{n} (custom)", n] } %>
+              <% custom_dark  = Boilermaker::Themes::CUSTOM_DARK.map { |n| ["#{n} (custom)", n] } %>
               <% grouped_light = [
                 ["Custom", custom_light],
                 ["Light (built-in)", builtins_light.sort.map { |n| [n, n] }]
@@ -97,7 +97,7 @@
                 <div>
                   <%= theme_form.label :dark, "DARK", class: "text-xs text-warning font-mono font-bold" %>
                   <%= theme_form.select :dark,
-                        grouped_options_for_select(grouped_dark, @settings.dig('ui', 'theme', 'dark') || 'graphite'),
+                        grouped_options_for_select(grouped_dark, @settings.dig('ui', 'theme', 'dark')),
                         {},
                         class: "select select-bordered w-full" %>
                 </div>
