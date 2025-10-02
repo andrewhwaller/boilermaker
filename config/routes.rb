@@ -57,6 +57,13 @@ Rails.application.routes.draw do
   # Account switching
   resources :account_switches, only: [ :create ]
 
+  # Accounts (user's accounts)
+  resources :accounts do
+    # Account conversion
+    post "convert_to_team", to: "account_conversions#to_team", as: :conversion_to_team
+    post "convert_to_personal", to: "account_conversions#to_personal", as: :conversion_to_personal
+  end
+
   # Account management (per-account admin)
   get "account", to: "account/dashboards#show", as: :account
   patch "account", to: "account/dashboards#update"
