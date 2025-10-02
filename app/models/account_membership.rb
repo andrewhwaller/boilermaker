@@ -3,8 +3,8 @@ class AccountMembership < ApplicationRecord
   belongs_to :user
   belongs_to :account
 
-  # Known role keys for validation and helpers
-  ROLE_KEYS = %w[owner admin member].freeze
+  # Note: "owner" role removed - use account.owner_id instead
+  ROLE_KEYS = %w[admin member].freeze
 
   validate :validate_roles_shape
 
@@ -31,10 +31,6 @@ class AccountMembership < ApplicationRecord
 
   def member?
     role?(:member)
-  end
-
-  def owner?
-    role?(:owner)
   end
 
   def grant!(key)

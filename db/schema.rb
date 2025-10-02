@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_08_000001) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_02_032150) do
   create_table "account_memberships", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "account_id", null: false
@@ -26,6 +26,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_08_000001) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "personal", default: false, null: false
+    t.integer "owner_id", null: false
+    t.index ["owner_id"], name: "index_accounts_on_owner_id"
+    t.index ["personal"], name: "index_accounts_on_personal"
   end
 
   create_table "recovery_codes", force: :cascade do |t|
@@ -43,6 +47,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_08_000001) do
     t.string "ip_address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "account_id"
+    t.index ["account_id"], name: "index_sessions_on_account_id"
+    t.index ["user_id", "account_id"], name: "index_sessions_on_user_id_and_account_id"
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
@@ -55,16 +62,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_08_000001) do
     t.boolean "otp_required_for_sign_in", default: false
     t.string "otp_secret"
     t.boolean "app_admin", default: false, null: false
-    t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_users_on_account_id"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "account_memberships", "accounts"
   add_foreign_key "account_memberships", "users"
+  add_foreign_key "accounts", "users", column: "owner_id"
   add_foreign_key "recovery_codes", "users"
+  add_foreign_key "sessions", "accounts"
   add_foreign_key "sessions", "users"
-  add_foreign_key "users", "accounts"
 end
