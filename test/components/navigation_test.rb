@@ -23,7 +23,7 @@ class NavigationTest < ComponentTestCase
   end
 
   test "shows dashboard link when authenticated" do
-    with_current_user(email: "test@example.com") do
+    with_current_user(users(:regular_user)) do
       navigation = Components::Navigation.new
       doc = render_and_parse(navigation)
 
@@ -33,7 +33,7 @@ class NavigationTest < ComponentTestCase
   end
 
   test "shows admin link for app admin users" do
-    with_current_user(email: "admin@example.com", app_admin?: true) do
+    with_current_user(users(:app_admin)) do
       navigation = Components::Navigation.new
       html = render_component(navigation)
 
@@ -42,7 +42,7 @@ class NavigationTest < ComponentTestCase
   end
 
   test "shows account link for account admins" do
-    with_current_user(email: "admin@example.com", account_admin_for?: true) do
+    with_current_user(users(:regular_user), account: accounts(:three)) do
       navigation = Components::Navigation.new
       html = render_component(navigation)
 
