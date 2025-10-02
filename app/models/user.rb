@@ -15,6 +15,10 @@ class User < ApplicationRecord
     password_salt.last(10)
   end
 
+  generates_token_for :invitation, expires_in: 7.days do
+    email
+  end
+
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, allow_nil: true, length: { minimum: -> { Boilermaker.config.password_min_length } }
 

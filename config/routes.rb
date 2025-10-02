@@ -28,9 +28,10 @@ Rails.application.routes.draw do
 
   # Identity management
   namespace :identity do
-    resource :email,              only: [ :edit, :update ]
-    resource :email_verification, only: [ :show, :create ]
-    resource :password_reset,     only: [ :new, :edit, :create, :update ]
+    resource :email,                  only: [ :edit, :update ]
+    resource :email_verification,     only: [ :show, :create ]
+    resource :password_reset,         only: [ :new, :edit, :create, :update ]
+    resource :invitation_acceptance,  only: [ :show, :update ]
   end
 
   # Two-factor authentication routes
