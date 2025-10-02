@@ -112,7 +112,7 @@ class Components::ThemeToggle < Components::Base
   end
 
   def indicator_classes
-    base = "z-10 rounded-selector bg-base-100 shadow-sm ring-0 will-change-transform theme-toggle-indicator"
+    base = "z-10 rounded-selector bg-base-100 shadow-lg border border-base-content/20 will-change-transform theme-toggle-indicator"
     size = case @position
     when :navbar
       "h-3 w-6"
