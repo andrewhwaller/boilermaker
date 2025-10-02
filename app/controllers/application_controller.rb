@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :assign_theme_from_cookie
   before_action :set_current_request_details
   before_action :authenticate
+  before_action :set_current_account
   before_action :ensure_verified
 
   layout "application"
@@ -27,6 +28,11 @@ class ApplicationController < ActionController::Base
   def set_current_request_details
     Current.user_agent = request.user_agent
     Current.ip_address = request.ip
+  end
+
+  def set_current_account
+    return unless Current.session
+    Current.account = Current.session.account || Current.user.accounts.first!
   end
 
   # Server-driven theme selection for first paint
