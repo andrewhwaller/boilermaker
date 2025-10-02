@@ -8,25 +8,25 @@ class Account::SettingsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "show requires account admin" do
-    sign_in_as @member_user
+    sign_in_as @member_user, @account
     get account_settings_path
     assert_redirected_to root_path
   end
 
   test "show displays for account admin" do
-    sign_in_as @admin_user
+    sign_in_as @admin_user, @account
     get account_settings_path
     assert_response :success
   end
 
   test "edit displays for account admin" do
-    sign_in_as @admin_user
+    sign_in_as @admin_user, @account
     get edit_account_settings_path
     assert_response :success
   end
 
   test "update updates name for account admin" do
-    sign_in_as @admin_user
+    sign_in_as @admin_user, @account
     patch account_settings_path, params: { account: { name: "Renamed" } }
     assert_redirected_to account_settings_path
   end
