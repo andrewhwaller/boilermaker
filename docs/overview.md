@@ -16,6 +16,7 @@ This is a Rails 8 application using the modern Rails stack with Phlex components
 - `/docs/plans/` - Implementation plans and specifications
 - `/docs/requirements/` - Requirements documents
 - `/docs/stack/` - External library/framework documentation
+- `/docs/accounts_system.md` - Multi-tenant account system documentation
 - `/docs/phlex_*.md` - Phlex-specific guides and patterns
 - `/docs/tailwind_usage.md` - Tailwind CSS usage patterns
 - `/docs/UI_DESIGN_GUIDE.md` - UI design guidelines
