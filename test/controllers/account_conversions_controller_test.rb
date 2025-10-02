@@ -36,15 +36,32 @@ class AccountConversionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "to_team prevents conversion when user is not owner" do
+    # Create a personal account where regular_user is a member but not the owner
+    personal_with_member = Account.create!(
+      name: "Personal with Member",
+      owner: @owner,
+      personal: true
+    )
+    AccountMembership.create!(
+      user: @owner,
+      account: personal_with_member,
+      roles: { admin: true, member: true }
+    )
+    AccountMembership.create!(
+      user: @non_owner,
+      account: personal_with_member,
+      roles: { admin: false, member: true }
+    )
+
     sign_in_as @non_owner
 
-    post account_conversion_to_team_path(@personal_account)
+    post account_conversion_to_team_path(personal_with_member)
 
-    assert_redirected_to account_path(@personal_account)
+    assert_redirected_to account_path(personal_with_member)
     assert_equal "Only account owners can convert accounts.", flash[:alert]
 
-    @personal_account.reload
-    assert @personal_account.personal?, "Account should still be personal"
+    personal_with_member.reload
+    assert personal_with_member.personal?, "Account should still be personal"
   end
 
   test "to_team prevents conversion when account is already a team" do
@@ -66,13 +83,13 @@ class AccountConversionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Cannot convert this account to a team.", flash[:alert]
   end
 
-  test "to_team redirects non-owner with authorization message" do
+  test "to_team returns 404 when user is not a member of the account" do
     sign_in_as @non_owner
 
+    # personal_account (owned by app_admin) - regular_user is NOT a member
     post account_conversion_to_team_path(@personal_account)
 
-    assert_redirected_to account_path(@personal_account)
-    assert_equal "Only account owners can convert accounts.", flash[:alert]
+    assert_response :not_found
   end
 
   # ===== to_personal tests =====
@@ -113,6 +130,7 @@ class AccountConversionsControllerTest < ActionDispatch::IntegrationTest
   test "to_personal prevents conversion when user is not owner" do
     sign_in_as @non_owner
 
+    # team_account has regular_user as a member but app_admin as owner
     post account_conversion_to_personal_path(@team_account)
 
     assert_redirected_to account_path(@team_account)
@@ -216,6 +234,15 @@ class AccountConversionsControllerTest < ActionDispatch::IntegrationTest
 
     # Should redirect to sign in
     assert_redirected_to sign_in_path
+  end
+
+  test "to_personal returns 404 when user is not a member of the account" do
+    sign_in_as @non_owner
+
+    # personal_account (owned by app_admin) - regular_user is NOT a member
+    post account_conversion_to_personal_path(@personal_account)
+
+    assert_response :not_found
   end
 
   test "conversion maintains account ownership" do

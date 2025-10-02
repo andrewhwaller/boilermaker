@@ -23,7 +23,7 @@ class AccountConversionsController < ApplicationController
   private
 
   def set_account
-    @account = Account.find(params[:account_id])
+    @account = Current.user.accounts.find(params[:account_id])
   end
 
   def require_owner
