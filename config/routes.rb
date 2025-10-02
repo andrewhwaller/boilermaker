@@ -54,6 +54,9 @@ Rails.application.routes.draw do
   # Settings
   resource :settings, only: [ :show ]
 
+  # Account switching
+  resources :account_switches, only: [ :create ]
+
   # Account management (per-account admin)
   get "account", to: "account/dashboards#show", as: :account
   patch "account", to: "account/dashboards#update"
