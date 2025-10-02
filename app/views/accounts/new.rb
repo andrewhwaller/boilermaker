@@ -1,6 +1,6 @@
 module Views
   module Accounts
-    class New < ApplicationView
+    class New < Views::Base
       def initialize(account:)
         @account = account
       end

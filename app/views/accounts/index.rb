@@ -1,6 +1,6 @@
 module Views
   module Accounts
-    class Index < ApplicationView
+    class Index < Views::Base
       def initialize(personal_accounts:, team_accounts:)
         @personal_accounts = personal_accounts
         @team_accounts = team_accounts
