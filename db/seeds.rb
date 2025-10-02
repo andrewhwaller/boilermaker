@@ -12,19 +12,29 @@ AccountMembership.destroy_all
 User.destroy_all
 Account.destroy_all
 
-# Create default admin account
-admin_account = Account.create!(name: "Default")
-
+# Create admin user first (no account association on User model anymore)
 admin_user = User.create!(
   email: "admin@example.com",
   password: "password1234",
   first_name: "Admin",
   last_name: "User",
   verified: true,
-  app_admin: true,
-  account: admin_account
+  app_admin: true
 )
-AccountMembership.create!(user: admin_user, account: admin_account, roles: { admin: true, member: true })
+
+# Create default team account owned by admin
+admin_account = Account.create!(
+  name: "Default Team",
+  owner: admin_user,
+  personal: false
+)
+
+# Create membership linking admin to their account
+AccountMembership.create!(
+  user: admin_user,
+  account: admin_account,
+  roles: { admin: true, member: true }
+)
 
 # Create additional non-admin users for testing
 john = User.create!(
@@ -33,10 +43,13 @@ john = User.create!(
   first_name: "John",
   last_name: "Doe",
   verified: true,
-  app_admin: false,
-  account: admin_account
+  app_admin: false
 )
-AccountMembership.create!(user: john, account: admin_account, roles: { member: true, admin: false })
+AccountMembership.create!(
+  user: john,
+  account: admin_account,
+  roles: { member: true, admin: false }
+)
 
 jane = User.create!(
   email: "jane.smith@example.com",
@@ -44,10 +57,13 @@ jane = User.create!(
   first_name: "Jane",
   last_name: "Smith",
   verified: true,
-  app_admin: false,
-  account: admin_account
+  app_admin: false
 )
-AccountMembership.create!(user: jane, account: admin_account, roles: { member: true, admin: false })
+AccountMembership.create!(
+  user: jane,
+  account: admin_account,
+  roles: { member: true, admin: false }
+)
 
 bob = User.create!(
   email: "bob.wilson@example.com",
@@ -55,10 +71,13 @@ bob = User.create!(
   first_name: "Bob",
   last_name: "Wilson",
   verified: false,
-  app_admin: false,
-  account: admin_account
+  app_admin: false
 )
-AccountMembership.create!(user: bob, account: admin_account, roles: { member: true, admin: false })
+AccountMembership.create!(
+  user: bob,
+  account: admin_account,
+  roles: { member: true, admin: false }
+)
 
 alice = User.create!(
   email: "alice.johnson@example.com",
@@ -66,7 +85,18 @@ alice = User.create!(
   first_name: "Alice",
   last_name: "Johnson",
   verified: true,
-  app_admin: true,
-  account: admin_account
+  app_admin: true
 )
-AccountMembership.create!(user: alice, account: admin_account, roles: { admin: true, member: true })
+AccountMembership.create!(
+  user: alice,
+  account: admin_account,
+  roles: { admin: true, member: true }
+)
+
+puts "✅ Seeded database with:"
+puts "  - 1 team account (Default Team)"
+puts "  - 5 users (2 admins, 3 regular users)"
+puts "  - 5 account memberships"
+puts "\nAdmin credentials:"
+puts "  Email: admin@example.com"
+puts "  Password: password1234"
