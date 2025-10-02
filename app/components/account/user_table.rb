@@ -60,7 +60,7 @@ class Components::Account::UserTable < Components::Base
   end
 
   def user_role(user)
-    span(class: "text-primary font-medium uppercase text-xs") { "Admin" } if user.account_admin_for?(Current.user.account)
+    span(class: "text-primary font-medium uppercase text-xs") { "Admin" } if user.account_admin_for?(Current.account)
   end
 
   def formatted_date(value)
