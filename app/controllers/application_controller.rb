@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_verified
-    redirect_to identity_email_verification_path unless Current.user&.verified?
+    redirect_to edit_identity_email_path unless Current.user&.verified?
   end
 
   def set_current_request_details
