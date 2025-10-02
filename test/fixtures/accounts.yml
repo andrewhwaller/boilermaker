@@ -2,6 +2,15 @@
 
 one:
   name: Personal
+  owner: app_admin
+  personal: true
 
 two:
   name: Acme Inc
+  owner: app_admin
+  personal: false
+
+three:
+  name: Regular User Personal
+  owner: regular_user
+  personal: true
