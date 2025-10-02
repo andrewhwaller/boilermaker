@@ -54,8 +54,8 @@ class Components::Navigation < Components::Base
       render Components::ThemeToggle.new(show_label: true, position: :navbar)
 
       # Account switcher (if user has multiple accounts)
-      if Current.user.present? && Current.user.accounts.many?
-        render Accounts::Switcher.new(current_account: Current.account, user: Current.user)
+      if Current.user.present? && Current.user.accounts&.many?
+        render Components::Accounts::Switcher.new(current_account: Current.account, user: Current.user)
       end
 
       if Current.user.present?
@@ -100,8 +100,8 @@ class Components::Navigation < Components::Base
     render Components::DropdownMenu.new(trigger_text: current_user_display_name) do
       render Components::DropdownMenuItem.new(settings_path, "Settings")
 
-      if Current.user&.account_admin_for? || Current.user&.app_admin?
-        render Components::DropdownMenuItem.new(account_path, "Account", class: "text-primary")
+      if (Current.account && Current.user&.account_admin_for?(Current.account)) || Current.user&.app_admin?
+        render Components::DropdownMenuItem.new(account_dashboard_path, "Account", class: "text-primary")
       end
 
       if Current.user&.app_admin?

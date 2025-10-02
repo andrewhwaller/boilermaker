@@ -59,8 +59,8 @@ class Components::SidebarNavigation < Components::Base
 
       sidebar_nav_item(settings_path, "SETTINGS")
 
-      if Current.user&.account_admin_for? || Current.user&.app_admin?
-        sidebar_nav_item(account_path, "ACCOUNT")
+      if (Current.account && Current.user&.account_admin_for?(Current.account)) || Current.user&.app_admin?
+        sidebar_nav_item(account_dashboard_path, "ACCOUNT")
       end
 
       if Current.user&.app_admin?
