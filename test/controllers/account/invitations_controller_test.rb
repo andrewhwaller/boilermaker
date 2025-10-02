@@ -12,7 +12,7 @@ class Account::InvitationsControllerTest < ActionDispatch::IntegrationTest
     email = "new.invitee@example.com"
 
     assert_difference -> { User.count }, +1 do
-      post account_invitations_path, params: {email: email}
+      post account_invitations_path, params: { email: email }
     end
 
     assert_redirected_to account_dashboard_path
@@ -37,7 +37,7 @@ class Account::InvitationsControllerTest < ActionDispatch::IntegrationTest
   test "destroy cancels unverified invitation" do
     sign_in_as @admin_user, @account
     invited = User.create!(email: "pending@example.com", password: "MyVerySecurePassword2024!", verified: false)
-    AccountMembership.create!(user: invited, account: @account, roles: {"admin" => false, "member" => true})
+    AccountMembership.create!(user: invited, account: @account, roles: { "admin" => false, "member" => true })
     assert_difference -> { User.where(id: invited.id).count }, -1 do
       delete account_invitation_path(invited)
     end

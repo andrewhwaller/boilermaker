@@ -63,7 +63,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect to sign in when not authenticated for create" do
     assert_no_difference("Account.count") do
-      post accounts_url, params: {account: {name: "New Team"}}
+      post accounts_url, params: { account: { name: "New Team" } }
     end
     assert_redirected_to sign_in_url
   end
@@ -73,7 +73,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference("Account.count", 1) do
       assert_difference("AccountMembership.count", 1) do
-        post accounts_url, params: {account: {name: "New Team Account"}}
+        post accounts_url, params: { account: { name: "New Team Account" } }
       end
     end
 
@@ -98,7 +98,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference("Account.count") do
       assert_no_difference("AccountMembership.count") do
-        post accounts_url, params: {account: {name: ""}}
+        post accounts_url, params: { account: { name: "" } }
       end
     end
 
@@ -126,7 +126,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should redirect to sign in when not authenticated for update" do
-    patch account_url(@team_account), params: {account: {name: "Updated Name"}}
+    patch account_url(@team_account), params: { account: { name: "Updated Name" } }
     assert_redirected_to sign_in_url
   end
 
@@ -134,7 +134,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as @app_admin
     original_name = @team_account.name
 
-    patch account_url(@team_account), params: {account: {name: "Updated Acme Inc"}}
+    patch account_url(@team_account), params: { account: { name: "Updated Acme Inc" } }
     assert_redirected_to account_url(@team_account)
 
     @team_account.reload
@@ -146,7 +146,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as @regular_user
     original_name = @team_account.name
 
-    patch account_url(@team_account), params: {account: {name: "Hacked Name"}}
+    patch account_url(@team_account), params: { account: { name: "Hacked Name" } }
     assert_redirected_to account_url(@team_account)
     assert_equal "Only account owners can perform this action.", flash[:alert]
 
@@ -158,7 +158,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as @app_admin
     original_name = @team_account.name
 
-    patch account_url(@team_account), params: {account: {name: ""}}
+    patch account_url(@team_account), params: { account: { name: "" } }
     assert_response :unprocessable_entity
 
     @team_account.reload
@@ -168,7 +168,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
   test "update should not allow access to accounts user is not a member of" do
     sign_in_as @regular_user
 
-    patch account_url(@personal_account), params: {account: {name: "Hacked Personal"}}
+    patch account_url(@personal_account), params: { account: { name: "Hacked Personal" } }
     assert_response :not_found
     @personal_account.reload
     assert_not_equal "Hacked Personal", @personal_account.name

@@ -52,7 +52,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
       assert_equal 1, ActionMailer::Base.deliveries.size
       email = ActionMailer::Base.deliveries.last
-      assert_equal ["newuser@example.com"], email.to
+      assert_equal [ "newuser@example.com" ], email.to
     end
   end
 
@@ -182,7 +182,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
   test "does not create user when email is missing" do
     Boilermaker::Config.stub :personal_accounts?, true do
-      assert_no_difference(["User.count", "Account.count", "AccountMembership.count"]) do
+      assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
         post sign_up_url, params: {
           email: "",
           password: "SecurePassword123!",
@@ -197,7 +197,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
   test "does not create user when email is invalid" do
     Boilermaker::Config.stub :personal_accounts?, true do
-      assert_no_difference(["User.count", "Account.count", "AccountMembership.count"]) do
+      assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
         post sign_up_url, params: {
           email: "not-an-email",
           password: "SecurePassword123!",
@@ -214,7 +214,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     existing_user = users(:app_admin)
 
     Boilermaker::Config.stub :personal_accounts?, true do
-      assert_no_difference(["User.count", "Account.count", "AccountMembership.count"]) do
+      assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
         post sign_up_url, params: {
           email: existing_user.email,
           password: "SecurePassword123!",
@@ -230,7 +230,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "does not create user when password is too short" do
     Boilermaker::Config.stub :password_min_length, 12 do
       Boilermaker::Config.stub :personal_accounts?, true do
-        assert_no_difference(["User.count", "Account.count", "AccountMembership.count"]) do
+        assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
           post sign_up_url, params: {
             email: "shortpass@example.com",
             password: "Short1!",
@@ -246,7 +246,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
   test "does not create user when password confirmation does not match" do
     Boilermaker::Config.stub :personal_accounts?, true do
-      assert_no_difference(["User.count", "Account.count", "AccountMembership.count"]) do
+      assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
         post sign_up_url, params: {
           email: "mismatch@example.com",
           password: "SecurePassword123!",
@@ -261,7 +261,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
   test "does not create user when password is missing" do
     Boilermaker::Config.stub :personal_accounts?, true do
-      assert_no_difference(["User.count", "Account.count", "AccountMembership.count"]) do
+      assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
         post sign_up_url, params: {
           email: "nopassword@example.com",
           password: "",
@@ -326,7 +326,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
       assert_equal 1, ActionMailer::Base.deliveries.size
       email = ActionMailer::Base.deliveries.last
 
-      assert_equal ["emailverify@example.com"], email.to
+      assert_equal [ "emailverify@example.com" ], email.to
       assert_match /verify.*email/i, email.subject.to_s
     end
   end

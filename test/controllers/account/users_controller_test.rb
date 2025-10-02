@@ -48,13 +48,13 @@ class Account::UsersControllerTest < ActionDispatch::IntegrationTest
     target = @member_user
 
     # ensure baseline membership exists
-    AccountMembership.find_or_create_by!(user: target, account: @account, roles: {admin: false, member: true})
+    AccountMembership.find_or_create_by!(user: target, account: @account, roles: { admin: false, member: true })
 
-    patch account_user_path(target), params: {role: ["member", "admin"]}
+    patch account_user_path(target), params: { role: [ "member", "admin" ] }
     assert_redirected_to account_user_path(target)
     assert AccountMembership.for_account(@account).for_user(target).first.admin?
 
-    patch account_user_path(target), params: {role: "member"}
+    patch account_user_path(target), params: { role: "member" }
     assert_redirected_to account_user_path(target)
     refute AccountMembership.for_account(@account).for_user(target).first.admin?
   end
@@ -70,7 +70,7 @@ class Account::UsersControllerTest < ActionDispatch::IntegrationTest
     target = @member_user
 
     # ensure baseline membership exists
-    AccountMembership.find_or_create_by!(user: target, account: @account, roles: {admin: false, member: true})
+    AccountMembership.find_or_create_by!(user: target, account: @account, roles: { admin: false, member: true })
 
     assert_difference "AccountMembership.count", -1 do
       delete account_user_path(target)
@@ -85,7 +85,7 @@ class Account::UsersControllerTest < ActionDispatch::IntegrationTest
     sign_in_as @admin_user, @account
 
     # ensure baseline membership exists
-    AccountMembership.find_or_create_by!(user: @admin_user, account: @account, roles: {admin: true, member: true})
+    AccountMembership.find_or_create_by!(user: @admin_user, account: @account, roles: { admin: true, member: true })
 
     assert_no_difference "AccountMembership.count" do
       delete account_user_path(@admin_user)

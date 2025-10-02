@@ -20,7 +20,7 @@ end
 module ActionDispatch
   class IntegrationTest
     def sign_in_as(user, account = nil)
-      post sign_in_url, params: {email: user.email, password: "Secret1*3*5*"}
+      post sign_in_url, params: { email: user.email, password: "Secret1*3*5*" }
       if account
         session = user.sessions.last
         session.update!(account: account) if session

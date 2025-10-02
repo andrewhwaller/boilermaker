@@ -1,6 +1,6 @@
 class AccountsController < ApplicationController
-  before_action :set_account, only: [:show, :edit, :update, :destroy]
-  before_action :require_owner, only: [:edit, :update, :destroy]
+  before_action :set_account, only: [ :show, :edit, :update, :destroy ]
+  before_action :require_owner, only: [ :edit, :update, :destroy ]
 
   def index
     @personal_accounts = Current.user.accounts.personal.order(:name)

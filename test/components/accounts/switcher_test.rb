@@ -39,7 +39,7 @@ module Accounts
 
     # Verify no dropdown is present
     doc = parse_html(html)
-    dropdowns = doc.css('.dropdown')
+    dropdowns = doc.css(".dropdown")
     assert_equal 0, dropdowns.length,
       "Expected no dropdown element when user has only one account, found #{dropdowns.length}"
   end
@@ -93,7 +93,7 @@ module Accounts
       "Expected component to display 'Personal Accounts' section heading"
 
     # Verify section structure
-    menu_titles = doc.css('.menu-title')
+    menu_titles = doc.css(".menu-title")
     personal_title = menu_titles.find { |title| title.text.include?("Personal Accounts") }
 
     assert personal_title, "Expected to find menu-title element containing 'Personal Accounts'"
@@ -121,7 +121,7 @@ module Accounts
       "Expected component to display 'Team Accounts' section heading"
 
     # Verify section structure
-    menu_titles = doc.css('.menu-title')
+    menu_titles = doc.css(".menu-title")
     team_title = menu_titles.find { |title| title.text.include?("Team Accounts") }
 
     assert team_title, "Expected to find menu-title element containing 'Team Accounts'"
@@ -149,14 +149,14 @@ module Accounts
       "Expected component to display 'CURRENT' badge for current account"
 
     # Find the badge element
-    badges = doc.css('.badge')
+    badges = doc.css(".badge")
     current_badge = badges.find { |badge| badge.text.include?("CURRENT") }
 
     assert current_badge, "Expected to find badge element with 'CURRENT' text"
 
     # Verify badge is associated with current account name
     # The current account should be in a disabled li with active class
-    disabled_items = doc.css('li.disabled')
+    disabled_items = doc.css("li.disabled")
     assert disabled_items.any?, "Expected current account to be in disabled list item"
 
     current_item = disabled_items.find { |li| li.text.include?(@personal_account.name) }
@@ -166,7 +166,7 @@ module Accounts
 
 
     # Verify the active class
-    active_links = doc.css('a.active')
+    active_links = doc.css("a.active")
     assert active_links.any?, "Expected current account link to have 'active' class"
 
     current_link = active_links.find { |a| a.text.include?(@personal_account.name) }
@@ -212,7 +212,6 @@ module Accounts
 
     assert trigger_button.text.include?("Select Account"),
       "Expected trigger button to display 'Select Account' when current_account is nil, got: #{trigger_button.text}"
-
   end
 
   # Test 8: Includes "Create Team" link
@@ -231,16 +230,15 @@ module Accounts
       "Expected component to include 'Create Team' link text"
 
     # Find the link element
-    links = doc.css('a')
+    links = doc.css("a")
     create_team_link = links.find { |a| a.text.include?("Create Team") }
 
     assert create_team_link, "Expected to find link element with 'Create Team' text"
 
     # Verify link points to new_account_path
     expected_path = "/accounts/new"
-    assert_equal expected_path, create_team_link['href'],
+    assert_equal expected_path, create_team_link["href"],
       "Expected Create Team link to point to '#{expected_path}', got: #{create_team_link['href']}"
-
   end
 
   # Test 9: Includes "Manage Accounts" link
@@ -259,16 +257,15 @@ module Accounts
       "Expected component to include 'Manage Accounts' link text"
 
     # Find the link element
-    links = doc.css('a')
+    links = doc.css("a")
     manage_link = links.find { |a| a.text.include?("Manage Accounts") }
 
     assert manage_link, "Expected to find link element with 'Manage Accounts' text"
 
     # Verify link points to accounts_path
     expected_path = "/accounts"
-    assert_equal expected_path, manage_link['href'],
+    assert_equal expected_path, manage_link["href"],
       "Expected Manage Accounts link to point to '#{expected_path}', got: #{manage_link['href']}"
-
   end
 
   # Test 10: Non-current accounts render as forms for switching
@@ -288,7 +285,7 @@ module Accounts
 
     other_accounts.each do |account|
       # Find form for this account
-      forms = doc.css('form')
+      forms = doc.css("form")
       account_form = forms.find do |form|
         form.css('input[name="account_id"][value="' + account.id.to_s + '"]').any?
       end
@@ -297,11 +294,11 @@ module Accounts
 
       # Verify form posts to account_switches_path
       expected_action = "/account_switches"
-      assert_equal expected_action, account_form['action'],
+      assert_equal expected_action, account_form["action"],
         "Expected form to post to '#{expected_action}', got: #{account_form['action']}"
 
       # Verify form method is POST
-      method = account_form['method']
+      method = account_form["method"]
       assert_equal "post", method&.downcase,
         "Expected form method to be 'post', got: #{method}"
 
@@ -311,7 +308,7 @@ module Accounts
 
       account_id_field = account_form.css('input[name="account_id"]').first
       assert account_id_field, "Expected form to have account_id field"
-      assert_equal account.id.to_s, account_id_field['value'],
+      assert_equal account.id.to_s, account_id_field["value"],
         "Expected account_id to be '#{account.id}', got: #{account_id_field['value']}"
 
       # Verify submit button
@@ -334,18 +331,17 @@ module Accounts
 
 
     # Check main dropdown classes
-    dropdown = doc.css('.dropdown.dropdown-end').first
+    dropdown = doc.css(".dropdown.dropdown-end").first
     assert dropdown, "Expected to find element with 'dropdown' and 'dropdown-end' classes"
 
     # Check menu classes
-    menu = doc.css('.dropdown-content.menu').first
+    menu = doc.css(".dropdown-content.menu").first
     assert menu, "Expected to find element with 'dropdown-content' and 'menu' classes"
 
     # Check menu styling classes
-    assert menu['class'].include?('bg-base-200'), "Expected menu to have bg-base-200 class"
-    assert menu['class'].include?('rounded-box'), "Expected menu to have rounded-box class"
-    assert menu['class'].include?('shadow-lg'), "Expected menu to have shadow-lg class"
-
+    assert menu["class"].include?("bg-base-200"), "Expected menu to have bg-base-200 class"
+    assert menu["class"].include?("rounded-box"), "Expected menu to have rounded-box class"
+    assert menu["class"].include?("shadow-lg"), "Expected menu to have shadow-lg class"
   end
 
   # Test 12: Button has ghost variant
@@ -363,16 +359,15 @@ module Accounts
     assert button, "Expected to find trigger button"
 
     # Verify ghost variant
-    assert button['class'].include?('btn-ghost'),
+    assert button["class"].include?("btn-ghost"),
       "Expected trigger button to have btn-ghost class, got: #{button['class']}"
-
   end
 
   test "accounts are displayed in alphabetical order by name" do
     zebra_team = Account.create!(name: "Zebra Team", owner: @user_with_multiple_accounts, personal: false)
     alpha_team = Account.create!(name: "Alpha Team", owner: @user_with_multiple_accounts, personal: false)
-    AccountMembership.create!(user: @user_with_multiple_accounts, account: zebra_team, roles: {"admin" => true, "member" => true})
-    AccountMembership.create!(user: @user_with_multiple_accounts, account: alpha_team, roles: {"admin" => true, "member" => true})
+    AccountMembership.create!(user: @user_with_multiple_accounts, account: zebra_team, roles: { "admin" => true, "member" => true })
+    AccountMembership.create!(user: @user_with_multiple_accounts, account: alpha_team, roles: { "admin" => true, "member" => true })
 
     switcher = Components::Accounts::Switcher.new(
       current_account: @personal_account,
@@ -407,7 +402,6 @@ module Accounts
           "Expected account '#{previous_name}' to appear before '#{name}' in team section"
       end
     end
-
   end
 
   # Test 14: Component has dropdown toggle interaction
@@ -422,10 +416,9 @@ module Accounts
 
 
     # Find dropdown container with tabindex (DaisyUI dropdown pattern)
-    dropdown = doc.css('.dropdown[tabindex]').first
+    dropdown = doc.css(".dropdown[tabindex]").first
     assert dropdown, "Expected to find dropdown with tabindex"
-    assert_equal "0", dropdown['tabindex'], "Expected tabindex='0' for keyboard accessibility"
-
+    assert_equal "0", dropdown["tabindex"], "Expected tabindex='0' for keyboard accessibility"
   end
 
   # Test 15: Separators between sections
@@ -440,12 +433,11 @@ module Accounts
 
 
     # Check for hr elements
-    hrs = doc.css('hr')
+    hrs = doc.css("hr")
 
     # Should have separators after personal accounts section and team accounts section
     # (2 sections with accounts = 2 separators expected)
     assert hrs.count >= 1, "Expected at least one hr separator element, found #{hrs.count}"
-
   end
 
   # Test 16: Font styling consistency
@@ -459,11 +451,11 @@ module Accounts
 
 
     # Check that font-mono class is used
-    assert html.include?('font-mono'),
+    assert html.include?("font-mono"),
       "Expected component to use font-mono class for typography consistency"
 
     doc = parse_html(html)
-    mono_elements = doc.css('.font-mono')
+    mono_elements = doc.css(".font-mono")
 
     assert mono_elements.count > 0, "Expected to find elements with font-mono class"
   end
@@ -506,18 +498,17 @@ module Accounts
 
 
     # Button should have type attribute
-    button = doc.css('button').first
-    assert button['type'], "Expected button to have type attribute"
-    assert_equal "button", button['type'], "Expected button type to be 'button'"
+    button = doc.css("button").first
+    assert button["type"], "Expected button to have type attribute"
+    assert_equal "button", button["type"], "Expected button type to be 'button'"
 
     # Forms should have proper structure
-    forms = doc.css('form')
+    forms = doc.css("form")
     forms.each do |form|
       # Each form should have a submit button
       submit_buttons = form.css('button[type="submit"]')
       assert submit_buttons.any?, "Expected each form to have a submit button"
     end
-
   end
   end
 end

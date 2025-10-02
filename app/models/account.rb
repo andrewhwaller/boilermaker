@@ -7,7 +7,7 @@ class Account < ApplicationRecord
   has_many :sessions, dependent: :nullify
 
   validates :name, presence: true
-  validates :personal, inclusion: { in: [true, false] }
+  validates :personal, inclusion: { in: [ true, false ] }
   validates :owner, presence: true
 
   scope :personal, -> { where(personal: true) }
