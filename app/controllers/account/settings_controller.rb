@@ -20,7 +20,7 @@ class Account::SettingsController < Account::BaseController
   private
 
   def set_account
-    @account = Current.user.account
+    @account = Current.account
   end
 
   def account_params

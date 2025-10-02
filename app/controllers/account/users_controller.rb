@@ -27,28 +27,30 @@ class Account::UsersController < Account::BaseController
   def destroy
     # Prevent users from removing themselves
     if @user == Current.user
-      redirect_to account_path, alert: "You cannot remove yourself from the account"
+      redirect_to account_dashboard_path, alert: "You cannot remove yourself from the account"
       return
     end
 
     # Find and destroy the account membership
-    membership = AccountMembership.find_by(user: @user, account: Current.user.account)
+    membership = AccountMembership.find_by(user: @user, account: Current.account)
 
     if membership&.destroy
-      redirect_to account_path, notice: "#{@user.email} has been removed from the account"
+      redirect_to account_dashboard_path, notice: "#{@user.email} has been removed from the account"
     else
-      redirect_to account_path, alert: "Failed to remove user from account"
+      redirect_to account_dashboard_path, alert: "Failed to remove user from account"
     end
   end
 
   private
 
   def set_user
-    @user = Current.user.account.users.find(params[:id])
+    @user = Current.account&.members&.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
   end
 
   def update_membership_role
-    membership = AccountMembership.find_or_create_by!(user: @user, account: Current.user.account)
+    membership = AccountMembership.find_or_create_by!(user: @user, account: Current.account)
     role_param = Array(params[:role]).last
     admin_flag = role_param == "admin"
     new_roles = membership.roles.merge("member" => true, "admin" => admin_flag)
