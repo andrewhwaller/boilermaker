@@ -1,6 +1,6 @@
 module Views
   module Accounts
-    class Show < ApplicationView
+    class Show < Views::Base
       def initialize(account:)
         @account = account
       end
@@ -61,7 +61,6 @@ module Views
                   if @account.personal?
                     p(class: "mb-4") { "Convert this personal account to a team account to invite members." }
                     form(action: account_conversion_to_team_path(@account), method: "post") do
-                      input(type: "hidden", name: "authenticity_token", value: helpers.form_authenticity_token)
                       button(
                         type: "submit",
                         class: "btn btn-primary",
@@ -72,7 +71,6 @@ module Views
                     if @account.can_convert_to_personal?(Current.user)
                       p(class: "mb-4") { "Convert this team account to a personal account. This will prevent inviting new members." }
                       form(action: account_conversion_to_personal_path(@account), method: "post") do
-                        input(type: "hidden", name: "authenticity_token", value: helpers.form_authenticity_token)
                         button(
                           type: "submit",
                           class: "btn btn-warning",
@@ -88,14 +86,12 @@ module Views
                 end
               end
 
-              # Danger zone
               div(class: "card bg-error text-error-content shadow-md") do
                 div(class: "card-body") do
                   h2(class: "card-title") { "Danger Zone" }
                   p(class: "mb-4") { "Deleting this account is permanent and cannot be undone." }
                   form(action: account_path(@account), method: "post") do
                     input(type: "hidden", name: "_method", value: "delete")
-                    input(type: "hidden", name: "authenticity_token", value: helpers.form_authenticity_token)
                     button(
                       type: "submit",
                       class: "btn btn-outline btn-error",
