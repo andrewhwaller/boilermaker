@@ -17,11 +17,11 @@ development:
     support_email: support@example.com
     description: A modern Rails application
   features:
-    user_registration: false
+    user_registration: true
     password_reset: false
     two_factor_authentication: false
     multi_tenant: false
-    personal_accounts: false
+    personal_accounts: true
   ui:
     theme:
       light: work-station
