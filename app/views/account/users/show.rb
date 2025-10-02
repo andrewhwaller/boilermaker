@@ -43,7 +43,7 @@ module Views
                         span(class: "badge badge-warning") { "Unverified" }
                       end
 
-                      if @user.account_admin_for?(Current.user.account)
+                      if @user.account_admin_for?(Current.account)
                         span(class: "badge badge-primary") { "Admin" }
                       else
                         span(class: "badge badge-ghost") { "Member" }
@@ -123,13 +123,13 @@ module Views
                 div(class: "grid grid-cols-2 gap-4 text-sm") do
                   div do
                     div(class: "text-base-content/70") { "Account Name" }
-                    div(class: "font-medium") { @user.account.name || "Default Account" }
+                    div(class: "font-medium") { Current.account&.name || "No Account" }
                   end
 
                   div do
                     div(class: "text-base-content/70") { "Total Users in Account" }
                     div(class: "font-medium") do
-                      plain(pluralize(@user.account.users.count, "user"))
+                      plain(pluralize(Current.account&.members&.count || 0, "user"))
                     end
                   end
                 end

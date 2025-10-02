@@ -24,7 +24,7 @@ module Views
 
             div(class: "flex flex-col gap-6 max-w-3xl") do
               render Components::Card.new(title: "Account Details", header_color: :primary) do
-                form_with(model: @account, url: account_path, local: true, class: "space-y-4") do |f|
+                form_with(model: @account, url: account_dashboard_path, method: :patch, local: true, class: "space-y-4") do |f|
                   div do
                     f.label :name, "Account Name", class: "label"
                     f.text_field :name, class: "input input-bordered w-full", placeholder: "Enter account name", required: true
@@ -57,7 +57,7 @@ module Views
                         td do
                           if user != Current.user
                             form_with(model: user, url: account_user_path(user), method: :patch, local: false, class: "inline-flex items-center gap-2", data: { controller: "auto-submit" }) do |f|
-                              membership = user.membership_for(Current.user.account)
+                              membership = user.membership_for(Current.account)
                               input(type: "hidden", name: "role", value: "member")
                               input(
                                 type: "checkbox",
@@ -150,7 +150,7 @@ module Views
         end
 
         def role_badge(user)
-          membership = user.membership_for(Current.user.account)
+          membership = user.membership_for(Current.account)
           if membership&.admin?
             span(class: "text-primary font-medium uppercase text-xs") { "Admin" }
           else

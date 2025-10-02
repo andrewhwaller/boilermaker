@@ -19,7 +19,7 @@ module Views
                 h1(class: "font-bold text-base-content") { "Edit Account Settings" }
                 div(class: "flex gap-2") do
                   link_to("View Settings", account_settings_path, class: "btn btn-outline")
-                  link_to("Back to Dashboard", account_path, class: "btn btn-ghost")
+                  link_to("Back to Dashboard", account_dashboard_path, class: "btn btn-ghost")
                 end
               end
 
@@ -52,12 +52,12 @@ module Views
 
                       div do
                         span(class: "text-base-content/70") { "Total Users: " }
-                        span(class: "font-medium") { @account.users.count }
+                        span(class: "font-medium") { @account.members.count }
                       end
 
                       div do
                         span(class: "text-base-content/70") { "Admin Users: " }
-                        span(class: "font-medium") { @account.users.where(app_admin: true).count }
+                        span(class: "font-medium") { @account.members.where(app_admin: true).count }
                       end
 
                       div do

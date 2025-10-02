@@ -79,8 +79,8 @@ module Views
 
               # Role Management Card
               render Components::Card.new(title: "Account Role", header_color: :primary) do
-                membership = @user.membership_for(Current.user.account)
-                unless membership&.owner?
+                membership = @user.membership_for(Current.account)
+                unless Current.account.owner == @user
                   form_with(url: account_user_path(@user), method: :patch, local: true, class: "space-y-3", data: { controller: "auto-submit" }) do |f|
                     # Admin role
                     div do
