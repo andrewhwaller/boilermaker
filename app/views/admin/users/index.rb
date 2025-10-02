@@ -59,7 +59,13 @@ module Views
                             end
                           end
                           render Table::Cell.new do
-                            div(class: "truncate max-w-[150px] text-base-content/80") { user.account.name || "Default Account" }
+                            div(class: "truncate max-w-[150px] text-base-content/80") do
+                              if user.accounts.any?
+                                "#{user.accounts.count} account(s)"
+                              else
+                                "No accounts"
+                              end
+                            end
                           end
                           render Table::Cell.new do
                             span(class: "text-sm text-base-content/60 whitespace-nowrap") { "#{time_ago_in_words(user.created_at)} ago" }
