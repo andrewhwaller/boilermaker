@@ -58,6 +58,13 @@ module Boilermaker
         type: :google,
         family_stack: '"Libre Franklin", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         google_url: "https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&display=swap"
+      },
+      "Jura" => {
+        name: "Jura",
+        display_name: "Jura",
+        type: :google,
+        family_stack: '"Jura", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        google_url: "https://fonts.googleapis.com/css2?family=Jura:wght@400;500;600;700&display=swap"
       }
     }.freeze
 
