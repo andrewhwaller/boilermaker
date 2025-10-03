@@ -29,5 +29,5 @@ development:
     navigation:
       show_branding: true
       show_account_dropdown: true
-      layout_mode: sidebar
+      layout_mode: navbar
 test: {}
