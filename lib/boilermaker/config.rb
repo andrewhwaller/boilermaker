@@ -177,6 +177,12 @@ module Boilermaker
           dev["ui"] ||= {}
           dev["ui"]["navigation"] = (dev["ui"]["navigation"] || {}).merge(params_hash["ui"]["navigation"])
         end
+
+        # Update typography settings
+        if params_hash.dig("ui", "typography").is_a?(Hash)
+          dev["ui"] ||= {}
+          dev["ui"]["typography"] = (dev["ui"]["typography"] || {}).merge(params_hash["ui"]["typography"])
+        end
       end
 
       def validate_config!(config)

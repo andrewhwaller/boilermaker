@@ -116,6 +116,29 @@
                 </div>
               </div>
             <% end %>
+
+            <!-- TYPOGRAPHY -->
+            <%= ui_form.fields_for :typography do |typo_form| %>
+              <div class="mt-4 pt-3 border-t border-warning/20">
+                <div>
+                  <%= typo_form.label :font, "TYPEFACE", class: "text-xs text-warning font-mono font-bold" %>
+                  <%= typo_form.select :font,
+                        options_for_select(
+                          [
+                            ["CommitMono (local)", "CommitMono"],
+                            ["Inter", "Inter"],
+                            ["Space Grotesk", "Space Grotesk"],
+                            ["JetBrains Mono", "JetBrains Mono"],
+                            ["IBM Plex Sans", "IBM Plex Sans"],
+                            ["Roboto Mono", "Roboto Mono"]
+                          ],
+                          @settings.dig('ui', 'typography', 'font') || 'CommitMono'
+                        ),
+                        {},
+                        class: "select select-bordered w-full" %>
+                </div>
+              </div>
+            <% end %>
           <% end %>
 
           <p class="text-xs text-base-content/60 font-mono bg-base-300/30 px-2 py-1 mt-3 border-l border-warning/50">
