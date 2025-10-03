@@ -927,7 +927,7 @@ class Views::Home::Components < Views::Base
 
               div(class: "bg-base-200 border border-base-300") do
                 div(class: "bg-info/20 border-b border-info/30 px-3 py-1") do
-                  h3(class: "text-xs font-bold text-info uppercase tracking-wide font-mono") { "Themes" }
+                  h3(class: "text-xs font-bold text-info uppercase tracking-wide") { "Themes" }
                 end
                 div(class: "p-6") do
                   p(class: "text-base-content/70 mb-4") { "Custom card with info-colored terminal-style header." }

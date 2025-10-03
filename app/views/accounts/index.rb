@@ -50,7 +50,7 @@ module Views
           div(class: "card-body") do
             div(class: "flex justify-between items-start") do
               div do
-                h3(class: "card-title font-mono") { account.name }
+                h3(class: "card-title") { account.name }
                 if account.owner == Current.user
                   span(class: "badge badge-primary badge-sm mt-2") { "Owner" }
                 else

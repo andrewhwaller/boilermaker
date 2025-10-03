@@ -123,7 +123,7 @@ module Views
                             plain("Started #{time_ago_in_words(session.created_at)} ago")
                           end
                         end
-                        div(class: "text-xs text-base-content/50 font-mono") do
+                        div(class: "text-xs text-base-content/50") do
                           plain(session.ip_address)
                         end
                       end

@@ -9,7 +9,7 @@ module Views
         div(class: "container mx-auto px-4 py-8") do
           div(class: "flex justify-between items-start mb-8") do
             div do
-              h1(class: "text-3xl font-bold font-mono") { @account.name }
+              h1(class: "text-3xl font-bold") { @account.name }
               div(class: "flex gap-2 mt-2") do
                 if @account.personal?
                   span(class: "badge badge-primary") { "Personal" }

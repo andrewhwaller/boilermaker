@@ -77,11 +77,11 @@ class Components::ThemeToggle < Components::Base
   def control_label
     label_class = case @position
     when :navbar
-      "uppercase tracking-widest text-[6px] font-mono text-base-content/50 select-none"
+      "uppercase tracking-widest text-[6px] text-base-content/50 select-none"
     when :sidebar
-      "uppercase tracking-widest text-[8px] font-mono text-base-content/60 select-none"
+      "uppercase tracking-widest text-[8px] text-base-content/60 select-none"
     else
-      "uppercase tracking-widest text-[9px] font-mono text-base-content/60 select-none"
+      "uppercase tracking-widest text-[9px] text-base-content/60 select-none"
     end
 
     span(class: label_class) { "Display Polarity" }
@@ -125,7 +125,7 @@ class Components::ThemeToggle < Components::Base
   end
 
   def pos_label_classes
-    base = "pointer-events-none absolute inset-y-0 left-1 z-0 flex items-center font-mono tracking-wider uppercase text-base-content/60 select-none"
+    base = "pointer-events-none absolute inset-y-0 left-1 z-0 flex items-center tracking-wider uppercase text-base-content/60 select-none"
     text_size = case @position
     when :navbar
       "text-[7px]"
@@ -138,7 +138,7 @@ class Components::ThemeToggle < Components::Base
   end
 
   def neg_label_classes
-    base = "pointer-events-none absolute inset-y-0 right-1 z-0 flex items-center font-mono tracking-wider uppercase text-base-content/60 select-none"
+    base = "pointer-events-none absolute inset-y-0 right-1 z-0 flex items-center tracking-wider uppercase text-base-content/60 select-none"
     text_size = case @position
     when :navbar
       "text-[7px]"
