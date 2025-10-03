@@ -73,7 +73,7 @@ module Components
         {
           class: "w-full justify-between gap-2 normal-case tracking-wider rounded-none border-0 hover:bg-base-200",
           content: -> {
-            span(class: "truncate uppercase flex-1 text-left") { trigger_label }
+            span(class: "truncate uppercase flex-1 text-left text-xs font-mono font-medium") { trigger_label }
           }
         }
       end
