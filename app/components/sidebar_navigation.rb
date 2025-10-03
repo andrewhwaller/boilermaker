@@ -28,8 +28,8 @@ class Components::SidebarNavigation < Components::Base
       div(class: "flex items-center gap-3") do
         div(class: "w-2 h-8 bg-primary/70")
         div do
-          h1(class: "font-bold tracking-wider uppercase text-sm text-base-content") { app_name }
-          p(class: "text-xs text-base-content/60 tracking-wider") { "CONTROL PANEL" }
+          h1(class: "font-bold text-sm text-base-content") { app_name }
+          p(class: "text-xs text-base-content/60 ") { navigation_label("Control Panel") }
         end
       end
     end
@@ -47,11 +47,11 @@ class Components::SidebarNavigation < Components::Base
 
   def authenticated_navigation
     div do
-      sidebar_nav_item(root_path, "DASHBOARD")
+      sidebar_nav_item(root_path, "Dashboard")
 
       if Rails.env.development?
-        sidebar_nav_item("/components", "SHOWCASE")
-        sidebar_nav_item("/boilermaker/settings", "CONFIG")
+        sidebar_nav_item("/components", "Showcase")
+        sidebar_nav_item("/boilermaker/settings", "Config")
       end
 
       div(class: "h-px bg-base-300/50 my-4")
@@ -60,14 +60,14 @@ class Components::SidebarNavigation < Components::Base
         render Components::Accounts::Switcher.new(current_account: Current.account, user: Current.user, align: :bottom)
       end
 
-      sidebar_nav_item(settings_path, "SETTINGS")
+      sidebar_nav_item(settings_path, "Settings")
 
       if (Current.account && Current.user&.account_admin_for?(Current.account)) || Current.user&.app_admin?
-        sidebar_nav_item(account_dashboard_path, "ACCOUNT")
+        sidebar_nav_item(account_dashboard_path, "Account")
       end
 
       if Current.user&.app_admin?
-        sidebar_nav_item(admin_path, "ADMIN")
+        sidebar_nav_item(admin_path, "Admin")
       end
     end
   end
@@ -75,10 +75,10 @@ class Components::SidebarNavigation < Components::Base
   def unauthenticated_navigation
     div(class: "space-y-2") do
       if feature_enabled?("user_registration")
-        sidebar_nav_item(sign_up_path, "REGISTER")
+        sidebar_nav_item(sign_up_path, "Register")
       end
 
-      sidebar_nav_item(sign_in_path, "ACCESS")
+      sidebar_nav_item(sign_in_path, "Access")
     end
   end
 
@@ -91,20 +91,18 @@ class Components::SidebarNavigation < Components::Base
       if Current.user.present?
         button_to session_path("current"),
           method: :delete,
-          class: "btn btn-ghost btn-sm normal-case text-xs tracking-wider border-0 rounded-none text-error hover:bg-error/10 w-full text-center" do
-          "EXIT SYSTEM"
+          class: "btn btn-ghost btn-sm text-xs text-error hover:bg-error/30 w-full text-center" do
+          navigation_label("Exit System")
         end
       end
     end
   end
 
   def sidebar_nav_item(path, label)
-    a(href: path, class: sidebar_nav_item_class(path)) do
-      span(class: "font-medium tracking-wider") { label }
-    end
+    a(href: path, class: sidebar_nav_item_class(path)) { navigation_label(label) }
   end
 
   def sidebar_nav_item_class(path)
-    nav_item_class(path, base_classes: "btn w-full justify-start normal-case tracking-wider border-0 rounded-none")
+    nav_item_class(path, base_classes: "btn w-full justify-start border-0 rounded-none")
   end
 end
