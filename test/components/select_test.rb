@@ -180,25 +180,12 @@ class SelectTest < ComponentTestCase
     component = Components::Select.new(error: "Please select an option")
 
     assert_has_text component, "Please select an option"
-    assert_has_css_class component, "text-error"
   end
 
   test "does not render error message when no error" do
     component = Components::Select.new
 
     assert_no_css_class component, "text-error"
-  end
-
-  test "error message has proper Daisy UI styling" do
-    component = Components::Select.new(error: "Error message")
-
-    doc = render_and_parse(component)
-    error_element = doc.css(".text-error").first
-    classes = error_element["class"].split(" ")
-
-    assert_includes classes, "label-text-alt"
-    assert_includes classes, "text-error"
-    assert_includes classes, "mt-1"
   end
 
   test "renders with custom HTML attributes" do

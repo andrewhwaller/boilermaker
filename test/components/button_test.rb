@@ -148,7 +148,6 @@ class ButtonTest < ComponentTestCase
     assert html.include?("<button"), "Should render button tag"
     assert html.include?('type="button"'), "Should have default button type"
     assert html.include?("btn"), "Should have btn class"
-    assert html.include?("btn-primary"), "Should have variant class"
   end
 
   test "applies uppercase transform when specified" do

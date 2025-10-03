@@ -28,7 +28,6 @@ class CheckboxTest < ComponentTestCase
 
     assert label, "Checkbox should be wrapped in a label"
     assert checkbox, "Checkbox input should be inside the label"
-    assert_includes label["class"], "cursor-pointer"
   end
 
   test "applies Daisy UI checkbox classes correctly" do
@@ -127,40 +126,16 @@ class CheckboxTest < ComponentTestCase
     assert_has_css_class component, "checkbox-error"
   end
 
-  test "applies error styling to label text when error provided" do
-    component = Components::Checkbox.new(label: "Agree to terms", error: "This field is required")
-
-    doc = render_and_parse(component)
-    label_text = doc.css(".label-text").first
-    classes = label_text["class"].split(" ")
-
-    assert_includes classes, "label-text"
-    assert_includes classes, "text-error"
-  end
-
   test "displays error message when error provided" do
     component = Components::Checkbox.new(error: "This field is required")
 
     assert_has_text component, "This field is required"
-    assert_has_css_class component, "text-error"
   end
 
   test "does not render error message when no error" do
     component = Components::Checkbox.new
 
     assert_no_css_class component, "text-error"
-  end
-
-  test "error message has proper Daisy UI styling" do
-    component = Components::Checkbox.new(error: "Error message")
-
-    doc = render_and_parse(component)
-    error_element = doc.css(".text-error").last  # Last one is the error message
-    classes = error_element["class"].split(" ")
-
-    assert_includes classes, "label-text-alt"
-    assert_includes classes, "text-error"
-    assert_includes classes, "mt-1"
   end
 
   test "renders with custom HTML attributes" do

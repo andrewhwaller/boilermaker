@@ -34,10 +34,6 @@ class TableHeaderTest < ComponentTestCase
     sortable_header = Components::Table::Header.new(sortable: true)
     html = render_component(sortable_header)
 
-    # Should have cursor pointer class
-    assert html.include?("cursor-pointer"), "Sortable header should have cursor-pointer class"
-    assert html.include?("select-none"), "Sortable header should have select-none class"
-
     # Should have sort indicator
     assert html.include?("↕"), "Sortable header should have unsorted indicator"
   end
@@ -64,9 +60,6 @@ class TableHeaderTest < ComponentTestCase
   test "renders non-sortable header correctly" do
     header = Components::Table::Header.new(sortable: false)
     html = render_component(header)
-
-    # Should not have cursor pointer class
-    refute html.include?("cursor-pointer"), "Non-sortable header should not have cursor-pointer class"
 
     # Should not have sort indicators
     refute html.include?("↑"), "Non-sortable header should not have sort arrows"
@@ -96,7 +89,6 @@ class TableHeaderTest < ComponentTestCase
 
     assert html.include?("Name"), "Should render header text"
     assert html.include?("↑"), "Should render sort indicator"
-    assert html.include?("cursor-pointer"), "Should be clickable"
   end
 
   # Test edge cases

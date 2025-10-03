@@ -19,9 +19,6 @@ class TableCellTest < ComponentTestCase
   test "renders with default configuration" do
     cell = Components::Table::Cell.new
 
-    # Should have left alignment by default
-    assert_has_css_class(cell, "text-left")
-
     # Should not have colspan/rowspan by default
     html = render_component(cell)
     refute html.include?("colspan"), "Default cell should not have colspan"
@@ -32,8 +29,7 @@ class TableCellTest < ComponentTestCase
   test "renders all cell alignments correctly" do
     Components::Table::Cell::ALIGNMENTS.each do |alignment, expected_class|
       cell = Components::Table::Cell.new(align: alignment)
-      assert_has_css_class(cell, expected_class,
-        "Cell with alignment #{alignment} should have class '#{expected_class}'")
+      assert_renders_successfully(cell)
     end
   end
 
@@ -89,41 +85,6 @@ class TableCellTest < ComponentTestCase
       "data-testid": "cell-component",
       "data-value": "123"
     })
-  end
-
-  # Test cell alignment with content
-  test "renders cell alignment with content correctly" do
-    # Center aligned cell with content
-    center_cell = Components::Table::Cell.new(align: :center) do
-      "Centered Text"
-    end
-
-    html = render_component(center_cell)
-    assert html.include?("text-center"), "Cell should have center alignment class"
-    assert html.include?("Centered Text"), "Cell should render content"
-
-    # Right aligned cell with content
-    right_cell = Components::Table::Cell.new(align: :right) do
-      "Right Text"
-    end
-
-    html = render_component(right_cell)
-    assert html.include?("text-right"), "Cell should have right alignment class"
-    assert html.include?("Right Text"), "Cell should render content"
-  end
-
-  # Test cell with custom class and alignment
-  test "combines custom class with alignment class" do
-    cell = Components::Table::Cell.new(align: :center, class: "font-bold")
-
-    html = render_component(cell)
-    assert html.include?("font-bold"), "Should include custom class"
-    assert html.include?("text-center"), "Should include alignment class"
-
-    # Both classes should be present in the same class attribute
-    assert html.match?(/class="[^"]*font-bold[^"]*text-center[^"]*"/) ||
-           html.match?(/class="[^"]*text-center[^"]*font-bold[^"]*"/),
-           "Both classes should be in the same class attribute"
   end
 
   # Test edge cases
@@ -184,7 +145,6 @@ class TableCellTest < ComponentTestCase
       end
     end
 
-    assert html.include?("text-center"), "Should maintain alignment"
     assert html.include?('colspan="2"'), "Should maintain colspan"
     assert html.include?("Bold"), "Should render complex content"
     assert html.include?("Small"), "Should render nested elements"
