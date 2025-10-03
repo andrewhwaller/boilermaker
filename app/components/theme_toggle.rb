@@ -12,7 +12,7 @@ class Components::ThemeToggle < Components::Base
 
   def view_template
     div(
-      class: theme_toggle_classes,
+      class: container_classes,
       data: {
         controller: "theme",
         "theme-light-name-value": light_theme_name,
@@ -26,29 +26,28 @@ class Components::ThemeToggle < Components::Base
 
   private
 
-  def theme_toggle_classes
-    base_classes = "inline-flex items-center gap-1"
+  def container_classes
+    base_classes = "inline-flex items-center"
 
     case @position
-    when :fixed
-      orientation = @show_label ? "flex-col" : ""
-      "#{base_classes} #{orientation} fixed bottom-4 right-4 z-50"
     when :navbar
-      # Compact vertical layout for navbar - constrained height
-      "#{base_classes} flex-col gap-0 items-center justify-center h-6"
+      # Horizontal layout for navbar
+      gap = @show_label ? "gap-2" : "gap-0"
+      "#{base_classes} #{gap}"
     when :sidebar
-      # Standard vertical layout for sidebar
       "#{base_classes} flex-col gap-1"
-    else # :inline
+    else # :inline or :fixed
+      gap = @show_label ? "gap-1" : "gap-0"
       orientation = @show_label ? "flex-col" : ""
-      "#{base_classes} #{orientation}"
+      position = @position == :fixed ? "fixed bottom-4 right-4 z-50" : ""
+      "#{base_classes} #{gap} #{orientation} #{position}".strip
     end
   end
 
   def toggle_button
     button(
       type: "button",
-      class: "#{button_classes} #{initial_toggle_class}",
+      class: "#{button_classes} #{state_class}",
       data: {
         action: "click->theme#toggle",
         "theme-target": "toggle"
@@ -60,31 +59,27 @@ class Components::ThemeToggle < Components::Base
       role: "switch",
       title: toggle_title
     ) do
-      # Slider track (knob placement handled via CSS)
-      div(class: "pointer-events-none absolute inset-0 flex items-center px-[2px]") do
-        span(
-          class: indicator_classes,
-          style: "--toggle-travel: #{travel_for_position}px"
-        )
-      end
-
-      # Industrial/technical labels
-      span(class: pos_label_classes) { "POS" }
-      span(class: neg_label_classes) { "NEG" }
+      span(class: "#{text_classes} tracking-wider") { current_polarity_label }
     end
   end
 
   def control_label
-    label_class = case @position
-    when :navbar
-      "uppercase tracking-widest text-[6px] text-base-content/50 select-none"
-    when :sidebar
-      "uppercase tracking-widest text-[8px] text-base-content/60 select-none"
+    if @position == :navbar
+      # Stacked two-line label for navbar
+      div(class: "flex flex-col items-center leading-tight") do
+        span(class: "text-[7px] text-base-content/60 select-none uppercase tracking-wide") { "Display" }
+        span(class: "text-[7px] text-base-content/60 select-none uppercase tracking-wide") { "Polarity" }
+      end
     else
-      "uppercase tracking-widest text-[9px] text-base-content/60 select-none"
-    end
+      label_class = case @position
+      when :sidebar
+        "text-[8px] text-base-content/60 select-none uppercase tracking-wide"
+      else
+        "text-[9px] text-base-content/60 select-none uppercase tracking-wide"
+      end
 
-    span(class: label_class) { "Display Polarity" }
+      span(class: label_class) { "Display Polarity" }
+    end
   end
 
   def toggle_title
@@ -92,75 +87,45 @@ class Components::ThemeToggle < Components::Base
   end
 
   def button_classes
-    base = "group relative inline-flex shrink-0 cursor-pointer rounded-box overflow-hidden " \
-           "border border-base-300 bg-base-200 transition-colors duration-200 " \
-           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " \
-           "focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 " \
-           "disabled:cursor-not-allowed disabled:opacity-50 " \
-           "hover:bg-base-300"
+    base = "relative flex items-center justify-center cursor-pointer select-none " \
+      "border rounded-box transition-all duration-150 " \
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " \
+      "focus-visible:ring-offset-2 focus-visible:ring-offset-base-100 " \
+      "disabled:cursor-not-allowed disabled:opacity-50 " \
+      "active:scale-95"
 
     size = case @position
     when :navbar
-      "h-4 w-14"
+      "h-7 w-28 text-xs"
     when :sidebar
-      "h-7 w-24"
+      "h-8 w-28 text-xs"
     else
-      "h-9 w-28"
+      "h-10 w-32 text-sm"
     end
 
     "#{base} #{size}"
   end
 
-  def indicator_classes
-    base = "z-10 rounded-selector bg-base-100 shadow-lg border border-base-content/20 will-change-transform theme-toggle-indicator"
-    size = case @position
-    when :navbar
-      "h-3 w-6"
-    when :sidebar
-      "h-6 w-8"
+  def state_class
+    if initial_is_dark?
+      "border-base-content/30 bg-base-300"
     else
-      "h-7 w-10"
+      "border-base-content/20 bg-base-100"
     end
-    "#{base} #{size}"
   end
 
-  def pos_label_classes
-    base = "pointer-events-none absolute inset-y-0 left-1 z-0 flex items-center tracking-wider uppercase text-base-content/60 select-none"
-    text_size = case @position
-    when :navbar
-      "text-[7px]"
-    when :sidebar
-      "text-[8px]"
+  def text_classes
+    if initial_is_dark?
+      # Dark mode - subtle backlit glow
+      "text-base-content/80 drop-shadow-[0_0_2px_rgba(255,255,255,0.3)]"
     else
-      "text-[9px]"
-    end
-    "#{base} #{text_size}"
-  end
-
-  def neg_label_classes
-    base = "pointer-events-none absolute inset-y-0 right-1 z-0 flex items-center tracking-wider uppercase text-base-content/60 select-none"
-    text_size = case @position
-    when :navbar
-      "text-[7px]"
-    when :sidebar
-      "text-[8px]"
-    else
-      "text-[9px]"
-    end
-    "#{base} #{text_size}"
-  end
-
-  def travel_for_position
-    case @position
-    when :navbar then 22
-    when :sidebar then 50
-    when :mobile then 44
-    else 60
+      # Light mode - stronger backlit glow
+      "text-base-content drop-shadow-[0_0_3px_rgba(0,0,0,0.2)]"
     end
   end
 
-  def initial_toggle_class
-    initial_is_dark? ? "theme-toggle-dark" : ""
+  def current_polarity_label
+    initial_is_dark? ? "NEGATIVE" : "POSITIVE"
   end
 
   def initial_is_dark?
