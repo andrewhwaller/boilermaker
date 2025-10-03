@@ -1,40 +1,31 @@
 module Components
   module Accounts
     class Switcher < Components::Base
-      def initialize(current_account:, user:, &kwargs)
+      include Phlex::Rails::Helpers::ButtonTo
+
+      BASE_ITEM_CLASSES = "flex w-full items-center gap-2 justify-start text-left text-sm px-3 py-2 rounded-none transition duration-150 tracking-wider uppercase".freeze
+      INTERACTIVE_STATES = "hover:bg-base-300/40 focus-visible:bg-base-300/40 focus-visible:outline-none".freeze
+
+      def initialize(current_account:, user:, align: :top)
         @current_account = current_account
         @user = user
+        @align = align
       end
 
       def view_template
-        return unless @user.accounts.many?
+        accounts = @user.accounts.order(:name)
+        return unless accounts.many?
 
-        div(class: "dropdown dropdown-top", tabindex: "0") do
-          button(
-            type: "button",
-            class: "btn gap-2 normal-case hover:bg-base-200 w-full justify-between tracking-wider rounded-none border-0"
-          ) do
-            span(class: "truncate uppercase") { @current_account&.name || "Select Account" }
-            svg(
-              xmlns: "http://www.w3.org/2000/svg",
-              fill: "none",
-              viewBox: "0 0 24 24",
-              stroke_width: "1.5",
-              stroke: "currentColor",
-              class: "w-3 h-3 shrink-0"
-            ) do |s|
-              s.path(
-                stroke_linecap: "round",
-                stroke_linejoin: "round",
-                d: "M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-              )
-            end
-          end
+        trigger_label = @current_account&.name || "Select Account"
 
-          ul(class: "dropdown-content menu bg-base-100 rounded-none z-[1] w-64 p-1 border border-base-300/50 mb-2") do
-            @user.accounts.order(:name).each do |account|
-              render_account_item(account)
-            end
+        render Components::DropdownMenu.new(
+          align: @align,
+          class: "dropdown w-full",
+          trigger: dropdown_trigger_options(trigger_label),
+          menu: { class: "min-w-full w-auto" }
+        ) do
+          accounts.each do |account|
+            render_account_item(account)
           end
         end
       end
@@ -42,31 +33,49 @@ module Components
       private
 
       def render_account_item(account)
-        if account == @current_account
-          li do
-            a(class: "btn w-full justify-start normal-case tracking-wider border-0 rounded-none bg-base-300/50 hover:bg-base-300/50 cursor-default") do
-              span(class: "tracking-wider uppercase") { account.name + " (current)" }
-            end
-          end
-        else
-          li do
-            button(
-              type: "submit",
-              form: "switch_#{account.id}",
-              class: "btn w-full justify-start normal-case font-mono tracking-wider border-0 rounded-none hover:bg-base-200"
-            ) do
-              span(class: "font-medium tracking-wider uppercase") { account.name }
-            end
-            form(
-              id: "switch_#{account.id}",
-              action: account_switches_path,
-              method: "post",
-              style: "display: none;"
-            ) do
-              input(type: "hidden", name: "account_id", value: account.id)
-            end
+        current = account == @current_account
+
+        li(class: "rounded-none") do
+          if current
+            span(class: item_classes(current: true)) { item_content(account, current: true) }
+          else
+            button_to(
+              account_switches_path,
+              params: { account_id: account.id },
+              method: :post,
+              class: item_classes,
+              form_class: "contents"
+            ) { item_content(account) }
           end
         end
+      end
+
+      def item_content(account, current: false)
+        span(class: "truncate flex-1 text-left") { account.name }
+        indicator_classes = current ? "flex items-center justify-center w-4 h-4 text-primary" : "flex items-center justify-center w-4 h-4 opacity-0"
+
+        span(class: indicator_classes, aria_hidden: true) do
+          indicator_icon if current
+        end
+      end
+
+      def item_classes(current: false)
+        current ? "#{BASE_ITEM_CLASSES} cursor-default" : "#{BASE_ITEM_CLASSES} #{INTERACTIVE_STATES}"
+      end
+
+      def indicator_icon
+        svg(viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", stroke_width: "1.5", class: "h-3 w-3") do |s|
+          s.path(d: "M4.5 12.75l6 6 9-13.5", stroke_linecap: "round", stroke_linejoin: "round")
+        end
+      end
+
+      def dropdown_trigger_options(trigger_label)
+        {
+          class: "w-full justify-between gap-2 normal-case tracking-wider rounded-none border-0 hover:bg-base-200",
+          content: -> {
+            span(class: "truncate uppercase flex-1 text-left") { trigger_label }
+          }
+        }
       end
     end
   end
