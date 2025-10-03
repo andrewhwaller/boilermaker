@@ -48,12 +48,12 @@ module Views
       def form_fields(form)
         div(class: "space-y-4") do
           div do
-            render Components::Label.new(for_id: "password_password_challenge", text: "Current password")
+            render Components::Label.new(for_id: "password_challenge", text: "Current password")
             div(class: "mt-1") do
               render Components::Input.new(
                 type: "password",
                 name: "password_challenge",
-                id: "password_password_challenge",
+                id: "password_challenge",
                 required: true,
                 autocomplete: "current-password"
               )
