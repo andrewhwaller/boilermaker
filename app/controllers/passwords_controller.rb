@@ -14,7 +14,7 @@ class PasswordsController < ApplicationController
       end
     end
 
-    if @user.update(user_params.except(:password_challenge))
+    if @user.update(user_params)
       respond_to do |format|
         format.html { redirect_to root_url, notice: "Password updated successfully" }
         format.turbo_stream { render Views::Passwords::EditFrame.new(user: @user, notice: "Password updated successfully") }
@@ -33,6 +33,6 @@ class PasswordsController < ApplicationController
     end
 
     def user_params
-      params.permit(:password, :password_confirmation, :password_challenge).with_defaults(password_challenge: "")
+      params.permit(:password, :password_confirmation)
     end
 end

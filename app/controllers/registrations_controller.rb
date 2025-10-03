@@ -49,15 +49,11 @@ class RegistrationsController < ApplicationController
   rescue ActiveRecord::RecordInvalid => e
     @user.errors.add(:base, e.message) unless @user.errors.any?
     render Views::Registrations::New.new(user: @user), status: :unprocessable_entity
-  rescue ActionController::ParameterMissing
-    @user = User.new
-    @user.errors.add(:base, "Please provide your email and password")
-    render Views::Registrations::New.new(user: @user), status: :unprocessable_entity
   end
 
   private
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation)
+      params.expect(user: [ :email, :password, :password_confirmation ])
     end
 
     def send_email_verification

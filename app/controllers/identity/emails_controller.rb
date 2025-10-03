@@ -15,7 +15,7 @@ class Identity::EmailsController < ApplicationController
       end
     end
 
-    if @user.update(user_params.except(:password_challenge))
+    if @user.update(user_params)
       # Send verification email if email was changed
       if @user.email_previously_changed?
         resend_email_verification
@@ -42,7 +42,7 @@ class Identity::EmailsController < ApplicationController
     end
 
     def user_params
-      params.permit(:email, :password_challenge).with_defaults(password_challenge: "")
+      params.permit(:email)
     end
 
 
