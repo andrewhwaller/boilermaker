@@ -39,7 +39,9 @@ module Views
 
             stylesheet_link_tag(:app, "data-turbo-track": "reload")
 
-            style { ":root { --app-font-family: #{app_font_family}; }" }
+            style(type: "text/css") do
+              raw ":root { --app-font-family: #{app_font_family}; }"
+            end
 
             link(rel: "manifest", href: "/pwa/manifest.json")
 
