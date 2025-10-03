@@ -39,7 +39,7 @@ module Views
 
             stylesheet_link_tag(:app, "data-turbo-track": "reload")
 
-            unsafe_raw "<style>:root { --app-font-family: #{app_font_family}; }</style>"
+            raw "<style>:root { --app-font-family: #{app_font_family}; }</style>".html_safe
 
             link(rel: "manifest", href: "/pwa/manifest.json")
 
