@@ -3,6 +3,43 @@
 @import "./daisyui.prebuilt.css";
 @plugin "./daisyui.js";
 
+@layer base {
+  :root {
+    --app-text-transform: uppercase;
+    --app-font-scale: 1;
+  }
+
+  html {
+    font-size: calc(16px * var(--app-font-scale, 1));
+  }
+}
+
+@layer components {
+  :where(.btn):where(:not(.normal-case)),
+  :where(.btn-group > .btn):where(:not(.normal-case)),
+  :where(.badge):where(:not(.normal-case)),
+  :where(.tab):where(:not(.normal-case)),
+  :where(.link):where(:not(.normal-case)),
+  :where(.menu-title):where(:not(.normal-case)),
+  :where(.card-title):where(:not(.normal-case)),
+  :where(.stat-title):where(:not(.normal-case)),
+  :where(.footer-title):where(:not(.normal-case)),
+  :where(.steps .step):where(:not(.normal-case)),
+  :where(.timeline .timeline-title):where(:not(.normal-case)),
+  :where(.breadcrumbs > * > *):where(:not(.normal-case)),
+  :where(.alert-title):where(:not(.normal-case)),
+  :where(.label-text):where(:not(.normal-case)),
+  :where(.drawer-title):where(:not(.normal-case)),
+  :where(.dropdown-title):where(:not(.normal-case)),
+  :where(.modal-action > .btn):where(:not(.normal-case)),
+  :where(.tracking-wide):where(:not(.normal-case)),
+  :where(.tracking-wider):where(:not(.normal-case)),
+  :where(.tracking-widest):where(:not(.normal-case)) {
+    text-transform: var(--app-text-transform, uppercase);
+  }
+
+}
+
 /* Define custom theme via DaisyUI theme plugin (docs syntax) */
 @plugin "./daisyui/theme.js" {
   name: "work-station";
@@ -234,20 +271,40 @@
 
 @layer base {
   html {
-    font-size: 14px;
+    font-size: calc(14px * var(--app-font-scale, 1));
   }
 
-  /* Override default heading sizes to maintain semantic HTML with consistent typography */
+  /* Override heading sizes so they respond proportionally to --app-font-scale */
   h1 {
-    @apply text-lg text-base-content m-0;
+    font-size: calc(1.45rem * var(--app-font-scale, 1));
+    line-height: 1.2;
+    font-weight: 600;
+    color: var(--color-base-content);
+    margin: 0;
   }
 
   h2 {
-    @apply text-base text-base-content m-0;
+    font-size: calc(1.25rem * var(--app-font-scale, 1));
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--color-base-content);
+    margin: 0;
   }
 
-  h3, h4, h5, h6 {
-    @apply text-sm text-base-content m-0;
+  h3 {
+    font-size: calc(1.08rem * var(--app-font-scale, 1));
+    line-height: 1.3;
+    font-weight: 600;
+    color: var(--color-base-content);
+    margin: 0;
+  }
+
+  h4, h5, h6 {
+    font-size: calc(1.0rem * var(--app-font-scale, 1));
+    line-height: 1.35;
+    font-weight: 600;
+    color: var(--color-base-content);
+    margin: 0;
   }
 
   /* Form labels should be small and understated */
@@ -326,11 +383,13 @@ body {
 .textarea-bordered:not(.textarea-error):not(.textarea-success):not(.textarea-warning):not(.textarea-info),
 .select:not(.select-error):not(.select-success):not(.select-warning):not(.select-info),
 .select-bordered:not(.select-error):not(.select-success):not(.select-warning):not(.select-info) {
-  @apply bg-base-300/50 border border-base-content/20 text-base-content font-mono px-2 py-1 text-sm focus:border-primary focus:outline-none;
+  @apply bg-base-300/50 border border-base-content/20 text-base-content px-2 py-1 text-sm focus:border-primary focus:outline-none;
+  font-family: var(--app-font-family, "Arial");
 }
 
 .input-error, .textarea-error, .select-error {
-  @apply bg-base-300/50 text-base-content font-mono px-2 py-1 text-sm;
+  @apply bg-base-300/50 text-base-content px-2 py-1 text-sm;
+  font-family: var(--app-font-family, "Arial");
 }
 
 .input-error:focus-visible, .textarea-error:focus-visible, .select-error:focus-visible {
@@ -370,6 +429,7 @@ body {
   /* Improved text density */
   line-height: 1.3;
   font-variant-numeric: tabular-nums;
+  font-family: var(--app-font-family, "Arial");
 }
 
 .table thead th {
@@ -380,7 +440,7 @@ body {
   /* Technical header styling */
   font-weight: 600;
   font-size: 0.875rem;
-  text-transform: uppercase;
+  text-transform: var(--app-text-transform, uppercase);
   letter-spacing: 0.025em;
   
   /* Remove right border on last column */
@@ -391,7 +451,7 @@ body {
 
 .table tbody td {
   /* Data cell styling */
-  font-family: "CommitMonoIndustrial", monospace;
+  font-family: var(--app-font-family, "Arial");
   font-size: 0.875rem;
   
   /* Remove right border on last column */
@@ -567,22 +627,6 @@ body {
   font-size: 0.6875rem;
 }
 
-/* Theme toggle animation */
-.theme-toggle-indicator {
-  transform: translateX(0px);
-  transition: transform 200ms cubic-bezier(0.6, 0, 1, 1);
-}
-
-.theme-toggle-dark .theme-toggle-indicator {
-  transform: translateX(var(--toggle-travel, 68px));
-}
-
-/* Make toggle knob lighter in dark themes with subtle theme color */
-[data-theme="command-center"] .theme-toggle-indicator,
-[data-theme="terminal"] .theme-toggle-indicator {
-  background-color: oklch(from var(--color-primary) 0.35 calc(c * 0.5) h) !important;
-}
-
 /* ASCII Loading Animations */
 @keyframes ascii-dots-animation {
   0% { content: "⠋"; }
@@ -641,3 +685,13 @@ body {
   animation-duration: 0.6s;
 }
 
+@layer components {
+  .card-title {
+    font-size: calc(1.05rem * var(--app-font-scale, 1)) !important;
+    line-height: 1.3;
+  }
+
+  .card-body {
+    font-size: calc(0.95rem * var(--app-font-scale, 1));
+  }
+}
