@@ -44,6 +44,20 @@ module Boilermaker
         type: :google,
         family_stack: '"Roboto Mono", "Courier New", monospace',
         google_url: "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap"
+      },
+      "EB Garamond" => {
+        name: "EB Garamond",
+        display_name: "EB Garamond",
+        type: :google,
+        family_stack: '"EB Garamond", "Georgia", serif',
+        google_url: "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap"
+      },
+      "Libre Franklin" => {
+        name: "Libre Franklin",
+        display_name: "Libre Franklin",
+        type: :google,
+        family_stack: '"Libre Franklin", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        google_url: "https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&display=swap"
       }
     }.freeze
 

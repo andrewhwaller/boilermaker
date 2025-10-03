@@ -31,5 +31,5 @@ development:
       show_account_dropdown: true
       layout_mode: navbar
     typography:
-      font: CommitMono
+      font: Space Grotesk
 test: {}

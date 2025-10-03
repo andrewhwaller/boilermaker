@@ -81,19 +81,11 @@ module ApplicationHelper
     google_url = Boilermaker::FontConfiguration.google_fonts_url(font_name)
     return nil unless google_url
 
-    tag.link(
-      rel: "preconnect",
-      href: "https://fonts.googleapis.com"
-    ) +
-    tag.link(
-      rel: "preconnect",
-      href: "https://fonts.gstatic.com",
-      crossorigin: true
-    ) +
-    tag.link(
-      rel: "stylesheet",
-      href: google_url
-    )
+    [
+      %(<link rel="preconnect" href="https://fonts.googleapis.com">),
+      %(<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>),
+      %(<link rel="stylesheet" href="#{google_url}">)
+    ].join("\n").html_safe
   end
 
   def app_font_family
