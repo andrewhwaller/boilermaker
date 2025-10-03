@@ -54,8 +54,11 @@ class Components::SidebarNavigation < Components::Base
         sidebar_nav_item("/boilermaker/settings", "CONFIG")
       end
 
-      # Navigation separator
       div(class: "h-px bg-base-300/50 my-4")
+
+      if Current.user.present? && Current.user.accounts&.many?
+        render Components::Accounts::Switcher.new(current_account: Current.account, user: Current.user, align: :bottom)
+      end
 
       sidebar_nav_item(settings_path, "SETTINGS")
 
@@ -81,10 +84,6 @@ class Components::SidebarNavigation < Components::Base
 
   def footer_section
     div(class: "p-4 border-t border-base-300/50 space-y-3") do
-      if Current.user.present? && Current.user.accounts&.many?
-        render Components::Accounts::Switcher.new(current_account: Current.account, user: Current.user)
-      end
-
       div(class: "flex justify-center") do
         render Components::ThemeToggle.new(show_label: true, position: :sidebar)
       end
