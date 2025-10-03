@@ -53,7 +53,6 @@ class Components::Navigation < Components::Base
       # Theme toggle
       render Components::ThemeToggle.new(show_label: true, position: :navbar)
 
-      # Account switcher (if user has multiple accounts)
       if Current.user.present? && Current.user.accounts&.many?
         render Components::Accounts::Switcher.new(current_account: Current.account, user: Current.user)
       end
