@@ -54,7 +54,7 @@ class Components::Navigation < Components::Base
       render Components::ThemeToggle.new(show_label: true, position: :navbar)
 
       if Current.user.present? && Current.user.accounts&.many?
-        render Components::Accounts::Switcher.new(current_account: Current.account, user: Current.user)
+        render Components::Accounts::Switcher.new(current_account: Current.account, user: Current.user, align: :end)
       end
 
       if Current.user.present?
