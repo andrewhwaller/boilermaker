@@ -70,10 +70,11 @@ module Components
       end
 
       def dropdown_trigger_options(trigger_label)
+        width_class = @align == :bottom ? "w-full" : ""
         {
-          class: "w-full justify-between gap-2 normal-case tracking-wider rounded-none border-0 hover:bg-base-200",
+          class: "#{width_class} justify-between gap-2 normal-case tracking-wider rounded-none border-0 hover:bg-base-200",
           content: -> {
-            span(class: "truncate uppercase flex-1 text-left text-xs font-mono font-medium") { trigger_label }
+            span(class: "truncate uppercase text-xs font-mono font-medium") { trigger_label }
           }
         }
       end
