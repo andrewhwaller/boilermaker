@@ -24,8 +24,8 @@ development:
     personal_accounts: true
   ui:
     theme:
-      light: work-station
-      dark: command-center
+      light: drafting-table
+      dark: terminal
     navigation:
       show_branding: true
       show_account_dropdown: true
