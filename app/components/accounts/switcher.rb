@@ -3,7 +3,6 @@ module Components
     class Switcher < Components::Base
       include Phlex::Rails::Helpers::ButtonTo
 
-      BASE_ITEM_CLASSES = "flex w-full items-center gap-2 justify-start text-left text-xs font-mono font-medium px-3 py-2 rounded-none transition duration-150 tracking-wider uppercase".freeze
       INTERACTIVE_STATES = "hover:bg-base-300/40 focus-visible:bg-base-300/40 focus-visible:outline-none".freeze
 
       def initialize(current_account:, user:, align: :top)
@@ -60,7 +59,13 @@ module Components
       end
 
       def item_classes(current: false)
-        current ? "#{BASE_ITEM_CLASSES} cursor-default" : "#{BASE_ITEM_CLASSES} #{INTERACTIVE_STATES}"
+        base = base_item_classes
+        current ? "#{base} cursor-default" : "#{base} #{INTERACTIVE_STATES}"
+      end
+
+      def base_item_classes
+        text_size = @align == :bottom ? "" : "text-xs"
+        "flex w-full items-center gap-2 justify-start text-left #{text_size} font-mono font-medium px-3 py-2 rounded-none transition duration-150 tracking-wider uppercase"
       end
 
       def indicator_icon
@@ -71,10 +76,11 @@ module Components
 
       def dropdown_trigger_options(trigger_label)
         width_class = @align == :bottom ? "w-full" : ""
+        text_size = @align == :bottom ? "" : "text-xs"
         {
           class: "#{width_class} justify-between gap-2 normal-case tracking-wider rounded-none border-0 hover:bg-base-200",
           content: -> {
-            span(class: "truncate uppercase text-xs font-mono font-medium") { trigger_label }
+            span(class: "truncate uppercase #{text_size} font-mono font-medium") { trigger_label }
           }
         }
       end
