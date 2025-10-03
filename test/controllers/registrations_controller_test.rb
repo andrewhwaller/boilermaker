@@ -17,9 +17,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
           assert_difference("Account.count", 1) do
             assert_difference("AccountMembership.count", 1) do
               post sign_up_url, params: {
-                email: "newuser@example.com",
-                password: "SecurePassword123!",
-                password_confirmation: "SecurePassword123!",
+                user: {
+                  email: "newuser@example.com",
+                  password: "SecurePassword123!",
+                  password_confirmation: "SecurePassword123!"
+                },
                 account_name: "My Personal Account"
               }
             end
@@ -59,9 +61,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "creates user with default 'Personal' account name when personal_accounts is enabled and no name provided" do
     Boilermaker::Config.stub :personal_accounts?, true do
       post sign_up_url, params: {
-        email: "defaultname@example.com",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!"
+        user: {
+          email: "defaultname@example.com",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        }
       }
 
       assert_redirected_to root_url
@@ -76,9 +80,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "creates user with default 'Personal' account name when personal_accounts is enabled and empty name provided" do
     Boilermaker::Config.stub :personal_accounts?, true do
       post sign_up_url, params: {
-        email: "emptyname@example.com",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!",
+        user: {
+          email: "emptyname@example.com",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        },
         account_name: "   "
       }
 
@@ -97,9 +103,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
         assert_difference("Account.count", 1) do
           assert_difference("AccountMembership.count", 1) do
             post sign_up_url, params: {
-              email: "teamuser@example.com",
-              password: "SecurePassword123!",
-              password_confirmation: "SecurePassword123!",
+              user: {
+                email: "teamuser@example.com",
+                password: "SecurePassword123!",
+                password_confirmation: "SecurePassword123!"
+              },
               account_name: "My Team Account"
             }
           end
@@ -131,9 +139,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "creates user with default team name when personal_accounts is disabled and no name provided" do
     Boilermaker::Config.stub :personal_accounts?, false do
       post sign_up_url, params: {
-        email: "defaultteam@example.com",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!"
+        user: {
+          email: "defaultteam@example.com",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        }
       }
 
       assert_redirected_to root_url
@@ -148,9 +158,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "creates user with default team name when personal_accounts is disabled and empty name provided" do
     Boilermaker::Config.stub :personal_accounts?, false do
       post sign_up_url, params: {
-        email: "emptyteam@example.com",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!",
+        user: {
+          email: "emptyteam@example.com",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        },
         account_name: ""
       }
 
@@ -166,9 +178,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "creates session and sets cookie on successful registration" do
     Boilermaker::Config.stub :personal_accounts?, true do
       post sign_up_url, params: {
-        email: "cookietest@example.com",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!"
+        user: {
+          email: "cookietest@example.com",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        }
       }
 
       user = User.find_by(email: "cookietest@example.com")
@@ -184,9 +198,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     Boilermaker::Config.stub :personal_accounts?, true do
       assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
         post sign_up_url, params: {
-          email: "",
-          password: "SecurePassword123!",
-          password_confirmation: "SecurePassword123!"
+          user: {
+            email: "",
+            password: "SecurePassword123!",
+            password_confirmation: "SecurePassword123!"
+          }
         }
       end
 
@@ -199,9 +215,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     Boilermaker::Config.stub :personal_accounts?, true do
       assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
         post sign_up_url, params: {
-          email: "not-an-email",
-          password: "SecurePassword123!",
-          password_confirmation: "SecurePassword123!"
+          user: {
+            email: "not-an-email",
+            password: "SecurePassword123!",
+            password_confirmation: "SecurePassword123!"
+          }
         }
       end
 
@@ -216,9 +234,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     Boilermaker::Config.stub :personal_accounts?, true do
       assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
         post sign_up_url, params: {
-          email: existing_user.email,
-          password: "SecurePassword123!",
-          password_confirmation: "SecurePassword123!"
+          user: {
+            email: existing_user.email,
+            password: "SecurePassword123!",
+            password_confirmation: "SecurePassword123!"
+          }
         }
       end
 
@@ -232,9 +252,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
       Boilermaker::Config.stub :personal_accounts?, true do
         assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
           post sign_up_url, params: {
-            email: "shortpass@example.com",
-            password: "Short1!",
-            password_confirmation: "Short1!"
+            user: {
+              email: "shortpass@example.com",
+              password: "Short1!",
+              password_confirmation: "Short1!"
+            }
           }
         end
 
@@ -248,9 +270,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     Boilermaker::Config.stub :personal_accounts?, true do
       assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
         post sign_up_url, params: {
-          email: "mismatch@example.com",
-          password: "SecurePassword123!",
-          password_confirmation: "DifferentPassword123!"
+          user: {
+            email: "mismatch@example.com",
+            password: "SecurePassword123!",
+            password_confirmation: "DifferentPassword123!"
+          }
         }
       end
 
@@ -263,9 +287,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     Boilermaker::Config.stub :personal_accounts?, true do
       assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
         post sign_up_url, params: {
-          email: "nopassword@example.com",
-          password: "",
-          password_confirmation: ""
+          user: {
+            email: "nopassword@example.com",
+            password: "",
+            password_confirmation: ""
+          }
         }
       end
 
@@ -281,9 +307,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
       initial_membership_count = AccountMembership.count
 
       post sign_up_url, params: {
-        email: "invalid-email",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!"
+        user: {
+          email: "invalid-email",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        }
       }
 
       assert_response :unprocessable_entity
@@ -298,9 +326,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "user becomes owner of created account" do
     Boilermaker::Config.stub :personal_accounts?, true do
       post sign_up_url, params: {
-        email: "owner@example.com",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!"
+        user: {
+          email: "owner@example.com",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        }
       }
 
       user = User.find_by(email: "owner@example.com")
@@ -317,9 +347,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     Boilermaker::Config.stub :personal_accounts?, true do
       perform_enqueued_jobs do
         post sign_up_url, params: {
-          email: "emailverify@example.com",
-          password: "SecurePassword123!",
-          password_confirmation: "SecurePassword123!"
+          user: {
+            email: "emailverify@example.com",
+            password: "SecurePassword123!",
+            password_confirmation: "SecurePassword123!"
+          }
         }
       end
 
@@ -334,9 +366,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "newly created user is not verified" do
     Boilermaker::Config.stub :personal_accounts?, true do
       post sign_up_url, params: {
-        email: "unverified@example.com",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!"
+        user: {
+          email: "unverified@example.com",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        }
       }
 
       user = User.find_by(email: "unverified@example.com")
@@ -347,9 +381,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "account membership has both admin and member roles set to true" do
     Boilermaker::Config.stub :personal_accounts?, true do
       post sign_up_url, params: {
-        email: "roles@example.com",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!"
+        user: {
+          email: "roles@example.com",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        }
       }
 
       user = User.find_by(email: "roles@example.com")
@@ -364,9 +400,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "handles email normalization correctly" do
     Boilermaker::Config.stub :personal_accounts?, true do
       post sign_up_url, params: {
-        email: "  UPPERCASE@EXAMPLE.COM  ",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!"
+        user: {
+          email: "  UPPERCASE@EXAMPLE.COM  ",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        }
       }
 
       assert_redirected_to root_url
@@ -380,18 +418,22 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "creates distinct accounts for each user registration" do
     Boilermaker::Config.stub :personal_accounts?, true do
       post sign_up_url, params: {
-        email: "user1@example.com",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!"
+        user: {
+          email: "user1@example.com",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        }
       }
 
       user1 = User.find_by(email: "user1@example.com")
       account1 = user1.owned_accounts.first
 
       post sign_up_url, params: {
-        email: "user2@example.com",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!"
+        user: {
+          email: "user2@example.com",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        }
       }
 
       user2 = User.find_by(email: "user2@example.com")
@@ -409,9 +451,11 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   test "user has exactly one owned account after registration" do
     Boilermaker::Config.stub :personal_accounts?, true do
       post sign_up_url, params: {
-        email: "singleaccount@example.com",
-        password: "SecurePassword123!",
-        password_confirmation: "SecurePassword123!"
+        user: {
+          email: "singleaccount@example.com",
+          password: "SecurePassword123!",
+          password_confirmation: "SecurePassword123!"
+        }
       }
 
       user = User.find_by(email: "singleaccount@example.com")
