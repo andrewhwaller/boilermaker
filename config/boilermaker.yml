@@ -10,6 +10,10 @@ default:
     two_factor_authentication: false
     multi_tenant: false
     personal_accounts: false
+  ui:
+    typography:
+      uppercase: true
+      size: base
 development:
   app:
     name: Boilermaker
@@ -29,7 +33,9 @@ development:
     navigation:
       show_branding: true
       show_account_dropdown: true
-      layout_mode: navbar
+      layout_mode: sidebar
     typography:
-      font: Space Grotesk
+      font: Martian Mono
+      uppercase: false
+      size: expanded
 test: {}

@@ -42,7 +42,7 @@ module Boilermaker
         ui: {
           theme: [ :light, :dark ],
           navigation: [ :layout_mode ],
-          typography: [ :font ]
+          typography: [ :font, :uppercase, :size ]
         },
         features: [ :user_registration, :password_reset, :two_factor_authentication, :multi_tenant, :personal_accounts ]
       )

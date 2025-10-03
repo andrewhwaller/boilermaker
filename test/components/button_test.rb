@@ -150,9 +150,12 @@ class ButtonTest < ComponentTestCase
     assert html.include?("btn"), "Should have btn class"
   end
 
-  test "applies uppercase transform when specified" do
-    button = Components::Button.new(variant: :primary, uppercase: true)
-    assert_has_css_class(button, "uppercase")
+  test "applies casing classes when requested" do
+    uppercase_button = Components::Button.new(variant: :primary, uppercase: true)
+    assert_has_css_class(uppercase_button, "uppercase")
+
+    normal_case_button = Components::Button.new(variant: :primary, uppercase: false)
+    assert_has_css_class(normal_case_button, "normal-case")
   end
 
   test "ignores size variants (no sizing classes)" do

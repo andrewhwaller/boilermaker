@@ -24,6 +24,13 @@ module Boilermaker
         family_stack: '"Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         google_url: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
       },
+      "Martian Mono" => {
+        name: "Martian Mono",
+        display_name: "Martian Mono",
+        type: :google,
+        family_stack: '"Martian Mono", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        google_url: "https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;500;600;700&display=swap"
+      },
       "JetBrains Mono" => {
         name: "JetBrains Mono",
         display_name: "JetBrains Mono",
@@ -98,6 +105,15 @@ module Boilermaker
       # List all available fonts
       def all_fonts
         FONTS.keys
+      end
+
+      # Build label/value pairs suitable for Rails select helpers
+      def select_options
+        FONTS.map do |_, config|
+          label = config[:display_name] || config[:name]
+          label += " (local)" if config[:type] == :local
+          [ label, config[:name] ]
+        end
       end
     end
   end

@@ -7,6 +7,11 @@ require_relative "themes"
 module Boilermaker
   class Config
     CONFIG_PATH = Rails.root.join("config", "boilermaker.yml").freeze
+    FONT_SIZE_SCALE = {
+      "dense" => 0.9,
+      "base" => 1.0,
+      "expanded" => 1.12
+    }.freeze
 
     class << self
       attr_reader :data
@@ -88,6 +93,27 @@ module Boilermaker
 
       def font_name
         get("ui.typography.font") || "CommitMono"
+      end
+
+      def font_size_scale
+        value = get("ui.typography.size")
+        sanitized = sanitize_font_size(value)
+        sanitized || "base"
+      end
+
+      def font_size_multiplier
+        FONT_SIZE_SCALE[font_size_scale] || FONT_SIZE_SCALE["base"]
+      end
+
+      def uppercase_ui_text?
+        value = get("ui.typography.uppercase")
+        return true if value.nil?
+
+        boolean_cast(value)
+      end
+
+      def ui_text_transform
+        uppercase_ui_text? ? "uppercase" : "none"
       end
 
       # Settings form support
@@ -181,7 +207,14 @@ module Boilermaker
         # Update typography settings
         if params_hash.dig("ui", "typography").is_a?(Hash)
           dev["ui"] ||= {}
-          dev["ui"]["typography"] = (dev["ui"]["typography"] || {}).merge(params_hash["ui"]["typography"])
+          typography = params_hash["ui"]["typography"].dup
+          if typography.key?("uppercase")
+            typography["uppercase"] = boolean_cast(typography["uppercase"])
+          end
+          if typography.key?("size")
+            typography["size"] = sanitize_font_size(typography["size"]) || font_size_scale
+          end
+          dev["ui"]["typography"] = (dev["ui"]["typography"] || {}).merge(typography)
         end
       end
 
@@ -195,6 +228,22 @@ module Boilermaker
 
       def normalize_boolean_values(hash)
         hash.transform_values { |v| v == true || v == "true" || v == "1" }
+      end
+
+      def boolean_cast(value)
+        case value
+        when true, "true", "1", 1 then true
+        when false, "false", "0", 0, nil then false
+        else
+          !!value
+        end
+      end
+
+      def sanitize_font_size(value)
+        key = value.to_s.downcase
+        return nil unless FONT_SIZE_SCALE.key?(key)
+
+        key
       end
 
       def run_post_update_hooks

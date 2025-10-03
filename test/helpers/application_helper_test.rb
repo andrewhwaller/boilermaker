@@ -68,6 +68,38 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes result, "monospace"
   end
 
+  test "app_text_transform defaults to uppercase" do
+    Boilermaker::Config.instance_variable_set(:@data, {})
+
+    assert_equal "uppercase", app_text_transform
+  end
+
+  test "app_text_transform reflects config toggle" do
+    Boilermaker::Config.instance_variable_set(:@data, {
+      "ui" => {
+        "typography" => { "uppercase" => false }
+      }
+    })
+
+    assert_equal "none", app_text_transform
+  end
+
+  test "app_base_font_size defaults to multiplier 1" do
+    Boilermaker::Config.instance_variable_set(:@data, {})
+
+    assert_in_delta 1.0, app_base_font_size
+  end
+
+  test "app_base_font_size reflects configured scale" do
+    Boilermaker::Config.instance_variable_set(:@data, {
+      "ui" => {
+        "typography" => { "size" => "expanded" }
+      }
+    })
+
+    assert_in_delta 1.12, app_base_font_size
+  end
+
   private
 
   def stub_font_config(font_name)

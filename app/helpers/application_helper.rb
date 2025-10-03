@@ -92,4 +92,22 @@ module ApplicationHelper
     font_name = Boilermaker::Config.font_name
     Boilermaker::FontConfiguration.font_family_stack(font_name)
   end
+
+  def app_text_transform
+    Boilermaker::Config.ui_text_transform
+  end
+
+  def app_base_font_size
+    if Boilermaker::Config.respond_to?(:font_size_multiplier)
+      Boilermaker::Config.font_size_multiplier
+    else
+      size = Boilermaker::Config.get("ui.typography.size")
+      case size.to_s.downcase
+      when "dense" then 0.9
+      when "expanded" then 1.12
+      else
+        1.0
+      end
+    end
+  end
 end

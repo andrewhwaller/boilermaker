@@ -47,10 +47,11 @@ class Components::ThemeToggle < Components::Base
   def toggle_button
     button(
       type: "button",
-      class: "#{button_classes} #{state_class}",
+      class: button_classes,
       data: {
         action: "click->theme#toggle",
-        "theme-target": "toggle"
+        "theme-target": "toggle",
+        dark: initial_is_dark?
       },
       aria: {
         label: "Toggle theme",
@@ -59,7 +60,7 @@ class Components::ThemeToggle < Components::Base
       role: "switch",
       title: toggle_title
     ) do
-      span(class: "#{text_classes} tracking-wider") { current_polarity_label }
+      span(class: "tracking-wider") { current_polarity_label }
     end
   end
 
@@ -104,24 +105,6 @@ class Components::ThemeToggle < Components::Base
     end
 
     "#{base} #{size}"
-  end
-
-  def state_class
-    if initial_is_dark?
-      "border-base-content/30 bg-base-300"
-    else
-      "border-base-content/20 bg-base-100"
-    end
-  end
-
-  def text_classes
-    if initial_is_dark?
-      # Dark mode - subtle backlit glow
-      "text-base-content/80 drop-shadow-[0_0_2px_rgba(255,255,255,0.3)]"
-    else
-      # Light mode - stronger backlit glow
-      "text-base-content drop-shadow-[0_0_3px_rgba(0,0,0,0.2)]"
-    end
   end
 
   def current_polarity_label

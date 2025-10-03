@@ -16,7 +16,7 @@ class Components::FormCard < Components::Base
     div(**@card_attrs.merge(class: card_class)) do
       if @title.present?
         div(class: "bg-#{@header_color}/20 border-b border-#{@header_color}/30 px-3 py-1") do
-          h1(class: "text-xs font-bold text-#{@header_color} uppercase tracking-wide") { @title }
+          h1(class: "card-title text-xs font-bold text-#{@header_color} tracking-wide") { @title }
         end
       end
 

@@ -9,7 +9,7 @@ class Components::ExampleCard < Components::Base
   def view_template(&block)
     div(class: "bg-base-200 border border-base-300") do
       div(class: "bg-primary/20 border-b border-primary/30 px-3 py-1") do
-        h3(class: "text-xs font-bold text-primary uppercase tracking-wide") { @title }
+        h3(class: "card-title text-xs font-bold text-primary tracking-wide") { @title }
       end
 
       div(class: "p-6") do

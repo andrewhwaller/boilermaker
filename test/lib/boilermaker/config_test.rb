@@ -32,7 +32,9 @@ class Boilermaker::ConfigTest < ActiveSupport::TestCase
           "secondary_color" => "#00ff00"
         },
         "typography" => {
-          "font" => "Inter"
+          "font" => "Inter",
+          "uppercase" => false,
+          "size" => "dense"
         }
       }
     }
@@ -80,6 +82,34 @@ class Boilermaker::ConfigTest < ActiveSupport::TestCase
     Boilermaker::Config.instance_variable_set(:@data, @temp_config)
 
     assert_equal "CommitMono", Boilermaker::Config.font_name
+  end
+
+  test "ui text transform reflects uppercase toggle" do
+    assert_equal "none", Boilermaker::Config.ui_text_transform
+    assert_not Boilermaker::Config.uppercase_ui_text?
+
+    @temp_config["ui"]["typography"].delete("uppercase")
+    Boilermaker::Config.instance_variable_set(:@data, @temp_config)
+
+    assert_equal "uppercase", Boilermaker::Config.ui_text_transform
+    assert Boilermaker::Config.uppercase_ui_text?
+  end
+
+  test "font size scale returns configured size" do
+    assert_equal "dense", Boilermaker::Config.font_size_scale
+    assert_in_delta 0.9, Boilermaker::Config.font_size_multiplier
+
+    @temp_config["ui"]["typography"]["size"] = "expanded"
+    Boilermaker::Config.instance_variable_set(:@data, @temp_config)
+
+    assert_equal "expanded", Boilermaker::Config.font_size_scale
+    assert_in_delta 1.12, Boilermaker::Config.font_size_multiplier
+
+    @temp_config["ui"]["typography"]["size"] = "invalid"
+    Boilermaker::Config.instance_variable_set(:@data, @temp_config)
+
+    assert_equal "base", Boilermaker::Config.font_size_scale
+    assert_in_delta 1.0, Boilermaker::Config.font_size_multiplier
   end
 
   test "multi_tenant? and personal_accounts? return correct values" do
