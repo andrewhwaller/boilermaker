@@ -86,6 +86,10 @@ module Boilermaker
         get("ui.theme.dark") || "command-center"
       end
 
+      def font_name
+        get("ui.typography.font") || "CommitMono"
+      end
+
       # Settings form support
       def load_raw
         return {} unless File.exist?(CONFIG_PATH)

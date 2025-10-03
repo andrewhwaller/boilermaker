@@ -30,6 +30,9 @@ class Boilermaker::ConfigTest < ActiveSupport::TestCase
         "brand" => {
           "primary_color" => "#ff0000",
           "secondary_color" => "#00ff00"
+        },
+        "typography" => {
+          "font" => "Inter"
         }
       }
     }
@@ -65,6 +68,18 @@ class Boilermaker::ConfigTest < ActiveSupport::TestCase
     assert_equal 60, Boilermaker::Config.session_timeout_minutes
     assert_equal "#ff0000", Boilermaker::Config.primary_color
     assert_equal "#00ff00", Boilermaker::Config.secondary_color
+  end
+
+  test "font_name returns configured font" do
+    assert_equal "Inter", Boilermaker::Config.font_name
+  end
+
+  test "font_name returns default when not configured" do
+    # Remove font config
+    @temp_config["ui"]["typography"] = {}
+    Boilermaker::Config.instance_variable_set(:@data, @temp_config)
+
+    assert_equal "CommitMono", Boilermaker::Config.font_name
   end
 
   test "multi_tenant? and personal_accounts? return correct values" do

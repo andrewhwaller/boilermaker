@@ -35,7 +35,11 @@ module Views
             csrf_meta_tags
             csp_meta_tag
 
+            unsafe_raw google_fonts_link_tag if google_fonts_link_tag
+
             stylesheet_link_tag(:app, "data-turbo-track": "reload")
+
+            style { ":root { --app-font-family: #{app_font_family}; }" }
 
             link(rel: "manifest", href: "/pwa/manifest.json")
 

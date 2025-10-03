@@ -28,7 +28,7 @@ class Components::SidebarNavigation < Components::Base
       div(class: "flex items-center gap-3") do
         div(class: "w-2 h-8 bg-primary/70")
         div do
-          h1(class: "font-mono font-bold tracking-wider uppercase text-sm text-base-content") { app_name }
+          h1(class: "font-bold tracking-wider uppercase text-sm text-base-content") { app_name }
           p(class: "text-xs text-base-content/60 tracking-wider") { "CONTROL PANEL" }
         end
       end
@@ -91,7 +91,7 @@ class Components::SidebarNavigation < Components::Base
       if Current.user.present?
         button_to session_path("current"),
           method: :delete,
-          class: "btn btn-ghost btn-sm normal-case font-mono text-xs tracking-wider border-0 rounded-none text-error hover:bg-error/10 w-full text-center" do
+          class: "btn btn-ghost btn-sm normal-case text-xs tracking-wider border-0 rounded-none text-error hover:bg-error/10 w-full text-center" do
           "EXIT SYSTEM"
         end
       end
@@ -105,6 +105,6 @@ class Components::SidebarNavigation < Components::Base
   end
 
   def sidebar_nav_item_class(path)
-    nav_item_class(path, base_classes: "btn w-full justify-start normal-case font-mono tracking-wider border-0 rounded-none")
+    nav_item_class(path, base_classes: "btn w-full justify-start normal-case tracking-wider border-0 rounded-none")
   end
 end

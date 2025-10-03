@@ -30,4 +30,6 @@ development:
       show_branding: true
       show_account_dropdown: true
       layout_mode: navbar
+    typography:
+      font: CommitMono
 test: {}

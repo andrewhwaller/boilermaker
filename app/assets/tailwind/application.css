@@ -294,10 +294,10 @@
   font-feature-settings: "ss01", "ss02", "ss03", "ss04", "ss05", "cv06", "cv09", "cv10", "cv11";
 }
 
-body {
-  font-family: "CommitMonoIndustrial", monospace;
-}
 
+body {
+  font-family: var(--app-font-family, "Arial");
+}
 .input, .select {
   --size-field: 0.2rem !important;
   padding: .3rem .1rem .3rem .4rem;

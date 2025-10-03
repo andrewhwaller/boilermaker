@@ -65,7 +65,7 @@ module Components
 
       def base_item_classes
         text_size = @align == :bottom ? "" : "text-xs"
-        "flex w-full items-center gap-2 justify-start text-left #{text_size} font-mono font-medium px-3 py-2 rounded-none transition duration-150 tracking-wider uppercase"
+        "flex w-full items-center gap-2 justify-start text-left #{text_size} font-medium px-3 py-2 rounded-none transition duration-150 tracking-wider uppercase"
       end
 
       def indicator_icon
@@ -80,7 +80,7 @@ module Components
         {
           class: "#{width_class} justify-between gap-2 normal-case tracking-wider rounded-none border-0 hover:bg-base-200",
           content: -> {
-            span(class: "truncate uppercase #{text_size} font-mono font-medium") { trigger_label }
+            span(class: "truncate uppercase #{text_size} font-medium") { trigger_label }
           }
         }
       end

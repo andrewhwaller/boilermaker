@@ -10,7 +10,7 @@ class Components::Navigation < Components::Base
   end
 
   def view_template
-    nav(class: "bg-base-100 border-b border-base-300/50 px-4 py-1 font-mono text-sm", data_controller: "navigation") do
+    nav(class: "bg-base-100 border-b border-base-300/50 px-4 py-1 text-sm", data_controller: "navigation") do
       # Desktop navigation
       div(class: "hidden md:flex items-center justify-between w-full") do
         div(class: "flex items-center gap-6") do
@@ -37,7 +37,7 @@ class Components::Navigation < Components::Base
     div(class: "flex items-center") do
       a(href: root_path, class: "flex items-center gap-2 text-base-content hover:text-primary transition-colors") do
         div(class: "w-1 h-6 bg-primary/70")
-        span(class: "font-mono font-medium tracking-wider uppercase text-xs") { app_name }
+        span(class: "font-medium tracking-wider uppercase text-xs") { app_name }
       end
     end
   end
@@ -125,7 +125,7 @@ class Components::Navigation < Components::Base
   # Industrial-style navigation helpers
   def nav_item(path, label)
     a(href: path, class: nav_item_class(path)) do
-      span(class: "text-xs font-mono font-medium tracking-wider") { label }
+      span(class: "text-xs font-medium tracking-wider") { label }
     end
   end
 
@@ -137,7 +137,7 @@ class Components::Navigation < Components::Base
   def sign_out_button
     button_to session_path("current"),
       method: :delete,
-      class: "btn btn-ghost btn-sm normal-case font-mono text-xs tracking-wider border-0 rounded-none text-error hover:bg-error/10" do
+      class: "btn btn-ghost btn-sm normal-case text-xs tracking-wider border-0 rounded-none text-error hover:bg-error/10" do
       "EXIT"
     end
   end
@@ -189,7 +189,7 @@ class Components::Navigation < Components::Base
       else
         button_to session_path("current"),
           method: :delete,
-          class: "text-xs font-mono font-medium tracking-wider text-error border-0 bg-transparent" do
+          class: "text-xs font-medium tracking-wider text-error border-0 bg-transparent" do
           "EXIT"
         end
       end
@@ -220,6 +220,6 @@ class Components::Navigation < Components::Base
   end
 
   def mobile_nav_item_class(path)
-    nav_item_class(path, base_classes: "btn btn-sm w-full justify-start normal-case font-mono text-xs tracking-wider border-0 rounded-none")
+    nav_item_class(path, base_classes: "btn btn-sm w-full justify-start normal-case text-xs tracking-wider border-0 rounded-none")
   end
 end
