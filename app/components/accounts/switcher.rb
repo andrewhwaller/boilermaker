@@ -3,7 +3,7 @@ module Components
     class Switcher < Components::Base
       include Phlex::Rails::Helpers::ButtonTo
 
-      BASE_ITEM_CLASSES = "flex w-full items-center gap-2 justify-start text-left text-sm px-3 py-2 rounded-none transition duration-150 tracking-wider uppercase".freeze
+      BASE_ITEM_CLASSES = "flex w-full items-center gap-2 justify-start text-left text-xs font-mono font-medium px-3 py-2 rounded-none transition duration-150 tracking-wider uppercase".freeze
       INTERACTIVE_STATES = "hover:bg-base-300/40 focus-visible:bg-base-300/40 focus-visible:outline-none".freeze
 
       def initialize(current_account:, user:, align: :top)
