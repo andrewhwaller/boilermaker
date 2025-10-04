@@ -66,17 +66,16 @@ class Components::ThemeToggle < Components::Base
 
   def control_label
     if @position == :navbar
-      # Stacked two-line label for navbar
-      div(class: "flex flex-col items-center leading-tight") do
-        span(class: "text-[7px] text-base-content/60 select-none uppercase tracking-wide") { "Display" }
-        span(class: "text-[7px] text-base-content/60 select-none uppercase tracking-wide") { "Polarity" }
+      div(class: "flex flex-col items-center leading-tight text-base-content/80 select-none uppercase tracking-wide") do
+        span(class: "text-[7px]") { "Display" }
+        span(class: "text-[7px]") { "Polarity" }
       end
     else
       label_class = case @position
       when :sidebar
-        "text-[8px] text-base-content/60 select-none uppercase tracking-wide"
+        "text-[8px] text-base-content/80 select-none uppercase tracking-wide"
       else
-        "text-[9px] text-base-content/60 select-none uppercase tracking-wide"
+        "text-[9px] text-base-content/80 select-none uppercase tracking-wide"
       end
 
       span(class: label_class) { "Display Polarity" }
