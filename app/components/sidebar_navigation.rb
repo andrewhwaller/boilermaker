@@ -47,27 +47,31 @@ class Components::SidebarNavigation < Components::Base
 
   def authenticated_navigation
     div do
-      sidebar_nav_item(root_path, "Dashboard")
+      div(class: "py-4") do
+        sidebar_nav_item(root_path, "Dashboard")
 
-      if Rails.env.development?
-        sidebar_nav_item("/components", "Showcase")
-        sidebar_nav_item("/boilermaker/settings", "Config")
+        if Rails.env.development?
+          sidebar_nav_item("/components", "Showcase")
+          sidebar_nav_item("/boilermaker/settings", "Config")
+        end
       end
 
-      div(class: "h-px bg-base-300/50 my-4")
+      div(class: "h-px bg-base-300/50")
 
-      if Current.user.present? && Current.user.accounts&.many?
-        render Components::Accounts::Switcher.new(current_account: Current.account, user: Current.user, align: :bottom)
-      end
+      div(class: "py-4") do
+        if Current.user.present? && Current.user.accounts&.many?
+          render Components::Accounts::Switcher.new(current_account: Current.account, user: Current.user, align: :bottom)
+        end
 
-      sidebar_nav_item(settings_path, "Settings")
+        sidebar_nav_item(settings_path, "Settings")
 
-      if (Current.account && Current.user&.account_admin_for?(Current.account)) || Current.user&.app_admin?
-        sidebar_nav_item(account_dashboard_path, "Account")
-      end
+        if (Current.account && Current.user&.account_admin_for?(Current.account)) || Current.user&.app_admin?
+          sidebar_nav_item(account_dashboard_path, "Account")
+        end
 
-      if Current.user&.app_admin?
-        sidebar_nav_item(admin_path, "Admin")
+        if Current.user&.app_admin?
+          sidebar_nav_item(admin_path, "Admin")
+        end
       end
     end
   end
