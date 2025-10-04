@@ -29,7 +29,7 @@ module Views
 
                 form_with(url: account_invitations_path, local: true, class: "space-y-4") do |f|
                   # Email field
-                  div do
+                  div(class: "form-control w-full") do
                     f.label :email, "Email Address", class: "label"
                     f.email_field :email,
                       class: "input input-bordered w-full",
@@ -53,7 +53,7 @@ module Views
                   end
 
                   # Custom message field
-                  div do
+                  div(class: "form-control w-full") do
                     f.label :message, "Custom Message (Optional)", class: "label"
                     f.text_area :message,
                       class: "textarea textarea-bordered w-full h-24",
@@ -97,7 +97,9 @@ module Views
         private
 
         def helper_text(text)
-          div(class: "text-xs text-base-content/70 mt-1") { text }
+          label(class: "label") do
+            span(class: "label-text-alt text-xs text-base-content/70") { text }
+          end
         end
       end
     end

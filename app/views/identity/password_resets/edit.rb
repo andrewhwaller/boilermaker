@@ -23,7 +23,7 @@ module Views
                 form_with(url: identity_password_reset_path, method: :patch, class: "space-y-4") do |form|
                   input(type: "hidden", name: "sid", value: @sid)
 
-                  div do
+                  div(class: "form-control w-full") do
                     render Components::Label.new(for_id: "password", required: true) { "New password" }
                     render Components::Input.new(
                       type: :password,
@@ -33,10 +33,12 @@ module Views
                       autofocus: true,
                       autocomplete: "new-password"
                     )
-                    div(class: "text-sm text-muted mt-1") { "12 characters minimum." }
+                    label(class: "label") do
+                      span(class: "label-text-alt text-sm text-base-content/70") { "12 characters minimum." }
+                    end
                   end
 
-                  div do
+                  div(class: "form-control w-full") do
                     render Components::Label.new(for_id: "password_confirmation", required: true) { "Confirm new password" }
                     render Components::Input.new(
                       type: :password,

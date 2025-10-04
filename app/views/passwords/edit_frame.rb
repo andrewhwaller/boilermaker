@@ -47,44 +47,40 @@ module Views
 
       def form_fields(form)
         div(class: "space-y-4") do
-          div do
+          div(class: "form-control w-full") do
             render Components::Label.new(for_id: "password_challenge", text: "Current password")
-            div(class: "mt-1") do
-              render Components::Input.new(
-                type: "password",
-                name: "password_challenge",
-                id: "password_challenge",
-                required: true,
-                autocomplete: "current-password"
-              )
-            end
+            render Components::Input.new(
+              type: "password",
+              name: "password_challenge",
+              id: "password_challenge",
+              required: true,
+              autocomplete: "current-password"
+            )
           end
 
-          div do
+          div(class: "form-control w-full") do
             render Components::Label.new(for_id: "password", text: "New password")
-            div(class: "mt-1") do
-              render Components::Input.new(
-                type: "password",
-                name: "password",
-                id: "password",
-                required: true,
-                autocomplete: "new-password"
-              )
+            render Components::Input.new(
+              type: "password",
+              name: "password",
+              id: "password",
+              required: true,
+              autocomplete: "new-password"
+            )
+            label(class: "label") do
+              span(class: "label-text-alt text-sm text-base-content/70") { "12 characters minimum." }
             end
-            div(class: "text-sm text-base-content/70 mt-1") { "12 characters minimum." }
           end
 
-          div do
+          div(class: "form-control w-full") do
             render Components::Label.new(for_id: "password_confirmation", text: "Confirm new password")
-            div(class: "mt-1") do
-              render Components::Input.new(
-                type: "password",
-                name: "password_confirmation",
-                id: "password_confirmation",
-                required: true,
-                autocomplete: "new-password"
-              )
-            end
+            render Components::Input.new(
+              type: "password",
+              name: "password_confirmation",
+              id: "password_confirmation",
+              required: true,
+              autocomplete: "new-password"
+            )
           end
 
           div do

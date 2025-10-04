@@ -30,9 +30,11 @@ module Views
 
                 # Use a simple form without the complex form object for now
                 form_with(url: account_invitations_path, local: true, class: "space-y-3") do |f|
-                  div do
-                    f.label :email, "Email", class: "label-text text-sm font-medium"
-                    f.email_field :email, class: "input input-bordered w-full mt-1",
+                  div(class: "form-control w-full") do
+                    f.label :email, class: "label" do
+                      span(class: "label-text text-sm font-medium") { "Email" }
+                    end
+                    f.email_field :email, class: "input input-bordered w-full",
                       placeholder: "user@example.com", required: true
                   end
 
@@ -43,9 +45,11 @@ module Views
                     end
                   end
 
-                  div do
-                    f.label :message, "Message (optional)", class: "label-text text-sm font-medium"
-                    f.text_area :message, class: "textarea textarea-sm textarea-bordered w-full mt-1",
+                  div(class: "form-control w-full") do
+                    f.label :message, class: "label" do
+                      span(class: "label-text text-sm font-medium") { "Message (optional)" }
+                    end
+                    f.text_area :message, class: "textarea textarea-sm textarea-bordered w-full",
                       rows: 2, placeholder: "Personal message...", maxlength: 500
                   end
 

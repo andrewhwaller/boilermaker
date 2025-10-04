@@ -60,7 +60,7 @@ module Views
           form_with(url: identity_invitation_acceptance_path, method: :patch, model: @user, class: "space-y-4") do |form|
             input(type: "hidden", name: "sid", value: @sid)
 
-            div do
+            div(class: "form-control w-full") do
               render Components::Label.new(for_id: "user_password", required: true) { "Password" }
               render Components::Input.new(
                 type: :password,
@@ -70,12 +70,14 @@ module Views
                 autofocus: true,
                 autocomplete: "new-password"
               )
-              div(class: "text-sm text-base-content/70 mt-1") do
-                plain "Minimum #{Boilermaker.config.password_min_length} characters."
+              label(class: "label") do
+                span(class: "label-text-alt text-sm text-base-content/70") do
+                  plain "Minimum #{Boilermaker.config.password_min_length} characters."
+                end
               end
             end
 
-            div do
+            div(class: "form-control w-full") do
               render Components::Label.new(for_id: "user_password_confirmation", required: true) { "Confirm password" }
               render Components::Input.new(
                 type: :password,

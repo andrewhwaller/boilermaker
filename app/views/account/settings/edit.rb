@@ -31,7 +31,7 @@ module Views
 
                 form_with(model: @account, url: account_settings_path, local: true, class: "space-y-4") do |f|
                   # Account name field
-                  div do
+                  div(class: "form-control w-full") do
                     f.label :name, "Account Name", class: "label"
                     f.text_field :name,
                       class: "input input-bordered w-full",
@@ -91,7 +91,9 @@ module Views
         private
 
         def helper_text(text)
-          div(class: "text-xs text-base-content/70 mt-1") { text }
+          label(class: "label") do
+            span(class: "label-text-alt text-xs text-base-content/70") { text }
+          end
         end
       end
     end

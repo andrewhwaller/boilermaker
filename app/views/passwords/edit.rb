@@ -21,7 +21,7 @@ class Views::Passwords::Edit < Views::Base
           form_errors(@user) if @user.errors.any?
 
           form_with(url: password_path, method: :patch, class: "space-y-4") do |form|
-            div do
+            div(class: "form-control w-full") do
               render Components::Label.new(for_id: "password_challenge", required: true) { "Current password" }
               render Components::Input.new(
                 type: :password,
@@ -33,7 +33,7 @@ class Views::Passwords::Edit < Views::Base
               )
             end
 
-            div do
+            div(class: "form-control w-full") do
               render Components::Label.new(for_id: "password", required: true) { "New password" }
               render Components::Input.new(
                 type: :password,
@@ -42,10 +42,12 @@ class Views::Passwords::Edit < Views::Base
                 required: true,
                 autocomplete: "new-password"
               )
-              div(class: "text-sm text-muted mt-1") { "12 characters minimum." }
+              label(class: "label") do
+                span(class: "label-text-alt text-sm text-base-content/70") { "12 characters minimum." }
+              end
             end
 
-            div do
+            div(class: "form-control w-full") do
               render Components::Label.new(for_id: "password_confirmation", required: true) { "Confirm new password" }
               render Components::Input.new(
                 type: :password,
