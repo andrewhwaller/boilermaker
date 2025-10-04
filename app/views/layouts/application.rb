@@ -35,6 +35,8 @@ module Views
             csrf_meta_tags
             csp_meta_tag
 
+            link(rel: "icon", type: "image/svg+xml", href: "/favicon.svg")
+
             raw google_fonts_link_tag if google_fonts_link_tag
 
             stylesheet_link_tag(:app, "data-turbo-track": "reload")
