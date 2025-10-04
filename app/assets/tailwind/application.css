@@ -285,7 +285,8 @@
 
   
   .label {
-    @apply text-xs uppercase text-base-content/70;
+    @apply text-xs text-base-content/70;
+    text-transform: var(--app-text-transform, uppercase);
   }
 
   :root {
