@@ -28,14 +28,14 @@ development:
     personal_accounts: true
   ui:
     theme:
-      light: drafting-table
-      dark: terminal
+      light: work-station
+      dark: command-center
     navigation:
       show_branding: true
       show_account_dropdown: true
       layout_mode: sidebar
     typography:
-      font: CommitMono
-      uppercase: true
-      size: base
+      font: Jura
+      uppercase: false
+      size: expanded
 test: {}
