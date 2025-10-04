@@ -35,7 +35,7 @@ development:
       show_account_dropdown: true
       layout_mode: sidebar
     typography:
-      font: Martian Mono
-      uppercase: false
-      size: expanded
+      font: CommitMono
+      uppercase: true
+      size: base
 test: {}
