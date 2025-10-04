@@ -22,7 +22,7 @@
  </div>
  </div>
  <div class="flex items-center gap-4">
- <span class="text-base-content/50">SYSTEM TIME: <%= Time.current.strftime("%H:%M:%S UTC") %></span>
+ <span class="text-base-content/50">SYSTEM TIME: <span data-controller="clock" data-clock-format-value="%H:%M:%S UTC"><%= Time.current.strftime("%H:%M:%S UTC") %></span></span>
  </div>
  </div>
  </header>
