@@ -68,23 +68,23 @@ module Boilermaker
         type: :local,
         family_stack: '"CommitMonoIndustrial", monospace'
       },
-      "Inter" => {
-        name: "Inter",
-        display_name: "Inter",
+      "Geist" => {
+        name: "Geist",
+        display_name: "Geist",
         type: :remote,
-        family_stack: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        family_stack: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         stylesheet_urls: [
-          "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          "https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap"
         ],
         preconnect_urls: GOOGLE_PRECONNECT_LINKS
       },
-      "Space Grotesk" => {
-        name: "Space Grotesk",
-        display_name: "Space Grotesk",
+      "Geist Mono" => {
+        name: "Geist Mono",
+        display_name: "Geist Mono",
         type: :remote,
-        family_stack: '"Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        family_stack: '"Geist Mono", "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", "Courier New", monospace',
         stylesheet_urls: [
-          "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+          "https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&display=swap"
         ],
         preconnect_urls: GOOGLE_PRECONNECT_LINKS
       },
@@ -92,7 +92,7 @@ module Boilermaker
         name: "Martian Mono",
         display_name: "Martian Mono",
         type: :remote,
-        family_stack: '"Martian Mono", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        family_stack: '"Martian Mono", "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", "Courier New", monospace',
         stylesheet_urls: [
           "https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;500;600;700&display=swap"
         ],
@@ -115,6 +115,16 @@ module Boilermaker
         family_stack: '"IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         stylesheet_urls: [
           "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+        ],
+        preconnect_urls: GOOGLE_PRECONNECT_LINKS
+      },
+      "IBM Plex Mono" => {
+        name: "IBM Plex Mono",
+        display_name: "IBM Plex Mono",
+        type: :remote,
+        family_stack: '"IBM Plex Mono", "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Source Code Pro", "Courier New", monospace',
+        stylesheet_urls: [
+          "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
         ],
         preconnect_urls: GOOGLE_PRECONNECT_LINKS
       },
@@ -155,6 +165,26 @@ module Boilermaker
         family_stack: '"Jura", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         stylesheet_urls: [
           "https://fonts.googleapis.com/css2?family=Jura:wght@400;500;600;700&display=swap"
+        ],
+        preconnect_urls: GOOGLE_PRECONNECT_LINKS
+      },
+      "DM Serif Text" => {
+        name: "DM Serif Text",
+        display_name: "DM Serif Text",
+        type: :remote,
+        family_stack: '"DM Serif Text", "Georgia", serif',
+        stylesheet_urls: [
+          "https://fonts.googleapis.com/css2?family=DM+Serif+Text:wght@400;500;600;700&display=swap"
+        ],
+        preconnect_urls: GOOGLE_PRECONNECT_LINKS
+      },
+      "Instrument Serif" => {
+        name: "Instrument Serif",
+        display_name: "Instrument Serif",
+        type: :remote,
+        family_stack: '"Instrument Serif", "Georgia", serif',
+        stylesheet_urls: [
+          "https://fonts.googleapis.com/css2?family=Instrument+Serif:wght@400;500;600;700&display=swap"
         ],
         preconnect_urls: GOOGLE_PRECONNECT_LINKS
       },
