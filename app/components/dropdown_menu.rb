@@ -10,7 +10,7 @@ class Components::DropdownMenu < Components::Base
   }.freeze
 
   DEFAULT_MENU_OPTIONS = {
-    class: "dropdown-content p-0 menu menu-sm bg-base-200 border border-base-300 rounded-box z-50 w-48",
+    class: "dropdown-content p-0 menu menu-sm bg-base-100 border border-primary/30 rounded-box z-50 w-48",
     tabindex: 0,
     data: {}
   }.freeze
