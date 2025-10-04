@@ -74,23 +74,72 @@ module ApplicationHelper
   end
 
   # Font configuration helpers
-  def google_fonts_link_tag
+  def font_stylesheet_link_tag
+    # Ensure configuration is loaded
+    Boilermaker::Config.load! unless Boilermaker::Config.data
+
     font_name = Boilermaker::Config.font_name
     return nil if Boilermaker::FontConfiguration.local_font?(font_name)
 
-    google_url = Boilermaker::FontConfiguration.google_fonts_url(font_name)
-    return nil unless google_url
+    tags = []
 
-    [
-      %(<link rel="preconnect" href="https://fonts.googleapis.com">),
-      %(<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>),
-      %(<link rel="stylesheet" href="#{google_url}">)
-    ].join("\n").html_safe
+    Boilermaker::FontConfiguration.preconnect_urls(font_name).each do |link|
+      options = { rel: "preconnect", href: link[:href] }
+      options[:crossorigin] = link[:crossorigin] if link.key?(:crossorigin)
+      tags << tag(:link, **options)
+    end
+
+    Boilermaker::FontConfiguration.preload_links(font_name).each do |link|
+      options = { rel: "preload", href: link[:href] }
+      options[:as] = link[:as] if link[:as]
+      options[:type] = link[:type] if link[:type]
+      options[:crossorigin] = link[:crossorigin] if link.key?(:crossorigin)
+      tags << tag(:link, **options)
+    end
+
+    stylesheets = Boilermaker::FontConfiguration.stylesheet_urls(font_name)
+    stylesheets.each do |url|
+      tags << tag(:link, rel: "stylesheet", href: url)
+    end
+
+    Boilermaker::FontConfiguration.style_blocks(font_name).each do |css|
+      next if css.blank?
+      tags << "<style>#{css}</style>"
+    end
+
+    return nil if tags.empty?
+
+    tags.map(&:to_s).join("\n").html_safe
   end
+
+  alias_method :google_fonts_link_tag, :font_stylesheet_link_tag
 
   def app_font_family
     font_name = Boilermaker::Config.font_name
     Boilermaker::FontConfiguration.font_family_stack(font_name)
+  end
+
+  def app_font_style_tag
+    font_stack = app_font_family
+    fallback_fonts = extract_fallback_fonts(font_stack)
+
+    <<~STYLE.html_safe
+      <style>
+        :root {
+          --app-font-family: #{font_stack};
+          --app-font-family-fallback: #{fallback_fonts};
+          --app-text-transform: #{app_text_transform};
+          --app-font-scale: #{app_base_font_size};
+        }
+      </style>
+    STYLE
+  end
+
+  private
+
+  def extract_fallback_fonts(font_stack)
+    stack_parts = font_stack.gsub(/["']/, "").split(",").map(&:strip)
+    stack_parts.drop(1).join(", ")
   end
 
   def app_text_transform
