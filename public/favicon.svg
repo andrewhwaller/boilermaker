@@ -1,7 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" fill="#1a1a1a"/>
   <rect x="4" y="4" width="24" height="24" fill="none" stroke="#d79326" stroke-width="2"/>
-  <rect x="8" y="12" width="3" height="16" fill="#d79326"/>
-  <rect x="13" y="8" width="3" height="20" fill="#d79326"/>
-  <rect x="18" y="10" width="3" height="18" fill="#d79326"/>
+  <!-- Terminal prompt: > -->
+  <path d="M 9 10 L 15 16 L 9 22" fill="none" stroke="#d79326" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter"/>
+  <!-- Cursor -->
+  <rect x="18" y="14" width="6" height="4" fill="#d79326"/>
 </svg>
