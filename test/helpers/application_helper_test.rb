@@ -11,18 +11,18 @@ class ApplicationHelperTest < ActionView::TestCase
     Boilermaker::Config.instance_variable_set(:@data, @original_data)
   end
 
-  test "google_fonts_link_tag returns nil for CommitMono" do
+  test "font_stylesheet_link_tag returns nil for CommitMono" do
     stub_font_config("CommitMono")
 
-    result = google_fonts_link_tag
+    result = font_stylesheet_link_tag
 
     assert_nil result
   end
 
-  test "google_fonts_link_tag returns link tags for Google Fonts" do
+  test "font_stylesheet_link_tag returns link tags for Google Fonts" do
     stub_font_config("Inter")
 
-    result = google_fonts_link_tag
+    result = font_stylesheet_link_tag
 
     assert_not_nil result
     assert_includes result, "fonts.googleapis.com"
@@ -30,16 +30,20 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes result, "Inter"
     assert_includes result, 'rel="preconnect"'
     assert_includes result, 'rel="stylesheet"'
+    assert_includes result, 'crossorigin="anonymous"'
   end
 
-  test "google_fonts_link_tag returns link tags for Space Grotesk" do
-    stub_font_config("Space Grotesk")
+  test "font_stylesheet_link_tag returns link tags for Monaspace" do
+    stub_font_config("Monaspace Neon")
 
-    result = google_fonts_link_tag
+    result = font_stylesheet_link_tag
 
     assert_not_nil result
-    assert_includes result, "fonts.googleapis.com"
-    assert_includes result, "Space+Grotesk"
+    assert_includes result, "cdn.jsdelivr.net"
+    assert_includes result, "@font-face"
+    assert_includes result, "<style>"
+    assert_includes result, 'rel="preload"'
+    assert_not_includes result, "/fonts/monaspace-neon.css"
   end
 
   test "app_font_family returns correct stack for CommitMono" do
@@ -59,12 +63,12 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes result, "sans-serif"
   end
 
-  test "app_font_family returns correct stack for JetBrains Mono" do
-    stub_font_config("JetBrains Mono")
+  test "app_font_family returns correct stack for Monaspace" do
+    stub_font_config("Monaspace Neon")
 
     result = app_font_family
 
-    assert_includes result, "JetBrains Mono"
+    assert_includes result, "Monaspace Neon"
     assert_includes result, "monospace"
   end
 
