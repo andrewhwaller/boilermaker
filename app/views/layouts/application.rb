@@ -23,7 +23,7 @@ module Views
             controller: "theme",
             "theme-light-name-value": Boilermaker::Config.theme_light_name,
             "theme-dark-name-value": Boilermaker::Config.theme_dark_name,
-            theme: (Current.theme_name || Boilermaker::Config.theme_light_name)
+            theme: Current.theme_name || Boilermaker::Config.theme_light_name
           }
         ) do
           head do
@@ -37,11 +37,11 @@ module Views
 
             link(rel: "icon", type: "image/svg+xml", href: "/favicon.svg")
 
-            raw google_fonts_link_tag if google_fonts_link_tag
-
             stylesheet_link_tag(:app, "data-turbo-track": "reload")
 
-            raw "<style>:root { --app-font-family: #{app_font_family}; --app-text-transform: #{app_text_transform}; --app-font-scale: #{app_base_font_size}; }</style>".html_safe
+            raw app_font_style_tag
+
+            raw font_stylesheet_link_tag
 
             link(rel: "manifest", href: "/pwa/manifest.json")
 
@@ -85,7 +85,7 @@ module Views
       end
 
       def body_classes
-        base = "min-h-screen bg-base-100 text-base-content theme-transition"
+        base = "min-h-screen bg-base-100 text-base-content"
         authenticated_with_sidebar? ? "#{base} pl-64" : base
       end
 

@@ -12,6 +12,10 @@
   html {
     font-size: calc(16px * var(--app-font-scale, 1));
   }
+
+  body {
+    font-family: var(--app-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  }
 }
 
 @layer components {
@@ -40,7 +44,6 @@
 
 }
 
-/* Define custom theme via DaisyUI theme plugin (docs syntax) */
 @plugin "./daisyui/theme.js" {
   name: "work-station";
   prefersdark: false;
@@ -69,30 +72,26 @@
   --color-error: oklch(45% 0.180 25);
   --color-error-content: oklch(98% 0.005 25);
 
-  /* very subtle corners for work-station */
   --radius-selector: 0.15625rem;
   --radius-field: 0.15625rem;
   --radius-box: 0.15625rem;
 
-  /* base sizes */
   --size-selector: 0.25rem;
   --size-field: 0.175rem !important;
 
-  /* border size */
   --border: 1px;
 
-  /* effects */
   --depth: 0;
   --noise: 0;
 
   --radius-sm: 0.15625rem;
-  --radius: 0.15625rem;      /* used by `rounded` */
-  --radius-md: 0.15625rem;   /* `rounded-md` */
-  --radius-lg: 0.15625rem;   /* `rounded-lg` */
+  --radius: 0.15625rem;
+  --radius-md: 0.15625rem;
+  --radius-lg: 0.15625rem;
   --radius-xl: 0.15625rem;
   --radius-2xl: 0.15625rem;
   --radius-3xl: 0.15625rem;
-  --radius-full: 0.15625rem; /* subtle rounding even for "full" */
+  --radius-full: 0.15625rem;
 }
 
 @plugin "./daisyui/theme.js" {
@@ -101,13 +100,11 @@
   prefersdark: true;
   color-scheme: dark;
 
-  /* Rich black command center backgrounds */
   --color-base-100: #000000;
   --color-base-200: #0a0a0a;
   --color-base-300: #2a2a2a;
   --color-base-content: #b8b8b8;
 
-  /* ATC-inspired command center - minimal golden accent palette */
   --color-primary: #d79326;
   --color-primary-content: #000000;
   --color-secondary: #1f1a0d;
@@ -126,30 +123,26 @@
   --color-error: oklch(50% 0.200 25);
   --color-error-content: oklch(95% 0.005 25);
 
-  /* square corners everywhere */
   --radius-selector: 0rem;
   --radius-field: 0rem;
   --radius-box: 0rem;
 
-  /* base sizes */
   --size-selector: 0.25rem;
   --size-field: 0.175rem !important;
 
-  /* border size */
   --border: 1px;
 
-  /* effects */
   --depth: 0;
   --noise: 0;
 
   --radius-sm: 0;
-  --radius: 0;      /* used by `rounded` */
-  --radius-md: 0;   /* `rounded-md` */
-  --radius-lg: 0;   /* `rounded-lg` */
+  --radius: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
   --radius-xl: 0;
   --radius-2xl: 0;
   --radius-3xl: 0;
-  --radius-full: 0; /* sets `rounded-full` to square too */
+  --radius-full: 0;
 }
 
 @plugin "./daisyui/theme.js" {
@@ -157,13 +150,11 @@
   prefersdark: false;
   color-scheme: light;
 
-  /* Clean monochrome backgrounds - high contrast white to light gray */
   --color-base-100: oklch(99% 0 0);
   --color-base-200: oklch(96% 0 0);
   --color-base-300: oklch(92% 0 0);
   --color-base-content: oklch(20% 0 0);
 
-  /* Professional monochrome palette - pure black primary */
   --color-primary: #000000;
   --color-primary-content: oklch(98% 0 0);
   --color-secondary: #6b7280;
@@ -173,7 +164,6 @@
   --color-neutral: oklch(30% 0 0);
   --color-neutral-content: oklch(96% 0 0);
 
-  /* Technical status colors - muted for drafting aesthetic */
   --color-info: oklch(62% 0.09 230);
   --color-info-content: #f8f9fa;
   --color-success: oklch(60% 0.11 155);
@@ -183,31 +173,26 @@
   --color-error: oklch(58% 0.13 20);
   --color-error-content: oklch(98% 0 0);
 
-  /* Very subtle corners for drafting-table - clean technical aesthetic */
   --radius-selector: 0.15625rem;
   --radius-field: 0.15625rem;
   --radius-box: 0.15625rem;
 
-  /* Base sizes - match work-station structure */
   --size-selector: 0.25rem;
   --size-field: 0.175rem !important;
 
-  /* Border size - crisp lines like technical drawings */
   --border: 1px;
 
-  /* Effects - minimal like technical drawings */
   --depth: 0;
   --noise: 0;
 
-  /* Radius utilities - consistent subtle rounding */
   --radius-sm: 0.15625rem;
-  --radius: 0.15625rem;      /* used by `rounded` */
-  --radius-md: 0.15625rem;   /* `rounded-md` */
-  --radius-lg: 0.15625rem;   /* `rounded-lg` */
+  --radius: 0.15625rem;
+  --radius-md: 0.15625rem;
+  --radius-lg: 0.15625rem;
   --radius-xl: 0.15625rem;
   --radius-2xl: 0.15625rem;
   --radius-3xl: 0.15625rem;
-  --radius-full: 0.15625rem; /* subtle rounding even for "full" */
+  --radius-full: 0.15625rem;
 }
 
 @plugin "./daisyui/theme.js" {
@@ -215,13 +200,11 @@
   prefersdark: true;
   color-scheme: dark;
 
-  /* Deep terminal backgrounds - very dark with minimal green tint */
   --color-base-100: #030503;
   --color-base-200: #050805;
   --color-base-300: #080b08;
   --color-base-content: #40ff70;
 
-  /* Classic terminal green palette - brighter for contrast on dark */
   --color-primary: #40ff70;
   --color-primary-content: #000000;
   --color-secondary: #1a4d2e;
@@ -231,7 +214,6 @@
   --color-neutral: oklch(18% 0.02 145);
   --color-neutral-content: #40ff70;
 
-  /* Terminal status colors - bright for legibility on near-black */
   --color-info: oklch(62% 0.16 200);
   --color-info-content: #000000;
   --color-success: #40ff70;
@@ -241,31 +223,26 @@
   --color-error: oklch(65% 0.20 25);
   --color-error-content: #000000;
 
-  /* Square corners everywhere - terminal aesthetic */
   --radius-selector: 0rem;
   --radius-field: 0rem;
   --radius-box: 0rem;
 
-  /* Base sizes */
   --size-selector: 0.25rem;
   --size-field: 0.175rem !important;
 
-  /* Border size - crisp terminal lines */
   --border: 1px;
 
-  /* Effects - flat terminal look */
   --depth: 0;
   --noise: 0;
 
-  /* Radius utilities - all square for terminal aesthetic */
   --radius-sm: 0;
-  --radius: 0;      /* used by `rounded` */
-  --radius-md: 0;   /* `rounded-md` */
-  --radius-lg: 0;   /* `rounded-lg` */
+  --radius: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
   --radius-xl: 0;
   --radius-2xl: 0;
   --radius-3xl: 0;
-  --radius-full: 0; /* sets `rounded-full` to square too */
+  --radius-full: 0;
 }
 
 
@@ -274,7 +251,6 @@
     font-size: calc(14px * var(--app-font-scale, 1));
   }
 
-  /* Override heading sizes so they respond proportionally to --app-font-scale */
   h1 {
     font-size: calc(1.45rem * var(--app-font-scale, 1));
     line-height: 1.2;
@@ -307,7 +283,7 @@
     margin: 0;
   }
 
-  /* Form labels should be small and understated */
+  
   .label {
     @apply text-xs uppercase text-base-content/70;
   }
@@ -353,7 +329,7 @@
 
 
 body {
-  font-family: var(--app-font-family, "Arial");
+  font-family: var(--app-font-family, var(--app-font-family-fallback, "Arial"));
 }
 .input, .select {
   --size-field: 0.2rem !important;
@@ -384,12 +360,12 @@ body {
 .select:not(.select-error):not(.select-success):not(.select-warning):not(.select-info),
 .select-bordered:not(.select-error):not(.select-success):not(.select-warning):not(.select-info) {
   @apply bg-base-300/50 border border-base-content/20 text-base-content px-2 py-1 text-sm focus:border-primary focus:outline-none;
-  font-family: var(--app-font-family, "Arial");
+  font-family: var(--app-font-family, var(--app-font-family-fallback, "Arial"));
 }
 
 .input-error, .textarea-error, .select-error {
   @apply bg-base-300/50 text-base-content px-2 py-1 text-sm;
-  font-family: var(--app-font-family, "Arial");
+  font-family: var(--app-font-family, var(--app-font-family-fallback, "Arial"));
 }
 
 .input-error:focus-visible, .textarea-error:focus-visible, .select-error:focus-visible {
@@ -402,19 +378,19 @@ body {
   outline-offset: 1px !important;
 }
 
-/* Industrial Data-Dense Table Styling */
+
 .table {
-  /* Dense, technical spacing */
+  
   --table-row-padding: 0.5rem 0.75rem;
 
-  /* Enhanced borders for data clarity */
+  
   border-collapse: separate;
   border-spacing: 0;
 
-  /* Subtle industrial background */
+  
   background: oklch(from var(--color-base-100) l c h / 0.95);
 
-  /* Theme-consistent rounded corners */
+  
   border-radius: var(--radius-box);
   overflow: hidden;
 }
@@ -422,62 +398,62 @@ body {
 .table :where(th, td) {
   padding: var(--table-row-padding);
 
-  /* Technical grid lines */
+  
   border-right: 1px solid oklch(from var(--color-base-300) l c h / 0.3);
   border-bottom: 1px solid oklch(from var(--color-base-300) l c h / 0.2);
 
-  /* Improved text density */
+  
   line-height: 1.3;
   font-variant-numeric: tabular-nums;
-  font-family: var(--app-font-family, "Arial");
+  font-family: var(--app-font-family, var(--app-font-family-fallback, "Arial"));
 }
 
 .table thead th {
-  /* Strong header separation */
+  
   background: var(--color-base-200);
   border-bottom: 2px solid var(--color-base-300);
 
-  /* Technical header styling */
+  
   font-weight: 600;
   font-size: 0.875rem;
   text-transform: var(--app-text-transform, uppercase);
   letter-spacing: 0.025em;
 
-  /* Remove right border on last column */
+  
   &:last-child {
     border-right: none;
   }
 }
 
 .table tbody td {
-  /* Data cell styling */
-  font-family: var(--app-font-family, "Arial");
+  
+  font-family: var(--app-font-family, var(--app-font-family-fallback, "Arial"));
   font-size: 0.875rem;
 
-  /* Remove right border on last column */
+  
   &:last-child {
     border-right: none;
   }
 }
 
-/* Enhanced zebra striping for data density */
+
 .table-zebra tbody tr:nth-child(even) {
   background: oklch(from var(--color-base-200) l c h / 0.15);
 }
 
-/* Industrial hover states */
+
 .table tbody tr:hover {
   background: oklch(from var(--color-base-300) l c h / 0.1) !important;
   box-shadow: inset 0 0 0 1px oklch(from var(--color-base-300) l c h / 0.2);
 }
 
-/* Row variants for data status indication */
+
 .table tbody tr.active {
   background: oklch(from var(--color-primary) l c h / 0.08) !important;
   border-left: 3px solid var(--color-primary);
 }
 
-/* Size variants for different data density needs */
+
 .table-xs {
   --table-row-padding: 0.25rem 0.5rem;
 
@@ -502,14 +478,14 @@ body {
   }
 }
 
-/* Pin rows for sticky headers in data-dense scenarios */
+
 .table-pin-rows thead th {
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
-/* Pin cols for sticky first column */
+
 .table-pin-cols :where(th, td):first-child {
   position: sticky;
   left: 0;
@@ -521,31 +497,31 @@ body {
   z-index: 11;
 }
 
-/* Theme-agnostic industrial table enhancements */
+
 .table thead th {
-  /* Use theme accent color for industrial headers */
+  
   color: var(--color-accent);
   border-bottom-color: var(--color-accent);
 }
 
 .table tbody tr:hover {
-  /* Use theme accent for hover states across all themes */
+  
   background: oklch(from var(--color-accent) l c h / 0.05) !important;
   box-shadow: inset 0 0 0 1px oklch(from var(--color-accent) l c h / 0.15);
 }
 
-/* Active row styling using theme primary */
+
 .table tbody tr.active {
   background: oklch(from var(--color-primary) l c h / 0.08) !important;
   border-left: 3px solid var(--color-primary);
 }
 
-/* Enhanced zebra striping using theme base colors */
+
 .table-zebra tbody tr:nth-child(even) {
   background: oklch(from var(--color-base-200) l c h / 0.2);
 }
 
-/* Bordered variant using theme base colors */
+
 .table-bordered {
   border: 1px solid var(--color-base-300);
 
@@ -560,7 +536,7 @@ body {
 }
 
 
-/* Dense variant for maximum data density */
+
 .table-dense {
   --table-row-padding: 0.25rem 0.5rem;
 
@@ -574,41 +550,41 @@ body {
   }
 }
 
-/* Action column styling for industrial tables */
+
 .table .table-actions {
-  /* Minimize action column width */
+  
   width: 1%;
   white-space: nowrap;
 
-  /* Right-align actions by default */
+  
   text-align: right;
 
-  /* Reduce padding for actions */
+  
   padding-left: 0.25rem;
   padding-right: 0.5rem;
 }
 
 .table .table-actions .btn {
-  /* Industrial action button styling */
+  
   min-height: 1.5rem;
   height: 1.5rem;
   padding: 0 0.375rem;
   font-size: 0.75rem;
   line-height: 1;
 
-  /* Remove default button styling for clean industrial look */
+  
   border: 1px solid oklch(from var(--color-base-300) l c h / 0.3);
   background: var(--color-base-100);
   color: var(--color-base-content);
 
-  /* Subtle hover states */
+  
   &:hover {
     background: oklch(from var(--color-base-200) l c h / 0.8);
     border-color: oklch(from var(--color-accent) l c h / 0.4);
     color: var(--color-accent);
   }
 
-  /* Focus states for accessibility */
+  
   &:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 1px;
@@ -619,7 +595,7 @@ body {
   margin-left: 0.25rem;
 }
 
-/* Dense action buttons for dense tables */
+
 .table.table-dense .table-actions .btn {
   min-height: 1.25rem;
   height: 1.25rem;
@@ -627,7 +603,7 @@ body {
   font-size: 0.6875rem;
 }
 
-/* Theme toggle state styling */
+
 [data-theme-target="toggle"][data-dark="false"] {
   @apply border-base-content/20 bg-base-100;
 }
@@ -644,7 +620,7 @@ body {
   @apply text-base-content/80 drop-shadow-[0_0_2px_rgba(255,255,255,0.3)];
 }
 
-/* ASCII Loading Animations */
+
 @keyframes ascii-dots-animation {
   0% { content: "⠋"; }
   10% { content: "⠙"; }
