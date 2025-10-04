@@ -53,7 +53,7 @@ class AccountsController < ApplicationController
   private
 
   def set_account
-    @account = Current.user.accounts.find(params[:id])
+    @account = Current.user.accounts.find_by_hashid(params[:id])
   end
 
   def require_owner
