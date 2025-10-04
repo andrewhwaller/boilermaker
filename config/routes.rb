@@ -28,9 +28,10 @@ Rails.application.routes.draw do
 
   # Identity management
   namespace :identity do
-    resource :email,              only: [ :edit, :update ]
-    resource :email_verification, only: [ :show, :create ]
-    resource :password_reset,     only: [ :new, :edit, :create, :update ]
+    resource :email,                  only: [ :edit, :update ]
+    resource :email_verification,     only: [ :show, :create ]
+    resource :password_reset,         only: [ :new, :edit, :create, :update ]
+    resource :invitation_acceptance,  only: [ :show, :update ]
   end
 
   # Two-factor authentication routes
@@ -54,8 +55,18 @@ Rails.application.routes.draw do
   # Settings
   resource :settings, only: [ :show ]
 
+  # Account switching
+  resources :account_switches, only: [ :create ]
+
+  # Accounts (user's accounts)
+  resources :accounts do
+    # Account conversion
+    post "convert_to_team", to: "account_conversions#to_team", as: :conversion_to_team
+    post "convert_to_personal", to: "account_conversions#to_personal", as: :conversion_to_personal
+  end
+
   # Account management (per-account admin)
-  get "account", to: "account/dashboards#show", as: :account
+  get "account", to: "account/dashboards#show", as: :account_dashboard
   patch "account", to: "account/dashboards#update"
   scope :account, module: :account, as: :account do
     resources :users, only: [ :index, :show, :edit, :update, :destroy ]

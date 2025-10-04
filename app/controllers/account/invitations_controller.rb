@@ -2,7 +2,7 @@ class Account::InvitationsController < Account::BaseController
   before_action :set_invitation, only: [ :destroy ]
 
   def index
-    @pending_users = Current.user.account.users.where(verified: false).order(created_at: :desc)
+    @pending_users = Current.account.members.where(verified: false).order(created_at: :desc)
     render Views::Account::Invitations::Index.new(pending_users: @pending_users)
   end
 
@@ -15,45 +15,44 @@ class Account::InvitationsController < Account::BaseController
     message = params[:message]&.strip
 
     if email.blank? || !email.match?(URI::MailTo::EMAIL_REGEXP)
-      redirect_to account_path, alert: "Please enter a valid email address."
+      redirect_to account_dashboard_path, alert: "Please enter a valid email address."
       return
     end
 
-    user = User.create_with(
-      password: SecureRandom.base58,
-      verified: false,
-      app_admin: false,
-      account: Current.user.account
-    ).find_or_initialize_by(
-      email: email,
-      account: Current.user.account
-    )
+    # Find existing user or create new one
+    user = User.find_or_initialize_by(email: email)
 
-    if user.persisted? && user.verified?
-      redirect_to account_path,
+    if user.new_record?
+      user.password = SecureRandom.base58
+      user.verified = false
+      user.app_admin = false
+    end
+
+    if user.persisted? && user.verified? && Current.account.members.include?(user)
+      redirect_to account_dashboard_path,
         alert: "#{user.email} is already a member of this account."
     elsif user.save
-      membership = AccountMembership.find_or_create_by!(user: user, account: Current.user.account)
+      membership = AccountMembership.find_or_create_by!(user: user, account: Current.account)
       roles = membership.roles.merge("member" => true, "admin" => false)
       membership.update!(roles: roles)
       send_invitation_instructions(user, message)
-      redirect_to account_path,
+      redirect_to account_dashboard_path,
         notice: "Invitation sent to #{user.email}"
     else
-      redirect_to account_path,
+      redirect_to account_dashboard_path,
         alert: "Error sending invitation: #{user.errors.full_messages.join(', ')}"
     end
   end
 
   def destroy
     @invitation.destroy!
-    redirect_to account_path, notice: "Invitation cancelled."
+    redirect_to account_dashboard_path, notice: "Invitation cancelled."
   end
 
   private
 
   def set_invitation
-    @invitation = Current.user.account.users.unverified.find(params[:id])
+    @invitation = Current.account.members.unverified.find(params[:id])
   end
 
   def send_invitation_instructions(user, message = nil)

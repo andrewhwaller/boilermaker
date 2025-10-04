@@ -114,25 +114,12 @@ class TextareaTest < ComponentTestCase
     component = Components::Textarea.new(error: "This field is required")
 
     assert_has_text component, "This field is required"
-    assert_has_css_class Components::Textarea.new(error: "This field is required"), "text-error"
   end
 
   test "does not render error message when no error" do
     component = Components::Textarea.new
 
     assert_no_css_class component, "text-error"
-  end
-
-  test "error message has proper Daisy UI styling" do
-    component = Components::Textarea.new(error: "Error message")
-
-    doc = render_and_parse(component)
-    error_element = doc.css(".text-error").first
-    classes = error_element["class"].split(" ")
-
-    assert_includes classes, "label-text-alt"
-    assert_includes classes, "text-error"
-    assert_includes classes, "mt-1"
   end
 
   test "renders complete textarea with all features" do

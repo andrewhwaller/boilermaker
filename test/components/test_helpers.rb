@@ -106,22 +106,25 @@ module ComponentTestHelpers
 
   # Simulate current user for components that depend on Current.user
   # Uses Current.session.user, since Current has no writer
-  # @param user_attrs [Hash, nil] User attributes to simulate (nil clears user)
-  def with_current_user(user_attrs = {})
+  # @param user [User, nil] Logged-in user to simulate (nil clears user)
+  # @param account [Account, nil] Optional account to mark as current (defaults to user's first account)
+  def with_current_user(user, account: nil)
     original_session = Current.session
-    if user_attrs.nil?
+    original_account = Current.account
+
+    if user.nil?
       Current.session = nil
+      Current.account = nil
     else
-      mock_user = OpenStruct.new({
-        email: "test@example.com",
-        admin?: false,
-        account_admin_for?: false
-      }.merge(user_attrs))
-      Current.session = OpenStruct.new(user: mock_user)
+      account ||= user.accounts.first
+      Current.session = OpenStruct.new(user: user, account: account)
+      Current.account = account
     end
+
     yield
   ensure
     Current.session = original_session
+    Current.account = original_account
   end
 
   # Test component behavior with different screen sizes/responsive classes

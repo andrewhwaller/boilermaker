@@ -30,7 +30,12 @@ export default class extends Controller {
 
     this.toggleTargets.forEach(toggle => {
       toggle.setAttribute("aria-pressed", isDark ? "true" : "false")
-      toggle.classList.toggle("theme-toggle-dark", isDark)
+      toggle.dataset.dark = isDark
+
+      const textSpan = toggle.querySelector("span")
+      if (textSpan) {
+        textSpan.textContent = isDark ? "NEGATIVE" : "POSITIVE"
+      }
     })
   }
 }

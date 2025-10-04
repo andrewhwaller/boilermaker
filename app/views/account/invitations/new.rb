@@ -19,7 +19,7 @@ module Views
                 h1(class: "font-bold text-base-content") { "Send Invitation" }
                 div(class: "flex gap-2") do
                   link_to("View Invitations", account_invitations_path, class: "btn btn-outline")
-                  link_to("Back to Dashboard", account_path, class: "btn btn-ghost")
+                  link_to("Back to Dashboard", account_dashboard_path, class: "btn btn-ghost")
                 end
               end
 

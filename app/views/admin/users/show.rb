@@ -54,8 +54,8 @@ module Views
                       end
 
                       div do
-                        div(class: "text-base-content/70") { "Account" }
-                        div(class: "font-medium") { @user.account.name || "Default Account" }
+                        div(class: "text-base-content/70") { "Accounts" }
+                        div(class: "font-medium") { "#{@user.accounts.count} account(s)" }
                       end
 
                       div do
@@ -83,21 +83,29 @@ module Views
               end
 
               card do
-                h3(class: "font-semibold text-base-content mb-4") { "Account Information" }
+                h3(class: "font-semibold text-base-content mb-4") { "Account Memberships" }
 
-                div(class: "grid grid-cols-2 gap-4 text-sm") do
-                  div do
-                    div(class: "text-base-content/70") { "Total Users in Account" }
-                    div(class: "font-medium") do
-                      plain(pluralize(@user.account.users.count, "user"))
+                div(class: "space-y-2") do
+                  if @user.accounts.any?
+                    @user.accounts.each do |account|
+                      div(class: "flex justify-between items-center p-2 bg-base-300/30 rounded") do
+                        div do
+                          div(class: "font-medium") { account.name }
+                          div(class: "text-xs text-base-content/60") do
+                            if account.owner == @user
+                              "Owner"
+                            elsif @user.account_admin_for?(account)
+                              "Admin"
+                            else
+                              "Member"
+                            end
+                          end
+                        end
+                        a(href: account_path(account), class: "btn btn-xs btn-ghost") { "View" }
+                      end
                     end
-                  end
-
-                  div do
-                    div(class: "text-base-content/70") { "Account Created" }
-                    div(class: "font-medium") do
-                      plain("#{time_ago_in_words(@user.account.created_at)} ago")
-                    end
+                  else
+                    div(class: "text-base-content/60") { "No account memberships" }
                   end
                 end
               end
@@ -115,7 +123,7 @@ module Views
                             plain("Started #{time_ago_in_words(session.created_at)} ago")
                           end
                         end
-                        div(class: "text-xs text-base-content/50 font-mono") do
+                        div(class: "text-xs text-base-content/50") do
                           plain(session.ip_address)
                         end
                       end

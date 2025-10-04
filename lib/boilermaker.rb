@@ -5,6 +5,7 @@ require_relative "boilermaker/version"
 require_relative "boilermaker/config"
 require_relative "boilermaker/engine"
 require_relative "boilermaker/themes"
+require_relative "boilermaker/font_configuration"
 
 # Require routes after engine is loaded
 require_relative "boilermaker/config/routes"

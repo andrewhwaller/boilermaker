@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+app_admin_personal:
+  user: app_admin
+  account: one
+  roles: { "admin": true, "member": true }
+
+app_admin_team:
+  user: app_admin
+  account: two
+  roles: { "admin": true, "member": true }
+
+regular_user_personal:
+  user: regular_user
+  account: three
+  roles: { "admin": true, "member": true }
+
+regular_user_on_acme:
+  user: regular_user
+  account: two
+  roles: { "admin": false, "member": true }

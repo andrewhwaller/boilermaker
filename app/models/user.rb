@@ -1,8 +1,10 @@
 class User < ApplicationRecord
   include Hashid::Rails
-  belongs_to :account
+  has_many :sessions, dependent: :destroy
   has_many :account_memberships, dependent: :destroy
   has_many :accounts, through: :account_memberships
+  has_many :owned_accounts, class_name: "Account", foreign_key: :owner_id, dependent: :destroy
+  has_many :recovery_codes, dependent: :destroy
   has_secure_password
 
   generates_token_for :email_verification, expires_in: 2.days do
@@ -13,8 +15,9 @@ class User < ApplicationRecord
     password_salt.last(10)
   end
 
-  has_many :sessions, dependent: :destroy
-  has_many :recovery_codes, dependent: :destroy
+  generates_token_for :invitation, expires_in: 7.days do
+    email
+  end
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, allow_nil: true, length: { minimum: -> { Boilermaker.config.password_min_length } }
@@ -40,14 +43,24 @@ class User < ApplicationRecord
     app_admin
   end
 
-  # Returns the membership for the given account (or current single account)
-  def membership_for(account = nil)
-    account ||= self.account
+  # Personal account lookup (when feature enabled)
+  def personal_account
+    return nil unless Boilermaker.config.personal_accounts?
+    owned_accounts.personal.first
+  end
+
+  # Check if user can access account
+  def can_access?(account)
+    accounts.include?(account)
+  end
+
+  # Returns the membership for the given account
+  def membership_for(account)
     account_memberships.find_by(account_id: account&.id)
   end
 
   # Account-scoped admin via membership; app-level admins inherit access
-  def account_admin_for?(account = nil)
+  def account_admin_for?(account)
     return true if app_admin?
     membership_for(account)&.admin? || false
   end

@@ -17,7 +17,7 @@ module Views
             # Compact header
             div(class: "flex items-center justify-between mb-4") do
               div(class: "flex items-center gap-4") do
-                link_to("← Dashboard", account_path, class: "text-sm text-base-content/70 hover:text-primary")
+                link_to("← Dashboard", account_dashboard_path, class: "text-sm text-base-content/70 hover:text-primary")
                 h1(class: "font-bold text-base-content") { "Invitations" }
               end
             end
@@ -76,7 +76,7 @@ module Views
                             div(class: "font-medium text-sm truncate") { user.email }
                             div(class: "flex items-center gap-2 text-xs text-base-content/70") do
                               plain(time_ago_in_words(user.created_at) + " ago")
-                              if user.account_admin_for?(Current.user.account)
+                              if user.account_admin_for?(Current.account)
                                 span(class: "badge badge-primary badge-xs") { "admin" }
                               end
                             end

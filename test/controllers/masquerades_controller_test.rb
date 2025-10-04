@@ -29,8 +29,12 @@ class MasqueradesControllerTest < ActionDispatch::IntegrationTest
     other_account_user = User.create!(
       email: "other@example.com",
       password: "MyVerySecurePassword2024!",
-      verified: true,
-      account: accounts(:two)
+      verified: true
+    )
+    AccountMembership.create!(
+      user: other_account_user,
+      account: accounts(:two),
+      roles: { "admin" => true, "member" => true }
     )
 
     post user_masquerade_path(other_account_user)

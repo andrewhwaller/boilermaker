@@ -10,6 +10,10 @@ default:
     two_factor_authentication: false
     multi_tenant: false
     personal_accounts: false
+  ui:
+    typography:
+      uppercase: true
+      size: base
 development:
   app:
     name: Boilermaker
@@ -17,17 +21,21 @@ development:
     support_email: support@example.com
     description: A modern Rails application
   features:
-    user_registration: false
+    user_registration: true
     password_reset: false
     two_factor_authentication: false
     multi_tenant: false
-    personal_accounts: false
+    personal_accounts: true
   ui:
     theme:
-      light: work-station
-      dark: command-center
+      light: drafting-table
+      dark: terminal
     navigation:
       show_branding: true
       show_account_dropdown: true
       layout_mode: sidebar
+    typography:
+      font: CommitMono
+      uppercase: true
+      size: base
 test: {}

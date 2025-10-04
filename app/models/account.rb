@@ -1,16 +1,43 @@
 class Account < ApplicationRecord
   include Hashid::Rails
-  has_many :users, dependent: :destroy
+
+  belongs_to :owner, class_name: "User"
   has_many :account_memberships, dependent: :destroy
   has_many :members, through: :account_memberships, source: :user
+  has_many :sessions, dependent: :nullify
 
   validates :name, presence: true
+  validates :personal, inclusion: { in: [ true, false ] }
+  validates :owner, presence: true
 
-  # Create a default account if personal accounts are enabled
-  def self.create_default_for_user(user_email)
-    return unless Boilermaker.config.personal_accounts?
+  scope :personal, -> { where(personal: true) }
+  scope :team, -> { where(personal: false) }
 
-    default_name = Boilermaker.config.get("accounts.default_account_name") || "Personal"
-    create!(name: "#{default_name} (#{user_email})")
+  def personal?
+    personal
+  end
+
+  def team?
+    !personal
+  end
+
+  # Conversion methods
+  def can_convert_to_team?(user)
+    personal? && owner == user
+  end
+
+  def can_convert_to_personal?(user)
+    team? && owner == user && account_memberships.count == 1
+  end
+
+  def convert_to_team!
+    raise "Already a team account" if team?
+    update!(personal: false)
+  end
+
+  def convert_to_personal!
+    raise "Already a personal account" if personal?
+    raise "Cannot convert: multiple members" if account_memberships.count > 1
+    update!(personal: true)
   end
 end

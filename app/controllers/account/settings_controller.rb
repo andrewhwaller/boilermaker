@@ -20,10 +20,10 @@ class Account::SettingsController < Account::BaseController
   private
 
   def set_account
-    @account = Current.user.account
+    @account = Current.account
   end
 
   def account_params
-    params.require(:account).permit(:name)
+    params.expect(account: [ :name ])
   end
 end

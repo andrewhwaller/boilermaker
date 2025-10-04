@@ -35,4 +35,8 @@ module NavigationHelpers
       "#{base_classes} btn-ghost"
     end
   end
+
+  def navigation_label(text)
+    text.to_s.tr("_", " ").titleize
+  end
 end

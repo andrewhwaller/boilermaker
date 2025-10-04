@@ -1,72 +1,78 @@
 <div class="mb-4 border-b border-primary/30 pb-2">
-  <div class="flex items-center justify-between">
-    <h1 class="text-base font-bold text-primary font-mono uppercase tracking-wider">SYSTEM CONFIGURATION</h1>
-    <div class="flex gap-2">
-      <%= link_to "RETURN", main_app.root_path, class: "btn btn-sm btn-secondary font-mono" %>
-      <%= link_to "MODIFY", boilermaker.edit_settings_path, class: "btn btn-sm btn-warning font-mono" %>
-    </div>
-  </div>
+ <div class="flex items-center justify-between">
+ <h1 class="text-base font-bold text-base-content uppercase ">SYSTEM CONFIGURATION</h1>
+ <div class="flex gap-2">
+ <%= link_to "RETURN", main_app.root_path, class: "btn btn-sm btn-secondary" %>
+ <%= link_to "MODIFY", boilermaker.edit_settings_path, class: "btn btn-sm btn-primary" %>
+ </div>
+ </div>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-  <!-- LEFT COLUMN: APPLICATION -->
-  <div class="bg-base-200 border border-base-300">
-    <div class="bg-primary/20 border-b border-primary/30 px-3 py-1">
-      <h2 class="text-xs font-bold text-primary uppercase tracking-wide font-mono">APPLICATION METADATA</h2>
-    </div>
-    <div class="p-3">
-      <% if @settings.any? && @settings['app'] %>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 font-mono text-sm">
-          <div class="bg-info/10 border border-info/30 p-2">
-            <div class="text-xs text-info">NAME</div>
-            <div class="font-bold"><%= @settings.dig('app', 'name') || 'Boilermaker' %></div>
-          </div>
-          <div class="bg-info/10 border border-info/30 p-2">
-            <div class="text-xs text-info">VERSION</div>
-            <div class="font-bold"><%= @settings.dig('app', 'version') || '1.0.0' %></div>
-          </div>
-          <div class="md:col-span-2 bg-info/10 border border-info/30 p-2">
-            <div class="text-xs text-info">SUPPORT</div>
-            <div class="font-bold text-xs"><%= @settings.dig('app', 'support_email') || 'support@example.com' %></div>
-          </div>
-          <% if @settings.dig('app', 'description') %>
-            <div class="md:col-span-2 bg-info/10 border border-info/30 p-2">
-              <div class="text-xs text-info">DESCRIPTION</div>
-              <div class="text-xs"><%= @settings.dig('app', 'description') %></div>
-            </div>
-          <% end %>
-        </div>
-      <% else %>
-        <div class="text-center py-3 text-error text-xs font-mono">NO DATA</div>
-      <% end %>
-    </div>
-  </div>
+ <!-- LEFT COLUMN: APPLICATION -->
+ <div class="bg-base-200 border border-base-300">
+ <div class="bg-base-300/40 border-b border-base-300 px-3 py-1">
+ <h2 class="text-xs font-bold text-base-content uppercase ">APPLICATION METADATA</h2>
+ </div>
+ <div class="p-3">
+ <% if @settings.any? && @settings['app'] %>
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+ <div class="bg-info/10 border border-info/30 p-2">
+ <div class="text-xs text-info">NAME</div>
+ <div class="font-bold"><%= @settings.dig('app', 'name') || 'Boilermaker' %></div>
+ </div>
+ <div class="bg-info/10 border border-info/30 p-2">
+ <div class="text-xs text-info">VERSION</div>
+ <div class="font-bold"><%= @settings.dig('app', 'version') || '1.0.0' %></div>
+ </div>
+ <div class="md:col-span-2 bg-info/10 border border-info/30 p-2">
+ <div class="text-xs text-info">SUPPORT</div>
+ <div class="font-bold text-xs"><%= @settings.dig('app', 'support_email') || 'support@example.com' %></div>
+ </div>
+ <% if @settings.dig('app', 'description') %>
+ <div class="md:col-span-2 bg-info/10 border border-info/30 p-2">
+ <div class="text-xs text-info">DESCRIPTION</div>
+ <div class="text-xs"><%= @settings.dig('app', 'description') %></div>
+ </div>
+ <% end %>
+ </div>
+ <% else %>
+ <div class="text-center py-3 text-error text-xs">NO DATA</div>
+ <% end %>
+ </div>
+ </div>
 
-  <!-- RIGHT COLUMN: FEATURES & THEMES -->
-  <div class="bg-base-200 border border-base-300">
-    <div class="bg-success/20 border-b border-success/30 px-3 py-1 flex items-center justify-between">
-      <h2 class="text-xs font-bold text-success uppercase tracking-wide font-mono">FEATURES</h2>
-      <div class="text-xs text-warning/70 font-mono">THEMES: <%= @settings.dig('ui', 'theme', 'light') || 'work-station' %> / <%= @settings.dig('ui', 'theme', 'dark') || 'command-center' %></div>
-    </div>
-    <div class="p-3">
-      <% if @features.any? %>
-        <div class="grid grid-cols-1 gap-2 font-mono text-xs">
-          <% @features.each do |feature, enabled| %>
-            <div class="flex items-center justify-between p-2 hover:bg-base-300/20 border border-base-300/30">
-              <div class="uppercase tracking-wide"><%= feature.gsub('_', '.') %></div>
-              <div class="ml-2">
-                <% if enabled %>
-                  <span class="bg-success/30 text-success px-2 py-0.5 font-bold">ON</span>
-                <% else %>
-                  <span class="bg-base-300/50 text-base-content/50 px-2 py-0.5">OFF</span>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      <% else %>
-        <div class="text-center py-2 text-error text-xs font-mono">NO DATA</div>
-      <% end %>
-    </div>
-  </div>
+ <!-- RIGHT COLUMN: FEATURES & THEMES -->
+ <div class="bg-base-200 border border-base-300">
+ <div class="bg-base-300/40 border-b border-base-300 px-3 py-1 flex items-center justify-between">
+ <h2 class="text-xs font-bold text-base-content uppercase ">FEATURES</h2>
+ <div class="flex items-center gap-4 text-xs text-base-content/70">
+ <span>THEMES: <%= @settings.dig('ui', 'theme', 'light') || 'work-station' %> / <%= @settings.dig('ui', 'theme', 'dark') || 'command-center' %></span>
+ <% uppercase_enabled = @settings.dig('ui', 'typography', 'uppercase') != false %>
+ <% font_scale = (@settings.dig('ui', 'typography', 'size') || 'base').to_s %>
+ <span>TEXT: <%= uppercase_enabled ? 'UPPERCASE' : 'NORMAL CASE' %></span>
+ <span>FONT SCALE: <%= font_scale.humanize.upcase %></span>
+ </div>
+ </div>
+ <div class="p-3">
+ <% if @features.any? %>
+ <div class="grid grid-cols-1 gap-2 text-xs">
+ <% @features.each do |feature, enabled| %>
+ <div class="flex items-center justify-between p-2 hover:bg-base-300/20 border border-base-300/30">
+ <div class="uppercase "><%= feature.gsub('_', '.') %></div>
+ <div class="ml-2">
+ <% if enabled %>
+ <span class="bg-success/30 text-success px-2 py-0.5 font-bold">ON</span>
+ <% else %>
+ <span class="bg-base-300/50 text-base-content/50 px-2 py-0.5">OFF</span>
+ <% end %>
+ </div>
+ </div>
+ <% end %>
+ </div>
+ <% else %>
+ <div class="text-center py-2 text-error text-xs">NO DATA</div>
+ <% end %>
+ </div>
+ </div>
 </div>

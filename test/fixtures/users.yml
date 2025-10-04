@@ -5,7 +5,6 @@ app_admin:
   password_digest: $2a$12$NNMImhUMdv3QGyqlG9zTs.Z2/3gBhMQc5RU9x9.wUPE3zS4jzYbvW
   verified: true
   otp_secret: JBSWY3DPEHPK3PXP
-  account: one
   app_admin: true
 
 regular_user:
@@ -13,5 +12,10 @@ regular_user:
   password_digest: $2a$12$NNMImhUMdv3QGyqlG9zTs.Z2/3gBhMQc5RU9x9.wUPE3zS4jzYbvW
   verified: true
   otp_secret: KBSWY3DPEHPK3PXQ
-  account: one
+  app_admin: false
+
+unverified_user:
+  email: unverified@example.com
+  password_digest: $2a$12$NNMImhUMdv3QGyqlG9zTs.Z2/3gBhMQc5RU9x9.wUPE3zS4jzYbvW
+  verified: false
   app_admin: false

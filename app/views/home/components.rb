@@ -3,17 +3,11 @@
 class Views::Home::Components < Views::Base
   def view_template
     div(class: "min-h-screen") do
-      # Header with Navigation
       div(class: "sticky top-0 bg-base-200 border-b border-base-300 p-4 z-10") do
         div(class: "flex items-center justify-between max-w-6xl mx-auto") do
           h1(class: "font-bold text-base-content") { "Phlex Component Showcase" }
-          div(class: "flex items-center gap-4") do
-            p(class: "text-base text-base-content/70") { "Comprehensive component library documentation" }
-            render Components::ThemeToggle.new
-          end
         end
 
-        # Component navigation
         div(class: "max-w-6xl mx-auto mt-4") do
           nav(class: "flex flex-wrap gap-2") do
             nav_link("Typography", "#typography")
@@ -32,9 +26,7 @@ class Views::Home::Components < Views::Base
         end
       end
 
-      # Main Content
       div(class: "max-w-6xl mx-auto p-8 space-y-16") do
-        # Typography Section
         section(id: "typography") do
           h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Typography System" }
 
@@ -76,7 +68,6 @@ class Views::Home::Components < Views::Base
           end
         end
 
-        # Links Section
         section(id: "links") do
           h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Link Components" }
 
@@ -185,7 +176,6 @@ class Views::Home::Components < Views::Base
           end
         end
 
-        # Form Input Components Section
         section(id: "form-inputs") do
           h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Form Input Components" }
 
@@ -937,7 +927,7 @@ class Views::Home::Components < Views::Base
 
               div(class: "bg-base-200 border border-base-300") do
                 div(class: "bg-info/20 border-b border-info/30 px-3 py-1") do
-                  h3(class: "text-xs font-bold text-info uppercase tracking-wide font-mono") { "Themes" }
+                  h3(class: "text-xs font-bold text-info uppercase tracking-wide") { "Themes" }
                 end
                 div(class: "p-6") do
                   p(class: "text-base-content/70 mb-4") { "Custom card with info-colored terminal-style header." }

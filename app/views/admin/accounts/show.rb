@@ -21,7 +21,7 @@ module Views
 
             div(class: "bg-base-200 rounded-box p-4 mb-4") do
               div { "ID: #{@account.hashid}" }
-              div { "Users: #{pluralize(@account.users.count, 'user')}" }
+              div { "Users: #{pluralize(@members.size, 'user')}" }
             end
 
             h2(class: "font-semibold mb-2") { "Members" }

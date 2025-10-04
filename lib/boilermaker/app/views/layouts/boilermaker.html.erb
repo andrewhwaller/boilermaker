@@ -1,65 +1,63 @@
 <%# Boilermaker engine layout: delegate to host app's Phlex layout so CSS/JS and nav are consistent %>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Boilermaker Command Center</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+ <head>
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>Boilermaker Command Center</title>
+ <%= csrf_meta_tags %>
+ <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
-  <body class="min-h-screen bg-black text-neutral-200 font-mono" data-theme="<%= Boilermaker::Config.theme_dark_name %>">
-    <!-- TOP COMMAND BAR -->
-    <header class="border-b-2 border-primary/30 bg-black">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-4">
-          <div class="text-base text-base-content/70 uppercase tracking-widest font-mono">BOILERMAKER COMMAND INTERFACE</div>
-          <div class="flex items-center gap-2">
-          </div>
-        </div>
-        <div class="flex items-center gap-4">
-          <span class="text-base-content/50">SYSTEM TIME: <%= Time.current.strftime("%H:%M:%S UTC") %></span>
-        </div>
-      </div>
-    </header>
+ <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+ <%= javascript_importmap_tags %>
+ <style>:root { --app-text-transform: uppercase; --app-font-scale: 1; --app-font-family: 'CommitMonoIndustrial', monospace; }</style>
+ </head>
+ <body class="min-h-screen bg-black text-neutral-200" style="font-family: 'CommitMonoIndustrial', monospace;" data-theme="terminal">
+ <!-- TOP COMMAND BAR -->
+ <header class="border-b-2 border-primary/30 bg-black">
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+ <div class="flex items-center gap-4">
+ <div class="text-base text-base-content/70 uppercase ">BOILERMAKER COMMAND INTERFACE</div>
+ <div class="flex items-center gap-2">
+ </div>
+ </div>
+ <div class="flex items-center gap-4">
+ <span class="text-base-content/50">SYSTEM TIME: <span data-controller="clock" data-clock-format-value="%H:%M:%S UTC"><%= Time.current.strftime("%H:%M:%S UTC") %></span></span>
+ </div>
+ </div>
+ </header>
 
-    <!-- SYSTEM MESSAGES -->
-    <% unless flash.empty? %>
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 space-y-2">
+ <!-- SYSTEM MESSAGES -->
+ <% unless flash.empty? %>
+ <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 space-y-2">
         <% flash.each do |type, message| %>
-          <% 
-            status_config = case type.to_sym
-            when :notice, :success 
-              { color: 'success', label: 'SYS.SUCCESS', bg: 'bg-success/10', border: 'border-success/30', text: 'text-success' }
-            when :alert, :error 
-              { color: 'error', label: 'SYS.ERROR', bg: 'bg-error/10', border: 'border-error/30', text: 'text-error' }
-            else 
-              { color: 'info', label: 'SYS.INFO', bg: 'bg-info/10', border: 'border-info/30', text: 'text-info' }
-            end 
-          %>
-          <div class="<%= status_config[:bg] %> border <%= status_config[:border] %> p-4">
-            <div class="flex items-center gap-2">
-              <div class="w-2 h-2 bg-<%= status_config[:color] %> rounded-full animate-pulse"></div>
-              <span class="<%= status_config[:text] %> font-mono uppercase tracking-wide text-xs font-bold"><%= status_config[:label] %>:</span>
-              <span class="text-base-content font-mono text-sm"><%= message %></span>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
+          <% status_config = case type.to_sym
+          when :notice, :success
+            { color: 'success', label: 'SYS.SUCCESS', bg: 'bg-success/10', border: 'border-success/30', text: 'text-success' }
+          when :alert, :error
+            { color: 'error', label: 'SYS.ERROR', bg: 'bg-error/10', border: 'border-error/30', text: 'text-error' }
+          else
+            { color: 'info', label: 'SYS.INFO', bg: 'bg-info/10', border: 'border-info/30', text: 'text-info' }
+          end %>
+ <div class="<%= status_config[:bg] %> border <%= status_config[:border] %> p-4">
+ <div class="flex items-center gap-2">
+ <div class="w-2 h-2 bg-<%= status_config[:color] %> rounded-full animate-pulse"></div>
+ <span class="<%= status_config[:text] %> uppercase text-xs font-bold"><%= status_config[:label] %>:</span>
+ <span class="text-base-content text-sm"><%= message %></span>
+ </div>
+ </div>
+ <% end %>
+ </div>
+ <% end %>
 
-    <!-- MAIN CONTROL INTERFACE -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="grid grid-cols-1 gap-6">
-        <%= yield %>
-      </div>
-      
-      <!-- SYSTEM STATUS BAR -->
-      <div class="mt-8 border-t border-primary/30 pt-4">
-      </div>
-    </main>
-  </body>
+ <!-- MAIN CONTROL INTERFACE -->
+ <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+ <div class="grid grid-cols-1 gap-6">
+ <%= yield %>
+ </div>
+  <!-- SYSTEM STATUS BAR -->
+ <div class="mt-8 border-t border-primary/30 pt-4">
+ </div>
+ </main>
+ </body>
 </html>

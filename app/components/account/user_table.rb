@@ -1,69 +1,69 @@
 # frozen_string_literal: true
 
 class Components::Account::UserTable < Components::Base
-  include Phlex::Rails::Helpers::LinkTo
-  include Phlex::Rails::Helpers::ButtonTo
-  include Phlex::Rails::Helpers::TimeAgoInWords
+ include Phlex::Rails::Helpers::LinkTo
+ include Phlex::Rails::Helpers::ButtonTo
+ include Phlex::Rails::Helpers::TimeAgoInWords
 
-  def initialize(users:, compact: false)
-    @users = users
-    @compact = compact
-  end
+ def initialize(users:, compact: false)
+ @users = users
+ @compact = compact
+ end
 
-  def view_template
-    if @users.any?
-      Table(variant: :zebra, size: @compact ? :xs : :sm) do
-        thead do
-          tr do
-            th { "Name" }
-            th { "Email" }
-            th { "Status" }
-            th { "Role" }
-            th { "Joined" }
-            th(class: "text-right") { "Actions" }
-          end
-        end
+ def view_template
+ if @users.any?
+ Table(variant: :zebra, size: @compact ? :xs : :sm) do
+ thead do
+ tr do
+ th { "Name" }
+ th { "Email" }
+ th { "Status" }
+ th { "Role" }
+ th { "Joined" }
+ th(class: "text-right") { "Actions" }
+ end
+ end
 
-        tbody do
-          @users.each do |user|
-            tr do
-              td { user_name(user) }
-              td { user.email }
-              td { span(class: "text-success font-medium uppercase text-xs") { "Verified" } }
-              td { user_role(user) }
-              td { user.created_at.strftime("%b %d %Y") }
-              td(class: "text-right") do
-                div(class: "flex justify-end gap-3") do
-                  link_to("EDIT", edit_account_user_path(user), class: "text-primary hover:underline cursor-pointer")
-                end
-              end
-            end
-          end
-        end
-      end
-    else
-      div(class: "text-center py-8 bg-base-200 rounded-box") do
-        p(class: "text-base-content/70 mb-4") { "No verified users yet." }
-      end
-    end
-  end
+ tbody do
+ @users.each do |user|
+ tr do
+ td { user_name(user) }
+ td { user.email }
+ td { span(class: "text-success font-medium text-xs") { "Verified" } }
+ td { user_role(user) }
+ td { user.created_at.strftime("%b %d %Y") }
+ td(class: "text-right") do
+ div(class: "flex justify-end gap-3") do
+ link_to("EDIT", edit_account_user_path(user), class: "text-primary hover:underline cursor-pointer")
+ end
+ end
+ end
+ end
+ end
+ end
+ else
+ div(class: "text-center py-8 bg-base-200 rounded-box") do
+ p(class: "text-base-content/70 mb-4") { "No verified users yet." }
+ end
+ end
+ end
 
-  private
+ private
 
-  def user_name(user)
-    if user.first_name && user.last_name
-      name = "#{user.first_name} #{user.last_name}"
-      user == Current.user ? "#{name} (YOU)" : name
-    else
-      "—"
-    end
-  end
+ def user_name(user)
+ if user.first_name && user.last_name
+ name = "#{user.first_name} #{user.last_name}"
+ user == Current.user ? "#{name} (YOU)" : name
+ else
+ "—"
+ end
+ end
 
-  def user_role(user)
-    span(class: "text-primary font-medium uppercase text-xs") { "Admin" } if user.account_admin_for?(Current.user.account)
-  end
+ def user_role(user)
+ span(class: "text-primary font-medium text-xs") { "Admin" } if user.account_admin_for?(Current.account)
+ end
 
-  def formatted_date(value)
-    value.strftime("").sub("Sep", "Sept")
-  end
+ def formatted_date(value)
+ value.strftime("").sub("Sep", "Sept")
+ end
 end

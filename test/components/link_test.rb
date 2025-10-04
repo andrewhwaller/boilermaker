@@ -103,9 +103,12 @@ class LinkTest < ComponentTestCase
     assert html.include?("Custom Content"), "Should render block content"
   end
 
-  test "applies uppercase transform when specified" do
-    link = Components::Link.new("/test", "Upper", uppercase: true)
-    assert_has_css_class(link, "uppercase")
+  test "applies casing transform when specified" do
+    uppercase_link = Components::Link.new("/test", "Upper", uppercase: true)
+    assert_has_css_class(uppercase_link, "uppercase")
+
+    normal_case_link = Components::Link.new("/test", "Upper", uppercase: false)
+    assert_has_css_class(normal_case_link, "normal-case")
   end
 
   # Test Rails routing integration

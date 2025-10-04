@@ -72,4 +72,42 @@ module ApplicationHelper
   def set_title(title)
     content_for :title, title
   end
+
+  # Font configuration helpers
+  def google_fonts_link_tag
+    font_name = Boilermaker::Config.font_name
+    return nil if Boilermaker::FontConfiguration.local_font?(font_name)
+
+    google_url = Boilermaker::FontConfiguration.google_fonts_url(font_name)
+    return nil unless google_url
+
+    [
+      %(<link rel="preconnect" href="https://fonts.googleapis.com">),
+      %(<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>),
+      %(<link rel="stylesheet" href="#{google_url}">)
+    ].join("\n").html_safe
+  end
+
+  def app_font_family
+    font_name = Boilermaker::Config.font_name
+    Boilermaker::FontConfiguration.font_family_stack(font_name)
+  end
+
+  def app_text_transform
+    Boilermaker::Config.ui_text_transform
+  end
+
+  def app_base_font_size
+    if Boilermaker::Config.respond_to?(:font_size_multiplier)
+      Boilermaker::Config.font_size_multiplier
+    else
+      size = Boilermaker::Config.get("ui.typography.size")
+      case size.to_s.downcase
+      when "dense" then 0.9
+      when "expanded" then 1.12
+      else
+        1.0
+      end
+    end
+  end
 end

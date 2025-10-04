@@ -41,7 +41,8 @@ module Boilermaker
         app: [ :name, :version, :support_email, :description ],
         ui: {
           theme: [ :light, :dark ],
-          navigation: [ :layout_mode ]
+          navigation: [ :layout_mode ],
+          typography: [ :font, :uppercase, :size ]
         },
         features: [ :user_registration, :password_reset, :two_factor_authentication, :multi_tenant, :personal_accounts ]
       )

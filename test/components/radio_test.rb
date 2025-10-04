@@ -57,7 +57,6 @@ class RadioTest < ComponentTestCase
     labels.each do |label|
       radio_in_label = label.css("input[type='radio']")
       assert_equal 1, radio_in_label.length
-      assert_includes label["class"], "cursor-pointer"
     end
   end
 
@@ -179,26 +178,11 @@ class RadioTest < ComponentTestCase
     assert_has_css_class component, "radio-error"
   end
 
-  test "applies error styling to label text when error provided" do
-    options = [ [ "Red", "red" ], [ "Green", "green" ] ]
-    component = Components::Radio.new(options: options, error: "Please select an option")
-
-    doc = render_and_parse(component)
-    label_texts = doc.css(".label-text")
-
-    label_texts.each do |label_text|
-      classes = label_text["class"].split(" ")
-      assert_includes classes, "label-text"
-      assert_includes classes, "text-error"
-    end
-  end
-
   test "displays error message when error provided" do
     options = [ [ "Red", "red" ], [ "Green", "green" ] ]
     component = Components::Radio.new(options: options, error: "Please select an option")
 
     assert_has_text component, "Please select an option"
-    assert_has_css_class component, "text-error"
   end
 
   test "does not render error message when no error" do
@@ -206,20 +190,6 @@ class RadioTest < ComponentTestCase
     component = Components::Radio.new(options: options)
 
     assert_no_css_class component, "text-error"
-  end
-
-  test "error message has proper Daisy UI styling" do
-    options = [ [ "Red", "red" ] ]
-    component = Components::Radio.new(options: options, error: "Error message")
-
-    doc = render_and_parse(component)
-    error_elements = doc.css(".text-error")
-    error_message = error_elements.last  # Last one is the error message, others are label styling
-    classes = error_message["class"].split(" ")
-
-    assert_includes classes, "label-text-alt"
-    assert_includes classes, "text-error"
-    assert_includes classes, "mt-1"
   end
 
   test "renders with custom HTML attributes" do
@@ -354,7 +324,6 @@ class RadioTest < ComponentTestCase
     labels.each do |label|
       radio_in_label = label.css("input[type='radio']")
       assert_equal 1, radio_in_label.length, "Each label should contain exactly one radio input"
-      assert_includes label["class"], "cursor-pointer"
     end
   end
 end

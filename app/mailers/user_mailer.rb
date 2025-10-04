@@ -15,7 +15,9 @@ class UserMailer < ApplicationMailer
 
   def invitation_instructions
     @user = params[:user]
-    @signed_id = @user.generate_token_for(:password_reset)
+    @inviter = params[:inviter]
+    @message = params[:message]
+    @signed_id = @user.generate_token_for(:invitation)
 
     mail to: @user.email, subject: "You're invited!"
   end

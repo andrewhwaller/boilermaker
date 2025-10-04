@@ -70,10 +70,10 @@ group :development do
   gem "letter_opener_web"
 end
 
-group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
-end
+ group :test do
+   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+   gem "capybara"
+   gem "selenium-webdriver"
+ end
 
 gem "phlex-rails", "~> 2.3"
