@@ -6,9 +6,6 @@ default:
     support_email: support@example.com
   features:
     user_registration: true
-    password_reset: true
-    two_factor_authentication: false
-    multi_tenant: false
     personal_accounts: false
   ui:
     typography:
@@ -22,20 +19,15 @@ development:
     description: A modern Rails application
   features:
     user_registration: true
-    password_reset: false
-    two_factor_authentication: false
-    multi_tenant: false
     personal_accounts: true
   ui:
     theme:
-      light: work-station
-      dark: command-center
+      light: drafting-table
+      dark: night
     navigation:
-      show_branding: true
-      show_account_dropdown: true
       layout_mode: sidebar
     typography:
-      font: Jura
-      uppercase: false
+      font: JetBrains Mono
+      uppercase: true
       size: expanded
 test: {}

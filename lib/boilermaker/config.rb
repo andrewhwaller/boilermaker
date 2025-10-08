@@ -50,16 +50,8 @@ module Boilermaker
       end
 
       # Feature flag convenience methods
-      def multi_tenant?
-        feature_enabled?("multi_tenant")
-      end
-
       def personal_accounts?
         feature_enabled?("personal_accounts")
-      end
-
-      def two_factor_authentication?
-        feature_enabled?("two_factor_authentication")
       end
 
       # Additional convenience methods
