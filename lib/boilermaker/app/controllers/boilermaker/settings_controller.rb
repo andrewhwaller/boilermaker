@@ -3,12 +3,8 @@
 module Boilermaker
   class SettingsController < Boilermaker::ApplicationController
     before_action :add_engine_view_path
-    before_action :load_settings, only: [ :show, :edit ]
+    before_action :load_settings, only: [ :edit ]
     skip_before_action :verify_authenticity_token if Rails.env.development?
-
-    def show
-      render "boilermaker/settings/show"
-    end
 
     def edit
       render "boilermaker/settings/edit"
@@ -18,7 +14,7 @@ module Boilermaker
       return head :forbidden unless Rails.env.development?
 
       Boilermaker::Config.update_from_params!(settings_params.to_h)
-      redirect_to boilermaker.settings_path, notice: "Settings updated!"
+      redirect_to boilermaker.edit_settings_path, notice: "Settings updated!"
     rescue => error
       render_invalid(settings_params.to_h.deep_stringify_keys, error)
     end
@@ -44,7 +40,7 @@ module Boilermaker
           navigation: [ :layout_mode ],
           typography: [ :font, :uppercase, :size ]
         },
-        features: [ :user_registration, :password_reset, :two_factor_authentication, :multi_tenant, :personal_accounts ]
+        features: [ :user_registration, :personal_accounts ]
       )
     end
 
