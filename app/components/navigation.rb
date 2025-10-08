@@ -71,7 +71,7 @@ class Components::Navigation < Components::Base
 
  if Rails.env.development?
  nav_item("/components", "Showcase")
- nav_item("/boilermaker/settings", "Config")
+ nav_item(boilermaker.edit_settings_path, "Config")
  end
  end
  end
@@ -176,7 +176,7 @@ class Components::Navigation < Components::Base
  mobile_nav_item(root_path, "Dashboard")
 
  if Rails.env.development?
- mobile_nav_item("/boilermaker/settings", "Config")
+ mobile_nav_item(boilermaker.edit_settings_path, "Config")
  mobile_nav_item("/components", "Showcase")
  end
  end

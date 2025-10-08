@@ -52,7 +52,7 @@ class Components::SidebarNavigation < Components::Base
 
         if Rails.env.development?
           sidebar_nav_item("/components", "Showcase")
-          sidebar_nav_item("/boilermaker/settings", "Config")
+          sidebar_nav_item(boilermaker.edit_settings_path, "Config")
         end
       end
 
