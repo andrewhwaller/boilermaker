@@ -1,28 +1,130 @@
-<%# Boilermaker engine layout: delegate to host app's Phlex layout so CSS/JS and nav are consistent %>
+<%# Boilermaker engine layout: independent styling with terminal theme %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="terminal">
  <head>
  <meta charset="utf-8" />
  <meta name="viewport" content="width=device-width, initial-scale=1" />
- <title>Boilermaker Command Center</title>
+ <title>Boilermaker Settings</title>
  <%= csrf_meta_tags %>
  <%= csp_meta_tag %>
 
  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
- <%= javascript_importmap_tags %>
- <style>:root { --app-text-transform: uppercase; --app-font-scale: 1; --app-font-family: 'CommitMonoIndustrial', monospace; }</style>
+
+ <script type="module">
+   import { Application, Controller } from "<%= asset_path "stimulus.min.js" %>"
+
+   class ServerStatusController extends Controller {
+     static targets = ["submitButton", "message"]
+     static values = { restartUrl: String }
+
+     connect() {
+       const form = document.getElementById('settings_form')
+       if (form) {
+         form.addEventListener('submit', this.handleSubmit.bind(this))
+       }
+     }
+
+     handleSubmit(event) {
+       if (this.hasSubmitButtonTarget) {
+         this.submitButtonTarget.disabled = true
+         this.submitButtonTarget.textContent = 'Saving...'
+       }
+       if (this.hasMessageTarget) {
+         this.messageTarget.textContent = 'Saving configuration and restarting server...'
+       }
+       setTimeout(() => this.startRestartMonitoring(), 1000)
+     }
+
+     startRestartMonitoring() {
+       if (this.hasMessageTarget) {
+         this.messageTarget.innerHTML = '<span class="inline-flex items-center gap-2"><span class="loading loading-spinner loading-xs"></span> Server is restarting... Please wait.</span>'
+       }
+       this.pollInterval = setInterval(() => this.checkServerHealth(), 2000)
+       this.pollTimeout = setTimeout(() => this.stopMonitoring(false), 30000)
+     }
+
+     async checkServerHealth() {
+       try {
+         const response = await fetch(this.restartUrlValue, { method: 'GET', cache: 'no-cache' })
+         if (response.ok) {
+           this.stopMonitoring(true)
+         }
+       } catch (error) {}
+     }
+
+     stopMonitoring(success) {
+       if (this.pollInterval) {
+         clearInterval(this.pollInterval)
+         this.pollInterval = null
+       }
+       if (this.pollTimeout) {
+         clearTimeout(this.pollTimeout)
+         this.pollTimeout = null
+       }
+       if (this.hasMessageTarget) {
+         if (success) {
+           this.messageTarget.innerHTML = '<span class="text-success font-medium">✓ Server restarted successfully! You can now return to the app.</span>'
+           if (this.hasSubmitButtonTarget) {
+             this.submitButtonTarget.disabled = false
+             this.submitButtonTarget.textContent = 'Save Changes'
+           }
+         } else {
+           this.messageTarget.innerHTML = '<span class="text-warning">Server is taking longer than expected to restart. Please refresh the page manually.</span>'
+           if (this.hasSubmitButtonTarget) {
+             this.submitButtonTarget.disabled = false
+             this.submitButtonTarget.textContent = 'Save Changes'
+           }
+         }
+       }
+     }
+
+     disconnect() {
+       this.stopMonitoring(false)
+     }
+   }
+
+   class ClockController extends Controller {
+     static values = { format: { type: String, default: "%H:%M:%S UTC" }, interval: { type: Number, default: 1000 } }
+
+     connect() {
+       this.tick()
+       this.timer = setInterval(() => this.tick(), this.intervalValue)
+     }
+
+     disconnect() {
+       clearInterval(this.timer)
+     }
+
+     tick() {
+       const now = new Date()
+       const options = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false, timeZone: "UTC" }
+       const formatted = now.toLocaleTimeString("en-GB", options)
+       this.element.textContent = `${formatted} UTC`
+     }
+   }
+
+   const application = Application.start()
+   application.register("server-status", ServerStatusController)
+   application.register("clock", ClockController)
+ </script>
+
+ <style>
+   :root {
+     --app-font-family: "CommitMonoIndustrial", monospace;
+     --app-text-transform: uppercase;
+     --app-font-scale: 1.12;
+   }
+ </style>
  </head>
- <body class="min-h-screen bg-black text-neutral-200" style="font-family: 'CommitMonoIndustrial', monospace;" data-theme="terminal">
- <!-- TOP COMMAND BAR -->
- <header class="border-b-2 border-primary/30 bg-black">
+ <body class="min-h-screen bg-base-100 text-base-content">
+ <!-- TOP HEADER -->
+ <header class="border-b border-base-300 bg-base-200">
  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
  <div class="flex items-center gap-4">
- <div class="text-base text-base-content/70 uppercase ">BOILERMAKER COMMAND INTERFACE</div>
- <div class="flex items-center gap-2">
- </div>
+ <div class="text-sm text-base-content/70 font-semibold uppercase">BOILERMAKER SETTINGS</div>
  </div>
  <div class="flex items-center gap-4">
- <span class="text-base-content/50">SYSTEM TIME: <span data-controller="clock" data-clock-format-value="%H:%M:%S UTC"><%= Time.current.strftime("%H:%M:%S UTC") %></span></span>
+ <span class="text-xs text-base-content/50">SYSTEM TIME: <span data-controller="clock" data-clock-format-value="%H:%M:%S UTC"><%= Time.current.strftime("%H:%M:%S UTC") %></span></span>
  </div>
  </div>
  </header>
@@ -33,16 +135,15 @@
         <% flash.each do |type, message| %>
           <% status_config = case type.to_sym
           when :notice, :success
-            { color: 'success', label: 'SYS.SUCCESS', bg: 'bg-success/10', border: 'border-success/30', text: 'text-success' }
+            { color: 'success', bg: 'bg-success/10', border: 'border-success/30', text: 'text-success' }
           when :alert, :error
-            { color: 'error', label: 'SYS.ERROR', bg: 'bg-error/10', border: 'border-error/30', text: 'text-error' }
+            { color: 'error', bg: 'bg-error/10', border: 'border-error/30', text: 'text-error' }
           else
-            { color: 'info', label: 'SYS.INFO', bg: 'bg-info/10', border: 'border-info/30', text: 'text-info' }
+            { color: 'info', bg: 'bg-info/10', border: 'border-info/30', text: 'text-info' }
           end %>
- <div class="<%= status_config[:bg] %> border <%= status_config[:border] %> p-4">
+ <div class="<%= status_config[:bg] %> border <%= status_config[:border] %> p-3">
  <div class="flex items-center gap-2">
- <div class="w-2 h-2 bg-<%= status_config[:color] %> rounded-full animate-pulse"></div>
- <span class="<%= status_config[:text] %> uppercase text-xs font-bold"><%= status_config[:label] %>:</span>
+ <div class="w-1.5 h-1.5 bg-<%= status_config[:color] %> rounded-full"></div>
  <span class="text-base-content text-sm"><%= message %></span>
  </div>
  </div>

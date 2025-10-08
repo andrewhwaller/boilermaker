@@ -1,6 +1,12 @@
 module Boilermaker
   class ApplicationController < ActionController::Base
     layout "boilermaker"
+
+    before_action :prepend_engine_view_paths
+
+    def prepend_engine_view_paths
+      prepend_view_path File.expand_path("../../views", __dir__)
+    end
     # For development and testing, skip CSRF verification to make API testing easier
     # In production, this should be properly handled with valid tokens
     protect_from_forgery with: :exception, unless: -> { Rails.env.development? || Rails.env.test? }
