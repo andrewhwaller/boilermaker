@@ -108,6 +108,16 @@ module Boilermaker
         ],
         preconnect_urls: GOOGLE_PRECONNECT_LINKS
       },
+      "Public Sans" => {
+        name: "Public Sans",
+        display_name: "Public Sans",
+        type: :remote,
+        family_stack: '"Public Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        stylesheet_urls: [
+          "https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap"
+        ],
+        preconnect_urls: GOOGLE_PRECONNECT_LINKS
+      },
       "IBM Plex Sans" => {
         name: "IBM Plex Sans",
         display_name: "IBM Plex Sans",
@@ -175,6 +185,16 @@ module Boilermaker
         family_stack: '"DM Serif Text", "Georgia", serif',
         stylesheet_urls: [
           "https://fonts.googleapis.com/css2?family=DM+Serif+Text:wght@400;500;600;700&display=swap"
+        ],
+        preconnect_urls: GOOGLE_PRECONNECT_LINKS
+      },
+      "Recursive" => {
+        name: "Recursive",
+        display_name: "Recursive",
+        type: :remote,
+        family_stack: '"Recursive", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        stylesheet_urls: [
+          "https://fonts.googleapis.com/css2?family=Recursive:wght@400;500;600;700&display=swap"
         ],
         preconnect_urls: GOOGLE_PRECONNECT_LINKS
       },
