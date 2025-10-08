@@ -688,4 +688,11 @@ body {
   .card-body {
     font-size: calc(0.95rem * var(--app-font-scale, 1));
   }
+
+  [data-theme="work-station"] .toggle::before,
+  [data-theme="command-center"] .toggle::before,
+  [data-theme="drafting-table"] .toggle::before,
+  [data-theme="terminal"] .toggle::before {
+    box-shadow: none !important;
+  }
 }
