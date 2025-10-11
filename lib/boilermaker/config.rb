@@ -59,12 +59,12 @@ module Boilermaker
         get("app.support_email") || "support@example.com"
       end
 
-      def password_min_length
-        get("auth.password.min_length") || 12
-      end
-
       def session_timeout_minutes
         get("auth.session.timeout_minutes") || 1440
+      end
+
+      def require_two_factor_authentication?
+        get("security.require_two_factor_authentication") || false
       end
 
       def primary_color
