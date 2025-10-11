@@ -7,19 +7,6 @@ module ApplicationHelper
     { host: "localhost", port: 3000 }
   end
 
-  def flash_class(type)
-    base_classes = "p-4 mb-4"
-    type_classes = case type.to_sym
-    when :notice, :success
-      "bg-success/10 text-success"
-    when :alert, :error
-      "bg-error/10 text-error"
-    else
-      "bg-muted/10 text-muted"
-    end
-    "#{base_classes} #{type_classes}"
-  end
-
   # Boilermaker configuration helpers
   def boilermaker_config
     Boilermaker.config
