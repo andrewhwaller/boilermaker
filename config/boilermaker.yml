@@ -7,6 +7,8 @@ default:
   features:
     user_registration: true
     personal_accounts: false
+  security:
+    require_two_factor_authentication: false
   ui:
     typography:
       uppercase: true
@@ -20,14 +22,18 @@ development:
   features:
     user_registration: true
     personal_accounts: true
+  security:
+    require_two_factor_authentication: false
   ui:
     theme:
       light: drafting-table
-      dark: night
+      dark: dim
     navigation:
       layout_mode: sidebar
     typography:
       font: JetBrains Mono
       uppercase: true
-      size: expanded
-test: {}
+      size: dense
+test:
+  security:
+    require_two_factor_authentication: false
