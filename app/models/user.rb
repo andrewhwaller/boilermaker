@@ -20,7 +20,7 @@ class User < ApplicationRecord
   end
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, allow_nil: true, length: { minimum: -> { Boilermaker.config.password_min_length } }
+  validates :password, allow_nil: true, length: { minimum: 12 }
 
   normalizes :email, with: -> { _1.strip.downcase }
 
