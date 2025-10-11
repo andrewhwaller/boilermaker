@@ -64,4 +64,14 @@ class User < ApplicationRecord
     return true if app_admin?
     membership_for(account)&.admin? || false
   end
+
+  # Disable 2FA and remove recovery codes atomically
+  def disable_two_factor!
+    transaction do
+      update!(otp_required_for_sign_in: false)
+      recovery_codes.delete_all
+      # Note: otp_secret is intentionally kept to allow re-enabling without re-scanning QR code
+      # Users can regenerate secret via TotpsController#update if desired
+    end
+  end
 end
