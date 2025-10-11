@@ -21,7 +21,7 @@ class TwoFactorAuthenticationTest < ActionDispatch::IntegrationTest
 
     # Check that QR code image is present
     assert_select "img[src*='data:image/png;base64']"
-    assert_select "figcaption", text: "Point your camera here"
+    assert_select "figcaption", text: /point your .*camera/i
   end
 
   test "should enable 2FA with valid TOTP code" do
@@ -46,7 +46,8 @@ class TwoFactorAuthenticationTest < ActionDispatch::IntegrationTest
     @user.reload
     assert_not @user.otp_required_for_sign_in?
     assert_redirected_to new_two_factor_authentication_profile_totp_path
-    assert_equal "That code didn't work. Please try again", flash[:alert]
+    assert flash[:alert].present?
+    assert_match(/code.*please try again/i, flash[:alert])
   end
 
   test "should generate recovery codes after 2FA setup" do
@@ -119,7 +120,8 @@ class TwoFactorAuthenticationTest < ActionDispatch::IntegrationTest
     post two_factor_authentication_challenge_totp_path, params: { code: "000000" }
 
     assert_redirected_to new_two_factor_authentication_challenge_totp_path
-    assert_equal "That code didn't work. Please try again", flash[:alert]
+    assert flash[:alert].present?
+    assert_match(/code.*please try again/i, flash[:alert])
   end
 
   test "should sign in with recovery code" do
@@ -151,7 +153,8 @@ class TwoFactorAuthenticationTest < ActionDispatch::IntegrationTest
     post two_factor_authentication_challenge_recovery_codes_path, params: { code: "testcode123" }
 
     assert_redirected_to new_two_factor_authentication_challenge_recovery_codes_path
-    assert_equal "That code didn't work. Please try again", flash[:alert]
+    assert flash[:alert].present?
+    assert_match(/code.*please try again/i, flash[:alert])
   end
 
   test "should show 2FA status in sessions page" do

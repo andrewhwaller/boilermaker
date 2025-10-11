@@ -248,21 +248,19 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "does not create user when password is too short" do
-    Boilermaker::Config.stub :password_min_length, 12 do
-      Boilermaker::Config.stub :personal_accounts?, true do
-        assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
-          post sign_up_url, params: {
-            user: {
-              email: "shortpass@example.com",
-              password: "Short1!",
-              password_confirmation: "Short1!"
-            }
+    Boilermaker::Config.stub :personal_accounts?, true do
+      assert_no_difference([ "User.count", "Account.count", "AccountMembership.count" ]) do
+        post sign_up_url, params: {
+          user: {
+            email: "shortpass@example.com",
+            password: "Short1!",
+            password_confirmation: "Short1!"
           }
-        end
-
-        assert_response :unprocessable_entity
-        assert_equal 0, ActionMailer::Base.deliveries.size
+        }
       end
+
+      assert_response :unprocessable_entity
+      assert_equal 0, ActionMailer::Base.deliveries.size
     end
   end
 
