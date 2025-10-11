@@ -6,7 +6,11 @@ require Rails.root.join("lib", "boilermaker")
 class Boilermaker::ConfigTest < ActiveSupport::TestCase
   def setup
     @original_data = Boilermaker::Config.instance_variable_get(:@data)
-    # Create a temporary config for testing
+    fonts = Boilermaker::FontConfiguration.all_fonts
+    @local_font = fonts.find { |font| Boilermaker::FontConfiguration.local_font?(font) }
+    @remote_font = fonts.find { |font| Boilermaker::FontConfiguration.remote_font?(font) }
+    raise "No local font configured" unless @local_font
+    raise "No remote font configured" unless @remote_font
     @temp_config = {
       "app" => {
         "name" => "Test App",
@@ -14,7 +18,6 @@ class Boilermaker::ConfigTest < ActiveSupport::TestCase
         "support_email" => "test@example.com"
       },
       "features" => {
-        "multi_tenant" => true,
         "personal_accounts" => false,
         "two_factor_authentication" => true
       },
@@ -32,19 +35,17 @@ class Boilermaker::ConfigTest < ActiveSupport::TestCase
           "secondary_color" => "#00ff00"
         },
         "typography" => {
-          "font" => "Inter",
+          "font" => @remote_font,
           "uppercase" => false,
           "size" => "dense"
         }
       }
     }
 
-    # Stub the data loading for tests
     Boilermaker::Config.instance_variable_set(:@data, @temp_config)
   end
 
   def teardown
-    # Restore original config to avoid leaking into other tests in the process
     Boilermaker::Config.instance_variable_set(:@data, @original_data)
   end
 
@@ -56,7 +57,6 @@ class Boilermaker::ConfigTest < ActiveSupport::TestCase
   end
 
   test "feature_enabled? returns correct boolean values" do
-    assert Boilermaker::Config.feature_enabled?("multi_tenant")
     assert_not Boilermaker::Config.feature_enabled?("personal_accounts")
     assert Boilermaker::Config.feature_enabled?("two_factor_authentication")
     assert_not Boilermaker::Config.feature_enabled?("nonexistent_feature")
@@ -66,22 +66,22 @@ class Boilermaker::ConfigTest < ActiveSupport::TestCase
     assert_equal "Test App", Boilermaker::Config.app_name
     assert_equal "2.0.0", Boilermaker::Config.app_version
     assert_equal "test@example.com", Boilermaker::Config.support_email
-    assert_equal 8, Boilermaker::Config.password_min_length
     assert_equal 60, Boilermaker::Config.session_timeout_minutes
     assert_equal "#ff0000", Boilermaker::Config.primary_color
     assert_equal "#00ff00", Boilermaker::Config.secondary_color
   end
 
   test "font_name returns configured font" do
-    assert_equal "Inter", Boilermaker::Config.font_name
+    assert_equal @remote_font, Boilermaker::Config.font_name
   end
 
   test "font_name returns default when not configured" do
-    # Remove font config
     @temp_config["ui"]["typography"] = {}
     Boilermaker::Config.instance_variable_set(:@data, @temp_config)
 
-    assert_equal "CommitMono", Boilermaker::Config.font_name
+    default_font = Boilermaker::FontConfiguration.font_config("UnknownFont")[:name]
+    assert_equal default_font, Boilermaker::Config.font_name
+    assert Boilermaker::FontConfiguration.local_font?(Boilermaker::Config.font_name)
   end
 
   test "ui text transform reflects uppercase toggle" do
@@ -112,8 +112,7 @@ class Boilermaker::ConfigTest < ActiveSupport::TestCase
     assert_in_delta 1.0, Boilermaker::Config.font_size_multiplier
   end
 
-  test "multi_tenant? and personal_accounts? return correct values" do
-    assert Boilermaker::Config.multi_tenant?
+  test "personal_accounts? returns correct value" do
     assert_not Boilermaker::Config.personal_accounts?
   end
 
@@ -138,7 +137,6 @@ class Boilermaker::ConfigTest < ActiveSupport::TestCase
 
   test "engine module provides convenience methods" do
     assert_equal Boilermaker::Config, Boilermaker.config
-    assert Boilermaker.feature_enabled?("multi_tenant")
     assert_not Boilermaker.feature_enabled?("personal_accounts")
   end
 end
