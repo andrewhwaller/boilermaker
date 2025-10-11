@@ -64,7 +64,6 @@ module Views
                 feature_card("User Invitations", "user_invitations")
                 feature_card("Dark Mode", "dark_mode")
                 feature_card("Personal Accounts", "personal_accounts")
-                feature_card("Multi-Tenant", "multi_tenant")
                 feature_card("Notifications", "notifications")
               end
             end
