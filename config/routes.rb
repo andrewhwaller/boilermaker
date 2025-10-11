@@ -38,7 +38,9 @@ Rails.application.routes.draw do
   namespace :two_factor_authentication do
     namespace :profile do
       resources :recovery_codes, only: [ :index, :create ]
-      resource  :totp,           only: [ :new, :create, :update ]
+      resource  :totp,           only: [ :new, :create, :update, :destroy ] do
+        get :destroy_confirmation, on: :member
+      end
     end
 
     namespace :challenge do
