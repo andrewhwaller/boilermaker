@@ -7,52 +7,62 @@ class ApplicationController < ActionController::Base
   before_action :set_current_request_details
   before_action :authenticate
   before_action :set_current_account
+  before_action :enforce_two_factor_setup
   before_action :ensure_verified
 
   layout "application"
 
   private
 
-  def authenticate
-    if session_record = Session.find_by_id(cookies.signed[:session_token])
-      Current.session = session_record
-    else
-      redirect_to sign_in_path
+    def authenticate
+      if session_record = Session.find_by_id(cookies.signed[:session_token])
+        Current.session = session_record
+      else
+        redirect_to sign_in_path
+      end
     end
-  end
 
-  def ensure_verified
-    redirect_to edit_identity_email_path unless Current.user&.verified?
-  end
-
-  def set_current_request_details
-    Current.user_agent = request.user_agent
-    Current.ip_address = request.ip
-  end
-
-  def set_current_account
-    return unless Current.session
-    Current.account = Current.session.account || Current.user.accounts.first!
-  end
-
-  # Server-driven theme selection for first paint
-  def assign_theme_from_cookie
-    name = cookies[:theme_name].to_s.strip
-    Current.theme_name = resolve_theme_name(name)
-  rescue
-    Current.theme_name = resolve_theme_name(nil)
-  end
-
-  def resolve_theme_name(name)
-    # Accept configured names first
-    return name if [ Boilermaker::Config.theme_light_name, Boilermaker::Config.theme_dark_name ].include?(name)
-    # Accept custom themes
-    return name if Boilermaker::Themes::ALL.include?(name)
-    # Accept built-in DaisyUI themes
-    if defined?(Boilermaker::Themes) && Boilermaker::Themes::BUILTINS.include?(name)
-      return name
+    def ensure_verified
+      redirect_to edit_identity_email_path unless Current.user&.verified?
     end
-    # Fallback to configured light theme
-    Boilermaker::Config.theme_light_name
-  end
+
+    def set_current_request_details
+      Current.user_agent = request.user_agent
+      Current.ip_address = request.ip
+    end
+
+    def set_current_account
+      return unless Current.session
+      Current.account = Current.session.account || Current.user.accounts.first!
+    end
+
+    def enforce_two_factor_setup
+      return unless Current.user
+      return unless Boilermaker.config.require_two_factor_authentication?
+      return if Current.user.otp_required_for_sign_in?
+
+      redirect_to new_two_factor_authentication_profile_totp_path,
+                  alert: "You must set up two-factor authentication to continue"
+    end
+
+    # Server-driven theme selection for first paint
+    def assign_theme_from_cookie
+      name = cookies[:theme_name].to_s.strip
+      Current.theme_name = resolve_theme_name(name)
+    rescue
+      Current.theme_name = resolve_theme_name(nil)
+    end
+
+    def resolve_theme_name(name)
+      # Accept configured names first
+      return name if [ Boilermaker::Config.theme_light_name, Boilermaker::Config.theme_dark_name ].include?(name)
+      # Accept custom themes
+      return name if Boilermaker::Themes::ALL.include?(name)
+      # Accept built-in DaisyUI themes
+      if defined?(Boilermaker::Themes) && Boilermaker::Themes::BUILTINS.include?(name)
+        return name
+      end
+      # Fallback to configured light theme
+      Boilermaker::Config.theme_light_name
+    end
 end

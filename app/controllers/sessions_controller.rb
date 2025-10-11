@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate, only: %i[ new create ]
   skip_before_action :ensure_verified
+  skip_before_action :enforce_two_factor_setup, only: %i[ destroy ]
 
   before_action :set_session, only: :destroy
 
@@ -33,6 +34,7 @@ class SessionsController < ApplicationController
   end
 
   private
+
     def set_session
       if params[:id] == "current"
         @session = Current.session
