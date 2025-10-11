@@ -72,7 +72,7 @@ module Views
               )
               label(class: "label") do
                 span(class: "label-text-alt text-sm text-base-content/70") do
-                  plain "Minimum #{Boilermaker.config.password_min_length} characters."
+                  plain "12 characters minimum."
                 end
               end
             end
