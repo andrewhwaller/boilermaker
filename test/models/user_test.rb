@@ -389,4 +389,36 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.can_access?(account)
     assert_not_includes user.accounts, account
   end
+
+  # TWO-FACTOR AUTHENTICATION TESTS
+
+  test "disable_two_factor! sets otp_required_for_sign_in to false" do
+    user = users(:app_admin)
+    user.update!(otp_required_for_sign_in: true)
+
+    user.disable_two_factor!
+
+    refute user.reload.otp_required_for_sign_in?
+  end
+
+  test "disable_two_factor! deletes all recovery codes" do
+    user = users(:app_admin)
+    user.update!(otp_required_for_sign_in: true)
+    user.recovery_codes.create!(code: "test123456")
+    user.recovery_codes.create!(code: "test789012")
+
+    assert_difference "user.recovery_codes.count", -2 do
+      user.disable_two_factor!
+    end
+  end
+
+  test "disable_two_factor! keeps otp_secret for potential re-enabling" do
+    user = users(:app_admin)
+    original_secret = user.otp_secret
+    user.update!(otp_required_for_sign_in: true)
+
+    user.disable_two_factor!
+
+    assert_equal original_secret, user.reload.otp_secret
+  end
 end
