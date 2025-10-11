@@ -139,14 +139,13 @@ default:
     user_registration: true
     password_reset: true
     two_factor_authentication: false
-    multi_tenant: false
     personal_accounts: false
 ```
 
 Check feature status in code:
 ```ruby
 Boilermaker.feature_enabled?(:two_factor_authentication)
-Boilermaker::Config.multi_tenant?
+Boilermaker::Config.personal_accounts?
 ```
 
 ### Theme System
