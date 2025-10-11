@@ -1,4 +1,6 @@
 class TwoFactorAuthentication::Profile::RecoveryCodesController < ApplicationController
+  skip_before_action :enforce_two_factor_setup
+
   before_action :set_user
 
   def index
@@ -19,6 +21,7 @@ class TwoFactorAuthentication::Profile::RecoveryCodesController < ApplicationCon
   end
 
   private
+
     def set_user
       @user = Current.user
     end
