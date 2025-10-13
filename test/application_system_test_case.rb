@@ -41,7 +41,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
         assert_no_selector "h1", text: /authenticator/i, wait: 3
       rescue Minitest::Assertion
         # Still on 2FA page, verification may have failed
-        return
+        nil
       end
     else
       # For non-2FA users, wait for redirect after sign in
@@ -50,7 +50,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
         assert_no_current_path sign_in_path, wait: 3
       rescue Minitest::Assertion
         # Still on sign in page, authentication may have failed
-        return
+        nil
       end
     end
 

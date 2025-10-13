@@ -30,7 +30,7 @@ module Views
                 form_errors(@user)
 
                 form_with(
-                  model: [@user],
+                  model: [ @user ],
                   url: account_user_path(@user),
                   local: true,
                   class: "space-y-4"
