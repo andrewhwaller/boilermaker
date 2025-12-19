@@ -1,170 +1,85 @@
 # Boilermaker
 
-A modern Rails 8 application template with a component-based architecture.
+A Rails 8 application template with Phlex components and AI-powered development tools.
 
 ## Tech Stack
 
-- **Ruby 3.4.4** / **Rails 8.0.3**
-- **Phlex** - Ruby-based view components
-- **Stimulus** - JavaScript framework for progressive enhancement
-- **Turbo** - SPA-like page acceleration
-- **Tailwind CSS** - Utility-first CSS framework
-- **SQLite** - Database with Solid Queue, Solid Cache, and Solid Cable
-- **Minitest** - Testing framework with Capybara for system tests
+- **Rails 8.0.3** with Ruby 3.4.4
+- **Phlex** views and components (not ERB)
+- **Stimulus + Turbo** for interactivity
+- **Tailwind CSS** for styling
+- **SQLite** with Solid Queue, Solid Cache, and Solid Cable
+- **Minitest** with Capybara for testing
 
-## Features
-
-### Authentication & Security
-- Session-based authentication
-- Two-factor authentication (TOTP) with QR code generation (configurable)
-- Password reset functionality (configurable)
-- User registration (configurable)
-- Obfuscated model IDs via Hashids
-
-### Modern Rails Stack
-- **Solid Queue** - Database-backed background jobs
-- **Solid Cache** - Database-backed caching
-- **Solid Cable** - Database-backed Action Cable
-- **Propshaft** - Modern asset pipeline
-- **Importmap** - JavaScript without bundling
-
-### Developer Experience
-- **Phlex Scaffolding** - Generate complete CRUD interfaces with Phlex views
-- **Overmind** - Process manager for development
-- **Letter Opener** - Preview emails in development
-- **Hotwire Spark** - Live reloading during development
-- **Brakeman** - Security vulnerability scanning
-- **Rubocop** - Rails Omakase style enforcement
-
-### Boilermaker Engine
-Internal Rails engine providing:
-- User settings management
-- Custom theme system with light/dark modes
-- Configurable feature flags
-- Account/multi-tenancy support (configurable)
-
-## Getting Started
-
-### Prerequisites
-- Ruby 3.4.4
-- Rails 8.0.3
-- SQLite3
-
-### Installation
-
-1. Clone this repository
-2. Install dependencies:
-```bash
-bin/setup
-```
-
-3. Start the development server:
-```bash
-bin/dev
-```
-
-The application will be available at `http://localhost:3000`.
-
-## Phlex View Scaffolding
-
-This template includes a custom Phlex scaffolding system configured by default in `config/application.rb`.
-
-### Generate a Scaffold
+## Quick Start
 
 ```bash
-rails generate scaffold Post title:string content:text published:boolean
+bin/setup    # Install dependencies
+bin/dev      # Start development server
 ```
 
-This generates:
-- Model with validations
-- Controller with standard CRUD actions
-- Phlex view components for index, show, edit, new, and form
-- Routes
-- Migration
+Visit `http://localhost:3000`
 
-### File Structure
+## What's Different from Standard Rails
 
-Generated scaffolds create:
+### Views
+This template uses **Phlex** instead of ERB. Views are Ruby classes:
 ```
-app/
-├── components/
-│   └── posts/
-│       ├── form_component.rb    # Reusable form component
-│       └── post_component.rb    # Individual post display
-├── controllers/
-│   └── posts_controller.rb
-├── models/
-│   └── post.rb
-└── views/
-    └── posts/
-        ├── index.rb             # List view
-        ├── show.rb              # Detail view
-        ├── new.rb               # New form
-        └── edit.rb              # Edit form
+app/views/posts/index.rb      # Not index.html.erb
+app/components/posts/...      # Reusable components
 ```
+
+Scaffolding generates Phlex views automatically.
+
+### Authentication
+Built-in session-based auth with optional 2FA (TOTP). Configure features in `config/boilermaker.yml`.
+
+### IDs
+Model IDs are obfuscated via Hashids in URLs.
+
+### Background Jobs & Caching
+Uses SQLite-backed Solid Queue, Solid Cache, and Solid Cable instead of Redis.
 
 ## Development
 
-### Running Tests
-
 ```bash
-rails test                        # Run all tests
-rails test test/models/user_test.rb  # Run specific test
-rails test:system                 # Run system tests
+rails test           # Run tests
+rails generate scaffold Post title:string  # Generates Phlex views
+rubocop              # Style checks
+brakeman             # Security scan
 ```
 
-### Code Quality
+## AI Development Tools
 
-```bash
-rubocop           # Run Rubocop
-brakeman          # Run security scan
-```
+This template includes Claude Code commands for AI-assisted development. Use these slash commands in Claude Code:
 
-### Database
+### Core Workflow
 
-```bash
-rails db:migrate  # Run migrations
-rails db:create   # Create database
-```
+| Command | Description |
+|---------|-------------|
+| `/prime` | Get oriented with the codebase - reads CLAUDE.md and key docs |
+| `/architecture <requirements>` | Develop a spec for a new feature with multiple review iterations |
+| `/implement <spec>` | Implement a feature from a spec using specialized agents |
+| `/debug <issue>` | Debug an issue with code analysis and testing |
+| `/review` | Review recent code changes against Rails/DHH standards |
 
-## Configuration
+### Specialized Agents
 
-### Feature Flags
+The commands use these sub-agents behind the scenes:
 
-Configure features in `config/boilermaker.yml`:
+- **Application Architect** - Creates implementation specs
+- **DHH Code Reviewer** - Reviews code against Rails conventions
+- **Rails Programmer** - Implements backend code
+- **Stimulus Turbo Developer** - Implements frontend with Phlex/Stimulus/Turbo
+- **Test Writer** - Writes comprehensive tests
+- **Code Analyzer** - Traces logic and finds bugs
 
-```yaml
-default:
-  features:
-    user_registration: true
-    password_reset: true
-    two_factor_authentication: false
-    personal_accounts: false
-```
+### Typical Workflow
 
-Check feature status in code:
-```ruby
-Boilermaker.feature_enabled?(:two_factor_authentication)
-Boilermaker::Config.personal_accounts?
-```
+1. **Start a session**: `/prime` to load project context
+2. **Plan a feature**: `/architecture docs/requirements/my-feature.md`
+3. **Implement**: `/implement docs/plans/my-feature-spec.md`
+4. **Debug issues**: `/debug "login form not submitting"`
+5. **Review changes**: `/review` before committing
 
-### Theme System
-
-The application includes custom themes optimized for productivity:
-
-**Light Themes:**
-- **work-station** - Warm, focused theme with beige/brown tones for comfortable daytime work
-- **drafting-table** - Clean monochrome theme with crisp black/white/gray aesthetic
-
-**Dark Themes:**
-- **command-center** - Professional dark theme with golden accents for extended coding sessions
-- **terminal** - Classic green-on-black terminal aesthetic
-
-Configure themes in `config/boilermaker.yml`:
-
-```yaml
-ui:
-  theme:
-    light: work-station      # or drafting-table
-    dark: command-center     # or terminal
-```
+See `/docs/overview.md` for full documentation structure.
