@@ -49,12 +49,19 @@ rubocop              # Style checks
 brakeman             # Security scan
 ```
 
-## Pulling Updates from Boilermaker
+## Starting a New Project from Boilermaker
 
-If you've forked this repo as a starter template, set up a remote to pull updates:
+After cloning, point origin to your new repo and add boilermaker as an upstream:
 
 ```bash
+git remote set-url origin https://github.com/YOU/YOUR-NEW-REPO.git
 git remote add boilermaker https://github.com/andrewhwaller/boilermaker.git
+git push -u origin main
+```
+
+To pull updates from boilermaker later:
+
+```bash
 git fetch boilermaker
 git merge boilermaker/main
 ```
