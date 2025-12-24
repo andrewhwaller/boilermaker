@@ -49,6 +49,16 @@ rubocop              # Style checks
 brakeman             # Security scan
 ```
 
+## Pulling Updates from Boilermaker
+
+If you've forked this repo as a starter template, set up a remote to pull updates:
+
+```bash
+git remote add boilermaker https://github.com/andrewhwaller/boilermaker.git
+git fetch boilermaker
+git merge boilermaker/main
+```
+
 ## AI Development Tools
 
 This template includes Claude Code commands for AI-assisted development. Use these slash commands in Claude Code:
