@@ -72,7 +72,8 @@ class Views::Home::Components < Views::Base
           h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Link Components" }
 
           component_section("Link Variants", "All link variants with proper styling and hover effects") do
-render Components::Link.new(href: "#", text: "Default Link")
+            div(class: "flex flex-wrap gap-4") do
+              render Components::Link.new(href: "#", text: "Default Link")
               render Components::Link.new(href: "#", text: "Primary Link", variant: :primary)
               render Components::Link.new(href: "#", text: "Secondary Link", variant: :secondary)
               render Components::Link.new(href: "#", text: "Accent Link", variant: :accent)
@@ -109,7 +110,7 @@ render Components::Link.new(href: "#", text: "Default Link")
           component_section("Button Style & External Links", "Link as button and external link handling") do
             div(class: "flex flex-wrap items-center gap-4") do
               render Components::Link.new(href: "#", text: "Button Style Link", variant: :button)
-render Components::Link.new(href: "https://example.com", text: "External Link", external: true)
+              render Components::Link.new(href: "https://example.com", text: "External Link", external: true)
             end
 
             code_example("Ruby Code", 'Link("https://example.com", "External Link", external: true)')
@@ -141,8 +142,6 @@ render Components::Link.new(href: "https://example.com", text: "External Link", 
               render Components::Button.new(variant: :error) { "Error" }
             RUBY
           end
-
-
 
           component_section("Button Styles", "Outline, ghost, and link button variations") do
             div(class: "flex flex-wrap gap-4") do
@@ -366,9 +365,6 @@ render Components::Link.new(href: "https://example.com", text: "External Link", 
                 render Components::Badge.new(variant: :warning) { "Warning" }
                 render Components::Badge.new(variant: :error) { "Error" }
               RUBY
-
-
-
             end
           end
 
@@ -651,7 +647,7 @@ render Components::Link.new(href: "https://example.com", text: "External Link", 
                     render Table::Cell.new { Badge(variant: :success) { "ONLINE" } }
                     render Table::Cell.new(align: :center) { "23%" }
                     render Table::Actions.new do
-render Components::Button.new(variant: :ghost, size: :xs) { "View" }
+                      render Components::Button.new(variant: :ghost, size: :xs) { "View" }
                       render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
                       render Components::Button.new(variant: :ghost, size: :xs) { "Stop" }
                     end
@@ -661,7 +657,7 @@ render Components::Button.new(variant: :ghost, size: :xs) { "View" }
                     render Table::Cell.new { Badge(variant: :warning) { "RESTART" } }
                     render Table::Cell.new(align: :center) { "67%" }
                     render Table::Actions.new do
-render Components::Button.new(variant: :ghost, size: :xs) { "View" }
+                      render Components::Button.new(variant: :ghost, size: :xs) { "View" }
                       render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
                       render Components::Button.new(variant: :ghost, size: :xs) { "Stop" }
                     end
@@ -671,7 +667,7 @@ render Components::Button.new(variant: :ghost, size: :xs) { "View" }
                     render Table::Cell.new { Badge(variant: :error) { "ERROR" } }
                     render Table::Cell.new(align: :center) { "89%" }
                     render Table::Actions.new do
-render Components::Button.new(variant: :ghost, size: :xs) { "View" }
+                      render Components::Button.new(variant: :ghost, size: :xs) { "View" }
                       render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
                       render Components::Button.new(variant: :ghost, size: :xs) { "Restart" }
                     end
@@ -1028,10 +1024,10 @@ render Components::Button.new(variant: :ghost, size: :xs) { "View" }
         render Components::Button.new(
           variant: :ghost,
           size: :xs, # Use xs for smaller button in code example
-          attributes: { "data-clipboard-target": "#code-#{title.downcase.gsub(' ', '-')}" }
+          attributes: { "data-clipboard-target": "#code-#{title.downcase.tr(" ", "-")}" }
         ) { "Copy" }
       end
-      pre(class: "text-xs text-foreground/80 overflow-x-auto", id: "code-#{title.downcase.gsub(' ', '-')}") do
+      pre(class: "text-xs text-foreground/80 overflow-x-auto", id: "code-#{title.downcase.tr(" ", "-")}") do
         code { code }
       end
     end
