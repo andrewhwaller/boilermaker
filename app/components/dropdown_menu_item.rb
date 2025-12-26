@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Components::DropdownMenuItem < Components::Base
-  def initialize(href, text = nil, method: :get, **attributes)
+  def initialize(href: nil, text: nil, method: :get, **attributes)
     @href = href
     @text = text
     @method = method
@@ -10,7 +10,7 @@ class Components::DropdownMenuItem < Components::Base
 
   def view_template
     li do
-      a(href: @href || "#", class: link_classes, data: data_attributes, **filtered_attributes(:data)) do
+      a(href: @href || "#", class: link_classes, data: data_attributes, **@attributes.except(:class, :data)) do
         @text.present? ? @text : @href
       end
     end
@@ -19,11 +19,11 @@ class Components::DropdownMenuItem < Components::Base
   private
 
   def link_classes
-    [ "justify-start text-sm", @attributes[:class] ]
+    css_classes("menu-item", @attributes.delete(:class))
   end
 
   def data_attributes
-    base_data = @attributes[:data] || {}
+    base_data = @attributes.delete(:data) || {}
     base_data = base_data.merge(turbo_method: :delete) if @method == :delete
     base_data
   end

@@ -91,7 +91,7 @@ class TableTest < ComponentTestCase
     assert html.include?("<tbody>"), "Table should have tbody element"
 
     # Should have tr elements for each row
-    assert html.scan(/<tr>/).length >= 2, "Table should have at least 2 tr elements in tbody"
+    assert html.scan("<tr>").length >= 2, "Table should have at least 2 tr elements in tbody"
 
     # Should have td elements with data
     assert html.include?("<td>John</td>"), "Table should have John data"
@@ -182,21 +182,21 @@ class TableTest < ComponentTestCase
 
   # Test table combinations
   test "renders table with multiple option combinations correctly" do
-    # Zebra compact table
-    zebra_compact = Components::Table.new(
-      variant: :zebra,
+    # Striped compact table
+    striped_compact = Components::Table.new(
+      variant: :striped,
       size: :sm
     )
 
-    assert_has_css_class(zebra_compact, [ "table", "table-zebra", "table-sm" ])
+    assert_has_css_class(striped_compact, [ "table", "table-striped", "table-sm" ])
 
-    # Pin rows large table
-    pin_rows_large = Components::Table.new(
-      variant: :pin_rows,
+    # Header pin large table
+    header_pin_large = Components::Table.new(
+      variant: :header_pin,
       size: :lg
     )
 
-    assert_has_css_class(pin_rows_large, [ "table", "table-pin-rows", "table-lg" ])
+    assert_has_css_class(header_pin_large, [ "table", "table-header-pin", "table-lg" ])
   end
 
   # Test edge cases
@@ -298,7 +298,7 @@ class TableTest < ComponentTestCase
     assert html.include?("User 49"), "Should render last row"
 
     # Should have correct number of data rows (50 + 1 header row)
-    tr_count = html.scan(/<tr>/).length
+    tr_count = html.scan("<tr>").length
     assert tr_count >= 50, "Should have at least 50 data rows"
   end
 end

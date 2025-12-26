@@ -2,31 +2,38 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["toggle"]
-  static values = {
-    lightName: { type: String, default: "work-station" },
-    darkName: { type: String, default: "command-center" }
-  }
 
-  toggleTargetConnected() {
-    this.syncToggleState()
+  connect() {
+    this.syncTheme()
   }
 
   toggle() {
-    const currentTheme = document.documentElement.getAttribute("data-theme")
-    const isDark = currentTheme === this.darkNameValue
-    const newTheme = isDark ? this.lightNameValue : this.darkNameValue
-    const newMode = isDark ? "light" : "dark"
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark"
+    const newTheme = isDark ? "light" : "dark"
 
     document.documentElement.setAttribute("data-theme", newTheme)
-    localStorage.setItem("theme-preference", newMode)
-    document.cookie = `theme_name=${encodeURIComponent(newTheme)}; path=/; max-age=31536000; samesite=lax`
+    localStorage.setItem("theme", newTheme)
 
+    this.syncToggleState()
+  }
+
+  syncTheme() {
+    const theme = localStorage.getItem("theme")
+    if (theme) {
+      document.documentElement.setAttribute("data-theme", theme)
+    } else {
+      // If no theme is set, use the browser preference
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute("data-theme", "dark")
+      } else {
+        document.documentElement.setAttribute("data-theme", "light")
+      }
+    }
     this.syncToggleState()
   }
 
   syncToggleState() {
-    const currentTheme = document.documentElement.getAttribute("data-theme")
-    const isDark = currentTheme === this.darkNameValue
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark"
 
     this.toggleTargets.forEach(toggle => {
       toggle.setAttribute("aria-pressed", isDark ? "true" : "false")

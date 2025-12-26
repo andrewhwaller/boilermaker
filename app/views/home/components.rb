@@ -3,9 +3,9 @@
 class Views::Home::Components < Views::Base
   def view_template
     div(class: "min-h-screen") do
-      div(class: "sticky top-0 bg-base-200 border-b border-base-300 p-4 z-10") do
+      div(class: "sticky top-0 bg-background border-b border-border p-4 z-10") do
         div(class: "flex items-center justify-between max-w-6xl mx-auto") do
-          h1(class: "font-bold text-base-content") { "Phlex Component Showcase" }
+          h1(class: "font-bold text-foreground") { "Phlex Component Showcase" }
         end
 
         div(class: "max-w-6xl mx-auto mt-4") do
@@ -28,11 +28,11 @@ class Views::Home::Components < Views::Base
 
       div(class: "max-w-6xl mx-auto p-8 space-y-16") do
         section(id: "typography") do
-          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Typography System" }
+          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Typography System" }
 
           component_section("Heading Hierarchy", "Current heading styles with default CSS") do
             div(class: "space-y-6") do
-              div(class: "bg-base-200 rounded-lg p-6") do
+              div(class: "bg-background rounded-md p-6") do
                 h1 { "H1 Heading - Main page titles" }
                 h2 { "H2 Heading - Section headers" }
                 h3 { "H3 Heading - Subsection headers" }
@@ -45,7 +45,7 @@ class Views::Home::Components < Views::Base
 
           component_section("Text Size Scale", "Available Tailwind text size classes") do
             div(class: "space-y-3") do
-              div(class: "bg-base-200 rounded-lg p-6 space-y-2") do
+              div(class: "bg-background rounded-md p-6 space-y-2") do
                 p(class: "text-xs") { "text-xs (0.75rem) - Fine print, captions" }
                 p(class: "text-sm") { "text-sm (0.875rem) - Small text, labels" }
                 p(class: "text-base") { "text-base (1rem) - Default body text" }
@@ -59,58 +59,57 @@ class Views::Home::Components < Views::Base
 
           component_section("Body Text Examples", "Different text content with various sizes") do
             div(class: "space-y-4") do
-              div(class: "bg-base-200 rounded-lg p-6") do
+              div(class: "bg-background rounded-md p-6") do
                 p(class: "text-base") { "This is regular body text using text-base. It should be comfortable to read and not too large or small." }
-                p(class: "text-sm text-base-content/70 mt-2") { "This is smaller supporting text using text-sm with reduced opacity." }
-                p(class: "text-xs text-base-content/60 mt-2") { "This is very small text using text-xs, suitable for fine print or metadata." }
+                p(class: "text-sm text-foreground/70 mt-2") { "This is smaller supporting text using text-sm with reduced opacity." }
+                p(class: "text-xs text-foreground/60 mt-2") { "This is very small text using text-xs, suitable for fine print or metadata." }
               end
             end
           end
         end
 
         section(id: "links") do
-          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Link Components" }
+          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Link Components" }
 
           component_section("Link Variants", "All link variants with proper styling and hover effects") do
-            div(class: "flex flex-wrap gap-4") do
-              Link("#", "Default Link")
-              Link("#", "Primary Link", variant: :primary)
-              Link("#", "Secondary Link", variant: :secondary)
-              Link("#", "Accent Link", variant: :accent)
-              Link("#", "Neutral Link", variant: :neutral)
-              Link("#", "Uppercase Link", uppercase: true)
+render Components::Link.new(href: "#", text: "Default Link")
+              render Components::Link.new(href: "#", text: "Primary Link", variant: :primary)
+              render Components::Link.new(href: "#", text: "Secondary Link", variant: :secondary)
+              render Components::Link.new(href: "#", text: "Accent Link", variant: :accent)
+              render Components::Link.new(href: "#", text: "Neutral Link", variant: :neutral)
+              render Components::Link.new(href: "#", text: "Uppercase Link", uppercase: true)
             end
 
             code_example("Ruby Code", <<~RUBY.strip)
               Link("#", "Default Link")
-              Link("#", "Primary Link", variant: :primary)
-              Link("#", "Secondary Link", variant: :secondary)
-              Link("#", "Accent Link", variant: :accent)
-              Link("#", "Neutral Link", variant: :neutral)
-              Link("#", "Uppercase Link", uppercase: true)
+              render Components::Link.new(href: "#", text: "Primary Link", variant: :primary)
+              render Components::Link.new(href: "#", text: "Secondary Link", variant: :secondary)
+              render Components::Link.new(href: "#", text: "Accent Link", variant: :accent)
+              render Components::Link.new(href: "#", text: "Neutral Link", variant: :neutral)
+              render Components::Link.new(href: "#", text: "Uppercase Link", uppercase: true)
             RUBY
           end
 
           component_section("State Links", "Success, warning, error, and info link variants") do
             div(class: "flex flex-wrap gap-4") do
-              Link("#", "Success Link", variant: :success)
-              Link("#", "Warning Link", variant: :warning)
-              Link("#", "Error Link", variant: :error)
-              Link("#", "Info Link", variant: :info)
+              render Components::Link.new(href: "#", text: "Success Link", variant: :success)
+              render Components::Link.new(href: "#", text: "Warning Link", variant: :warning)
+              render Components::Link.new(href: "#", text: "Error Link", variant: :error)
+              render Components::Link.new(href: "#", text: "Info Link", variant: :info)
             end
 
             code_example("Ruby Code", <<~RUBY.strip)
-              Link("#", "Success Link", variant: :success)
-              Link("#", "Warning Link", variant: :warning)
-              Link("#", "Error Link", variant: :error)
-              Link("#", "Info Link", variant: :info)
+              render Components::Link.new(href: "#", text: "Success Link", variant: :success)
+              render Components::Link.new(href: "#", text: "Warning Link", variant: :warning)
+              render Components::Link.new(href: "#", text: "Error Link", variant: :error)
+              render Components::Link.new(href: "#", text: "Info Link", variant: :info)
             RUBY
           end
 
           component_section("Button Style & External Links", "Link as button and external link handling") do
             div(class: "flex flex-wrap items-center gap-4") do
-              Link("#", "Button Style Link", variant: :button)
-              Link("https://example.com", "External Link", external: true)
+              render Components::Link.new(href: "#", text: "Button Style Link", variant: :button)
+render Components::Link.new(href: "https://example.com", text: "External Link", external: true)
             end
 
             code_example("Ruby Code", 'Link("https://example.com", "External Link", external: true)')
@@ -119,27 +118,27 @@ class Views::Home::Components < Views::Base
 
         # Buttons Section
         section(id: "buttons") do
-          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Button Components" }
+          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Button Components" }
 
           component_section("Button Variants", "Primary button styles for different contexts") do
             div(class: "flex flex-wrap gap-4") do
-              Button(variant: :primary) { "Primary" }
-              Button(variant: :secondary) { "Secondary" }
-              Button(variant: :destructive) { "Destructive" }
-              Button(variant: :success) { "Success" }
-              Button(variant: :info) { "Info" }
-              Button(variant: :warning) { "Warning" }
-              Button(variant: :error) { "Error" }
+              render Components::Button.new(variant: :primary) { "Primary" }
+              render Components::Button.new(variant: :secondary) { "Secondary" }
+              render Components::Button.new(variant: :destructive) { "Destructive" }
+              render Components::Button.new(variant: :success) { "Success" }
+              render Components::Button.new(variant: :info) { "Info" }
+              render Components::Button.new(variant: :warning) { "Warning" }
+              render Components::Button.new(variant: :error) { "Error" }
             end
 
             code_example("Ruby Code", <<~RUBY.strip)
-              Button(variant: :primary) { "Primary" }
-              Button(variant: :secondary) { "Secondary" }
-              Button(variant: :destructive) { "Destructive" }
-              Button(variant: :success) { "Success" }
-              Button(variant: :info) { "Info" }
-              Button(variant: :warning) { "Warning" }
-              Button(variant: :error) { "Error" }
+              render Components::Button.new(variant: :primary) { "Primary" }
+              render Components::Button.new(variant: :secondary) { "Secondary" }
+              render Components::Button.new(variant: :destructive) { "Destructive" }
+              render Components::Button.new(variant: :success) { "Success" }
+              render Components::Button.new(variant: :info) { "Info" }
+              render Components::Button.new(variant: :warning) { "Warning" }
+              render Components::Button.new(variant: :error) { "Error" }
             RUBY
           end
 
@@ -147,52 +146,42 @@ class Views::Home::Components < Views::Base
 
           component_section("Button Styles", "Outline, ghost, and link button variations") do
             div(class: "flex flex-wrap gap-4") do
-              Button(variant: :outline) { "Outline" }
-              Button(variant: :ghost) { "Ghost" }
-              Button(variant: :link) { "Link Style" }
-              Button(variant: :secondary, uppercase: true) { "Uppercase" }
+              render Components::Button.new(variant: :outline) { "Outline" }
+              render Components::Button.new(variant: :ghost) { "Ghost" }
+              render Components::Button.new(variant: :link) { "Link Style" }
+              render Components::Button.new(variant: :secondary, uppercase: true) { "Uppercase" }
             end
 
             code_example("Ruby Code", <<~RUBY.strip)
-              Button(variant: :outline) { "Outline" }
-              Button(variant: :ghost) { "Ghost" }
-              Button(variant: :link) { "Link Style" }
-              Button(variant: :secondary, uppercase: true) { "Uppercase" }
+              render Components::Button.new(variant: :outline) { "Outline" }
+              render Components::Button.new(variant: :ghost) { "Ghost" }
+              render Components::Button.new(variant: :link) { "Link Style" }
+              render Components::Button.new(variant: :secondary, uppercase: true) { "Uppercase" }
             RUBY
           end
 
           component_section("Button States", "Disabled buttons and submission patterns") do
             div(class: "space-y-4") do
               div(class: "flex flex-wrap gap-4") do
-                Button(variant: :primary, disabled: true) { "Disabled" }
+                render Components::Button.new(variant: :primary, disabled: true) { "Disabled" }
                 SubmitButton("Submit Button", variant: :primary)
               end
             end
 
             code_example("Ruby Code", <<~RUBY.strip)
-              Button(variant: :primary, disabled: true) { "Disabled" }
+              render Components::Button.new(variant: :primary, disabled: true) { "Disabled" }
               SubmitButton("Submit Button", variant: :primary)
             RUBY
           end
         end
 
         section(id: "form-inputs") do
-          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Form Input Components" }
+          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Form Input Components" }
 
           component_section("Textarea Component", "Multi-line text input with validation states") do
             div(class: "space-y-4 max-w-md") do
-              Textarea(
-                name: "description",
-                placeholder: "Enter your description here...",
-                rows: 4
-              )
-              Textarea(
-                name: "notes",
-                placeholder: "Notes with error state...",
-                rows: 3,
-                class: "textarea-error",
-                "aria-invalid": "true"
-              )
+              render Components::Textarea.new(name: "description", placeholder: "Enter your description here...", rows: 4)
+              render Components::Textarea.new(name: "notes", placeholder: "Notes with error state...", rows: 3, class: "textarea-error", "aria-invalid": "true")
             end
             code_example("Ruby Code", 'Textarea(name: "description", placeholder: "Enter description...", rows: 4)')
           end
@@ -202,21 +191,21 @@ class Views::Home::Components < Views::Base
               div do
                 h4(class: "font-medium mb-2") { "Input sizes" }
                 div(class: "space-y-2") do
-                  Input(name: "demo[default]", placeholder: "Default input")
+                  render Components::Input.new(name: "demo[default]", placeholder: "Default input")
                 end
               end
 
               div do
                 h4(class: "font-medium mb-2") { "Select" }
                 div(class: "space-y-2") do
-                  Select(name: "s[default]", options: %w[a b c])
+                  render Components::Select.new(name: "s[default]", options: %w[a b c])
                 end
               end
 
               div do
                 h4(class: "font-medium mb-2") { "Textarea" }
                 div(class: "space-y-2") do
-                  Textarea(name: "t[default]", rows: 2, placeholder: "Default")
+                  render Components::Textarea.new(name: "t[default]", rows: 2, placeholder: "Default")
                 end
               end
 
@@ -224,38 +213,26 @@ class Views::Home::Components < Views::Base
                 h4(class: "font-medium mb-2") { "Checkbox / Radio" }
                 div(class: "space-y-2") do
                   div(class: "flex items-center gap-4") do
-                    Checkbox(name: "c[default]", label: "Default")
+                    render Components::Checkbox.new(name: "c[default]", label: "Default")
                   end
-                  Radio(name: "r[default]", options: [ [ "Option 1", "1" ], [ "Option 2", "2" ], [ "Option 3", "3" ] ])
+                  render Components::Radio.new(name: "r[default]", options: [ [ "Option 1", "1" ], [ "Option 2", "2" ], [ "Option 3", "3" ] ])
                 end
               end
             end
 
             code_example("Ruby Code", <<~RUBY.strip)
-              Input()
-              Select(size: :lg)
+              render Components::Input.new()
+              render Components::Select.new(size: :lg)
               Textarea(size: :sm)
-              Checkbox(size: :lg)
-              Radio(options: [["Small", "sm"], ["Default", "md"], ["Large", "lg"]], size: :sm)
+              render Components::Checkbox.new(size: :lg)
+              render Components::Radio.new(options: [["Small", "sm"], ["Default", "md"], ["Large", "lg"]], size: :sm)
             RUBY
           end
 
           component_section("Select Component", "Dropdown select with multiple options") do
             div(class: "space-y-4 max-w-md") do
-              Select(
-                name: "category",
-                options: [
-                  [ "Select a category...", "" ],
-                  [ "Technology", "technology" ],
-                  [ "Business", "business" ],
-                  [ "Design", "design" ]
-                ]
-              )
-              Select(
-                name: "priority",
-                options: [ [ "Low", "low" ], [ "Medium", "medium" ], [ "High", "high" ] ],
-                selected: "medium"
-              )
+              render Components::Select.new(name: "category", options: [ [ "Select a category...", "" ], [ "Technology", "technology" ], [ "Business", "business" ], [ "Design", "design" ] ])
+              render Components::Select.new(name: "priority", options: [ [ "Low", "low" ], [ "Medium", "medium" ], [ "High", "high" ] ], selected: "medium")
             end
             code_example("Ruby Code", 'Select(name: "category", options: [["Technology", "tech"], ["Business", "biz"]])')
           end
@@ -268,32 +245,18 @@ class Views::Home::Components < Views::Base
                   value: "yes",
                   label: "Subscribe to newsletter"
                 )
-                Checkbox(
-                  name: "terms",
-                  value: "accepted",
-                  label: "I agree to the terms and conditions",
-                  required: true
-                )
-                Checkbox(
-                  name: "disabled_option",
-                  value: "unavailable",
-                  label: "Disabled option",
-                  disabled: true
-                )
+                render Components::Checkbox.new(name: "terms", value: "accepted", label: "I agree to the terms and conditions", required: true)
+                render Components::Checkbox.new(name: "disabled_option", value: "unavailable", label: "Disabled option", disabled: true)
               end
             end
-            code_example("Ruby Code", 'Checkbox(name: "newsletter", value: "yes", label: "Subscribe to newsletter")')
+            code_example("Ruby Code", 'render Components::Checkbox.new(name: "newsletter", value: "yes", label: "Subscribe to newsletter")')
           end
 
           component_section("Radio Component", "Radio button groups for exclusive choices") do
             div(class: "space-y-4") do
               fieldset(class: "space-y-2") do
                 legend(class: "text-sm font-medium mb-2") { "Account Type" }
-                Radio(
-                  name: "account_type",
-                  options: [ [ "Personal Account", "personal" ], [ "Business Account", "business" ], [ "Enterprise Account", "enterprise" ] ],
-                  selected: "personal"
-                )
+                render Components::Radio.new(name: "account_type", options: [ [ "Personal Account", "personal" ], [ "Business Account", "business" ], [ "Enterprise Account", "enterprise" ] ], selected: "personal")
               end
             end
             code_example("Ruby Code", 'Radio(name: "account_type", options: [["Personal Account", "personal"], ["Business Account", "business"], ["Enterprise Account", "enterprise"]], selected: "personal")')
@@ -302,17 +265,11 @@ class Views::Home::Components < Views::Base
 
         # Form Components Section
         section(id: "form-components") do
-          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Form Layout Components" }
+          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Form Layout Components" }
 
           component_section("FormField Component", "Wrapper for form inputs with labels and validation") do
             div(class: "space-y-6 max-w-md") do
-              FormField(
-                label_text: "Email Address",
-                name: "email",
-                type: "email",
-                placeholder: "user@example.com",
-                help_text: "We'll never share your email"
-              )
+              render Components::FormField.new(label_text: "Email Address", name: "email", type: "email", placeholder: "user@example.com", help_text: "We'll never share your email")
               FormField(
                 label_text: "Password",
                 name: "password",
@@ -331,17 +288,17 @@ class Views::Home::Components < Views::Base
                 PasswordField(label_text: "Password", name: "password", help_text: "At least 8 characters")
 
                 div(class: "grid grid-cols-2 gap-4") do
-                  FormField(label_text: "First Name", name: "first_name", placeholder: "John")
-                  FormField(label_text: "Last Name", name: "last_name", placeholder: "Doe")
+                  render Components::FormField.new(label_text: "First Name", name: "first_name", placeholder: "John")
+                  render Components::FormField.new(label_text: "Last Name", name: "last_name", placeholder: "Doe")
                 end
 
-                Textarea(name: "bio", placeholder: "Tell us about yourself...", rows: 3)
+                render Components::Textarea.new(name: "bio", placeholder: "Tell us about yourself...", rows: 3)
 
                 Checkbox(name: "terms", value: "accepted", label: "I agree to the terms and conditions")
 
                 div(class: "flex gap-4 pt-4") do
                   SubmitButton("Create Account", variant: :primary)
-                  Button(variant: :secondary) { "Cancel" }
+                  render Components::Button.new(variant: :secondary) { "Cancel" }
                 end
               end
             end
@@ -350,14 +307,14 @@ class Views::Home::Components < Views::Base
 
         # Feedback Components Section
         section(id: "feedback") do
-          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Feedback Components" }
+          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Feedback Components" }
 
           component_section("Alert Component", "Alert messages with different severity levels") do
             div(class: "space-y-4 max-w-2xl") do
-              Alert(message: "Your changes have been saved successfully!", variant: :success)
-              Alert(message: "This is important information you should know.", variant: :info)
-              Alert(message: "Please review your input - something needs attention.", variant: :warning)
-              Alert(message: "An error occurred while processing your request.", variant: :error)
+              render Components::Alert.new(message: "Your changes have been saved successfully!", variant: :success)
+              render Components::Alert.new(message: "This is important information you should know.", variant: :info)
+              render Components::Alert.new(message: "Please review your input - something needs attention.", variant: :warning)
+              render Components::Alert.new(message: "An error occurred while processing your request.", variant: :error)
             end
             code_example("Alert Variants", <<~RUBY.strip)
               Alert(message: "Saved successfully", variant: :success)
@@ -369,16 +326,8 @@ class Views::Home::Components < Views::Base
 
           component_section("Dismissible Alerts", "Alert messages with close functionality") do
             div(class: "space-y-4 max-w-2xl") do
-              Alert(
-                message: "This alert can be dismissed.",
-                variant: :info,
-                dismissible: true
-              )
-              Alert(
-                message: "Dismissible warning alert with important information.",
-                variant: :warning,
-                dismissible: true
-              )
+              render Components::Alert.new(message: "This alert can be dismissed.", variant: :info, dismissible: true)
+              render Components::Alert.new(message: "Dismissible warning alert with important information.", variant: :warning, dismissible: true)
             end
             code_example("Dismissible Alerts", <<~RUBY.strip)
               Alert(message: "Info alert", variant: :info, dismissible: true)
@@ -389,7 +338,7 @@ class Views::Home::Components < Views::Base
 
         # Utility Components Section
         section(id: "utility") do
-          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Utility Components" }
+          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Utility Components" }
 
           component_section("Badge Component", "Badges with different colors, sizes, and styles") do
             div(class: "space-y-6") do
@@ -397,58 +346,29 @@ class Views::Home::Components < Views::Base
               div do
                 h4(class: "font-medium mb-3") { "Badge Variants" }
                 div(class: "flex flex-wrap gap-2") do
-                  Badge(variant: :primary) { "Primary" }
-                  Badge(variant: :secondary) { "Secondary" }
-                  Badge(variant: :accent) { "Accent" }
-                  Badge(variant: :neutral) { "Neutral" }
-                  Badge(variant: :info) { "Info" }
-                  Badge(variant: :success) { "Success" }
-                  Badge(variant: :warning) { "Warning" }
-                  Badge(variant: :error) { "Error" }
+                  render Components::Badge.new(variant: :primary) { "Primary" }
+                  render Components::Badge.new(variant: :secondary) { "Secondary" }
+                  render Components::Badge.new(variant: :accent) { "Accent" }
+                  render Components::Badge.new(variant: :neutral) { "Neutral" }
+                  render Components::Badge.new(variant: :info) { "Info" }
+                  render Components::Badge.new(variant: :success) { "Success" }
+                  render Components::Badge.new(variant: :warning) { "Warning" }
+                  render Components::Badge.new(variant: :error) { "Error" }
                 end
               end
               code_example("Badge Variants", <<~RUBY.strip)
-                Badge(variant: :primary) { "Primary" }
-                Badge(variant: :secondary) { "Secondary" }
-                Badge(variant: :accent) { "Accent" }
-                Badge(variant: :neutral) { "Neutral" }
-                Badge(variant: :info) { "Info" }
-                Badge(variant: :success) { "Success" }
-                Badge(variant: :warning) { "Warning" }
-                Badge(variant: :error) { "Error" }
+                render Components::Badge.new(variant: :primary) { "Primary" }
+                render Components::Badge.new(variant: :secondary) { "Secondary" }
+                render Components::Badge.new(variant: :accent) { "Accent" }
+                render Components::Badge.new(variant: :neutral) { "Neutral" }
+                render Components::Badge.new(variant: :info) { "Info" }
+                render Components::Badge.new(variant: :success) { "Success" }
+                render Components::Badge.new(variant: :warning) { "Warning" }
+                render Components::Badge.new(variant: :error) { "Error" }
               RUBY
 
-              # Badge sizes
-              div do
-                h4(class: "font-medium mb-3") { "Badge Sizes" }
-                div(class: "flex flex-wrap items-center gap-3") do
-                  Badge(variant: :primary, size: :xs) { "Extra Small" }
-                  Badge(variant: :primary, size: :sm) { "Small" }
-                  Badge(variant: :primary, size: :md) { "Medium" }
-                  Badge(variant: :primary, size: :lg) { "Large" }
-                end
-              end
-              code_example("Badge Sizes", <<~RUBY.strip)
-                Badge(variant: :primary, size: :xs) { "Extra Small" }
-                Badge(variant: :primary, size: :sm) { "Small" }
-                Badge(variant: :primary, size: :md) { "Medium" }
-                Badge(variant: :primary, size: :lg) { "Large" }
-              RUBY
 
-              # Badge styles
-              div do
-                h4(class: "font-medium mb-3") { "Badge Styles" }
-                div(class: "flex flex-wrap gap-3") do
-                  Badge(variant: :primary, style: :filled) { "Filled" }
-                  Badge(variant: :primary, style: :outline) { "Outline" }
-                  Badge(variant: :primary, style: :ghost) { "Ghost" }
-                end
-              end
-              code_example("Badge Styles", <<~RUBY.strip)
-                Badge(variant: :primary, style: :filled) { "Filled" }
-                Badge(variant: :primary, style: :outline) { "Outline" }
-                Badge(variant: :primary, style: :ghost) { "Ghost" }
-              RUBY
+
             end
           end
 
@@ -458,39 +378,39 @@ class Views::Home::Components < Views::Base
               div do
                 h4(class: "font-medium mb-3") { "Loading Types" }
                 div(class: "flex items-center gap-6") do
-                  Loading(type: :dots)
-                  Loading(type: :spinner)
-                  Loading(type: :pulse)
+                  render Components::Loading.new(type: :dots)
+                  render Components::Loading.new(type: :spinner)
+                  render Components::Loading.new(type: :pulse)
                 end
               end
               code_example("Loading Types", <<~RUBY.strip)
-                Loading(type: :dots)
-                Loading(type: :spinner)
-                Loading(type: :pulse)
+                render Components::Loading.new(type: :dots)
+                render Components::Loading.new(type: :spinner)
+                render Components::Loading.new(type: :pulse)
               RUBY
 
               # Loading sizes
               div do
                 h4(class: "font-medium mb-3") { "Loading Sizes" }
                 div(class: "flex items-center gap-6") do
-                  Loading(size: :sm)
-                  Loading(size: :md)
-                  Loading(size: :lg)
+                  render Components::Loading.new(size: :sm)
+                  render Components::Loading.new(size: :md)
+                  render Components::Loading.new(size: :lg)
                 end
               end
               code_example("Loading Sizes", <<~RUBY.strip)
-                Loading(size: :sm)
-                Loading(size: :md)
-                Loading(size: :lg)
+                render Components::Loading.new(size: :sm)
+                render Components::Loading.new(size: :md)
+                render Components::Loading.new(size: :lg)
               RUBY
 
               # Loading with text
               div do
                 h4(class: "font-medium mb-3") { "Loading with Text" }
                 div(class: "space-y-3") do
-                  Loading(type: :dots, size: :sm, text: "Processing...")
-                  Loading(type: :spinner, size: :sm, text: "Building...")
-                  Loading(type: :pulse, size: :sm, text: "Syncing...")
+                  render Components::Loading.new(type: :dots, size: :sm, text: "Processing...")
+                  render Components::Loading.new(type: :spinner, size: :sm, text: "Building...")
+                  render Components::Loading.new(type: :pulse, size: :sm, text: "Syncing...")
                 end
               end
               code_example("Loading with Text", <<~RUBY.strip)
@@ -504,17 +424,10 @@ class Views::Home::Components < Views::Base
 
         # Table Components Section
         section(id: "tables") do
-          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Table Components" }
+          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Table Components" }
 
           component_section("Basic Table", "Simple data table with headers and rows") do
-            Table(
-              headers: [ "Name", "Email", "Role", "Status" ],
-              data: [
-                [ "John Doe", "john@example.com", "Admin", "Active" ],
-                [ "Jane Smith", "jane@example.com", "User", "Active" ],
-                [ "Mike Johnson", "mike@example.com", "Editor", "Inactive" ]
-              ]
-            )
+            render Components::Table.new(headers: [ "Name", "Email", "Role", "Status" ], data: [ [ "John Doe", "john@example.com", "Admin", "Active" ], [ "Jane Smith", "jane@example.com", "User", "Active" ], [ "Mike Johnson", "mike@example.com", "Editor", "Inactive" ] ])
 
             code_example("Ruby Code", <<~RUBY.strip)
               Table(
@@ -532,71 +445,28 @@ class Views::Home::Components < Views::Base
               # Industrial zebra striping
               div do
                 h4(class: "font-medium mb-3") { "System Monitor - Zebra Striped" }
-                Table(
-                  variant: :zebra,
-                  headers: [ "PID", "Process", "CPU%", "Memory", "Status", "Uptime" ],
-                  data: [
-                    [ "1432", "postgres", "12.3", "1.2GB", "RUNNING", "72:15:33" ],
-                    [ "2891", "redis-server", "3.1", "256MB", "RUNNING", "48:22:15" ],
-                    [ "3024", "nginx", "0.8", "128MB", "RUNNING", "91:03:42" ],
-                    [ "3156", "sidekiq", "5.7", "512MB", "RUNNING", "12:45:28" ],
-                    [ "4023", "webpack-dev", "18.4", "892MB", "RUNNING", "02:13:09" ]
-                  ]
-                )
+                render Components::Table.new(variant: :zebra, headers: [ "PID", "Process", "CPU%", "Memory", "Status", "Uptime" ], data: [ [ "1432", "postgres", "12.3", "1.2GB", "RUNNING", "72:15:33" ], [ "2891", "redis-server", "3.1", "256MB", "RUNNING", "48:22:15" ], [ "3024", "nginx", "0.8", "128MB", "RUNNING", "91:03:42" ], [ "3156", "sidekiq", "5.7", "512MB", "RUNNING", "12:45:28" ], [ "4023", "webpack-dev", "18.4", "892MB", "RUNNING", "02:13:09" ] ])
               end
 
               # Dense data variant
               div do
                 h4(class: "font-medium mb-3") { "Dense Data Table" }
-                Table(
-                  variant: :dense,
-                  headers: [ "Node", "IP", "Load", "Mem", "Disk", "Net I/O", "Status" ],
-                  data: [
-                    [ "web-01", "10.0.1.12", "0.45", "78%", "23%", "1.2MB/s", "HEALTHY" ],
-                    [ "web-02", "10.0.1.13", "0.67", "82%", "31%", "2.1MB/s", "HEALTHY" ],
-                    [ "db-01", "10.0.2.10", "1.23", "94%", "67%", "15.7MB/s", "WARNING" ],
-                    [ "cache-01", "10.0.3.15", "0.12", "34%", "8%", "0.8MB/s", "HEALTHY" ],
-                    [ "lb-01", "10.0.0.5", "0.89", "45%", "12%", "45.2MB/s", "HEALTHY" ]
-                  ]
-                )
+                render Components::Table.new(variant: :dense, headers: [ "Node", "IP", "Load", "Mem", "Disk", "Net I/O", "Status" ], data: [ [ "web-01", "10.0.1.12", "0.45", "78%", "23%", "1.2MB/s", "HEALTHY" ], [ "web-02", "10.0.1.13", "0.67", "82%", "31%", "2.1MB/s", "HEALTHY" ], [ "db-01", "10.0.2.10", "1.23", "94%", "67%", "15.7MB/s", "WARNING" ], [ "cache-01", "10.0.3.15", "0.12", "34%", "8%", "0.8MB/s", "HEALTHY" ], [ "lb-01", "10.0.0.5", "0.89", "45%", "12%", "45.2MB/s", "HEALTHY" ] ])
               end
 
               # Bordered technical data
               div do
                 h4(class: "font-medium mb-3") { "Technical Specifications - Bordered" }
-                Table(
-                  variant: :bordered,
-                  headers: [ "Component", "Model", "Spec", "Temp °C", "Voltage", "Status" ],
-                  data: [
-                    [ "CPU", "Intel i7-12700K", "3.6GHz 12C/20T", "42", "1.25V", "OPTIMAL" ],
-                    [ "GPU", "RTX 4080", "16GB GDDR6X", "67", "12V", "OPTIMAL" ],
-                    [ "RAM", "DDR5-5600", "32GB CL36", "35", "1.1V", "OPTIMAL" ],
-                    [ "SSD", "Samsung 980 PRO", "2TB NVMe", "38", "3.3V", "OPTIMAL" ]
-                  ]
-                )
+                render Components::Table.new(variant: :bordered, headers: [ "Component", "Model", "Spec", "Temp °C", "Voltage", "Status" ], data: [ [ "CPU", "Intel i7-12700K", "3.6GHz 12C/20T", "42", "1.25V", "OPTIMAL" ], [ "GPU", "RTX 4080", "16GB GDDR6X", "67", "12V", "OPTIMAL" ], [ "RAM", "DDR5-5600", "32GB CL36", "35", "1.1V", "OPTIMAL" ], [ "SSD", "Samsung 980 PRO", "2TB NVMe", "38", "3.3V", "OPTIMAL" ] ])
               end
 
               # Sticky header for data monitoring
               div do
                 h4(class: "font-medium mb-3") { "Log Monitor - Sticky Headers" }
                 div(class: "max-h-48 overflow-y-auto") do
-                  Table(
-                    variant: :pin_rows,
-                    size: :sm,
-                    headers: [ "Timestamp", "Level", "Service", "Message", "Source" ],
-                    data: [
-                      [ "2024-01-15T10:30:15Z", "INFO", "web-server", "Request processed successfully", "nginx" ],
-                      [ "2024-01-15T10:30:16Z", "WARN", "database", "Connection pool near limit", "postgres" ],
-                      [ "2024-01-15T10:30:17Z", "ERROR", "auth-service", "Invalid token provided", "oauth" ],
-                      [ "2024-01-15T10:30:18Z", "INFO", "cache", "Cache miss, fetching from DB", "redis" ],
-                      [ "2024-01-15T10:30:19Z", "DEBUG", "scheduler", "Job queued for processing", "sidekiq" ],
-                      [ "2024-01-15T10:30:20Z", "INFO", "web-server", "Static asset served", "nginx" ],
-                      [ "2024-01-15T10:30:21Z", "WARN", "monitoring", "Disk space below threshold", "system" ],
-                      [ "2024-01-15T10:30:22Z", "INFO", "database", "Transaction committed", "postgres" ]
-                    ]
-                  )
+                  render Components::Table.new(variant: :header_pin, size: :sm, headers: [ "Timestamp", "Level", "Service", "Message", "Source" ], data: [ [ "2024-01-15T10:30:15Z", "INFO", "web-server", "Request processed successfully", "nginx" ], [ "2024-01-15T10:30:16Z", "WARN", "database", "Connection pool near limit", "postgres" ], [ "2024-01-15T10:30:17Z", "ERROR", "auth-service", "Invalid token provided", "oauth" ], [ "2024-01-15T10:30:18Z", "INFO", "cache", "Cache miss, fetching from DB", "redis" ], [ "2024-01-15T10:30:19Z", "DEBUG", "scheduler", "Job queued for processing", "sidekiq" ], [ "2024-01-15T10:30:20Z", "INFO", "web-server", "Static asset served", "nginx" ], [ "2024-01-15T10:30:21Z", "WARN", "monitoring", "Disk space below threshold", "system" ], [ "2024-01-15T10:30:22Z", "INFO", "database", "Transaction committed", "postgres" ] ])
                 end
-                p(class: "text-sm text-base-content/60 mt-2") { "Scroll to see sticky header effect" }
+                p(class: "text-sm text-foreground/60 mt-2") { "Scroll to see sticky header effect" }
               end
             end
 
@@ -613,27 +483,13 @@ class Views::Home::Components < Views::Base
               # Extra small table
               div do
                 h4(class: "font-medium mb-3") { "Extra Small Table" }
-                Table(
-                  size: :xs,
-                  headers: [ "#", "Task", "Status" ],
-                  data: [
-                    [ "1", "Review code", "Done" ],
-                    [ "2", "Update docs", "In Progress" ]
-                  ]
-                )
+                render Components::Table.new(size: :xs, headers: [ "#", "Task", "Status" ], data: [ [ "1", "Review code", "Done" ], [ "2", "Update docs", "In Progress" ] ])
               end
 
               # Large table
               div do
                 h4(class: "font-medium mb-3") { "Large Table" }
-                Table(
-                  size: :lg,
-                  headers: [ "Department", "Manager", "Budget", "Employees" ],
-                  data: [
-                    [ "Engineering", "Sarah Connor", "$500,000", "12" ],
-                    [ "Marketing", "John Matrix", "$200,000", "6" ]
-                  ]
-                )
+                render Components::Table.new(size: :lg, headers: [ "Department", "Manager", "Budget", "Employees" ], data: [ [ "Engineering", "Sarah Connor", "$500,000", "12" ], [ "Marketing", "John Matrix", "$200,000", "6" ] ])
               end
             end
 
@@ -646,9 +502,9 @@ class Views::Home::Components < Views::Base
           end
 
           component_section("Custom Table Structure", "Building tables with subcomponents") do
-            p(class: "text-base-content/70 mb-4") { "Use table subcomponents for complete control over structure and styling:" }
+            p(class: "text-foreground/70 mb-4") { "Use table subcomponents for complete control over structure and styling:" }
 
-            Table(variant: :zebra) do
+            render Components::Table.new(variant: :striped) do
               thead do
                 tr do
                   render Table::Header.new(sortable: true, sorted: :asc) { "Student" }
@@ -665,7 +521,7 @@ class Views::Home::Components < Views::Base
                     Badge(variant: :success) { "A" }
                   end
                   render Table::Actions.new do
-                    button(class: "btn btn-ghost btn-xs") { "Edit" }
+                    render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
                     button(class: "btn btn-ghost btn-xs") { "Delete" }
                   end
                 end
@@ -676,7 +532,7 @@ class Views::Home::Components < Views::Base
                     Badge(variant: :warning) { "B+" }
                   end
                   render Table::Actions.new do
-                    button(class: "btn btn-ghost btn-xs") { "Edit" }
+                    render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
                     button(class: "btn btn-ghost btn-xs") { "Delete" }
                   end
                 end
@@ -687,7 +543,7 @@ class Views::Home::Components < Views::Base
                     Badge(variant: :info) { "C+" }
                   end
                   render Table::Actions.new do
-                    button(class: "btn btn-ghost btn-xs") { "Edit" }
+                    render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
                     button(class: "btn btn-ghost btn-xs") { "Delete" }
                   end
                 end
@@ -708,7 +564,7 @@ class Views::Home::Components < Views::Base
                     render Table::Cell.new { "Alice Johnson" }
                     render Table::Cell.new(align: :center) { "95" }
                     render Table::Actions.new do
-                      button(class: "btn btn-ghost btn-xs") { "Edit" }
+                      render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
                       button(class: "btn btn-ghost btn-xs") { "Delete" }
                     end
                   end
@@ -719,16 +575,9 @@ class Views::Home::Components < Views::Base
 
           component_section("Hash Data Rendering", "Tables with hash-based data") do
             div(class: "space-y-6") do
-              p(class: "text-base-content/70") { "Tables can render hash data by matching keys to headers:" }
+              p(class: "text-foreground/70") { "Tables can render hash data by matching keys to headers:" }
 
-              Table(
-                headers: [ "name", "age", "department", "salary" ],
-                data: [
-                  { "name" => "Alice Johnson", "age" => "28", "department" => "Engineering", "salary" => "$85,000" },
-                  { "name" => "Bob Wilson", "age" => "35", "department" => "Design", "salary" => "$75,000" },
-                  { "name" => "Carol Brown", "age" => "31", "department" => "Product", "salary" => "$90,000" }
-                ]
-              )
+              render Components::Table.new(headers: [ "name", "age", "department", "salary" ], data: [ { "name" => "Alice Johnson", "age" => "28", "department" => "Engineering", "salary" => "$85,000" }, { "name" => "Bob Wilson", "age" => "35", "department" => "Design", "salary" => "$75,000" }, { "name" => "Carol Brown", "age" => "31", "department" => "Product", "salary" => "$90,000" } ])
             end
 
             code_example("Hash Data", <<~RUBY.strip)
@@ -744,12 +593,9 @@ class Views::Home::Components < Views::Base
 
           component_section("Empty Table State", "Handling tables with no data") do
             div(class: "space-y-6") do
-              p(class: "text-base-content/70") { "Tables gracefully handle empty data with a helpful message:" }
+              p(class: "text-foreground/70") { "Tables gracefully handle empty data with a helpful message:" }
 
-              Table(
-                headers: [ "User", "Last Login", "Status" ],
-                data: []
-              )
+              render Components::Table.new(headers: [ "User", "Last Login", "Status" ], data: [])
             end
 
             code_example("Empty Table", <<~RUBY.strip)
@@ -762,24 +608,13 @@ class Views::Home::Components < Views::Base
 
           component_section("Industrial Data Monitor", "Wide technical tables with horizontal scrolling") do
             div(class: "space-y-4") do
-              p(class: "text-base-content/70 mb-4") { "Industrial monitoring dashboards often require wide data tables. This example shows server metrics with horizontal scrolling:" }
+              p(class: "text-foreground/70 mb-4") { "Industrial monitoring dashboards often require wide data tables. This example shows server metrics with horizontal scrolling:" }
 
               div(class: "overflow-x-auto") do
-                Table(
-                  variant: :dense,
-                  size: :sm,
-                  headers: [ "Server", "IP Address", "Region", "CPU Load", "Memory", "Disk I/O", "Network In", "Network Out", "Connections", "Uptime", "Load Avg", "Processes", "Last Check", "Status", "Alerts", "Actions" ],
-                  data: [
-                    [ "prod-web-01", "172.16.1.10", "us-east-1a", "23.4%", "78.2%", "1.2MB/s", "45.6MB/s", "23.1MB/s", "156", "15d 4h 23m", "1.23", "87", "2024-01-15 14:30:15", "HEALTHY", "0", "SSH" ],
-                    [ "prod-web-02", "172.16.1.11", "us-east-1b", "45.7%", "82.1%", "2.4MB/s", "67.8MB/s", "34.2MB/s", "203", "12d 18h 45m", "1.89", "92", "2024-01-15 14:30:18", "WARNING", "2", "SSH" ],
-                    [ "prod-db-01", "172.16.2.10", "us-east-1a", "67.8%", "94.3%", "15.7MB/s", "12.3MB/s", "8.9MB/s", "45", "22d 7h 12m", "2.34", "34", "2024-01-15 14:30:12", "CRITICAL", "5", "SSH" ],
-                    [ "prod-cache-01", "172.16.3.15", "us-east-1c", "12.1%", "34.7%", "0.8MB/s", "89.2MB/s", "67.4MB/s", "1,234", "8d 14h 56m", "0.45", "23", "2024-01-15 14:30:20", "HEALTHY", "0", "SSH" ],
-                    [ "prod-lb-01", "172.16.0.5", "us-east-1a", "34.5%", "45.8%", "0.2MB/s", "156.7MB/s", "142.3MB/s", "2,789", "31d 2h 18m", "1.12", "15", "2024-01-15 14:30:16", "HEALTHY", "1", "SSH" ]
-                  ]
-                )
+                render Components::Table.new(variant: :dense, size: :sm, headers: [ "Server", "IP Address", "Region", "CPU Load", "Memory", "Disk I/O", "Network In", "Network Out", "Connections", "Uptime", "Load Avg", "Processes", "Last Check", "Status", "Alerts", "Actions" ], data: [ [ "prod-web-01", "172.16.1.10", "us-east-1a", "23.4%", "78.2%", "1.2MB/s", "45.6MB/s", "23.1MB/s", "156", "15d 4h 23m", "1.23", "87", "2024-01-15 14:30:15", "HEALTHY", "0", "SSH" ], [ "prod-web-02", "172.16.1.11", "us-east-1b", "45.7%", "82.1%", "2.4MB/s", "67.8MB/s", "34.2MB/s", "203", "12d 18h 45m", "1.89", "92", "2024-01-15 14:30:18", "WARNING", "2", "SSH" ], [ "prod-db-01", "172.16.2.10", "us-east-1a", "67.8%", "94.3%", "15.7MB/s", "12.3MB/s", "8.9MB/s", "45", "22d 7h 12m", "2.34", "34", "2024-01-15 14:30:12", "CRITICAL", "5", "SSH" ], [ "prod-cache-01", "172.16.3.15", "us-east-1c", "12.1%", "34.7%", "0.8MB/s", "89.2MB/s", "67.4MB/s", "1,234", "8d 14h 56m", "0.45", "23", "2024-01-15 14:30:20", "HEALTHY", "0", "SSH" ], [ "prod-lb-01", "172.16.0.5", "us-east-1a", "34.5%", "45.8%", "0.2MB/s", "156.7MB/s", "142.3MB/s", "2,789", "31d 2h 18m", "1.12", "15", "2024-01-15 14:30:16", "HEALTHY", "1", "SSH" ] ])
               end
 
-              p(class: "text-sm text-base-content/60 mt-2") { "Dense variant optimizes space for maximum data visibility. Table scrolls horizontally on smaller screens." }
+              p(class: "text-sm text-foreground/60 mt-2") { "Dense variant optimizes space for maximum data visibility. Table scrolls horizontally on smaller screens." }
             end
 
             code_example("Industrial Data Table", <<~RUBY.strip)
@@ -799,7 +634,7 @@ class Views::Home::Components < Views::Base
 
           component_section("Table Actions", "Action buttons and dropdowns for table rows") do
             div(class: "space-y-6") do
-              p(class: "text-base-content/70") { "Use the Actions component for clean, industrial-styled action buttons in table rows:" }
+              p(class: "text-foreground/70") { "Use the Actions component for clean, industrial-styled action buttons in table rows:" }
 
               Table(variant: :zebra, size: :sm) do
                 thead do
@@ -816,9 +651,9 @@ class Views::Home::Components < Views::Base
                     render Table::Cell.new { Badge(variant: :success) { "ONLINE" } }
                     render Table::Cell.new(align: :center) { "23%" }
                     render Table::Actions.new do
-                      button(class: "btn btn-ghost btn-xs") { "View" }
-                      button(class: "btn btn-ghost btn-xs") { "Edit" }
-                      button(class: "btn btn-ghost btn-xs") { "Stop" }
+render Components::Button.new(variant: :ghost, size: :xs) { "View" }
+                      render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
+                      render Components::Button.new(variant: :ghost, size: :xs) { "Stop" }
                     end
                   end
                   render Table::Row.new do
@@ -826,9 +661,9 @@ class Views::Home::Components < Views::Base
                     render Table::Cell.new { Badge(variant: :warning) { "RESTART" } }
                     render Table::Cell.new(align: :center) { "67%" }
                     render Table::Actions.new do
-                      button(class: "btn btn-ghost btn-xs") { "View" }
-                      button(class: "btn btn-ghost btn-xs") { "Edit" }
-                      button(class: "btn btn-ghost btn-xs") { "Stop" }
+render Components::Button.new(variant: :ghost, size: :xs) { "View" }
+                      render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
+                      render Components::Button.new(variant: :ghost, size: :xs) { "Stop" }
                     end
                   end
                   render Table::Row.new do
@@ -836,9 +671,9 @@ class Views::Home::Components < Views::Base
                     render Table::Cell.new { Badge(variant: :error) { "ERROR" } }
                     render Table::Cell.new(align: :center) { "89%" }
                     render Table::Actions.new do
-                      button(class: "btn btn-ghost btn-xs") { "View" }
-                      button(class: "btn btn-ghost btn-xs") { "Edit" }
-                      button(class: "btn btn-ghost btn-xs") { "Restart" }
+render Components::Button.new(variant: :ghost, size: :xs) { "View" }
+                      render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
+                      render Components::Button.new(variant: :ghost, size: :xs) { "Restart" }
                     end
                   end
                 end
@@ -846,7 +681,7 @@ class Views::Home::Components < Views::Base
 
               div(class: "mt-6") do
                 h4(class: "font-medium mb-3") { "Actions with Pre-configured Items" }
-                p(class: "text-sm text-base-content/60 mb-4") { "Actions component supports pre-configured button, link, and dropdown items:" }
+                p(class: "text-sm text-foreground/60 mb-4") { "Actions component supports pre-configured button, link, and dropdown items:" }
 
                 Table(size: :sm) do
                   thead do
@@ -883,7 +718,7 @@ class Views::Home::Components < Views::Base
               # Custom action buttons with blocks
               render Table::Actions.new do
                 button(class: "btn btn-ghost btn-xs") { "View" }
-                button(class: "btn btn-ghost btn-xs") { "Edit" }
+                render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
                 button(class: "btn btn-ghost btn-xs") { "Delete" }
               end
 
@@ -912,26 +747,26 @@ class Views::Home::Components < Views::Base
 
         # Layout Components Section
         section(id: "layout") do
-          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Layout Components" }
+          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Layout Components" }
 
           component_section("Cards & Containers", "Card components for content organization") do
             div(class: "grid md:grid-cols-2 gap-6") do
               ExampleCard(title: "System Features") do
-                p(class: "text-base-content/70") { "This card demonstrates the command-line aesthetic with colored headers." }
+                p(class: "text-foreground/70") { "This card demonstrates the command-line aesthetic with colored headers." }
               end
 
               FormCard(title: "Application Config", header_color: :warning) do
-                p(class: "text-base-content/70 mb-4") { "This form card uses a warning-colored header for configuration sections." }
-                Button(variant: :primary) { "Configure" }
+                p(class: "text-foreground/70 mb-4") { "This form card uses a warning-colored header for configuration sections." }
+                render Components::Button.new(variant: :primary) { "Configure" }
               end
 
-              div(class: "bg-base-200 border border-base-300") do
+              div(class: "bg-background border border-border") do
                 div(class: "bg-info/20 border-b border-info/30 px-3 py-1") do
                   h3(class: "text-xs font-bold text-info uppercase tracking-wide") { "Themes" }
                 end
                 div(class: "p-6") do
-                  p(class: "text-base-content/70 mb-4") { "Custom card with info-colored terminal-style header." }
-                  Button(variant: :primary) { "Select Theme" }
+                  p(class: "text-foreground/70 mb-4") { "Custom card with info-colored terminal-style header." }
+                  render Components::Button.new(variant: :primary) { "Select Theme" }
                 end
               end
             end
@@ -940,10 +775,10 @@ class Views::Home::Components < Views::Base
           component_section("Navigation Components", "Dropdown menus and navigation elements") do
             div(class: "space-y-6") do
               h4(class: "font-medium mb-3") { "Dropdown Menu" }
-              DropdownMenu(trigger_text: "Account Menu") do
-                DropdownMenuItem("#", "Profile")
-                DropdownMenuItem("#", "Settings")
-                DropdownMenuItem("#", "Sign out", method: :delete, class: "text-error")
+              render Components::DropdownMenu.new(trigger_text: "Account Menu") do
+                render Components::DropdownMenuItem.new(href: "#", text: "Profile")
+                render Components::DropdownMenuItem.new(href: "#", text: "Settings")
+                render Components::DropdownMenuItem.new(href: "#", text: "Sign out", method: :delete, class: "text-error")
               end
             end
           end
@@ -976,13 +811,13 @@ class Views::Home::Components < Views::Base
 
         # Testing Infrastructure Section
         section(id: "testing") do
-          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Testing Infrastructure" }
+          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Testing Infrastructure" }
 
           component_section("Component Testing Patterns", "How to test Phlex components effectively") do
             div(class: "space-y-6") do
-              div(class: "bg-base-200 rounded-lg p-6") do
+              div(class: "bg-background rounded-md p-6") do
                 h4(class: "font-semibold mb-4") { "ComponentTestCase" }
-                p(class: "text-base-content/70 mb-4") { "Base test case class for all component tests with helper methods:" }
+                p(class: "text-foreground/70 mb-4") { "Base test case class for all component tests with helper methods:" }
 
                 code_example("Test Example", <<~RUBY.strip
                   class Components::BadgeTest < ComponentTestCase
@@ -995,7 +830,7 @@ class Views::Home::Components < Views::Base
                 )
               end
 
-              div(class: "bg-base-200 rounded-lg p-6") do
+              div(class: "bg-background rounded-md p-6") do
                 h4(class: "font-semibold mb-4") { "Test Helpers Available" }
                 ul(class: "space-y-2 text-sm") do
                   li { "• assert_component_html - Test rendered HTML output" }
@@ -1010,7 +845,7 @@ class Views::Home::Components < Views::Base
 
           component_section("Testing Best Practices", "Guidelines for component testing") do
             div(class: "prose max-w-none") do
-              div(class: "bg-base-200 rounded-lg p-6") do
+              div(class: "bg-background rounded-md p-6") do
                 ul(class: "space-y-2") do
                   li { "✓ Test all variants and combinations" }
                   li { "✓ Verify accessibility attributes" }
@@ -1026,11 +861,11 @@ class Views::Home::Components < Views::Base
 
         # Style Guide Section
         section(id: "style-guide") do
-          h2(class: "font-bold text-base-content mb-8 border-b border-base-300 pb-4") { "Developer Style Guide" }
+          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Developer Style Guide" }
 
           component_section("Component Architecture", "How to build new Phlex components") do
             div(class: "space-y-6") do
-              div(class: "bg-base-200 rounded-lg p-6") do
+              div(class: "bg-background rounded-md p-6") do
                 h4(class: "font-semibold mb-4") { "Component Structure" }
                 code_example("Component Template", <<~RUBY.strip
                   class Components::NewComponent < Components::Base
@@ -1063,7 +898,7 @@ class Views::Home::Components < Views::Base
           end
 
           component_section("Naming Conventions", "Consistent naming patterns across components") do
-            div(class: "bg-base-200 rounded-lg p-6") do
+            div(class: "bg-background rounded-md p-6") do
               h4(class: "font-semibold mb-4") { "Naming Standards" }
               ul(class: "space-y-2 text-sm") do
                 li { "• Components: PascalCase (e.g., Components::FormField)" }
@@ -1077,7 +912,7 @@ class Views::Home::Components < Views::Base
 
           component_section("Integration Patterns", "Rails and accessibility integration") do
             div(class: "space-y-4") do
-              div(class: "bg-base-200 rounded-lg p-6") do
+              div(class: "bg-background rounded-md p-6") do
                 h4(class: "font-semibold mb-4") { "Rails Form Integration" }
                 code_example("Form Helper Usage", <<~RUBY.strip
                   # In Rails forms, use components like this:
@@ -1092,7 +927,7 @@ class Views::Home::Components < Views::Base
                 )
               end
 
-              div(class: "bg-base-200 rounded-lg p-6") do
+              div(class: "bg-background rounded-md p-6") do
                 h4(class: "font-semibold mb-4") { "Accessibility Requirements" }
                 ul(class: "space-y-2 text-sm") do
                   li { "• Always include proper ARIA attributes" }
@@ -1106,7 +941,7 @@ class Views::Home::Components < Views::Base
           end
 
           component_section("Performance Guidelines", "Component optimization best practices") do
-            div(class: "bg-base-200 rounded-lg p-6") do
+            div(class: "bg-background rounded-md p-6") do
               h4(class: "font-semibold mb-4") { "Performance Best Practices" }
               ul(class: "space-y-2 text-sm") do
                 li { "• Use frozen string literals" }
@@ -1122,17 +957,17 @@ class Views::Home::Components < Views::Base
       end
 
       # Footer
-      div(class: "mt-16 border-t border-base-300 bg-base-200 p-8") do
+      div(class: "mt-16 border-t border-border bg-background p-8") do
         div(class: "max-w-6xl mx-auto") do
           div(class: "text-center mb-6") do
             h3(class: "font-semibold mb-2") { "Phlex Component Library" }
-            p(class: "text-base-content/70") { "All components automatically adapt to light and dark themes using semantic color tokens." }
+            p(class: "text-foreground/70") { "All components automatically adapt to light and dark themes using semantic color tokens." }
           end
 
           div(class: "grid md:grid-cols-3 gap-6 text-sm") do
             div do
               h4(class: "font-semibold mb-2") { "Component Categories" }
-              ul(class: "space-y-1 text-base-content/70") do
+              ul(class: "space-y-1 text-foreground/70") do
                 li { "• Links & Buttons" }
                 li { "• Form Inputs" }
                 li { "• Feedback (Alerts)" }
@@ -1142,7 +977,7 @@ class Views::Home::Components < Views::Base
 
             div do
               h4(class: "font-semibold mb-2") { "Features" }
-              ul(class: "space-y-1 text-base-content/70") do
+              ul(class: "space-y-1 text-foreground/70") do
                 li { "• Variant Support" }
                 li { "• Accessibility Compliant" }
                 li { "• Rails Integration" }
@@ -1152,7 +987,7 @@ class Views::Home::Components < Views::Base
 
             div do
               h4(class: "font-semibold mb-2") { "Development" }
-              ul(class: "space-y-1 text-base-content/70") do
+              ul(class: "space-y-1 text-foreground/70") do
                 li { "• ComponentTestCase" }
                 li { "• Style Guide" }
                 li { "• Best Practices" }
@@ -1169,16 +1004,16 @@ class Views::Home::Components < Views::Base
 
   # Navigation link helper
   def nav_link(text, href)
-    Link(href, text, variant: :button, class: "btn-ghost")
+    render Components::Link.new(href: href, text: text, variant: :ghost)
   end
 
   # Component section wrapper
   def component_section(title, description = nil, &block)
     div(class: "space-y-6") do
       div do
-        h3(class: "font-semibold text-base-content mb-2") { title }
+        h3(class: "font-semibold text-foreground mb-2") { title }
         if description
-          p(class: "text-sm text-base-content/70 mb-4") { description }
+          p(class: "text-sm text-muted-foreground mb-4") { description }
         end
       end
       yield if block
@@ -1187,15 +1022,16 @@ class Views::Home::Components < Views::Base
 
   # Code example display
   def code_example(title, code)
-    div(class: "mt-4 bg-base-300 rounded-lg p-4") do
+    div(class: "mt-4 bg-muted border border-border p-4") do # bg-muted for secondary background, border-border for accent
       div(class: "flex items-center justify-between mb-3") do
         h5(class: "font-medium text-sm") { title }
-        button(
-          class: "btn btn-ghost",
-          "data-clipboard-target": "#code-#{title.downcase.gsub(' ', '-')}"
+        render Components::Button.new(
+          variant: :ghost,
+          size: :xs, # Use xs for smaller button in code example
+          attributes: { "data-clipboard-target": "#code-#{title.downcase.gsub(' ', '-')}" }
         ) { "Copy" }
       end
-      pre(class: "text-xs text-base-content/80 overflow-x-auto", id: "code-#{title.downcase.gsub(' ', '-')}") do
+      pre(class: "text-xs text-foreground/80 overflow-x-auto", id: "code-#{title.downcase.gsub(' ', '-')}") do
         code { code }
       end
     end

@@ -3,8 +3,6 @@
 # AuthLinks - A shared component for authentication-related navigation links
 # Provides consistent styling and spacing for auth form links
 class Components::AuthLinks < Components::Base
-  include Phlex::Rails::Helpers::LinkTo
-
   def initialize(links: [], separator: "|", center: true)
     @links = links
     @separator = separator
@@ -19,11 +17,15 @@ class Components::AuthLinks < Components::Base
       @links.each_with_index do |link, index|
         # Add separator between links (but not before first link)
         if index > 0 && @separator.present?
-          span(class: "opacity-60") { @separator }
+          span(class: "text-muted-foreground") { @separator } # Changed from opacity-60
         end
 
         # Render the link
-        link_to(link[:text], link[:path], class: "link link-hover")
+        render Components::Link.new(
+          href: link[:path],
+          text: link[:text],
+          class: "link" # Apply the base link style
+        )
       end
     end
   end

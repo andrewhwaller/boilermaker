@@ -97,21 +97,21 @@ class Components::Navigation < Components::Base
 
   def account_dropdown
     render Components::DropdownMenu.new(trigger_text: current_user_display_name) do
-      render Components::DropdownMenuItem.new(settings_path, "Settings")
+      render Components::DropdownMenuItem.new(href: settings_path, text: "Settings")
 
       if (Current.account && Current.user&.account_admin_for?(Current.account)) || Current.user&.app_admin?
-        render Components::DropdownMenuItem.new(account_dashboard_path, "Account", class: "text-primary")
+        render Components::DropdownMenuItem.new(href: account_dashboard_path, text: "Account", class: "text-primary")
       end
 
       if Current.user&.app_admin?
-        render Components::DropdownMenuItem.new(admin_path, "Admin", class: "text-primary")
+        render Components::DropdownMenuItem.new(href: admin_path, text: "Admin", class: "text-primary")
       end
 
       if Rails.env.development?
-        render Components::DropdownMenuItem.new("/letter_opener", "Email Preview", target: "_blank")
+        render Components::DropdownMenuItem.new(href: "/letter_opener", text: "Email Preview", target: "_blank")
       end
 
-      render Components::DropdownMenuItem.new(session_path("current"), "Sign out", method: :delete, class: "text-error")
+      render Components::DropdownMenuItem.new(href: session_path("current"), text: "Sign out", method: :delete, class: "text-error")
     end
   end
 

@@ -3,7 +3,7 @@
 class Components::Alert < Components::Base
   VARIANTS = {
     success: "alert-success",
-    error: "alert-error",
+    error: "alert-destructive",
     warning: "alert-warning",
     info: "alert-info"
   }.freeze

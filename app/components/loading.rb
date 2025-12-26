@@ -18,11 +18,11 @@ class Components::Loading < Components::Base
     primary: "text-primary",
     secondary: "text-secondary",
     accent: "text-accent",
-    neutral: "text-neutral",
+    neutral: "text-muted-foreground", # Updated
     info: "text-info",
     success: "text-success",
     warning: "text-warning",
-    error: "text-error"
+    error: "text-destructive" # Updated
   }.freeze
 
   def initialize(
@@ -40,7 +40,7 @@ class Components::Loading < Components::Base
   end
 
   def view_template(&block)
-    div(class: css_classes("flex items-center", (@text.present? ? nil : "justify-center")), **filtered_attributes) do
+    div(class: css_classes("flex items-center", (@text.present? ? nil : "justify-center")), **@attributes) do
       span(class: css_classes("loading-ascii", TYPES[@type], SIZES[@size], (@color ? COLORS[@color] : nil)), "aria-hidden": "true")
 
       if @text.present?

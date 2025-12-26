@@ -2,17 +2,15 @@
 
 class Components::Table < Components::Base
   VARIANTS = {
-    zebra: "table-zebra",
-    pin_rows: "table-pin-rows",
-    pin_cols: "table-pin-cols",
-    dense: "table-dense",
-    bordered: "table-bordered"
+    striped: "table-striped", # formerly zebra
+    bordered: "table-bordered",
+    header_pin: "table-header-pin" # formerly pin_rows
   }.freeze
 
   SIZES = {
     xs: "table-xs",
     sm: "table-sm",
-    md: nil,  # Default size, no class needed
+    md: "table-sm", # Map to sm for a denser default
     lg: "table-lg"
   }.freeze
 
@@ -25,11 +23,11 @@ class Components::Table < Components::Base
   end
 
   def view_template(&block)
-    table_classes = css_classes("table", VARIANTS[@variant], SIZES[@size])
+    table_classes = css_classes("table", VARIANTS[@variant], SIZES[@size], "table-hover") # Always apply table-hover
     if block
-      table(class: table_classes, **filtered_attributes, &block)
+      table(class: table_classes, **@attributes, &block)
     else
-      table(class: table_classes, **filtered_attributes) { render_default_table }
+      table(class: table_classes, **@attributes) { render_default_table }
     end
   end
 
@@ -64,7 +62,7 @@ class Components::Table < Components::Base
     else
       tbody do
         tr do
-          td(colspan: @headers&.length || 1, class: "text-center text-base-content/60") do
+          td(colspan: @headers&.length || 1, class: "text-center text-muted-foreground") do
             "No data available"
           end
         end

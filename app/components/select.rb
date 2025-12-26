@@ -14,19 +14,34 @@ class Components::Select < Components::Base
   end
 
   def view_template
-    div(class: "form-control w-full") do
-      select(
-        name: @name,
-        id: @id || generate_id_from_name(@name),
-        class: select_classes,
-        required: (@required ? "required" : nil),
-        **filtered_attributes
-      ) do
+    div(class: "form-control") do
+      select(**select_attributes) do
         render_prompt if @prompt
         render_options
       end
       render_error_message if @error
     end
+  end
+
+  private
+
+  def select_attributes
+    attrs = {
+      name: @name,
+      id: @id || generate_id_from_name(@name),
+      required: (@required ? "required" : nil)
+    }
+
+    # Merge classes properly
+    all_classes = select_classes
+    if @attributes[:class]
+      all_classes += Array(@attributes[:class])
+    end
+    attrs[:class] = all_classes
+
+    # Add other attributes
+    attrs.merge!(@attributes.except(:class))
+    attrs.compact
   end
 
   private

@@ -22,6 +22,6 @@ class Components::Base < Phlex::HTML
   end
 
   def css_classes(*class_arrays)
-    [ *class_arrays, @attributes[:class] ].compact.flatten
+    [ *class_arrays, (@attributes || {})[:class] ].compact.flatten
   end
 end

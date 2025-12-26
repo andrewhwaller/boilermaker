@@ -1,50 +1,79 @@
 # frozen_string_literal: true
 
 class Components::Link < Components::Base
- VARIANTS = {
- default: "link link-hover",
- primary: "link link-primary link-hover",
- secondary: "link link-secondary link-hover",
- accent: "link link-accent link-hover",
- neutral: "link link-neutral link-hover",
- success: "link link-success link-hover",
- warning: "link link-warning link-hover",
- error: "link link-error link-hover",
- info: "link link-info link-hover",
- button: "btn"
- }.freeze
+  VARIANTS = {
+    default: "", # No longer adds "link" directly, it's added below
+    primary: "link-primary",
+    secondary: "link-secondary",
+    accent: "link-accent",
+    neutral: "link-neutral",
+    success: "link-success",
+    warning: "link-warning",
+    error: "link-error",
+    info: "link-info",
+    button: "btn" # Apply base button style
+  }.freeze
 
- def initialize(href, text = nil, variant: :default, uppercase: nil, **attributes)
- @href = href
- @text = text
- @variant = variant
- @uppercase = uppercase
- @attributes = attributes
- end
+  def initialize(href:, text: nil, variant: :default, uppercase: nil, size: :md, external: false, **attributes)
+    @href = href
+    @text = text
+    @variant = variant
+    @uppercase = uppercase
+    @size = size
+    @external = external
+    @attributes = attributes
+  end
 
- def view_template(&block)
- a(href: @href || "", class: link_classes, **filtered_attributes) do
- if block
- yield
- else
- @text.present? ? @text : @href
- end
- end
- end
+  def view_template(&block)
+    a(href: @href || "", **link_attributes) do
+      if block
+        yield
+      else
+        @text.present? ? @text : @href
+      end
+    end
+  end
 
- private
+  private
 
- def link_classes
- css_classes(
- VARIANTS[@variant] || VARIANTS[:default],
- link_casing_class
-)
- end
+  def link_classes
+    base_classes = []
 
- def link_casing_class
- return "uppercase" if @uppercase == true
- return "normal-case" if @uppercase == false
+    if @variant == :button
+      base_classes << "btn"
+      base_classes << Components::Button::VARIANTS[@variant] if Components::Button::VARIANTS[@variant]
+      base_classes << Components::Button::SIZES[@size] if Components::Button::SIZES[@size]
+    else
+      base_classes << "link" # Always include the base "link" class
+      base_classes << VARIANTS[@variant] if @variant != :default # Add variant specific class, but not "link" twice
+    end
 
- nil
- end
+    css_classes(base_classes, link_casing_class)
+  end
+
+  def link_attributes
+    attrs = @attributes.dup
+    # Merge classes properly
+    all_classes = link_classes
+    if attrs[:class]
+      all_classes += Array(attrs[:class])
+      attrs.delete(:class)
+    end
+
+    attrs[:class] = all_classes
+    attrs[:href] = @href || ""
+
+    if @external
+      attrs[:target] ||= "_blank"
+      attrs[:rel] ||= "noopener noreferrer"
+    end
+    attrs
+  end
+
+  def link_casing_class
+    return "uppercase" if @uppercase == true
+    return "normal-case" if @uppercase == false
+
+    nil
+  end
 end

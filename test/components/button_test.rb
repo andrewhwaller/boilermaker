@@ -44,11 +44,7 @@ class ButtonTest < ComponentTestCase
       assert_has_css_class(button_variant, expected_class,
         "Button with variant #{variant} should have class '#{expected_class}'")
 
-      # Check for disabled styling class using string inclusion instead of CSS selector
-      button_disabled = Components::Button.new(variant: variant)
-      html = render_component(button_disabled)
-      assert html.include?("disabled:opacity-50"),
-        "Button with variant #{variant} should have disabled styling class"
+      # Note: Disabled styling is applied via CSS rules, not HTML classes
     end
   end
 
@@ -158,13 +154,19 @@ class ButtonTest < ComponentTestCase
     assert_has_css_class(normal_case_button, "normal-case")
   end
 
-  test "ignores size variants (no sizing classes)" do
-    [ :xs, :sm, :md, :lg ].each do |size|
+  test "applies size variants correctly" do
+    size_mappings = {
+      xs: "btn-xs",
+      sm: "btn-sm",
+      md: "btn-md",
+      lg: "btn-lg"
+    }
+
+    size_mappings.each do |size, expected_class|
       button = Components::Button.new(variant: :primary, size: size)
-      html = render_component(button)
-      # Ensure no DaisyUI size classes are present on the button
-      refute_match(/\bbtn-(xs|sm|md|lg|xl)\b/, html)
+      assert_has_css_class(button, expected_class)
       # Ensure we didn't leak a raw size attribute to the DOM
+      html = render_component(button)
       refute_match(/\ssize=("|')#{size}("|')/, html)
     end
   end
@@ -243,7 +245,7 @@ class ButtonTest < ComponentTestCase
     # Should have essential Daisy UI classes
     assert_includes all_classes, "btn"
     assert_includes all_classes, "btn-primary"
-    assert_includes all_classes, "disabled:opacity-50"
+    assert_includes all_classes, "btn-md" # Default size
 
     # Should not have conflicting variant classes
     conflicting_classes = Components::Button::VARIANTS.values - [ "btn-primary" ]

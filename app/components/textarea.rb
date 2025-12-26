@@ -14,10 +14,8 @@ class Components::Textarea < Components::Base
   end
 
   def view_template
-    div(class: "form-control w-full") do
-      textarea(
-        **textarea_attributes
-      ) { @value }
+    div(class: "form-control") do
+      textarea(**textarea_attributes) { @value }
       render_error_message if @error
     end
   end
@@ -28,13 +26,21 @@ class Components::Textarea < Components::Base
     attrs = {
       name: @name,
       id: @id || generate_id_from_name(@name),
-      class: textarea_classes,
       placeholder: @placeholder,
       rows: @rows
     }
 
     attrs[:required] = "required" if @required
-    attrs.merge!(filtered_attributes)
+
+    # Merge classes properly
+    all_classes = textarea_classes
+    if @attributes[:class]
+      all_classes += Array(@attributes[:class])
+    end
+    attrs[:class] = all_classes
+
+    # Add other attributes
+    attrs.merge!(@attributes.except(:class))
     attrs.compact
   end
 
