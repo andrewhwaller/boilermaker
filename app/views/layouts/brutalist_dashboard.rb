@@ -5,10 +5,15 @@ module Views
     # Brutalist-themed dashboard layout
     # Minimal, raw, maximum content. Stark black/white with inverted hovers.
     class BrutalistDashboard < DashboardBase
-      def initialize(title: "patentwatch", user: nil, nav_items: nil)
+      def initialize(title: "patentwatch", user: nil, nav_items: nil, status_info: nil)
         super(title: title)
         @user = user
         @nav_items = nav_items || default_nav_items
+        @status = status_info || default_status_info
+      end
+
+      def default_status_info
+        Views::Demos::SampleData::StatusInfo.new
       end
 
       def theme_name = "brutalist"
@@ -16,7 +21,7 @@ module Views
 
       def header_content
         header(class: "mb-8") {
-          h1(class: "text-sm uppercase tracking-widest mb-1") { @title }
+          h1(class: "text-sm uppercase tracking-[0.15em] mb-1") { @title }
           div(class: "text-xs text-muted") {
             plain "USPTO Patent Monitoring // #{@user || 'user@company.com'} // #{Time.current.strftime('%Y-%m-%d')}"
           }
@@ -39,7 +44,7 @@ module Views
 
         # Command input
         div(class: "mt-8 p-3 bg-inverse text-inverse") {
-          div(class: "flex items-center gap-2 text-sm") {
+          div(class: "flex items-center gap-2 text-[13px]") {
             span(class: "text-muted") { "patentwatch>" }
             input(
               type: "text",
@@ -52,7 +57,7 @@ module Views
 
         # Footer info
         footer(class: "mt-12 pt-4 border-t border-border-light text-[11px] text-muted") {
-          plain "patentwatch v1.0 // connected to uspto // 18.4M patents indexed // synced 2m ago"
+          plain "#{@title} v#{@status.version} // #{@status.connected ? 'connected to' : 'disconnected from'} #{@status.connection_name.downcase} // #{@status.db_size} patents indexed // synced #{@status.last_sync}"
         }
       end
 

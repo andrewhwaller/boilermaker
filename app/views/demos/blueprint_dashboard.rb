@@ -2,9 +2,11 @@
 
 module Views
   module Demos
-    class BlueprintDashboard < Views::Layouts::BlueprintDashboard
-      def initialize
-        super(
+    # Blueprint theme demo page
+    # Uses composition: renders the layout component rather than inheriting from it
+    class BlueprintDashboard < Base
+      def view_template
+        render Views::Layouts::BlueprintDashboard.new(
           title: "PATENTWATCH",
           description: "USPTO Patent Monitoring System — Alert Dashboard",
           user: "user@company",
@@ -15,11 +17,7 @@ module Views
             { label: "Reports", href: "#reports" },
             { label: "Settings", href: "#settings" }
           ]
-        )
-      end
-
-      def view_template
-        super {
+        ) {
           render_section_a_stats
           render_section_b_alerts
           render_dimension_line
@@ -38,10 +36,9 @@ module Views
           ref: "REF: SYS-001"
         ) {
           div(class: "grid grid-cols-4 gap-0 border border-accent mb-8") {
-            stat_cell("New Matches", "47", alert: true)
-            stat_cell("This Week", "183")
-            stat_cell("Active Alerts", "12")
-            stat_cell("Patents Indexed", "18.4M")
+            sample_stats.each do |stat|
+              stat_cell(stat.label, stat.value, highlight: stat.highlight)
+            end
           }
         }
       end
@@ -56,19 +53,17 @@ module Views
           table(class: "w-full text-[11px] border-collapse") {
             thead {
               tr {
-                th(class: "text-left px-2.5 py-2 text-[9px] uppercase tracking-[0.06em] text-accent font-semibold border-b-2 border-accent bg-surface-alt", style: "width: 40px;") { "REF" }
-                th(class: "text-left px-2.5 py-2 text-[9px] uppercase tracking-[0.06em] text-accent font-semibold border-b-2 border-accent bg-surface-alt") { "Alert Name" }
-                th(class: "text-left px-2.5 py-2 text-[9px] uppercase tracking-[0.06em] text-accent font-semibold border-b-2 border-accent bg-surface-alt", style: "width: 80px;") { "New" }
-                th(class: "text-left px-2.5 py-2 text-[9px] uppercase tracking-[0.06em] text-accent font-semibold border-b-2 border-accent bg-surface-alt", style: "width: 70px;") { "Status" }
-                th(class: "text-left px-2.5 py-2 text-[9px] uppercase tracking-[0.06em] text-accent font-semibold border-b-2 border-accent bg-surface-alt", style: "width: 90px;") { "Last Sync" }
+                th(class: "demo-table-th", style: "width: 40px;") { "REF" }
+                th(class: "demo-table-th") { "Alert Name" }
+                th(class: "demo-table-th", style: "width: 80px;") { "New" }
+                th(class: "demo-table-th", style: "width: 70px;") { "Status" }
+                th(class: "demo-table-th", style: "width: 90px;") { "Last Sync" }
               }
             }
             tbody {
-              alert_row("B.1", "Machine Learning — Image Recognition", 23, :active, "2 min ago")
-              alert_row("B.2", "Battery Technology — Solid State", 8, :active, "1 hr ago")
-              alert_row("B.3", "Semiconductor — 3nm Process", 12, :active, "1 hr ago")
-              alert_row("B.4", "Quantum Computing — Error Correction", 4, :active, "3 hr ago")
-              alert_row("B.5", "Autonomous Vehicles — LIDAR", 0, :paused, "2 days ago")
+              sample_alerts.each_with_index do |alert, idx|
+                alert_row("B.#{idx + 1}", alert.name, alert.count, alert.status, alert.time)
+              end
             }
           }
         }
@@ -78,7 +73,7 @@ module Views
       def render_dimension_line
         div(class: "flex items-center gap-2 my-4") {
           div(class: "flex-1 h-px bg-accent") {}
-          span(class: "text-[10px] text-accent uppercase tracking-[0.1em]") { "Latest Results — Machine Learning (B.1)" }
+          span(class: "demo-label-wide text-accent") { "Latest Results — Machine Learning (B.1)" }
           div(class: "flex-1 h-px bg-accent") {}
         }
       end
@@ -91,10 +86,11 @@ module Views
           ref: "REF: RES-B1-001"
         ) {
           div(class: "border border-accent") {
-            result_row("US2024\n0401234", "Neural Network Architecture for Real-Time Object Detection in Autonomous Systems", "Google LLC", "2024-12-18", "94%")
-            result_row("US2024\n0398765", "Convolutional Layer Optimization for Edge Device Deployment", "Apple Inc.", "2024-12-17", "89%")
-            result_row("US2024\n0396543", "Multi-Modal Feature Extraction for Medical Imaging Analysis", "NVIDIA Corp", "2024-12-16", "87%")
-            result_row("US2024\n0394321", "Attention Mechanism for Fine-Grained Image Classification", "Meta Platforms", "2024-12-15", "82%")
+            sample_patents.first(4).each do |patent|
+              # Format ID with newline for blueprint style
+              formatted_id = "#{patent.id[0..5]}\n#{patent.id[6..]}"
+              result_row(formatted_id, patent.title, patent.assignee, patent.date, "#{patent.match}%")
+            end
           }
         }
       end
@@ -116,15 +112,15 @@ module Views
       end
 
       # Helper methods
-      def stat_cell(label, value, alert: false)
+      def stat_cell(label, value, highlight: false)
         div(class: "p-3 border-r border-surface-alt last:border-r-0 text-center") {
           div(class: "text-[9px] uppercase tracking-[0.05em] text-muted mb-1") { label }
-          div(class: "text-xl font-bold #{alert ? 'text-accent-alt' : 'text-accent'}") { value }
+          div(class: "text-xl font-bold #{highlight ? 'text-accent-alt' : 'text-accent'}") { value }
         }
       end
 
       def alert_row(ref, name, count, status, time)
-        tr(class: "hover:bg-surface-alt") {
+        tr(class: "demo-row-hover") {
           td(class: "p-2.5 border-b border-border-light font-bold text-accent text-[10px] align-top") { ref }
           td(class: "p-2.5 border-b border-border-light font-medium align-top") {
             a(href: "#", class: "no-underline hover:text-accent hover:underline") { name }
@@ -154,7 +150,7 @@ module Views
       end
 
       def result_row(id, title, assignee, date, match)
-        div(class: "grid grid-cols-[80px_1fr_100px_70px_50px] gap-3 p-3 border-b border-border-light last:border-b-0 hover:bg-surface-alt items-start") {
+        div(class: "grid grid-cols-[80px_1fr_100px_70px_50px] gap-3 p-3 border-b border-border-light last:border-b-0 demo-row-hover items-start") {
           span(class: "font-bold text-accent text-[10px] whitespace-pre-line") {
             a(href: "#", class: "hover:underline") { id }
           }

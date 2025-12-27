@@ -2,7 +2,7 @@
 
 module Boilermaker
   module Themes
-    AVAILABLE = %w[paper terminal blueprint brutalist dos].freeze
+    AVAILABLE = %w[paper terminal blueprint brutalist amber].freeze
     DEFAULT = "paper"
     DEFAULT_POLARITY = "light"
     POLARITIES = %w[light dark].freeze
@@ -13,7 +13,7 @@ module Boilermaker
       "terminal" => "Views::Layouts::TerminalDashboard",
       "blueprint" => "Views::Layouts::BlueprintDashboard",
       "brutalist" => "Views::Layouts::BrutalistDashboard",
-      "dos" => "Views::Layouts::DosDashboard"
+      "amber" => "Views::Layouts::AmberDashboard"
     }.freeze
 
     # Metadata for each theme
@@ -50,13 +50,13 @@ module Boilermaker
         unique_components: %w[keyboard_hint],
         layout_class: "Views::Layouts::BrutalistDashboard"
       },
-      "dos" => {
-        name: "DOS",
-        description: "Amber monochrome, chunky, nostalgic",
+      "amber" => {
+        name: "Amber",
+        description: "Amber monochrome, warm CRT glow",
         default_polarity: "dark",
         has_overlays: true,
         unique_components: %w[fn_bar],
-        layout_class: "Views::Layouts::DosDashboard"
+        layout_class: "Views::Layouts::AmberDashboard"
       }
     }.freeze
 

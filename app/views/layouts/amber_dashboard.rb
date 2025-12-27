@@ -2,16 +2,21 @@
 
 module Views
   module Layouts
-    # DOS-themed dashboard layout
+    # Amber-themed dashboard layout
     # Amber monochrome with menu bar, status bar, and F-key footer
-    class DosDashboard < DashboardBase
-      def initialize(title: "PATENTWATCH", menu_items: nil, fkey_actions: nil)
+    class AmberDashboard < DashboardBase
+      def initialize(title: "PATENTWATCH", menu_items: nil, fkey_actions: nil, status_info: nil)
         super(title: title)
         @menu_items = menu_items || default_menu_items
         @fkey_actions = fkey_actions || default_fkey_actions
+        @status = status_info || default_status_info
       end
 
-      def theme_name = "dos"
+      def default_status_info
+        Views::Demos::SampleData::StatusInfo.new(latency: "42ms")
+      end
+
+      def theme_name = "amber"
       def polarity = "dark"
 
       def header_content
@@ -31,10 +36,10 @@ module Views
 
           # Status bar
           div(class: "flex justify-between py-1 px-2 bg-muted text-surface text-xs mt-0") {
-            span { "● USPTO CONNECTED" }
-            span { "Last Sync: 2 min ago" }
-            span { "DB: 18.4M records" }
-            span { "Latency: 42ms" }
+            span { "#{@status.connected ? '●' : '○'} #{@status.connection_name} #{@status.connected ? 'CONNECTED' : 'DISCONNECTED'}" }
+            span { "Last Sync: #{@status.last_sync}" }
+            span { "DB: #{@status.db_size} records" }
+            span { "Latency: #{@status.latency}" } if @status.latency
           }
         }
       end

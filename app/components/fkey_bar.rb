@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# F1-F10 function key bar (DOS-style)
+# F1-F10 function key bar (Amber theme style)
 # Renders a horizontal bar with function key labels and their actions
 class Components::FkeyBar < Components::Base
   KEYS = %w[F1 F2 F3 F4 F5 F6 F7 F8 F9 F10].freeze

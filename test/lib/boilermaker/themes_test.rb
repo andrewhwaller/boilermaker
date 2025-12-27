@@ -9,7 +9,7 @@ class Boilermaker::ThemesTest < ActiveSupport::TestCase
     assert_includes Boilermaker::Themes::AVAILABLE, "terminal"
     assert_includes Boilermaker::Themes::AVAILABLE, "blueprint"
     assert_includes Boilermaker::Themes::AVAILABLE, "brutalist"
-    assert_includes Boilermaker::Themes::AVAILABLE, "dos"
+    assert_includes Boilermaker::Themes::AVAILABLE, "amber"
   end
 
   test "DEFAULT is paper" do
@@ -65,7 +65,7 @@ class Boilermaker::ThemesTest < ActiveSupport::TestCase
     assert_equal "dark", Boilermaker::Themes.default_polarity_for("terminal")
     assert_equal "light", Boilermaker::Themes.default_polarity_for("blueprint")
     assert_equal "light", Boilermaker::Themes.default_polarity_for("brutalist")
-    assert_equal "dark", Boilermaker::Themes.default_polarity_for("dos")
+    assert_equal "dark", Boilermaker::Themes.default_polarity_for("amber")
   end
 
   test "has_overlays? returns correct value" do
@@ -73,7 +73,7 @@ class Boilermaker::ThemesTest < ActiveSupport::TestCase
     assert Boilermaker::Themes.has_overlays?("terminal")
     assert Boilermaker::Themes.has_overlays?("blueprint")
     refute Boilermaker::Themes.has_overlays?("brutalist")
-    assert Boilermaker::Themes.has_overlays?("dos")
+    assert Boilermaker::Themes.has_overlays?("amber")
   end
 
   test "unique_components_for returns correct components" do
@@ -81,6 +81,6 @@ class Boilermaker::ThemesTest < ActiveSupport::TestCase
     assert_equal %w[command_bar], Boilermaker::Themes.unique_components_for("terminal")
     assert_equal %w[section_marker], Boilermaker::Themes.unique_components_for("blueprint")
     assert_equal %w[keyboard_hint], Boilermaker::Themes.unique_components_for("brutalist")
-    assert_equal %w[fn_bar], Boilermaker::Themes.unique_components_for("dos")
+    assert_equal %w[fn_bar], Boilermaker::Themes.unique_components_for("amber")
   end
 end

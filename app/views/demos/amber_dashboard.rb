@@ -2,13 +2,11 @@
 
 module Views
   module Demos
-    class DosDashboard < Views::Layouts::DosDashboard
-      def initialize
-        super(title: "PATENTWATCH")
-      end
-
+    # Amber (DOS) theme demo page
+    # Uses composition: renders the layout component rather than inheriting from it
+    class AmberDashboard < Base
       def view_template
-        super {
+        render Views::Layouts::AmberDashboard.new(title: "PATENTWATCH") {
           render_stats_box
           render_alerts_box
           render_results_box
@@ -21,10 +19,9 @@ module Views
       def render_stats_box
         render Components::BoxPanel.new(title: "SYSTEM STATUS") {
           div(class: "flex justify-around text-center py-2") {
-            stat("47", "New Matches", alert: true)
-            stat("183", "This Week")
-            stat("12", "Active Alerts")
-            stat("18.4M", "Patents")
+            sample_stats.each do |stat|
+              stat_display(stat.value, stat.label, highlight: stat.highlight)
+            end
           }
         }
       end
@@ -41,46 +38,48 @@ module Views
           }
 
           # Rows
-          alert_row(1, "Machine Learning — Image Recognition", 23, :active, "2m ago", selected: true)
-          alert_row(2, "Battery Technology — Solid State", 8, :active, "1h ago")
-          alert_row(3, "Semiconductor — 3nm Process", 12, :active, "1h ago")
-          alert_row(4, "Quantum Computing — Error Correction", 4, :active, "3h ago")
-          alert_row(5, "Autonomous Vehicles — LIDAR", 0, :paused, "2d ago")
+          sample_alerts.each_with_index do |alert, idx|
+            alert_row(idx + 1, alert.name, alert.count, alert.status, alert.time, selected: idx == 0)
+          end
         }
       end
 
       def render_results_box
         render Components::BoxPanel.new(title: "RESULTS: MACHINE LEARNING — IMAGE RECOGNITION (23)") {
-          result_item("US20240401234A1", "94%", "Neural Network Architecture for Real-Time Object Detection in Autonomous Systems", "Google LLC", "2024-12-18", "G06N, G06T")
-          result_item("US20240398765A1", "89%", "Convolutional Layer Optimization for Edge Device Deployment", "Apple Inc.", "2024-12-17", "G06N")
-          result_item("US20240396543A1", "87%", "Multi-Modal Feature Extraction for Medical Imaging Analysis", "NVIDIA Corp", "2024-12-16", "G06T, G16H")
+          sample_patents.first(3).each do |patent|
+            result_item(
+              "#{patent.id}A1",
+              "#{patent.match}%",
+              patent.title,
+              patent.assignee,
+              patent.date,
+              patent.cpc
+            )
+          end
         }
       end
 
       def render_log_box
         render Components::BoxPanel.new(title: "SYSTEM LOG") {
           div(class: "h-[120px] overflow-y-auto bg-[rgba(0,0,0,0.3)] p-2 text-xs") {
-            log_line("14:32:01", "SYNC", "ML-IMAGE-RECOGNITION: 23 new matches found")
-            log_line("13:00:00", "MAIL", "Daily digest sent to user@company.com")
-            log_line("11:45:23", "EDIT", "BATTERY-TECH: keywords configuration updated")
-            log_line("09:15:00", "SYNC", "USPTO database: 14,293 new patents indexed")
-            log_line("YESTERDAY", "NEW", "Alert created: QUANTUM-COMPUTING")
-            log_line("YESTERDAY", "PAUSE", "Alert paused: AUTONOMOUS-VEHICLES")
+            sample_log_entries.each do |entry|
+              log_line(entry.time, entry.type, entry.message)
+            end
           }
         }
       end
 
       # Helper methods
-      def stat(value, label, alert: false)
+      def stat_display(value, label, highlight: false)
         div(class: "px-4") {
-          div(class: "text-2xl font-bold text-accent #{alert ? 'animate-pulse' : ''}") { value }
-          div(class: "text-[10px] text-muted uppercase tracking-wide") { label }
+          div(class: "text-2xl font-bold text-accent #{highlight ? 'animate-pulse' : ''}") { value }
+          div(class: "demo-label-wide") { label }
         }
       end
 
       def alert_row(idx, name, count, status, time, selected: false)
-        div(class: "flex py-1 border-b border-dotted border-muted text-sm #{selected ? 'bg-accent text-surface' : 'hover:bg-[rgba(255,176,0,0.1)]'}") {
-          span(class: "w-[30px] text-muted") { format("%02d", idx) }
+        div(class: "flex py-1 border-b border-dotted border-muted text-[13px] #{selected ? 'bg-accent text-surface' : 'demo-row-hover'}") {
+          span(class: "w-[30px] text-muted") { sprintf("%02d", idx) }
           span(class: "flex-1") {
             a(href: "#", class: selected ? "text-surface" : "text-accent hover:underline") { name }
           }
@@ -99,14 +98,14 @@ module Views
       end
 
       def result_item(id, match, title, assignee, date, cpc)
-        div(class: "py-2 border-b border-muted hover:bg-[rgba(255,176,0,0.1)]") {
+        div(class: "py-2 border-b border-muted demo-row-hover") {
           div(class: "flex justify-between mb-1") {
             span(class: "text-accent font-semibold") {
               a(href: "#", class: "hover:underline") { id }
             }
             span(class: "text-accent") { "MATCH: #{match}" }
           }
-          div(class: "text-sm mb-1") { title }
+          div(class: "text-[13px] mb-1") { title }
           div(class: "text-[11px] text-muted") {
             span(class: "mr-4") { assignee }
             span(class: "mr-4") { "Filed: #{date}" }

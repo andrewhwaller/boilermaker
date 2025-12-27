@@ -12,7 +12,7 @@ class Components::CommentHeader < Components::Base
     div(
       **@attributes,
       class: css_classes(
-        "text-xs uppercase tracking-wider text-muted",
+        "text-[11px] uppercase tracking-[0.1em] text-muted",
         "border-b border-dashed border-border-light",
         "pb-1 mb-2"
       )

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Menu bar with underlined hotkeys (DOS-style)
+# Menu bar with underlined hotkeys (Amber theme style)
 # Renders horizontal menu items with optional underlined hotkey characters
 class Components::MenuBar < Components::Base
   Item = Data.define(:label, :hotkey_index, :href, :active) do
@@ -13,7 +13,7 @@ class Components::MenuBar < Components::Base
   end
 
   def view_template
-    div(**@attributes, class: css_classes("flex bg-accent text-surface text-sm")) {
+    div(**@attributes, class: css_classes("flex bg-accent text-surface text-[13px]")) {
       @items.each { |item| render_item(item) }
     }
   end
@@ -21,8 +21,12 @@ class Components::MenuBar < Components::Base
   private
 
   def render_item(item)
-    base_classes = "px-4 py-1"
-    state_classes = item.active ? "bg-surface text-accent" : "hover:bg-surface hover:text-accent"
+    base_classes = "px-4 py-1 no-underline"
+    state_classes = if item.active
+      "bg-surface text-accent"
+    else
+      "text-surface hover:bg-surface hover:text-accent"
+    end
 
     a(href: item.href, class: "#{base_classes} #{state_classes}") {
       render_label_with_hotkey(item.label, item.hotkey_index)

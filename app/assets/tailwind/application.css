@@ -29,6 +29,9 @@
   --color-border-default: var(--border);
   --color-border-light: var(--border-light);
 
+  /* Interactive states */
+  --color-hover: var(--hover-bg);
+
   /* Semantic aliases for backwards compatibility */
   --color-background: var(--bg);
   --color-foreground: var(--text);
@@ -431,6 +434,23 @@
   }
   .ui-section-action:hover {
     @apply underline;
+  }
+
+  /* Demo-specific patterns */
+  .demo-row-hover:hover {
+    background-color: var(--hover-bg);
+  }
+
+  .demo-table-th {
+    @apply text-left px-2.5 py-2 text-[9px] uppercase tracking-[0.06em] text-accent font-semibold border-b-2 border-accent bg-surface-alt;
+  }
+
+  .demo-label {
+    @apply text-[10px] uppercase tracking-[0.08em] text-muted;
+  }
+
+  .demo-label-wide {
+    @apply text-[10px] uppercase tracking-[0.1em] text-muted;
   }
 }
 

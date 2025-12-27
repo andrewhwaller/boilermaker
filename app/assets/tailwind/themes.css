@@ -3,15 +3,16 @@
    5 Themes × 2 Polarities = 10 Color Schemes
 
    Variables:
-   --bg          Main background
-   --bg-alt      Alternate/raised background
-   --bg-inverse  Inverted background (for buttons, highlights)
-   --text        Primary text color
-   --text-muted  Secondary/muted text
-   --accent      Primary accent (actions, links)
-   --accent-alt  Secondary accent (success states, alt actions)
-   --border      Primary border color
-   --border-light Subtle/light border
+   --bg            Main background
+   --bg-alt        Alternate/raised background
+   --bg-inverse    Inverted background (for buttons, highlights)
+   --text          Primary text color
+   --text-muted    Secondary/muted text
+   --accent        Primary accent (actions, links)
+   --accent-alt    Secondary accent (success states, alt actions)
+   --border        Primary border color
+   --border-light  Subtle/light border
+   --hover-bg      Interactive hover background
    ============================================ */
 
 /* ============================================
@@ -29,6 +30,7 @@
   --accent-alt: #2d5a4a;
   --border: #1a1a18;
   --border-light: #d4d1ca;
+  --hover-bg: rgba(197, 75, 50, 0.08);
 }
 
 [data-theme="paper"][data-polarity="dark"] {
@@ -41,6 +43,7 @@
   --accent-alt: #4d8a7a;
   --border: #4a4a47;
   --border-light: #3a3a37;
+  --hover-bg: rgba(232, 107, 82, 0.1);
 }
 
 /* ============================================
@@ -61,6 +64,7 @@
   --accent-alt: #33ff33;
   --border: #1a8c1a;
   --border-light: #143614;
+  --hover-bg: rgba(51, 255, 51, 0.1);
 }
 
 [data-theme="terminal"][data-polarity="light"] {
@@ -73,6 +77,7 @@
   --accent-alt: #1a6b1a;
   --border: #1a6b1a;
   --border-light: #a8d4a8;
+  --hover-bg: rgba(26, 107, 26, 0.1);
 }
 
 /* ============================================
@@ -90,6 +95,7 @@
   --accent-alt: #c23b22;
   --border: #1e56a0;
   --border-light: #e3e7ed;
+  --hover-bg: rgba(30, 86, 160, 0.08);
 }
 
 [data-theme="blueprint"][data-polarity="dark"] {
@@ -102,6 +108,7 @@
   --accent-alt: #e86b52;
   --border: #3a5a80;
   --border-light: #2a4060;
+  --hover-bg: rgba(107, 163, 232, 0.1);
 }
 
 /* ============================================
@@ -119,6 +126,7 @@
   --accent-alt: #111111;
   --border: #111111;
   --border-light: #dddddd;
+  --hover-bg: rgba(17, 17, 17, 0.05);
 }
 
 [data-theme="brutalist"][data-polarity="dark"] {
@@ -131,14 +139,15 @@
   --accent-alt: #ffffff;
   --border: #ffffff;
   --border-light: #333333;
+  --hover-bg: rgba(255, 255, 255, 0.08);
 }
 
 /* ============================================
-   DOS THEME
-   Amber monochrome, chunky, nostalgic
+   AMBER THEME
+   Amber monochrome, warm CRT glow
    ============================================ */
-[data-theme="dos"][data-polarity="dark"],
-[data-theme="dos"]:not([data-polarity]) {
+[data-theme="amber"][data-polarity="dark"],
+[data-theme="amber"]:not([data-polarity]) {
   --bg: #1a1400;
   --bg-alt: #241c00;
   --bg-inverse: #ffb000;
@@ -148,9 +157,10 @@
   --accent-alt: #ffb000;
   --border: #ffb000;
   --border-light: #4d3d00;
+  --hover-bg: rgba(255, 176, 0, 0.1);
 }
 
-[data-theme="dos"][data-polarity="light"] {
+[data-theme="amber"][data-polarity="light"] {
   --bg: #fff5e0;
   --bg-alt: #ffe8c0;
   --bg-inverse: #4d3d00;
@@ -160,6 +170,7 @@
   --accent-alt: #996a00;
   --border: #996a00;
   --border-light: #ddc090;
+  --hover-bg: rgba(184, 120, 0, 0.1);
 }
 
 /* ============================================
@@ -175,4 +186,5 @@
   --accent-alt: #2d5a4a;
   --border: #1a1a18;
   --border-light: #d4d1ca;
+  --hover-bg: rgba(197, 75, 50, 0.08);
 }

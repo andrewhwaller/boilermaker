@@ -104,8 +104,9 @@ Rails.application.routes.draw do
       get :terminal
       get :blueprint
       get :brutalist
-      get :dos
+      get :amber
       get :paper
+      get :industrial
     end
   end
 end

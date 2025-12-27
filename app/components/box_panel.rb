@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Panel with title bar (DOS-style)
+# Panel with title bar (Amber theme style)
 # Renders a bordered box with a colored title bar and content area
 class Components::BoxPanel < Components::Base
   def initialize(title:, **attributes, &block)
@@ -18,7 +18,7 @@ class Components::BoxPanel < Components::Base
   private
 
   def render_title_bar
-    div(class: "bg-accent text-surface px-3 py-1 font-bold text-sm tracking-wide") {
+    div(class: "bg-accent text-surface px-3 py-1 font-bold text-[13px] tracking-[0.05em]") {
       @title
     }
   end

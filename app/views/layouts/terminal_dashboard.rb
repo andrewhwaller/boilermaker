@@ -5,10 +5,15 @@ module Views
     # Terminal-themed dashboard layout
     # Green phosphor CRT aesthetic with scanlines and glow effects
     class TerminalDashboard < DashboardBase
-      def initialize(title: "PATENTWATCH", version: "v1.0.0", user: nil)
+      def initialize(title: "PATENTWATCH", version: "v1.0.0", user: nil, status_info: nil)
         super(title: title)
         @version = version
         @user = user
+        @status = status_info || default_status_info
+      end
+
+      def default_status_info
+        Views::Demos::SampleData::StatusInfo.new(latency: "42ms")
       end
 
       def theme_name = "terminal"
@@ -17,7 +22,7 @@ module Views
       def header_content
         header(class: "max-w-[900px] mx-auto px-6 pt-6 border-b border-border-light pb-4 mb-6") {
           div(class: "flex justify-between items-center") {
-            div(class: "text-xs tracking-widest") {
+            div(class: "text-xs tracking-[0.15em]") {
               span(class: "text-accent") { @title }
               span(class: "text-muted") { " #{@version} // USPTO MONITOR" }
             }
@@ -40,13 +45,17 @@ module Views
       def footer_content
         # Status bar
         div(class: "fixed bottom-12 left-6 right-6 flex justify-between text-[10px] text-muted") {
-          span(class: "before:content-['●_'] before:text-accent") { "USPTO CONNECTION ESTABLISHED" }
-          span { "LAST SYNC: 2 MIN AGO | DB: 18.4M RECORDS | LATENCY: 42ms" }
+          span(class: "before:content-['●_'] before:text-accent") {
+            "#{@status.connection_name} CONNECTION #{@status.connected ? 'ESTABLISHED' : 'DISCONNECTED'}"
+          }
+          status_parts = ["LAST SYNC: #{@status.last_sync.upcase}", "DB: #{@status.db_size} RECORDS"]
+          status_parts << "LATENCY: #{@status.latency}" if @status.latency
+          span { status_parts.join(" | ") }
         }
 
         # Command input bar
         div(class: "fixed bottom-0 left-0 right-0 bg-surface-alt border-t border-border-light") {
-          div(class: "max-w-[900px] mx-auto px-6 py-3 flex items-center gap-2 text-sm") {
+          div(class: "max-w-[900px] mx-auto px-6 py-3 flex items-center gap-2 text-[13px]") {
             span(class: "text-accent") { "patentwatch $" }
             input(
               type: "text",

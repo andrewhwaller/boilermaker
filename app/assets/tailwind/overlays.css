@@ -5,10 +5,10 @@
 
 /* ============================================
    SCANLINES
-   CRT monitor effect for Terminal and DOS themes
+   CRT monitor effect for Terminal and Amber themes
    ============================================ */
 [data-theme="terminal"] body::before,
-[data-theme="dos"] body::before {
+[data-theme="amber"] body::before {
   content: '';
   position: fixed;
   inset: 0;
@@ -77,14 +77,14 @@
 
 /* ============================================
    AMBER GLOW EFFECT
-   Warm glow for DOS theme
+   Warm glow for Amber theme
    ============================================ */
-[data-theme="dos"] {
+[data-theme="amber"] {
   --glow-color: rgba(255, 176, 0, 0.1);
 }
 
-[data-theme="dos"] .text-body,
-[data-theme="dos"] .text-accent {
+[data-theme="amber"] .text-body,
+[data-theme="amber"] .text-accent {
   text-shadow: 0 0 8px var(--glow-color);
 }
 

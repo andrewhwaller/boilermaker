@@ -134,14 +134,14 @@ module Views
         case theme
         when "terminal"
           render Components::Terminal::CommandBar.new
-        when "dos"
-          render Components::Dos::FnBar.new
+        when "amber"
+          render Components::Amber::FnBar.new
         end
       end
 
       def has_bottom_bar?
         theme = Current.theme_name || Boilermaker::Config.theme_name
-        %w[terminal dos].include?(theme)
+        %w[terminal amber].include?(theme)
       end
     end
   end

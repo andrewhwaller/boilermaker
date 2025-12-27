@@ -5,11 +5,16 @@ module Views
     # Blueprint-themed dashboard layout
     # Technical drawing aesthetic with title block and tabbed navigation
     class BlueprintDashboard < DashboardBase
-      def initialize(title: "Dashboard", description: nil, user: nil, tabs: nil)
+      def initialize(title: "Dashboard", description: nil, user: nil, tabs: nil, status_info: nil)
         super(title: title)
         @description = description
         @user = user
         @tabs = tabs || default_tabs
+        @status = status_info || default_status_info
+      end
+
+      def default_status_info
+        Views::Demos::SampleData::StatusInfo.new
       end
 
       def theme_name = "blueprint"
@@ -39,13 +44,13 @@ module Views
           div(class: "flex justify-between text-[9px] text-muted") {
             div(class: "flex gap-4") {
               span {
-                span(class: "text-accent") { "● " }
-                plain "USPTO CONNECTION ESTABLISHED"
+                span(class: "text-accent") { "#{@status.connected ? '●' : '○'} " }
+                plain "#{@status.connection_name} CONNECTION #{@status.connected ? 'ESTABLISHED' : 'DISCONNECTED'}"
               }
-              span { "LAST SYNC: 2 MIN AGO" }
-              span { "DB: 18.4M RECORDS" }
+              span { "LAST SYNC: #{@status.last_sync.upcase}" }
+              span { "DB: #{@status.db_size} RECORDS" }
             }
-            span { "#{@title.upcase} v1.0 // SHEET 1 OF 1" }
+            span { "#{@title.upcase} v#{@status.version} // SHEET 1 OF 1" }
           }
         }
       end

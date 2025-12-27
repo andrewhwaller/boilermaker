@@ -93,12 +93,12 @@
 }
 
 /* ============================================
-   DOS THEME VARIATIONS
-   Scanlines, chunky borders, retro feel
+   AMBER THEME VARIATIONS
+   Scanlines, chunky borders, warm glow
    ============================================ */
 
 /* Scanline overlay effect (same as terminal but amber-tinted) */
-[data-theme="dos"]::after {
+[data-theme="amber"]::after {
   content: '';
   position: fixed;
   inset: 0;
@@ -117,7 +117,7 @@
   50% { opacity: 0; }
 }
 
-[data-theme="dos"] .cursor-blink {
+[data-theme="amber"] .cursor-blink {
   animation: cursor-blink 0.8s step-end infinite;
 }
 
@@ -127,7 +127,7 @@
   50% { opacity: 0.6; }
 }
 
-[data-theme="dos"] .pulse-alert {
+[data-theme="amber"] .pulse-alert {
   animation: pulse-highlight 2s infinite;
 }
 
