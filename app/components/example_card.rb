@@ -15,12 +15,12 @@ class Components::ExampleCard < Components::Card
         # TODO: Refactor FormGroup and uncomment this section
         # div(class: "form-group") do
         #   label(class: "label") { "Example Input" }
-        #   input(type: "text", name: "example", placeholder: "Enter something...", class: "input input-bordered w-full")
+        #   input(type: "text", name: "example", placeholder: "Enter something...", class: "ui-input")
         # end
       end
 
       if block_given?
-        div(class: "divider")
+        div(class: "ui-divider")
         div do
           yield
         end

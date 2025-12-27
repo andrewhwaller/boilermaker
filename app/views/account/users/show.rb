@@ -19,8 +19,8 @@ module Views
               div(class: "flex items-center justify-between mb-6") do
                 h1(class: "font-bold text-base-content") { "User Details" }
                 div(class: "flex gap-2") do
-                  link_to("Edit User", edit_account_user_path(@user), class: "btn btn-primary")
-                  link_to("Back to Account", account_path, class: "btn btn-outline")
+                  link_to("Edit User", edit_account_user_path(@user), class: "ui-button ui-button-primary")
+                  link_to("Back to Account", account_path, class: "ui-button ui-button-outline")
                 end
               end
 
@@ -38,19 +38,19 @@ module Views
 
                     div(class: "flex flex-wrap gap-2 mb-4") do
                       if @user.verified?
-                        span(class: "badge badge-success") { "Verified" }
+                        span(class: "ui-badge ui-badge-success") { "Verified" }
                       else
-                        span(class: "badge badge-warning") { "Unverified" }
+                        span(class: "ui-badge ui-badge-warning") { "Unverified" }
                       end
 
                       if @user.account_admin_for?(Current.account)
-                        span(class: "badge badge-primary") { "Admin" }
+                        span(class: "ui-badge ui-badge-primary") { "Admin" }
                       else
-                        span(class: "badge badge-ghost") { "Member" }
+                        span(class: "ui-badge ui-badge-ghost") { "Member" }
                       end
 
                       if @user == Current.user
-                        span(class: "badge badge-info") { "Current User" }
+                        span(class: "ui-badge ui-badge-info") { "Current User" }
                       end
                     end
 

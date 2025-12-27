@@ -18,8 +18,8 @@ module Views
               div(class: "flex items-center justify-between mb-6") do
                 h1(class: "font-bold text-base-content") { "Edit Account Settings" }
                 div(class: "flex gap-2") do
-                  link_to("View Settings", account_settings_path, class: "btn btn-outline")
-                  link_to("Back to Dashboard", account_dashboard_path, class: "btn btn-ghost")
+                  link_to("View Settings", account_settings_path, class: "ui-button ui-button-outline")
+                  link_to("Back to Dashboard", account_dashboard_path, class: "ui-button ui-button-ghost")
                 end
               end
 
@@ -34,7 +34,7 @@ module Views
                   div(class: "form-control w-full") do
                     f.label :name, "Account Name", class: "label"
                     f.text_field :name,
-                      class: "input input-bordered w-full",
+                      class: "ui-input",
                       required: true,
                       placeholder: "Enter a name for this account"
                     helper_text("This name helps identify your account and appears in various places throughout the application.")
@@ -69,8 +69,8 @@ module Views
 
                   # Submit actions
                   div(class: "flex gap-3 pt-4") do
-                    f.submit "Update Settings", class: "btn btn-primary"
-                    link_to("Cancel", account_settings_path, class: "btn btn-outline")
+                    f.submit "Update Settings", class: "ui-button ui-button-primary"
+                    link_to("Cancel", account_settings_path, class: "ui-button ui-button-outline")
                   end
                 end
               end

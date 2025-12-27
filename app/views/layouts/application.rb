@@ -20,10 +20,8 @@ module Views
         html(
           lang: "en",
           data: {
-            controller: "theme",
-            "theme-light-name-value": Boilermaker::Config.theme_light_name,
-            "theme-dark-name-value": Boilermaker::Config.theme_dark_name,
-            theme: Current.theme_name || Boilermaker::Config.theme_light_name
+            theme: Current.theme_name || Boilermaker::Config.theme_name,
+            polarity: Current.polarity || Boilermaker::Themes.default_polarity_for(Current.theme_name)
           }
         ) do
           head do
@@ -58,6 +56,8 @@ module Views
                 yield_content_or(&block)
               end
             end
+
+            render_theme_components if Current.user.present?
           end
         end
       end
@@ -85,8 +85,10 @@ module Views
       end
 
       def body_classes
-        base = "min-h-screen bg-base-100 text-base-content"
-        authenticated_with_sidebar? ? "#{base} pl-64" : base
+        base = "min-h-screen bg-surface text-body theme-transition"
+        base = "#{base} pl-64" if authenticated_with_sidebar?
+        base = "#{base} pb-12" if has_bottom_bar?
+        base
       end
 
       def content_wrapper_classes
@@ -124,6 +126,22 @@ module Views
 
       def yield_content_or(&block)
         block_given? ? yield : content_for(:content)
+      end
+
+      def render_theme_components
+        theme = Current.theme_name || Boilermaker::Config.theme_name
+
+        case theme
+        when "terminal"
+          render Components::Terminal::CommandBar.new
+        when "dos"
+          render Components::Dos::FnBar.new
+        end
+      end
+
+      def has_bottom_bar?
+        theme = Current.theme_name || Boilermaker::Config.theme_name
+        %w[terminal dos].include?(theme)
       end
     end
   end

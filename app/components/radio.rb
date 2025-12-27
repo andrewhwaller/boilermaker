@@ -58,6 +58,6 @@ class Components::Radio < Components::Base
   end
 
   def radio_classes
-    css_classes("radio", error_classes_for("radio"))
+    css_classes("ui-radio", error_classes_for("radio"))
   end
 end

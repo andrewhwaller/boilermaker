@@ -8,14 +8,14 @@ class Components::Card < Components::Base
   end
 
   def view_template(&block)
-    div(class: css_classes("card", @attrs.delete(:class)), **@attrs) do
+    div(class: css_classes("ui-card", @attrs.delete(:class)), **@attrs) do
       if @title.present?
         div(class: header_classes) do
           h3(class: "text-sm font-bold tracking-wide uppercase") { @title }
         end
       end
 
-      div(class: "card-content") do
+      div(class: "ui-card-content") do
         yield if block_given?
       end
     end
@@ -24,8 +24,8 @@ class Components::Card < Components::Base
   private
 
   def header_classes
-    return "card-header" unless @header_color
+    return "ui-card-header" unless @header_color
 
-    "card-header card-header-#{@header_color}"
+    "ui-card-header ui-card-header-#{@header_color}"
   end
 end

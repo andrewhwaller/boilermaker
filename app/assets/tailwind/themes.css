@@ -1,0 +1,178 @@
+/* ============================================
+   BOILERMAKER THEME SYSTEM
+   5 Themes × 2 Polarities = 10 Color Schemes
+
+   Variables:
+   --bg          Main background
+   --bg-alt      Alternate/raised background
+   --bg-inverse  Inverted background (for buttons, highlights)
+   --text        Primary text color
+   --text-muted  Secondary/muted text
+   --accent      Primary accent (actions, links)
+   --accent-alt  Secondary accent (success states, alt actions)
+   --border      Primary border color
+   --border-light Subtle/light border
+   ============================================ */
+
+/* ============================================
+   PAPER THEME
+   Warm, minimal, refined industrial
+   ============================================ */
+[data-theme="paper"][data-polarity="light"],
+[data-theme="paper"]:not([data-polarity]) {
+  --bg: #f5f3ef;
+  --bg-alt: #eae7e1;
+  --bg-inverse: #1a1a18;
+  --text: #1a1a18;
+  --text-muted: #6a6965;
+  --accent: #c54b32;
+  --accent-alt: #2d5a4a;
+  --border: #1a1a18;
+  --border-light: #d4d1ca;
+}
+
+[data-theme="paper"][data-polarity="dark"] {
+  --bg: #1a1a18;
+  --bg-alt: #2a2a27;
+  --bg-inverse: #f5f3ef;
+  --text: #e8e6e2;
+  --text-muted: #9a9894;
+  --accent: #e86b52;
+  --accent-alt: #4d8a7a;
+  --border: #4a4a47;
+  --border-light: #3a3a37;
+}
+
+/* ============================================
+   TERMINAL THEME
+   Green phosphor CRT aesthetic
+
+   NOTE: Boilermaker config UI uses a standalone copy of this theme.
+   Keep in sync with: lib/boilermaker/app/views/layouts/boilermaker.html.erb
+   ============================================ */
+[data-theme="terminal"][data-polarity="dark"],
+[data-theme="terminal"]:not([data-polarity]) {
+  --bg: #0a0a0a;
+  --bg-alt: #111110;
+  --bg-inverse: #33ff33;
+  --text: #33ff33;
+  --text-muted: #1a8c1a;
+  --accent: #ffb000;
+  --accent-alt: #33ff33;
+  --border: #1a8c1a;
+  --border-light: #143614;
+}
+
+[data-theme="terminal"][data-polarity="light"] {
+  --bg: #e8f5e8;
+  --bg-alt: #d0ebd0;
+  --bg-inverse: #0a3a0a;
+  --text: #0a3a0a;
+  --text-muted: #3d6b3d;
+  --accent: #b87800;
+  --accent-alt: #1a6b1a;
+  --border: #1a6b1a;
+  --border-light: #a8d4a8;
+}
+
+/* ============================================
+   BLUEPRINT THEME
+   Engineering document / technical drawing
+   ============================================ */
+[data-theme="blueprint"][data-polarity="light"],
+[data-theme="blueprint"]:not([data-polarity]) {
+  --bg: #f8f9fa;
+  --bg-alt: #d4e3f5;
+  --bg-inverse: #1e56a0;
+  --text: #1a1d21;
+  --text-muted: #5a6270;
+  --accent: #1e56a0;
+  --accent-alt: #c23b22;
+  --border: #1e56a0;
+  --border-light: #e3e7ed;
+}
+
+[data-theme="blueprint"][data-polarity="dark"] {
+  --bg: #0d1a2d;
+  --bg-alt: #142a45;
+  --bg-inverse: #6ba3e8;
+  --text: #c8d8f0;
+  --text-muted: #7a8ca8;
+  --accent: #6ba3e8;
+  --accent-alt: #e86b52;
+  --border: #3a5a80;
+  --border-light: #2a4060;
+}
+
+/* ============================================
+   BRUTALIST THEME
+   Raw, minimal, maximum content
+   ============================================ */
+[data-theme="brutalist"][data-polarity="light"],
+[data-theme="brutalist"]:not([data-polarity]) {
+  --bg: #ffffff;
+  --bg-alt: #f5f5f5;
+  --bg-inverse: #111111;
+  --text: #111111;
+  --text-muted: #666666;
+  --accent: #111111;
+  --accent-alt: #111111;
+  --border: #111111;
+  --border-light: #dddddd;
+}
+
+[data-theme="brutalist"][data-polarity="dark"] {
+  --bg: #111111;
+  --bg-alt: #1a1a1a;
+  --bg-inverse: #ffffff;
+  --text: #ffffff;
+  --text-muted: #888888;
+  --accent: #ffffff;
+  --accent-alt: #ffffff;
+  --border: #ffffff;
+  --border-light: #333333;
+}
+
+/* ============================================
+   DOS THEME
+   Amber monochrome, chunky, nostalgic
+   ============================================ */
+[data-theme="dos"][data-polarity="dark"],
+[data-theme="dos"]:not([data-polarity]) {
+  --bg: #1a1400;
+  --bg-alt: #241c00;
+  --bg-inverse: #ffb000;
+  --text: #ffb000;
+  --text-muted: #996a00;
+  --accent: #ffc832;
+  --accent-alt: #ffb000;
+  --border: #ffb000;
+  --border-light: #4d3d00;
+}
+
+[data-theme="dos"][data-polarity="light"] {
+  --bg: #fff5e0;
+  --bg-alt: #ffe8c0;
+  --bg-inverse: #4d3d00;
+  --text: #3d2e00;
+  --text-muted: #7a6020;
+  --accent: #b87800;
+  --accent-alt: #996a00;
+  --border: #996a00;
+  --border-light: #ddc090;
+}
+
+/* ============================================
+   DEFAULT (fallback to Paper light)
+   ============================================ */
+:root {
+  --bg: #f5f3ef;
+  --bg-alt: #eae7e1;
+  --bg-inverse: #1a1a18;
+  --text: #1a1a18;
+  --text-muted: #6a6965;
+  --accent: #c54b32;
+  --accent-alt: #2d5a4a;
+  --border: #1a1a18;
+  --border-light: #d4d1ca;
+}

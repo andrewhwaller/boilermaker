@@ -40,7 +40,7 @@ module Views
 
                   div(class: "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between") do
                     span(class: "text-sm text-base-content/70") { "Finished copying them? You can head back to the dashboard." }
-                    link_to("OK, I'm done", root_path, class: "btn btn-secondary w-full sm:w-auto")
+                    link_to("OK, I'm done", root_path, class: "ui-button ui-button-secondary w-full sm:w-auto")
                   end
                 end
 
@@ -54,7 +54,7 @@ module Views
                     "Generate new recovery codes",
                     two_factor_authentication_profile_recovery_codes_path,
                     method: :post,
-                    class: "btn btn-primary w-full sm:w-auto",
+                    class: "ui-button ui-button-primary w-full sm:w-auto",
                     data: { turbo_confirm: "Generate a new set of recovery codes? Your current codes will stop working." }
                   )
                 end

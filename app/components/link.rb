@@ -11,7 +11,7 @@ class Components::Link < Components::Base
     warning: "link-warning",
     error: "link-error",
     info: "link-info",
-    button: "btn" # Apply base button style
+    button: "ui-button" # Apply base button style
   }.freeze
 
   def initialize(href:, text: nil, variant: :default, uppercase: nil, size: :md, external: false, **attributes)
@@ -40,7 +40,7 @@ class Components::Link < Components::Base
     base_classes = []
 
     if @variant == :button
-      base_classes << "btn"
+      base_classes << "ui-button"
       base_classes << Components::Button::VARIANTS[@variant] if Components::Button::VARIANTS[@variant]
       base_classes << Components::Button::SIZES[@size] if Components::Button::SIZES[@size]
     else

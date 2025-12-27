@@ -1,153 +1,411 @@
+<style>
+  /*
+   * Settings form styles - uses variables from layouts/boilermaker.html.erb
+   * which mirrors app/assets/tailwind/themes.css (Terminal dark polarity)
+   */
+  .prompt {
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    font-size: 11px;
+  }
+
+  .prompt::before {
+    content: '$ ';
+    color: var(--text);
+  }
+
+  .section {
+    margin-bottom: 32px;
+  }
+
+  .section-header {
+    color: var(--text-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed var(--text-muted);
+  }
+
+  .section-header::before {
+    content: '// ';
+  }
+
+  .warning-box {
+    border: 1px solid var(--accent-muted);
+    background: rgba(255, 176, 0, 0.05);
+    padding: 12px;
+    margin-bottom: 24px;
+    font-size: 12px;
+  }
+
+
+  .warning-title {
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .warning-text {
+    color: var(--text-muted);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .form-group {
+    margin-bottom: 12px;
+  }
+
+  .form-group.full-width {
+    grid-column: span 2;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100%;
+    background: var(--bg-alt);
+    border: 1px solid var(--text-muted);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 8px 10px;
+    outline: none;
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    border-color: var(--text);
+    box-shadow: 0 0 0 1px var(--glow);
+  }
+
+  .form-input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .form-select {
+    cursor: pointer;
+  }
+
+  .form-select option {
+    background: var(--bg-alt);
+    color: var(--text);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 60px;
+  }
+
+  .form-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    border: 1px dotted var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .form-toggle:hover {
+    background: var(--glow);
+  }
+
+  .toggle-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text);
+  }
+
+  .toggle-checkbox {
+    appearance: none;
+    width: 40px;
+    height: 20px;
+    background: var(--bg-alt);
+    border: 1px solid var(--text-muted);
+    cursor: pointer;
+    position: relative;
+  }
+
+  .toggle-checkbox::after {
+    content: 'OFF';
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 8px;
+    color: var(--text-muted);
+  }
+
+  .toggle-checkbox:checked {
+    background: var(--text-muted);
+    border-color: var(--text);
+  }
+
+  .toggle-checkbox:checked::after {
+    content: 'ON';
+    left: 4px;
+    right: auto;
+    color: var(--text);
+  }
+
+  .form-hint {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .form-hint::before {
+    content: '# ';
+  }
+
+  .actions {
+    display: flex;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--text-muted);
+    margin-top: 24px;
+  }
+
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 8px 16px;
+    border: 1px solid var(--text-muted);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .btn:hover {
+    border-color: var(--text);
+    color: var(--text);
+    background: var(--glow);
+  }
+
+  .btn-primary {
+    background: var(--text-muted);
+    border-color: var(--text);
+    color: var(--bg);
+  }
+
+  .btn-primary:hover {
+    background: var(--text);
+    color: var(--bg);
+  }
+
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .config-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px dotted var(--text-muted);
+    align-items: center;
+    font-size: 12px;
+  }
+
+  .config-row:hover {
+    background: var(--glow);
+  }
+
+  .config-key {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .config-value {
+    color: var(--text);
+  }
+
+  .theme-option {
+    padding: 8px 10px;
+    border: 1px dotted var(--text-muted);
+    margin-bottom: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .theme-option:hover {
+    background: var(--glow);
+    border-color: var(--text);
+  }
+
+  .theme-option.selected {
+    border-color: var(--text);
+    border-style: solid;
+  }
+
+  .theme-option input[type="radio"] {
+    display: none;
+  }
+
+  .theme-option .radio-indicator {
+    width: 12px;
+    height: 12px;
+    border: 1px solid var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  .theme-option.selected .radio-indicator {
+    border-color: var(--text);
+    color: var(--text);
+  }
+
+  .theme-option.selected .radio-indicator::after {
+    content: '●';
+  }
+
+  .theme-name {
+    color: var(--text);
+    font-size: 12px;
+  }
+
+  .theme-desc {
+    color: var(--text-muted);
+    font-size: 10px;
+  }
+</style>
+
 <div data-controller="server-status" data-server-status-restart-url-value="<%= main_app.rails_health_check_path %>">
-  <div class="border-b border-base-300 pb-4 mb-4">
-    <div class="flex items-center justify-between">
-      <h1 class="text-lg font-bold text-base-content uppercase">Configuration</h1>
-      <div class="flex gap-2">
-        <%= link_to "Cancel", main_app.root_path, class: "btn btn-sm btn-ghost" %>
-        <%= link_to "Reset", boilermaker.edit_settings_path, class: "btn btn-sm btn-ghost" %>
-        <button type="submit" form="settings_form" class="btn btn-sm btn-primary" data-server-status-target="submitButton">Save Changes</button>
-      </div>
-    </div>
+  <div class="warning-box">
+    <div class="warning-title">SERVER WILL RESTART AFTER SAVING</div>
+    <div class="warning-text" data-server-status-target="message">Changes require a server restart to take effect. Please wait for the restart to complete.</div>
   </div>
 
-  <div class="bg-warning/10 border border-warning/30 px-4 py-3 mb-4">
-    <div class="flex items-center gap-3">
-      <div class="flex-shrink-0">
-        <svg class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-        </svg>
-      </div>
-      <div class="flex-1">
-        <p class="text-sm font-medium text-warning">Server will restart after saving</p>
-        <p class="text-xs text-base-content/70 mt-1" data-server-status-target="message">Changes require a server restart to take effect. Please wait for the restart to complete before returning to the app.</p>
-      </div>
+  <%= form_with url: boilermaker.settings_path, method: :patch, local: true, scope: :settings, id: "settings_form" do |form| %>
+
+    <section class="section">
+      <div class="section-header">Application</div>
+      <%= form.fields_for :app do |app_form| %>
+        <div class="form-grid">
+          <div class="form-group">
+            <%= app_form.label :name, "NAME", class: "form-label" %>
+            <%= app_form.text_field :name, value: @settings.dig('app', 'name') || 'Boilermaker', class: "form-input", placeholder: "App name" %>
+          </div>
+          <div class="form-group">
+            <%= app_form.label :version, "VERSION", class: "form-label" %>
+            <%= app_form.text_field :version, value: @settings.dig('app', 'version') || '1.0.0', class: "form-input", placeholder: "1.0.0" %>
+          </div>
+          <div class="form-group full-width">
+            <%= app_form.label :support_email, "SUPPORT EMAIL", class: "form-label" %>
+            <%= app_form.email_field :support_email, value: @settings.dig('app', 'support_email') || 'support@example.com', class: "form-input", placeholder: "support@example.com" %>
+          </div>
+          <div class="form-group full-width">
+            <%= app_form.label :description, "DESCRIPTION", class: "form-label" %>
+            <%= app_form.text_area :description, value: @settings.dig('app', 'description') || 'A modern Rails application', class: "form-textarea", rows: 2, placeholder: "Brief description" %>
+          </div>
+        </div>
+      <% end %>
+    </section>
+
+    <section class="section">
+      <div class="section-header">Theme</div>
+      <%= form.fields_for :ui do |ui_form| %>
+        <%= ui_form.fields_for :theme do |theme_form| %>
+          <% current_theme = @settings.dig('ui', 'theme', 'name') || 'paper' %>
+          <% Boilermaker::Themes::AVAILABLE.each do |theme| %>
+            <% metadata = Boilermaker::Themes.metadata_for(theme) %>
+            <label class="theme-option <%= theme == current_theme ? 'selected' : '' %>">
+              <%= theme_form.radio_button :name, theme, checked: theme == current_theme %>
+              <span class="radio-indicator"></span>
+              <span class="theme-name"><%= metadata[:name].upcase %></span>
+              <span class="theme-desc">// <%= metadata[:description] %></span>
+            </label>
+          <% end %>
+          <div class="form-hint">Users can toggle between light and dark polarity within the selected theme</div>
+        <% end %>
+      <% end %>
+    </section>
+
+    <section class="section">
+      <div class="section-header">Navigation</div>
+      <%= form.fields_for :ui do |ui_form| %>
+        <%= ui_form.fields_for :navigation do |nav_form| %>
+          <div class="form-group">
+            <%= nav_form.label :layout_mode, "LAYOUT MODE", class: "form-label" %>
+            <%= nav_form.select :layout_mode, options_for_select([["NAVBAR (HORIZONTAL)", "navbar"], ["SIDEBAR (VERTICAL)", "sidebar"]], @settings.dig('ui', 'navigation', 'layout_mode') || 'navbar'), {}, class: "form-select" %>
+          </div>
+        <% end %>
+      <% end %>
+    </section>
+
+    <section class="section">
+      <div class="section-header">Typography</div>
+      <%= form.fields_for :ui do |ui_form| %>
+        <%= ui_form.fields_for :typography do |typo_form| %>
+          <div class="form-grid">
+            <div class="form-group">
+              <%= typo_form.label :font, "TYPEFACE", class: "form-label" %>
+              <% font_options = Boilermaker::FontConfiguration::FONTS.map do |_, config|
+                label = config[:display_name] || config[:name]
+                label += " (local)" if config[:type] == :local
+                [label.upcase, config[:name]]
+              end %>
+              <%= typo_form.select :font, options_for_select(font_options, @settings.dig('ui', 'typography', 'font') || 'CommitMono'), {}, class: "form-select" %>
+            </div>
+            <div class="form-group">
+              <%= typo_form.label :size, "BASE SIZE", class: "form-label" %>
+              <% size_options = [["DENSE", "dense"], ["BASE", "base"], ["EXPANDED", "expanded"]] %>
+              <%= typo_form.select :size, options_for_select(size_options, @settings.dig('ui', 'typography', 'size') || 'base'), {}, class: "form-select" %>
+            </div>
+          </div>
+          <div class="form-toggle">
+            <span class="toggle-label">UPPERCASE UI TEXT</span>
+            <input type="checkbox" name="settings[ui][typography][uppercase]" id="toggle_uppercase" value="true" <%= @settings.dig('ui', 'typography', 'uppercase') != false ? 'checked' : '' %> class="toggle-checkbox">
+          </div>
+        <% end %>
+      <% end %>
+    </section>
+
+    <section class="section">
+      <div class="section-header">Features</div>
+      <%= form.fields_for :features do |features_form| %>
+        <div class="form-toggle">
+          <span class="toggle-label">USER REGISTRATION</span>
+          <input type="checkbox" name="settings[features][user_registration]" id="toggle_user_registration" value="true" <%= @features['user_registration'] == true ? 'checked' : '' %> class="toggle-checkbox">
+        </div>
+        <div class="form-toggle">
+          <span class="toggle-label">PERSONAL ACCOUNTS</span>
+          <input type="checkbox" name="settings[features][personal_accounts]" id="toggle_personal_accounts" value="true" <%= @features['personal_accounts'] == true ? 'checked' : '' %> class="toggle-checkbox">
+        </div>
+      <% end %>
+    </section>
+
+    <div class="actions">
+      <%= link_to "CANCEL", main_app.root_path, class: "btn" %>
+      <%= link_to "RESET", boilermaker.edit_settings_path, class: "btn" %>
+      <button type="submit" class="btn btn-primary" data-server-status-target="submitButton">SAVE CHANGES</button>
     </div>
-  </div>
+  <% end %>
 </div>
-
-<%= form_with url: boilermaker.settings_path, method: :patch, local: true, scope: :settings, id: "settings_form" do |form| %>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-    <!-- LEFT COLUMN: APPLICATION & THEMES -->
-    <div class="space-y-3">
-      <!-- APPLICATION -->
-      <div class="bg-base-200 border border-base-300">
-        <div class="bg-base-300/40 border-b border-base-300 px-3 py-1">
-          <h2 class="text-xs font-bold text-base-content uppercase">APPLICATION</h2>
-        </div>
-        <div class="p-3">
-          <%= form.fields_for :app do |app_form| %>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div>
-                <%= app_form.label :name, "NAME", class: "text-xs text-base-content/70 font-bold" %>
-                <%= app_form.text_field :name, value: @settings.dig('app', 'name') || 'Boilermaker', class: "input input-bordered w-full", placeholder: "App name" %>
-              </div>
-              <div>
-                <%= app_form.label :version, "VERSION", class: "text-xs text-base-content/70 font-bold" %>
-                <%= app_form.text_field :version, value: @settings.dig('app', 'version') || '1.0.0', class: "input input-bordered w-full", placeholder: "1.0.0" %>
-              </div>
-              <div class="md:col-span-2">
-                <%= app_form.label :support_email, "SUPPORT", class: "text-xs text-base-content/70 font-bold" %>
-                <%= app_form.email_field :support_email, value: @settings.dig('app', 'support_email') || 'support@example.com', class: "input input-bordered w-full", placeholder: "support@example.com" %>
-              </div>
-              <div class="md:col-span-2">
-                <%= app_form.label :description, "DESCRIPTION", class: "text-xs text-base-content/70 font-bold" %>
-                <%= app_form.text_area :description, value: @settings.dig('app', 'description') || 'A modern Rails application', class: "input input-bordered w-full", rows: 2, placeholder: "Brief description" %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
-
-      <!-- THEMES -->
-      <div class="bg-base-200 border border-base-300">
-        <div class="bg-base-300/40 border-b border-base-300 px-3 py-1">
-          <h2 class="text-xs font-bold text-base-content uppercase">THEMES</h2>
-        </div>
-        <div class="p-3">
-          <%= form.fields_for :ui do |ui_form| %>
-            <%= ui_form.fields_for :theme do |theme_form| %>
-              <% builtins_light = Boilermaker::Themes::LIGHT %>
-              <% builtins_dark = Boilermaker::Themes::DARK %>
-              <% custom_light = Boilermaker::Themes::CUSTOM_LIGHT.map { |n| ["#{n} (custom)", n] } %>
-              <% custom_dark = Boilermaker::Themes::CUSTOM_DARK.map { |n| ["#{n} (custom)", n] } %>
-              <% grouped_light = [["Custom", custom_light], ["Light (built-in)", builtins_light.sort.map { |n| [n, n] }]] %>
-              <% grouped_dark = [["Custom", custom_dark], ["Dark (built-in)", builtins_dark.sort.map { |n| [n, n] }]] %>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div>
-                  <%= theme_form.label :light, "LIGHT", class: "text-xs text-base-content/70 font-bold" %>
-                  <%= theme_form.select :light, grouped_options_for_select(grouped_light, @settings.dig('ui', 'theme', 'light') || 'work-station'), {}, class: "select select-bordered w-full" %>
-                </div>
-                <div>
-                  <%= theme_form.label :dark, "DARK", class: "text-xs text-base-content/70 font-bold" %>
-                  <%= theme_form.select :dark, grouped_options_for_select(grouped_dark, @settings.dig('ui', 'theme', 'dark')), {}, class: "select select-bordered w-full" %>
-                </div>
-              </div>
-            <% end %>
-
-            <!-- NAVIGATION LAYOUT -->
-            <%= ui_form.fields_for :navigation do |nav_form| %>
-              <div class="mt-4 pt-3 border-t border-base-300/40">
-                <div>
-                  <%= nav_form.label :layout_mode, "LAYOUT MODE", class: "text-xs text-base-content/70 font-bold" %>
-                  <%= nav_form.select :layout_mode, options_for_select([["Navbar (horizontal)", "navbar"], ["Sidebar (vertical)", "sidebar"]], @settings.dig('ui', 'navigation', 'layout_mode') || 'navbar'), {}, class: "select select-bordered w-full" %>
-                </div>
-              </div>
-            <% end %>
-
-            <!-- TYPOGRAPHY -->
-            <%= ui_form.fields_for :typography do |typo_form| %>
-              <div class="mt-4 pt-3 border-t border-base-300/40">
-                <div>
-                  <%= typo_form.label :font, "TYPEFACE", class: "text-xs text-base-content/70 font-bold" %>
-                  <% font_options = Boilermaker::FontConfiguration::FONTS.map do |_, config|
-                    label = config[:display_name] || config[:name]
-                    label += " (local)" if config[:type] == :local
-                    [label, config[:name]]
-                  end %>
-                  <%= typo_form.select :font, options_for_select(font_options, @settings.dig('ui', 'typography', 'font') || 'CommitMono'), {}, class: "select select-bordered w-full" %>
-                </div>
-                <div class="mt-3 flex items-center justify-between p-2 border border-base-300 bg-base-300/20">
-                  <span class="text-xs text-base-content/70">UPPERCASE TEXT</span>
-                  <%= typo_form.check_box :uppercase, { checked: @settings.dig('ui', 'typography', 'uppercase') != false, class: "toggle toggle-primary toggle-sm", id: "toggle_ui_uppercase" }, "true", "false" %>
-                </div>
-                <div class="mt-3">
-                  <%= typo_form.label :size, "BASE FONT SIZE", class: "text-xs text-base-content/70 font-bold" %>
-                  <% size_options = [["Dense", "dense"], ["Base", "base"], ["Expanded", "expanded"]] %>
-                  <%= typo_form.select :size, options_for_select(size_options, @settings.dig('ui', 'typography', 'size') || 'base'), {}, class: "select select-bordered w-full" %>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
-
-          <p class="text-xs text-base-content/60 bg-base-300/30 px-2 py-1 mt-3 border-l border-base-300/50">
-            Custom themes always available; built-ins included at build time only
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- RIGHT COLUMN: FEATURES -->
-    <div>
-      <div class="bg-base-200 border border-base-300">
-        <div class="bg-base-300/40 border-b border-base-300 px-3 py-1">
-          <h2 class="text-xs font-bold text-base-content uppercase">FEATURES</h2>
-        </div>
-        <div class="p-3">
-          <%= form.fields_for :features do |features_form| %>
-            <div class="grid grid-cols-1 gap-2">
-              <div class="flex items-center justify-between p-2 border border-base-300/50">
-                <span class="text-xs text-base-content uppercase">USER REGISTRATION</span>
-                <%= features_form.check_box :user_registration, { checked: @features['user_registration'] == true, class: "toggle toggle-primary toggle-sm", id: "toggle_user_registration" }, "true", "false" %>
-              </div>
-              <div class="flex items-center justify-between p-2 border border-base-300/50">
-                <span class="text-xs text-base-content uppercase">PERSONAL ACCOUNTS</span>
-                <%= features_form.check_box :personal_accounts, { checked: @features['personal_accounts'] == true, class: "toggle toggle-primary toggle-sm", id: "toggle_personal_accounts" }, "true", "false" %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
-<% end %>

@@ -97,4 +97,15 @@ Rails.application.routes.draw do
   if Rails.env.development? || Rails.env.test?
     get "components", to: "home#components", as: :components_showcase
   end
+
+  # Theme demo pages
+  resources :demos, only: [] do
+    collection do
+      get :terminal
+      get :blueprint
+      get :brutalist
+      get :dos
+      get :paper
+    end
+  end
 end

@@ -7,6 +7,6 @@ module FormErrorHandling
   end
 
   def error_classes_for(base_class)
-    @error ? "#{base_class}-error" : nil
+    @error ? "ui-#{base_class}-error" : nil
   end
 end

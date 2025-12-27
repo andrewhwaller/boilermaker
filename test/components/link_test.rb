@@ -79,7 +79,7 @@ class LinkTest < ComponentTestCase
 
   test "button variant has correct styling" do
     link = Components::Link.new(href: "/test", text: "Test Link", variant: :button)
-    assert_has_css_class(link, [ "btn" ])
+    assert_has_css_class(link, [ "ui-button" ])
 
     link_check = Components::Link.new(href: "/test", text: "Test Link", variant: :button)
     assert_no_css_class(link_check, [ "link", "link-primary", "link-secondary", "link-hover", "btn-link" ]) # Removed "link-hover"
@@ -239,7 +239,7 @@ class LinkTest < ComponentTestCase
       # Verify variant styling
       expected_variant_classes = Components::Link::VARIANTS[attrs[:variant]]
       if expected_variant_classes
-        expected_classes = (attrs[:variant] == :button ? ["btn"] : ["link"]) # Check for base "link" or "btn"
+        expected_classes = (attrs[:variant] == :button ? ["ui-button"] : ["link"]) # Check for base "link" or "ui-button"
         expected_classes << expected_variant_classes if attrs[:variant] != :default && attrs[:variant] != :button # Add specific variant if not default or button
         expected_classes.flatten!
 

@@ -28,7 +28,7 @@ class Components::Input < Components::Base
     }
 
     # Merge classes properly
-    all_classes = [ "input", "input-bordered", "w-full" ]
+    all_classes = [ "ui-input" ]
     if @attributes[:class]
       all_classes += Array(@attributes[:class])
     end

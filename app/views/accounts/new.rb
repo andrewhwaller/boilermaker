@@ -22,7 +22,7 @@ module Views
                 type: "text",
                 name: "account[name]",
                 placeholder: "Acme Corp",
-                class: "input input-bordered w-full",
+                class: "ui-input",
                 required: true,
                 autofocus: true
               )
@@ -34,8 +34,8 @@ module Views
             end
 
             div(class: "flex gap-4") do
-              button(type: "submit", class: "btn btn-primary") { "Create Team" }
-              a(href: accounts_path, class: "btn btn-ghost") { "Cancel" }
+              button(type: "submit", class: "ui-button ui-button-primary") { "Create Team" }
+              a(href: accounts_path, class: "ui-button ui-button-ghost") { "Cancel" }
             end
           end
         end

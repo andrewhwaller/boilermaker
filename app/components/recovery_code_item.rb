@@ -11,9 +11,9 @@ class Components::RecoveryCodeItem < Components::Base
   def view_template
     li(class: "font-mono text-sm") do
       if @used
-        span(class: "line-through text-muted-foreground") { @code }
+        span(class: "line-through text-muted") { @code }
       else
-        span(class: "text-foreground") { @code }
+        span(class: "text-body") { @code }
       end
     end
   end

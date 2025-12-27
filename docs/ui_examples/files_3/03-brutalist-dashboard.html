@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>patentwatch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      background: #fff;
+      color: #111;
+      padding: 32px;
+      max-width: 72ch;
+    }
+
+    a {
+      color: #111;
+    }
+
+    a:hover {
+      background: #111;
+      color: #fff;
+    }
+
+    h1, h2, h3 {
+      font-size: inherit;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #111;
+      margin: 24px 0;
+    }
+
+    .header {
+      margin-bottom: 32px;
+    }
+
+    .header-title {
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 4px;
+    }
+
+    .header-meta {
+      color: #666;
+      font-size: 12px;
+    }
+
+    .nav {
+      margin: 16px 0;
+    }
+
+    .nav a {
+      margin-right: 16px;
+    }
+
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+      font-size: 11px;
+      margin-bottom: 12px;
+    }
+
+    .stats {
+      font-size: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stats span {
+      margin-right: 24px;
+    }
+
+    .stat-value {
+      font-weight: 600;
+    }
+
+    .stat-value.alert {
+      background: #111;
+      color: #fff;
+      padding: 0 4px;
+    }
+
+    /* Alerts as plain list */
+    .alert-list {
+      font-size: 12px;
+    }
+
+    .alert-item {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .alert-idx {
+      color: #666;
+      min-width: 24px;
+    }
+
+    .alert-name {
+      flex: 1;
+    }
+
+    .alert-count {
+      min-width: 60px;
+    }
+
+    .alert-count.new {
+      font-weight: 600;
+    }
+
+    .alert-status {
+      min-width: 60px;
+      color: #666;
+    }
+
+    .alert-time {
+      color: #666;
+      min-width: 70px;
+      text-align: right;
+    }
+
+    /* Results as definition list style */
+    .result {
+      margin-bottom: 16px;
+      padding-left: 16px;
+      border-left: 2px solid #ddd;
+    }
+
+    .result:hover {
+      border-left-color: #111;
+    }
+
+    .result-id {
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .result-id a {
+      text-decoration: none;
+    }
+
+    .result-title {
+      margin: 2px 0;
+    }
+
+    .result-meta {
+      font-size: 11px;
+      color: #666;
+    }
+
+    .result-meta span {
+      margin-right: 16px;
+    }
+
+    /* Log style */
+    .log {
+      font-size: 11px;
+      background: #f5f5f5;
+      padding: 12px;
+      overflow-x: auto;
+    }
+
+    .log-line {
+      white-space: nowrap;
+    }
+
+    .log-time {
+      color: #666;
+      margin-right: 12px;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 1px solid #ddd;
+      font-size: 11px;
+      color: #666;
+    }
+
+    /* Keyboard shortcut hints */
+    kbd {
+      font-family: inherit;
+      font-size: 10px;
+      background: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      padding: 1px 4px;
+    }
+
+    .shortcuts {
+      font-size: 11px;
+      color: #666;
+      margin-top: 16px;
+    }
+
+    .shortcuts span {
+      margin-right: 16px;
+    }
+
+    /* Command input */
+    .command {
+      margin-top: 32px;
+      padding: 12px;
+      background: #111;
+      color: #fff;
+      font-size: 13px;
+    }
+
+    .command-prompt {
+      color: #888;
+    }
+
+    .command input {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-family: inherit;
+      font-size: inherit;
+      outline: none;
+      width: 80%;
+    }
+
+    .command input::placeholder {
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <h1 class="header-title">patentwatch</h1>
+  <div class="header-meta">USPTO Patent Monitoring // user@company.com // 2024-12-25</div>
+  <nav class="nav">
+    <a href="#">[alerts]</a>
+    <a href="#">[search]</a>
+    <a href="#">[collections]</a>
+    <a href="#">[settings]</a>
+    <a href="#">[help]</a>
+  </nav>
+</header>
+
+<hr>
+
+<div class="stats">
+  <span><span class="stat-value alert">47</span> new</span>
+  <span><span class="stat-value">183</span> this week</span>
+  <span><span class="stat-value">12</span> alerts</span>
+  <span><span class="stat-value">18.4M</span> patents</span>
+  <span>synced 2m ago</span>
+</div>
+
+<section class="section">
+  <h2 class="section-title">Active Alerts</h2>
+  <div class="alert-list">
+    <div class="alert-item">
+      <span class="alert-idx">01.</span>
+      <span class="alert-name"><a href="#">Machine Learning — Image Recognition</a></span>
+      <span class="alert-count new">+23 new</span>
+      <span class="alert-status">active</span>
+      <span class="alert-time">2m ago</span>
+    </div>
+    <div class="alert-item">
+      <span class="alert-idx">02.</span>
+      <span class="alert-name"><a href="#">Battery Technology — Solid State</a></span>
+      <span class="alert-count new">+8 new</span>
+      <span class="alert-status">active</span>
+      <span class="alert-time">1h ago</span>
+    </div>
+    <div class="alert-item">
+      <span class="alert-idx">03.</span>
+      <span class="alert-name"><a href="#">Semiconductor — 3nm Process</a></span>
+      <span class="alert-count new">+12 new</span>
+      <span class="alert-status">active</span>
+      <span class="alert-time">1h ago</span>
+    </div>
+    <div class="alert-item">
+      <span class="alert-idx">04.</span>
+      <span class="alert-name"><a href="#">Quantum Computing — Error Correction</a></span>
+      <span class="alert-count new">+4 new</span>
+      <span class="alert-status">active</span>
+      <span class="alert-time">3h ago</span>
+    </div>
+    <div class="alert-item">
+      <span class="alert-idx">05.</span>
+      <span class="alert-name"><a href="#">Autonomous Vehicles — LIDAR</a></span>
+      <span class="alert-count">0</span>
+      <span class="alert-status">paused</span>
+      <span class="alert-time">2d ago</span>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section class="section">
+  <h2 class="section-title">Latest: Machine Learning — Image Recognition (23 results)</h2>
+  
+  <div class="result">
+    <div class="result-id"><a href="#">US20240401234A1</a> — 94% match</div>
+    <div class="result-title">Neural Network Architecture for Real-Time Object Detection in Autonomous Systems</div>
+    <div class="result-meta">
+      <span>Google LLC</span>
+      <span>filed 2024-12-18</span>
+      <span>G06N, G06T</span>
+    </div>
+  </div>
+
+  <div class="result">
+    <div class="result-id"><a href="#">US20240398765A1</a> — 89% match</div>
+    <div class="result-title">Convolutional Layer Optimization for Edge Device Deployment</div>
+    <div class="result-meta">
+      <span>Apple Inc.</span>
+      <span>filed 2024-12-17</span>
+      <span>G06N</span>
+    </div>
+  </div>
+
+  <div class="result">
+    <div class="result-id"><a href="#">US20240396543A1</a> — 87% match</div>
+    <div class="result-title">Multi-Modal Feature Extraction for Medical Imaging Analysis</div>
+    <div class="result-meta">
+      <span>NVIDIA Corp</span>
+      <span>filed 2024-12-16</span>
+      <span>G06T, G16H</span>
+    </div>
+  </div>
+
+  <div class="result">
+    <div class="result-id"><a href="#">US20240394321A1</a> — 82% match</div>
+    <div class="result-title">Attention Mechanism for Fine-Grained Image Classification</div>
+    <div class="result-meta">
+      <span>Meta Platforms</span>
+      <span>filed 2024-12-15</span>
+      <span>G06N</span>
+    </div>
+  </div>
+
+  <div class="result">
+    <div class="result-id"><a href="#">US20240392109A1</a> — 78% match</div>
+    <div class="result-title">Self-Supervised Learning for Unlabeled Image Datasets</div>
+    <div class="result-meta">
+      <span>Microsoft Corp</span>
+      <span>filed 2024-12-14</span>
+      <span>G06N</span>
+    </div>
+  </div>
+
+  <p style="margin-top: 12px; font-size: 12px;"><a href="#">→ view all 23 results</a></p>
+</section>
+
+<hr>
+
+<section class="section">
+  <h2 class="section-title">Log</h2>
+  <div class="log">
+    <div class="log-line"><span class="log-time">14:32:01</span>SYNC machine-learning-image-recognition: 23 new matches</div>
+    <div class="log-line"><span class="log-time">13:00:00</span>MAIL daily-digest sent to user@company.com (8 alerts)</div>
+    <div class="log-line"><span class="log-time">11:45:23</span>EDIT battery-technology-solid-state: keywords updated</div>
+    <div class="log-line"><span class="log-time">09:15:00</span>SYNC uspto-database: 14,293 patents indexed</div>
+    <div class="log-line"><span class="log-time">YESTERDAY</span>CREATE quantum-computing-error-correction</div>
+    <div class="log-line"><span class="log-time">YESTERDAY</span>PAUSE autonomous-vehicles-lidar</div>
+  </div>
+</section>
+
+<div class="shortcuts">
+  <span><kbd>/</kbd> search</span>
+  <span><kbd>n</kbd> new alert</span>
+  <span><kbd>j</kbd>/<kbd>k</kbd> navigate</span>
+  <span><kbd>?</kbd> help</span>
+</div>
+
+<div class="command">
+  <span class="command-prompt">patentwatch&gt;</span>
+  <input type="text" placeholder="search patents or type command..." autofocus>
+</div>
+
+<footer class="footer">
+  patentwatch v1.0 // connected to uspto // 18.4M patents indexed // synced 2m ago
+</footer>
+
+</body>
+</html>

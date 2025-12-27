@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATENTWATCH — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #f5f3ef;
+      --bg-secondary: #eae7e1;
+      --bg-tertiary: #ddd9d0;
+      --text-primary: #1a1a18;
+      --text-secondary: #5a5955;
+      --text-muted: #8a8884;
+      --accent-primary: #c54b32;
+      --accent-secondary: #2d5a4a;
+      --border-color: #1a1a18;
+      --border-light: #c4c1ba;
+      --mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--mono);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--border-color);
+      padding: 0;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+    }
+
+    .logo-block {
+      border-right: 2px solid var(--border-color);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--bg-primary);
+      font-size: 11px;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .logo-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .nav-main {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .nav-item {
+      padding: 16px 24px;
+      border-right: 1px solid var(--border-light);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      transition: all 0.15s ease;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    .nav-item.active {
+      background: var(--border-color);
+      color: var(--bg-primary);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: stretch;
+      border-left: 2px solid var(--border-color);
+    }
+
+    .user-block {
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-indicator {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-secondary);
+      border-radius: 50%;
+    }
+
+    /* Main Layout */
+    .main-container {
+      display: grid;
+      grid-template-columns: 280px 1fr 320px;
+      min-height: calc(100vh - 66px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      border-right: 2px solid var(--border-color);
+      background: var(--bg-secondary);
+    }
+
+    .sidebar-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .sidebar-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-box {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 12px;
+    }
+
+    .stat-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .stat-value.highlight {
+      color: var(--accent-primary);
+    }
+
+    /* Alert List */
+    .alert-list {
+      padding: 0;
+    }
+
+    .alert-section-header {
+      padding: 16px 20px;
+      background: var(--bg-tertiary);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .alert-count {
+      background: var(--border-color);
+      color: var(--bg-primary);
+      padding: 2px 8px;
+      font-size: 9px;
+    }
+
+    .alert-item {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-light);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .alert-item:hover {
+      background: var(--bg-primary);
+      padding-left: 24px;
+    }
+
+    .alert-item.selected {
+      background: var(--bg-primary);
+      border-left: 3px solid var(--accent-primary);
+    }
+
+    .alert-name {
+      font-weight: 600;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .alert-meta {
+      font-size: 10px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+    }
+
+    .alert-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .status-dot.active {
+      background: var(--accent-secondary);
+    }
+
+    .status-dot.paused {
+      background: var(--text-muted);
+    }
+
+    /* Main Content */
+    .content-main {
+      padding: 32px;
+      background: var(--bg-primary);
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+
+    .page-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .page-heading {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-primary {
+      background: var(--border-color);
+      color: var(--bg-primary);
+      border: none;
+      padding: 12px 24px;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-primary);
+    }
+
+    .btn-icon {
+      font-size: 14px;
+    }
+
+    /* Results Table */
+    .results-panel {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+    }
+
+    .results-header {
+      padding: 16px 20px;
+      border-bottom: 2px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .results-title {
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .results-tools {
+      display: flex;
+      gap: 8px;
+    }
+
+    .tool-btn {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 6px 12px;
+      font-family: var(--mono);
+      font-size: 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tool-btn:hover {
+      background: var(--border-color);
+      color: var(--bg-primary);
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .results-table th {
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-light);
+      background: var(--bg-tertiary);
+    }
+
+    .results-table td {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 12px;
+    }
+
+    .results-table tr:hover {
+      background: var(--bg-primary);
+    }
+
+    .patent-id {
+      font-weight: 600;
+      color: var(--accent-primary);
+    }
+
+    .patent-title {
+      max-width: 300px;
+    }
+
+    .patent-date {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    .match-score {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .score-bar {
+      width: 40px;
+      height: 4px;
+      background: var(--border-light);
+      position: relative;
+    }
+
+    .score-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background: var(--accent-secondary);
+    }
+
+    /* Activity Panel */
+    .activity-panel {
+      border-left: 2px solid var(--border-color);
+      background: var(--bg-secondary);
+    }
+
+    .panel-header {
+      padding: 20px;
+      border-bottom: 2px solid var(--border-color);
+      background: var(--bg-tertiary);
+    }
+
+    .panel-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    .activity-feed {
+      padding: 0;
+    }
+
+    .activity-item {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .activity-time {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .activity-content {
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .activity-highlight {
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+
+    .activity-tag {
+      display: inline-block;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 2px 8px;
+      font-size: 9px;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    /* Footer Bar */
+    .footer-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--border-color);
+      color: var(--bg-primary);
+      padding: 8px 24px;
+      font-size: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-status {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pulse {
+      width: 6px;
+      height: 6px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .footer-info {
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-block">
+      <div class="logo-mark">PW</div>
+      <div>
+        <div class="logo-text">Patentwatch</div>
+        <div class="logo-sub">USPTO Alert System</div>
+      </div>
+    </div>
+    
+    <nav class="nav-main">
+      <a href="#" class="nav-item active">Dashboard</a>
+      <a href="#" class="nav-item">Alerts</a>
+      <a href="#" class="nav-item">Patents</a>
+      <a href="#" class="nav-item">Analytics</a>
+      <a href="#" class="nav-item">Settings</a>
+    </nav>
+
+    <div class="header-right">
+      <div class="user-block">
+        <div class="user-indicator"></div>
+        <span>user@company.com</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="main-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">Overview</div>
+        <div class="stat-grid">
+          <div class="stat-box">
+            <div class="stat-label">Active Alerts</div>
+            <div class="stat-value">12</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">New Matches</div>
+            <div class="stat-value highlight">47</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">This Week</div>
+            <div class="stat-value">183</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Total Tracked</div>
+            <div class="stat-value">2.4K</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-list">
+        <div class="alert-section-header">
+          <span>My Alerts</span>
+          <span class="alert-count">12</span>
+        </div>
+        
+        <div class="alert-item selected">
+          <div class="alert-name">Machine Learning — Image Recognition</div>
+          <div class="alert-meta">
+            <span class="alert-status">
+              <span class="status-dot active"></span>
+              Active
+            </span>
+            <span>23 new</span>
+          </div>
+        </div>
+
+        <div class="alert-item">
+          <div class="alert-name">Battery Technology — Solid State</div>
+          <div class="alert-meta">
+            <span class="alert-status">
+              <span class="status-dot active"></span>
+              Active
+            </span>
+            <span>8 new</span>
+          </div>
+        </div>
+
+        <div class="alert-item">
+          <div class="alert-name">Semiconductor — 3nm Process</div>
+          <div class="alert-meta">
+            <span class="alert-status">
+              <span class="status-dot active"></span>
+              Active
+            </span>
+            <span>12 new</span>
+          </div>
+        </div>
+
+        <div class="alert-item">
+          <div class="alert-name">Autonomous Vehicles — LIDAR</div>
+          <div class="alert-meta">
+            <span class="alert-status">
+              <span class="status-dot paused"></span>
+              Paused
+            </span>
+            <span>0 new</span>
+          </div>
+        </div>
+
+        <div class="alert-item">
+          <div class="alert-name">Quantum Computing — Error Correction</div>
+          <div class="alert-meta">
+            <span class="alert-status">
+              <span class="status-dot active"></span>
+              Active
+            </span>
+            <span>4 new</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content-main">
+      <div class="content-header">
+        <div>
+          <div class="page-title">Alert Results</div>
+          <h1 class="page-heading">Machine Learning — Image Recognition</h1>
+        </div>
+        <button class="btn-primary">
+          <span class="btn-icon">+</span>
+          New Alert
+        </button>
+      </div>
+
+      <div class="results-panel">
+        <div class="results-header">
+          <div class="results-title">23 New Patents Found</div>
+          <div class="results-tools">
+            <button class="tool-btn">Export CSV</button>
+            <button class="tool-btn">Filter</button>
+            <button class="tool-btn">Sort</button>
+          </div>
+        </div>
+        
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Patent ID</th>
+              <th>Title</th>
+              <th>Assignee</th>
+              <th>Filed</th>
+              <th>Match</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="patent-id">US20240401234</span></td>
+              <td class="patent-title">Neural Network Architecture for Real-Time Object Detection in Autonomous Systems</td>
+              <td>Google LLC</td>
+              <td class="patent-date">2024-12-18</td>
+              <td>
+                <span class="match-score">
+                  <span class="score-bar"><span class="score-fill" style="width: 94%"></span></span>
+                  94%
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="patent-id">US20240398765</span></td>
+              <td class="patent-title">Convolutional Layer Optimization for Edge Device Deployment</td>
+              <td>Apple Inc.</td>
+              <td class="patent-date">2024-12-17</td>
+              <td>
+                <span class="match-score">
+                  <span class="score-bar"><span class="score-fill" style="width: 89%"></span></span>
+                  89%
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="patent-id">US20240396543</span></td>
+              <td class="patent-title">Multi-Modal Feature Extraction for Medical Imaging Analysis</td>
+              <td>NVIDIA Corp</td>
+              <td class="patent-date">2024-12-16</td>
+              <td>
+                <span class="match-score">
+                  <span class="score-bar"><span class="score-fill" style="width: 87%"></span></span>
+                  87%
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="patent-id">US20240394321</span></td>
+              <td class="patent-title">Attention Mechanism for Fine-Grained Image Classification</td>
+              <td>Meta Platforms</td>
+              <td class="patent-date">2024-12-15</td>
+              <td>
+                <span class="match-score">
+                  <span class="score-bar"><span class="score-fill" style="width: 82%"></span></span>
+                  82%
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="patent-id">US20240392109</span></td>
+              <td class="patent-title">Self-Supervised Learning for Unlabeled Image Datasets</td>
+              <td>Microsoft Corp</td>
+              <td class="patent-date">2024-12-14</td>
+              <td>
+                <span class="match-score">
+                  <span class="score-bar"><span class="score-fill" style="width: 78%"></span></span>
+                  78%
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- Activity Panel -->
+    <aside class="activity-panel">
+      <div class="panel-header">
+        <div class="panel-title">Recent Activity</div>
+      </div>
+      
+      <div class="activity-feed">
+        <div class="activity-item">
+          <div class="activity-time">2 minutes ago</div>
+          <div class="activity-content">
+            Alert <span class="activity-highlight">"ML Image Recognition"</span> found 23 new matching patents
+          </div>
+          <span class="activity-tag">New Results</span>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-time">1 hour ago</div>
+          <div class="activity-content">
+            Daily digest sent for <span class="activity-highlight">8 active alerts</span>
+          </div>
+          <span class="activity-tag">Email Sent</span>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-time">3 hours ago</div>
+          <div class="activity-content">
+            Alert <span class="activity-highlight">"Battery Tech"</span> configuration updated
+          </div>
+          <span class="activity-tag">Modified</span>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-time">Yesterday</div>
+          <div class="activity-content">
+            New alert created: <span class="activity-highlight">"Quantum Computing"</span>
+          </div>
+          <span class="activity-tag">Created</span>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-time">Yesterday</div>
+          <div class="activity-content">
+            USPTO database sync completed — <span class="activity-highlight">14,293</span> new patents indexed
+          </div>
+          <span class="activity-tag">System</span>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-time">2 days ago</div>
+          <div class="activity-content">
+            Alert <span class="activity-highlight">"Autonomous Vehicles"</span> paused by user
+          </div>
+          <span class="activity-tag">Paused</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Footer Bar -->
+  <div class="footer-bar">
+    <div class="footer-status">
+      <div class="status-item">
+        <span class="pulse"></span>
+        USPTO Connected
+      </div>
+      <div class="status-item">
+        Last sync: 2 min ago
+      </div>
+      <div class="status-item">
+        Database: 18.4M patents
+      </div>
+    </div>
+    <div class="footer-info">
+      PATENTWATCH v1.0.0 — © 2025
+    </div>
+  </div>
+</body>
+</html>

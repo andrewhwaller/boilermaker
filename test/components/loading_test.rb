@@ -39,7 +39,7 @@ class LoadingTest < ComponentTestCase
   # Test colors
   test "renders loading colors correctly" do
     loading = Components::Loading.new(color: :primary)
-    assert_has_css_class(loading, "text-primary")
+    assert_has_css_class(loading, "text-accent")
   end
 
   # Test with text

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATENTWATCH — Technical Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f8f9fa;
+      --grid: #e3e7ed;
+      --blue: #1e56a0;
+      --blue-light: #4a7fc1;
+      --blue-faint: #d4e3f5;
+      --red: #c23b22;
+      --ink: #1a1d21;
+      --ink-light: #5a6270;
+      --mono: 'IBM Plex Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--mono);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 12px;
+      line-height: 1.5;
+      min-height: 100vh;
+      /* Grid paper background */
+      background-image: 
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px;
+      background: var(--paper);
+      min-height: 100vh;
+      border-left: 1px solid var(--grid);
+      border-right: 1px solid var(--grid);
+    }
+
+    /* Title block - like a technical drawing title block */
+    .title-block {
+      border: 2px solid var(--blue);
+      margin-bottom: 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+    }
+
+    .title-main {
+      padding: 16px 20px;
+      border-right: 2px solid var(--blue);
+    }
+
+    .title-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .title-desc {
+      font-size: 11px;
+      color: var(--ink-light);
+    }
+
+    .title-meta {
+      padding: 8px 16px;
+      font-size: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      min-width: 180px;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .meta-label {
+      color: var(--ink-light);
+    }
+
+    .meta-value {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    /* Navigation tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 32px;
+      border-bottom: 2px solid var(--blue);
+    }
+
+    .nav-tab {
+      padding: 10px 20px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-light);
+      text-decoration: none;
+      border: 2px solid transparent;
+      border-bottom: none;
+      margin-bottom: -2px;
+    }
+
+    .nav-tab:hover {
+      color: var(--blue);
+    }
+
+    .nav-tab.active {
+      color: var(--blue);
+      border-color: var(--blue);
+      background: var(--paper);
+    }
+
+    /* Section headers - like drawing section markers */
+    .section {
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .section-marker {
+      position: absolute;
+      left: -30px;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--blue);
+      background: var(--paper);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--blue);
+    }
+
+    .section-header {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--blue);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--blue);
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-ref {
+      font-size: 9px;
+      color: var(--ink-light);
+      font-weight: normal;
+    }
+
+    /* Stats table */
+    .stats-table {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--blue);
+      margin-bottom: 32px;
+    }
+
+    .stat-cell {
+      padding: 12px;
+      border-right: 1px solid var(--blue-faint);
+      border-bottom: 1px solid var(--blue-faint);
+      text-align: center;
+    }
+
+    .stat-cell:nth-child(4n) {
+      border-right: none;
+    }
+
+    .stat-cell:nth-last-child(-n+4) {
+      border-bottom: none;
+    }
+
+    .stat-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-light);
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--blue);
+    }
+
+    .stat-value.alert {
+      color: var(--red);
+    }
+
+    /* Data table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 8px 10px;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--blue);
+      font-weight: 600;
+      border-bottom: 2px solid var(--blue);
+      background: var(--blue-faint);
+    }
+
+    .data-table td {
+      padding: 10px;
+      border-bottom: 1px solid var(--grid);
+      vertical-align: top;
+    }
+
+    .data-table tr:hover {
+      background: var(--blue-faint);
+    }
+
+    .ref-num {
+      font-weight: 700;
+      color: var(--blue);
+      font-size: 10px;
+    }
+
+    .item-title {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .item-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .item-title a:hover {
+      color: var(--blue);
+      text-decoration: underline;
+    }
+
+    .item-meta {
+      color: var(--ink-light);
+      font-size: 10px;
+    }
+
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    .status-dot.inactive {
+      background: var(--ink-light);
+    }
+
+    .count-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .count-badge.has-new {
+      background: var(--red);
+      color: white;
+    }
+
+    .count-badge.zero {
+      background: var(--grid);
+      color: var(--ink-light);
+    }
+
+    /* Callout box */
+    .callout {
+      border: 2px solid var(--blue);
+      padding: 16px;
+      background: var(--blue-faint);
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .callout::before {
+      content: 'NOTE';
+      position: absolute;
+      top: -10px;
+      left: 12px;
+      background: var(--paper);
+      padding: 0 8px;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 0.1em;
+    }
+
+    .callout-text {
+      font-size: 11px;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* Results list */
+    .results-list {
+      border: 1px solid var(--blue);
+    }
+
+    .result-item {
+      display: grid;
+      grid-template-columns: 80px 1fr 100px 70px 50px;
+      gap: 12px;
+      padding: 12px;
+      border-bottom: 1px solid var(--grid);
+      align-items: start;
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-item:hover {
+      background: var(--blue-faint);
+    }
+
+    .result-id {
+      font-weight: 700;
+      color: var(--blue);
+      font-size: 10px;
+    }
+
+    .result-id a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .result-id a:hover {
+      text-decoration: underline;
+    }
+
+    .result-title {
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .result-assignee,
+    .result-date {
+      font-size: 10px;
+      color: var(--ink-light);
+    }
+
+    .result-match {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 2px solid var(--blue);
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      color: var(--ink-light);
+    }
+
+    .footer-status {
+      display: flex;
+      gap: 16px;
+    }
+
+    .status-online::before {
+      content: '● ';
+      color: var(--blue);
+    }
+
+    /* Dimension line styling for emphasis */
+    .dimension-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 16px 0;
+    }
+
+    .dimension-line::before,
+    .dimension-line::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--blue);
+    }
+
+    .dimension-text {
+      font-size: 10px;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Revision history */
+    .revision-list {
+      font-size: 10px;
+    }
+
+    .revision-item {
+      display: flex;
+      gap: 16px;
+      padding: 6px 0;
+      border-bottom: 1px dotted var(--grid);
+    }
+
+    .revision-date {
+      color: var(--ink-light);
+      min-width: 80px;
+    }
+
+    .revision-action {
+      color: var(--ink);
+    }
+
+    .revision-ref {
+      color: var(--blue);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Title Block -->
+    <div class="title-block">
+      <div class="title-main">
+        <div class="title-name">PATENTWATCH</div>
+        <div class="title-desc">USPTO Patent Monitoring System — Alert Dashboard</div>
+      </div>
+      <div class="title-meta">
+        <div class="meta-row">
+          <span class="meta-label">USER</span>
+          <span class="meta-value">user@company</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">DATE</span>
+          <span class="meta-value">2024-12-25</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">REV</span>
+          <span class="meta-value">1.0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-tabs">
+      <a href="#" class="nav-tab active">Dashboard</a>
+      <a href="#" class="nav-tab">Alerts</a>
+      <a href="#" class="nav-tab">Search</a>
+      <a href="#" class="nav-tab">Reports</a>
+      <a href="#" class="nav-tab">Settings</a>
+    </nav>
+
+    <!-- Stats -->
+    <section class="section">
+      <span class="section-marker">A</span>
+      <div class="section-header">
+        <span>System Status</span>
+        <span class="section-ref">REF: SYS-001</span>
+      </div>
+      <div class="stats-table">
+        <div class="stat-cell">
+          <div class="stat-label">New Matches</div>
+          <div class="stat-value alert">47</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">This Week</div>
+          <div class="stat-value">183</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Active Alerts</div>
+          <div class="stat-value">12</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-label">Patents Indexed</div>
+          <div class="stat-value">18.4M</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alerts Table -->
+    <section class="section">
+      <span class="section-marker">B</span>
+      <div class="section-header">
+        <span>Alert Configuration Schedule</span>
+        <span class="section-ref">REF: ALT-012</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width: 40px;">REF</th>
+            <th>Alert Name</th>
+            <th style="width: 80px;">New</th>
+            <th style="width: 70px;">Status</th>
+            <th style="width: 90px;">Last Sync</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ref-num">B.1</td>
+            <td class="item-title"><a href="#">Machine Learning — Image Recognition</a></td>
+            <td><span class="count-badge has-new">+23</span></td>
+            <td><span class="status-indicator"><span class="status-dot"></span> Active</span></td>
+            <td class="item-meta">2 min ago</td>
+          </tr>
+          <tr>
+            <td class="ref-num">B.2</td>
+            <td class="item-title"><a href="#">Battery Technology — Solid State</a></td>
+            <td><span class="count-badge has-new">+8</span></td>
+            <td><span class="status-indicator"><span class="status-dot"></span> Active</span></td>
+            <td class="item-meta">1 hr ago</td>
+          </tr>
+          <tr>
+            <td class="ref-num">B.3</td>
+            <td class="item-title"><a href="#">Semiconductor — 3nm Process</a></td>
+            <td><span class="count-badge has-new">+12</span></td>
+            <td><span class="status-indicator"><span class="status-dot"></span> Active</span></td>
+            <td class="item-meta">1 hr ago</td>
+          </tr>
+          <tr>
+            <td class="ref-num">B.4</td>
+            <td class="item-title"><a href="#">Quantum Computing — Error Correction</a></td>
+            <td><span class="count-badge has-new">+4</span></td>
+            <td><span class="status-indicator"><span class="status-dot"></span> Active</span></td>
+            <td class="item-meta">3 hr ago</td>
+          </tr>
+          <tr>
+            <td class="ref-num">B.5</td>
+            <td class="item-title"><a href="#">Autonomous Vehicles — LIDAR</a></td>
+            <td><span class="count-badge zero">0</span></td>
+            <td><span class="status-indicator"><span class="status-dot inactive"></span> Paused</span></td>
+            <td class="item-meta">2 days ago</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="dimension-line">
+      <span class="dimension-text">Latest Results — Machine Learning (B.1)</span>
+    </div>
+
+    <!-- Results -->
+    <section class="section">
+      <span class="section-marker">C</span>
+      <div class="section-header">
+        <span>Patent Results Detail</span>
+        <span class="section-ref">REF: RES-B1-001</span>
+      </div>
+      <div class="results-list">
+        <div class="result-item">
+          <span class="result-id"><a href="#">US2024<br>0401234</a></span>
+          <span class="result-title">Neural Network Architecture for Real-Time Object Detection in Autonomous Systems</span>
+          <span class="result-assignee">Google LLC</span>
+          <span class="result-date">2024-12-18</span>
+          <span class="result-match">94%</span>
+        </div>
+        <div class="result-item">
+          <span class="result-id"><a href="#">US2024<br>0398765</a></span>
+          <span class="result-title">Convolutional Layer Optimization for Edge Device Deployment</span>
+          <span class="result-assignee">Apple Inc.</span>
+          <span class="result-date">2024-12-17</span>
+          <span class="result-match">89%</span>
+        </div>
+        <div class="result-item">
+          <span class="result-id"><a href="#">US2024<br>0396543</a></span>
+          <span class="result-title">Multi-Modal Feature Extraction for Medical Imaging Analysis</span>
+          <span class="result-assignee">NVIDIA Corp</span>
+          <span class="result-date">2024-12-16</span>
+          <span class="result-match">87%</span>
+        </div>
+        <div class="result-item">
+          <span class="result-id"><a href="#">US2024<br>0394321</a></span>
+          <span class="result-title">Attention Mechanism for Fine-Grained Image Classification</span>
+          <span class="result-assignee">Meta Platforms</span>
+          <span class="result-date">2024-12-15</span>
+          <span class="result-match">82%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Revision History -->
+    <section class="section">
+      <span class="section-marker">D</span>
+      <div class="section-header">
+        <span>Revision History</span>
+        <span class="section-ref">REF: LOG-001</span>
+      </div>
+      <div class="revision-list">
+        <div class="revision-item">
+          <span class="revision-date">2024-12-25</span>
+          <span class="revision-action">SYNC — 23 new matches for <span class="revision-ref">B.1 ML Image Recognition</span></span>
+        </div>
+        <div class="revision-item">
+          <span class="revision-date">2024-12-25</span>
+          <span class="revision-action">DIGEST — Daily report sent to user@company.com</span>
+        </div>
+        <div class="revision-item">
+          <span class="revision-date">2024-12-24</span>
+          <span class="revision-action">CONFIG — Keywords modified for <span class="revision-ref">B.2 Battery Tech</span></span>
+        </div>
+        <div class="revision-item">
+          <span class="revision-date">2024-12-24</span>
+          <span class="revision-action">CREATE — New alert <span class="revision-ref">B.4 Quantum Computing</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-status">
+        <span class="status-online">USPTO CONNECTION ESTABLISHED</span>
+        <span>LAST SYNC: 2 MIN AGO</span>
+        <span>DB: 18.4M RECORDS</span>
+      </div>
+      <span>PATENTWATCH v1.0 // SHEET 1 OF 1</span>
+    </footer>
+  </div>
+</body>
+</html>

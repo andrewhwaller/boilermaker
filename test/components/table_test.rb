@@ -21,21 +21,21 @@ class TableTest < ComponentTestCase
   # Test default table configuration
   test "renders with default configuration" do
     table = Components::Table.new
-    assert_has_css_class(table, "table")
+    assert_has_css_class(table, "ui-table")
 
     # Should not have variant class by default
     table_default = Components::Table.new
     html = render_component(table_default)
-    refute html.include?("table-zebra"), "Default table should not have zebra variant"
-    refute html.include?("table-compact"), "Default table should not have compact variant"
+    refute html.include?("ui-table-striped"), "Default table should not have striped variant"
+    refute html.include?("ui-table-bordered"), "Default table should not have bordered variant"
   end
 
   # Test all available table variants
   test "renders all table variants correctly" do
     Components::Table::VARIANTS.each do |variant, expected_class|
       table_base = Components::Table.new(variant: variant)
-      assert_has_css_class(table_base, "table",
-        "Table with variant #{variant} should have base 'table' class")
+      assert_has_css_class(table_base, "ui-table",
+        "Table with variant #{variant} should have base 'ui-table' class")
 
       table_variant = Components::Table.new(variant: variant)
       assert_has_css_class(table_variant, expected_class,
@@ -54,7 +54,7 @@ class TableTest < ComponentTestCase
       else
         # Medium size should not have a size class
         html = render_component(table)
-        refute html.match?(/table-(xs|sm|lg)/),
+        refute html.match?(/ui-table-(xs|sm|lg)/),
           "Medium table should not have explicit size class"
       end
     end
@@ -188,7 +188,7 @@ class TableTest < ComponentTestCase
       size: :sm
     )
 
-    assert_has_css_class(striped_compact, [ "table", "table-striped", "table-sm" ])
+    assert_has_css_class(striped_compact, [ "ui-table", "ui-table-striped", "ui-table-sm" ])
 
     # Header pin large table
     header_pin_large = Components::Table.new(
@@ -196,7 +196,7 @@ class TableTest < ComponentTestCase
       size: :lg
     )
 
-    assert_has_css_class(header_pin_large, [ "table", "table-header-pin", "table-lg" ])
+    assert_has_css_class(header_pin_large, [ "ui-table", "ui-table-header-pin", "ui-table-lg" ])
   end
 
   # Test edge cases

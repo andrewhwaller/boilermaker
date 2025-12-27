@@ -36,7 +36,7 @@ module Boilermaker
       params.require(:settings).permit(
         app: [ :name, :version, :support_email, :description ],
         ui: {
-          theme: [ :light, :dark ],
+          theme: [ :name ],
           navigation: [ :layout_mode ],
           typography: [ :font, :uppercase, :size ]
         },

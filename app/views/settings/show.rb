@@ -72,21 +72,21 @@ module Views
               div do
                 link_to "View Recovery Codes",
                         two_factor_authentication_profile_recovery_codes_path,
-                        class: "btn btn-outline"
+                        class: "ui-button ui-button-outline"
               end
 
               unless Boilermaker.config.require_two_factor_authentication?
                 div do
                   link_to "Disable Two-Factor Authentication",
                           destroy_confirmation_two_factor_authentication_profile_totp_path,
-                          class: "btn btn-outline btn-error"
+                          class: "ui-button ui-button-outline ui-button-error"
                 end
               end
             else
               div do
                 link_to "Enable Two-Factor Authentication",
                         new_two_factor_authentication_profile_totp_path,
-                        class: "btn btn-primary"
+                        class: "ui-button ui-button-primary"
               end
             end
           end

@@ -75,12 +75,35 @@ module Boilermaker
         get("ui.brand.secondary_color") || get("ui.colors.secondary") || "#ffffff"
       end
 
-      def theme_light_name
-        get("ui.theme.light") || "work-station"
+      def theme_name
+        name = get("ui.theme.name") || Themes::DEFAULT
+        Themes.valid?(name) ? name : Themes::DEFAULT
       end
 
-      def theme_dark_name
-        get("ui.theme.dark") || "command-center"
+      def theme_polarity
+        Themes.default_polarity_for(theme_name)
+      end
+
+      def theme_metadata
+        Themes.metadata_for(theme_name)
+      end
+
+      def theme_has_overlays?
+        Themes.has_overlays?(theme_name)
+      end
+
+      def theme_unique_components
+        Themes.unique_components_for(theme_name)
+      end
+
+      def layout_name
+        name = get("ui.layout.name")
+        return theme_name if name.nil?
+        Themes.valid?(name) ? name : theme_name
+      end
+
+      def layout_class
+        Themes.layout_class_for(layout_name)
       end
 
       def font_name
@@ -187,7 +210,12 @@ module Boilermaker
         # Update theme settings
         if params_hash.dig("ui", "theme").is_a?(Hash)
           dev["ui"] ||= {}
-          dev["ui"]["theme"] = (dev["ui"]["theme"] || {}).merge(params_hash["ui"]["theme"])
+          theme_params = params_hash["ui"]["theme"].dup
+          # Validate theme name if provided
+          if theme_params["name"] && !Themes.valid?(theme_params["name"])
+            theme_params["name"] = Themes::DEFAULT
+          end
+          dev["ui"]["theme"] = (dev["ui"]["theme"] || {}).merge(theme_params)
         end
 
         # Update navigation settings
@@ -239,16 +267,12 @@ module Boilermaker
       end
 
       def run_post_update_hooks
-        begin
-          Rails.logger.info "[settings] Themes updated: light=#{theme_light_name}, dark=#{theme_dark_name}"
-        rescue
-          # ignore logger availability
-        end
-        Rails.application.load_tasks unless defined?(Rake::Task) && Rake::Task.task_defined?("daisyui:prebuilt")
-        Rake::Task["daisyui:prebuilt"].reenable
-        Rake::Task["daisyui:prebuilt"].invoke
-
-        FileUtils.touch(Rails.root.join("tmp", "restart.txt"))
+        Rails.logger.info "[settings] Configuration updated, triggering restart..."
+        # Touch restart.txt to signal Puma to restart
+        restart_file = Rails.root.join("tmp", "restart.txt")
+        FileUtils.touch(restart_file)
+      rescue => e
+        Rails.logger.warn "[settings] Post-update hook failed: #{e.message}"
       end
     end
 

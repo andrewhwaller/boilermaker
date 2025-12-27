@@ -2,22 +2,22 @@
 
 class Components::Badge < Components::Base
   VARIANTS = {
-    primary: "badge-primary",
-    secondary: "badge-secondary",
-    destructive: "badge-destructive",
-    success: "badge-success",
-    warning: "badge-warning",
-    info: "badge-info",
-    accent: "badge-accent",
-    neutral: "badge-neutral",
-    outline: "badge-outline",
-    error: "badge-error" # alias for error styling
+    primary: "ui-badge-primary",
+    secondary: "ui-badge-secondary",
+    destructive: "ui-badge-destructive",
+    success: "ui-badge-success",
+    warning: "ui-badge-warning",
+    info: "ui-badge-info",
+    accent: "ui-badge-accent",
+    neutral: "ui-badge-neutral",
+    outline: "ui-badge-outline",
+    error: "ui-badge-error" # alias for error styling
   }.freeze
 
   SIZES = {
-    xs: "badge-xs",
-    sm: "badge-sm",
-    lg: "badge-lg"
+    xs: "ui-badge-xs",
+    sm: "ui-badge-sm",
+    lg: "ui-badge-lg"
   }.freeze
 
   def initialize(variant: :neutral, size: nil, **attributes)
@@ -27,7 +27,7 @@ class Components::Badge < Components::Base
   end
 
   def view_template(&block)
-    classes = [ "badge", VARIANTS[@variant] ]
+    classes = [ "ui-badge", VARIANTS[@variant] ]
     classes << SIZES[@size] if @size && SIZES[@size]
 
     span(class: classes, **@attributes) do

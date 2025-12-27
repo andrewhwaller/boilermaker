@@ -34,13 +34,13 @@ module Views
                     f.label :email, class: "label" do
                       span(class: "label-text text-sm font-medium") { "Email" }
                     end
-                    f.email_field :email, class: "input input-bordered w-full",
+                    f.email_field :email, class: "ui-input",
                       placeholder: "user@example.com", required: true
                   end
 
                   div do
                     label(class: "label cursor-pointer justify-start gap-2") do
-                      f.check_box :admin, class: "checkbox checkbox-primary checkbox-sm"
+                      f.check_box :admin, class: "ui-checkbox"
                       span(class: "label-text text-sm") { "Grant admin privileges" }
                     end
                   end
@@ -49,11 +49,11 @@ module Views
                     f.label :message, class: "label" do
                       span(class: "label-text text-sm font-medium") { "Message (optional)" }
                     end
-                    f.text_area :message, class: "textarea textarea-sm textarea-bordered w-full",
+                    f.text_area :message, class: "ui-textarea",
                       rows: 2, placeholder: "Personal message...", maxlength: 500
                   end
 
-                  f.submit "Send Invitation", class: "btn btn-primary w-full"
+                  f.submit "Send Invitation", class: "ui-button ui-button-primary w-full"
                 end
               end
 
@@ -81,7 +81,7 @@ module Views
                             div(class: "flex items-center gap-2 text-xs text-base-content/70") do
                               plain(time_ago_in_words(user.created_at) + " ago")
                               if user.account_admin_for?(Current.account)
-                                span(class: "badge badge-primary badge-xs") { "admin" }
+                                span(class: "ui-badge ui-badge-primary ui-badge-xs") { "admin" }
                               end
                             end
                           end
@@ -91,11 +91,11 @@ module Views
                           button_to("↻", new_account_invitation_path,
                             params: { email: user.email },
                             method: :get,
-                            class: "btn btn-ghost",
+                            class: "ui-button ui-button-ghost",
                             title: "Resend invitation")
                           button_to("✕", account_invitation_path(user),
                             method: :delete,
-                            class: "btn btn-ghost text-error",
+                            class: "ui-button ui-button-ghost text-error",
                             confirm: "Cancel invitation?",
                             title: "Cancel invitation")
                         end

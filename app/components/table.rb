@@ -2,16 +2,16 @@
 
 class Components::Table < Components::Base
   VARIANTS = {
-    striped: "table-striped", # formerly zebra
-    bordered: "table-bordered",
-    header_pin: "table-header-pin" # formerly pin_rows
+    striped: "ui-table-striped", # formerly zebra
+    bordered: "ui-table-bordered",
+    header_pin: "ui-table-header-pin" # formerly pin_rows
   }.freeze
 
   SIZES = {
-    xs: "table-xs",
-    sm: "table-sm",
-    md: "table-sm", # Map to sm for a denser default
-    lg: "table-lg"
+    xs: "ui-table-xs",
+    sm: "ui-table-sm",
+    md: "ui-table-sm", # Map to sm for a denser default
+    lg: "ui-table-lg"
   }.freeze
 
   def initialize(variant: nil, size: :md, data: nil, headers: nil, **attributes)
@@ -23,7 +23,7 @@ class Components::Table < Components::Base
   end
 
   def view_template(&block)
-    table_classes = css_classes("table", VARIANTS[@variant], SIZES[@size], "table-hover") # Always apply table-hover
+    table_classes = css_classes("ui-table", VARIANTS[@variant], SIZES[@size]) # Base table class
     if block
       table(class: table_classes, **@attributes, &block)
     else
@@ -62,7 +62,7 @@ class Components::Table < Components::Base
     else
       tbody do
         tr do
-          td(colspan: @headers&.length || 1, class: "text-center text-muted-foreground") do
+          td(colspan: @headers&.length || 1, class: "text-center text-muted") do
             "No data available"
           end
         end

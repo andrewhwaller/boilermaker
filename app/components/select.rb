@@ -47,7 +47,7 @@ class Components::Select < Components::Base
   private
 
   def select_classes
-    css_classes("select", "select-bordered", "w-full", error_classes_for("select"))
+    css_classes("ui-select", error_classes_for("select"))
   end
 
   def render_prompt

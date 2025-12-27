@@ -11,7 +11,7 @@ class Components::DropdownMenu < Components::Base
 
   def view_template(&block)
     div(
-      class: css_classes("dropdown", alignment_class, @attributes.delete(:class)),
+      class: css_classes("ui-dropdown", alignment_class, @attributes.delete(:class)),
       data: { controller: "dropdown" }.merge(@attributes.delete(:data) || {}),
       tabindex: @attributes.delete(:tabindex),
       **@attributes
@@ -25,10 +25,10 @@ class Components::DropdownMenu < Components::Base
 
   def alignment_class
     case @align
-    when :end then "dropdown-end" # This class will be applied to the dropdown-content
-    when :top then "dropdown-top"
-    when :bottom then "dropdown-bottom"
-    when :start then "dropdown-start"
+    when :end then "ui-dropdown-end"
+    when :top then "ui-dropdown-top"
+    when :bottom then "ui-dropdown-bottom"
+    when :start then "ui-dropdown-start"
     else
       nil
     end
@@ -53,7 +53,7 @@ class Components::DropdownMenu < Components::Base
   def menu(&block)
     return unless block
 
-    ul_classes = css_classes("dropdown-content bg-card border border-border shadow-md z-50 w-48 p-2", alignment_class, @menu_options.delete(:class))
+    ul_classes = css_classes("ui-dropdown-content", alignment_class, @menu_options.delete(:class))
     ul(class: ul_classes, tabindex: 0, **@menu_options, &block)
   end
 

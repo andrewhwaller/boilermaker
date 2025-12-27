@@ -26,15 +26,15 @@ class BadgeTest < ComponentTestCase
     badge = Components::Badge.new
 
     # Should have base badge class and neutral variant
-    assert_has_css_class(badge, [ "badge", "badge-neutral" ])
+    assert_has_css_class(badge, [ "ui-badge", "ui-badge-neutral" ])
   end
 
   # Test all available badge variants
   test "renders all badge variants correctly" do
     Components::Badge::VARIANTS.each do |variant, expected_class|
       badge_base = Components::Badge.new(variant: variant)
-      assert_has_css_class(badge_base, "badge",
-        "Badge with variant #{variant} should have base 'badge' class")
+      assert_has_css_class(badge_base, "ui-badge",
+        "Badge with variant #{variant} should have base 'ui-badge' class")
 
       badge_variant = Components::Badge.new(variant: variant)
       assert_has_css_class(badge_variant, expected_class,
@@ -44,7 +44,7 @@ class BadgeTest < ComponentTestCase
 
   # Test all available badge sizes
   test "renders all badge sizes correctly" do
-    { xs: "badge-xs", sm: "badge-sm", md: nil, lg: "badge-lg" }.each do |size, expected_class|
+    { xs: "ui-badge-xs", sm: "ui-badge-sm", md: nil, lg: "ui-badge-lg" }.each do |size, expected_class|
       badge = Components::Badge.new(size: size)
 
       if expected_class.present?
@@ -53,7 +53,7 @@ class BadgeTest < ComponentTestCase
       else
         # Medium size should not have a size class
         html = render_component(badge)
-        refute html.match?(/badge-(xs|sm|lg)/),
+        refute html.match?(/ui-badge-(xs|sm|lg)/),
           "Medium badge should not have explicit size class"
       end
     end
@@ -61,16 +61,16 @@ class BadgeTest < ComponentTestCase
 
   # Test all available badge styles
   test "renders all badge styles correctly" do
-    { neutral: nil, outline: "badge-outline" }.each do |variant, expected_class|
+    { neutral: nil, outline: "ui-badge-outline" }.each do |variant, expected_class|
       badge = Components::Badge.new(variant: variant)
 
       if expected_class.present?
         assert_has_css_class(badge, expected_class,
           "Badge with variant #{variant} should have class '#{expected_class}'")
       else
-        # Default variant should not have a variant class beyond 'badge'
+        # Default variant should not have a variant class beyond 'ui-badge'
         html = render_component(badge)
-        refute html.match?(/badge-(primary|secondary|destructive|success|warning|info|accent|outline)/),
+        refute html.match?(/ui-badge-(primary|secondary|destructive|success|warning|info|accent|outline)/),
           "Neutral badge should not have variant-specific classes"
       end
     end
@@ -114,7 +114,7 @@ class BadgeTest < ComponentTestCase
       size: :sm
     )
 
-    assert_has_css_class(small_outline, [ "badge", "badge-outline", "badge-sm" ])
+    assert_has_css_class(small_outline, [ "ui-badge", "ui-badge-outline", "ui-badge-sm" ])
 
     # Large error badge
     large_error = Components::Badge.new(
@@ -122,7 +122,7 @@ class BadgeTest < ComponentTestCase
       size: :lg
     )
 
-    assert_has_css_class(large_error, [ "badge", "badge-error", "badge-lg" ])
+    assert_has_css_class(large_error, [ "ui-badge", "ui-badge-error", "ui-badge-lg" ])
   end
 
   # Test edge cases

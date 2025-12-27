@@ -2,23 +2,23 @@
 
 class Components::Button < Components::Base
   VARIANTS = {
-    primary: "btn-primary",
-    secondary: "btn-secondary",
-    success: "btn-success",
-    info: "btn-info",
-    warning: "btn-warning",
-    error: "btn-error",
-    destructive: "btn-error",
-    outline: "btn-outline",
-    ghost: "btn-ghost",
-    link: "btn-link"
+    primary: "ui-button-primary",
+    secondary: "ui-button-secondary",
+    success: "ui-button-success",
+    info: "ui-button-info",
+    warning: "ui-button-warning",
+    error: "ui-button-error",
+    destructive: "ui-button-error",
+    outline: "ui-button-outline",
+    ghost: "ui-button-ghost",
+    link: "ui-button-link"
   }.freeze
 
   SIZES = {
-    lg: "btn-lg",
-    md: "btn-md",
-    sm: "btn-sm",
-    xs: "btn-xs"
+    lg: "ui-button-lg",
+    md: "ui-button-md",
+    sm: "ui-button-sm",
+    xs: "ui-button-xs"
   }.freeze
 
   def initialize(variant: :primary, type: :button, uppercase: nil, size: :md, **attributes)
@@ -33,7 +33,7 @@ class Components::Button < Components::Base
     button(
       type: @type,
       class: css_classes(
-        "btn",
+        "ui-button",
         VARIANTS[@variant],
         SIZES[@size],
         button_casing_class

@@ -4,29 +4,29 @@ require "ostruct"
 
 # Additional test helpers for component testing
 module ComponentTestHelpers
-  # Common Daisy UI class sets for verification
-  DAISY_BUTTON_VARIANTS = {
-    primary: [ "btn", "btn-primary" ],
-    secondary: [ "btn", "btn-secondary" ],
-    destructive: [ "btn", "btn-error" ],
-    outline: [ "btn", "btn-outline" ],
-    ghost: [ "btn", "btn-ghost" ],
-    link: [ "btn", "btn-link" ]
+  # Common button variant class sets for verification
+  BUTTON_VARIANTS = {
+    primary: [ "ui-button", "ui-button-primary" ],
+    secondary: [ "ui-button", "ui-button-secondary" ],
+    destructive: [ "ui-button", "ui-button-error" ],
+    outline: [ "ui-button", "ui-button-outline" ],
+    ghost: [ "ui-button", "ui-button-ghost" ],
+    link: [ "ui-button", "ui-button-link" ]
   }.freeze
 
-  DAISY_FORM_CLASSES = [
+  FORM_CLASSES = [
     "form-control",
     "label",
-    "input",
-    "textarea",
-    "select",
-    "checkbox",
-    "radio",
+    "ui-input",
+    "ui-textarea",
+    "ui-select",
+    "ui-checkbox",
+    "ui-radio",
     "label-text",
     "label-text-alt"
   ].freeze
 
-  DAISY_LAYOUT_CLASSES = [
+  LAYOUT_CLASSES = [
     "navbar",
     "navbar-start",
     "navbar-center",
@@ -35,24 +35,27 @@ module ComponentTestHelpers
     "drawer-content",
     "drawer-side",
     "hero",
-    "card",
-    "card-body"
+    "ui-card",
+    "ui-card-content"
   ].freeze
 
-  # Assert component renders with expected Daisy UI variant classes
+  # Assert component renders with expected variant classes
   # @param component [Phlex::HTML] The component to test
   # @param variant [Symbol] The variant key (e.g., :primary, :secondary)
   # @param component_type [Symbol] The component type (:button, :form, :layout)
-  def assert_daisy_variant(component, variant, component_type = :button)
+  def assert_variant(component, variant, component_type = :button)
     case component_type
     when :button
-      expected_classes = DAISY_BUTTON_VARIANTS[variant]
+      expected_classes = BUTTON_VARIANTS[variant]
       assert expected_classes, "Unknown button variant: #{variant}"
-      assert_daisy_button_classes(component, expected_classes)
+      assert_button_classes(component, expected_classes)
     else
       raise ArgumentError, "Unsupported component type: #{component_type}"
     end
   end
+
+  # Alias for backwards compatibility
+  alias_method :assert_daisy_variant, :assert_variant
 
   # Verify component has proper accessibility attributes
   # @param component [Phlex::HTML] The component to test

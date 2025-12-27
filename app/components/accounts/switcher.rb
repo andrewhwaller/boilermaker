@@ -17,7 +17,7 @@ module Components
 
         render Components::DropdownMenu.new(
           align: @align,
-          class: "dropdown w-full",
+          class: "ui-dropdown w-full",
           trigger_text: trigger_label,
           menu_options: { class: "min-w-full w-auto" }
         ) do
@@ -50,7 +50,7 @@ module Components
       def item_content(account, current: false)
         span(class: "flex items-center gap-2 w-full") do
           if current
-            span(class: "w-2 h-2 bg-primary rounded-sm shrink-0")
+            span(class: "w-2 h-2 bg-accent rounded-sm shrink-0")
           end
           span(class: "truncate flex-1 text-left") { account.name }
         end
@@ -58,7 +58,7 @@ module Components
 
       def item_classes
         text_size = @align == :bottom ? "" : "text-xs"
-        "flex w-full items-center gap-2 justify-start text-left #{text_size} font-medium px-3 py-2 rounded-none transition duration-150 hover:bg-muted/40 focus-visible:bg-muted/40 focus-visible:outline-none"
+        "flex w-full items-center gap-2 justify-start text-left #{text_size} font-medium px-3 py-2 transition duration-150 hover:bg-surface-alt focus-visible:bg-surface-alt focus-visible:outline-none"
       end
     end
   end

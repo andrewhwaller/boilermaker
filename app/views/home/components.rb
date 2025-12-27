@@ -185,7 +185,7 @@ class Views::Home::Components < Views::Base
             code_example("Ruby Code", 'Textarea(name: "description", placeholder: "Enter description...", rows: 4)')
           end
 
-          component_section("Size Variants", "DaisyUI size utilities applied via size option") do
+          component_section("Size Variants", "Size utilities applied via size option") do
             div(class: "grid md:grid-cols-2 gap-6 max-w-2xl") do
               div do
                 h4(class: "font-medium mb-2") { "Input sizes" }
@@ -518,7 +518,7 @@ class Views::Home::Components < Views::Base
                   end
                   render Table::Actions.new do
                     render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
-                    button(class: "btn btn-ghost btn-xs") { "Delete" }
+                    button(class: "ui-button ui-button-ghost ui-button-xs") { "Delete" }
                   end
                 end
                 render Table::Row.new do
@@ -529,7 +529,7 @@ class Views::Home::Components < Views::Base
                   end
                   render Table::Actions.new do
                     render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
-                    button(class: "btn btn-ghost btn-xs") { "Delete" }
+                    button(class: "ui-button ui-button-ghost ui-button-xs") { "Delete" }
                   end
                 end
                 render Table::Row.new do
@@ -540,7 +540,7 @@ class Views::Home::Components < Views::Base
                   end
                   render Table::Actions.new do
                     render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
-                    button(class: "btn btn-ghost btn-xs") { "Delete" }
+                    button(class: "ui-button ui-button-ghost ui-button-xs") { "Delete" }
                   end
                 end
               end
@@ -561,7 +561,7 @@ class Views::Home::Components < Views::Base
                     render Table::Cell.new(align: :center) { "95" }
                     render Table::Actions.new do
                       render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
-                      button(class: "btn btn-ghost btn-xs") { "Delete" }
+                      button(class: "ui-button ui-button-ghost ui-button-xs") { "Delete" }
                     end
                   end
                 end
@@ -899,7 +899,7 @@ class Views::Home::Components < Views::Base
               ul(class: "space-y-2 text-sm") do
                 li { "• Components: PascalCase (e.g., Components::FormField)" }
                 li { "• Variants: snake_case symbols (e.g., :primary, :outline)" }
-                li { "• CSS classes: Follow Daisy UI conventions" }
+                li { "• CSS classes: Follow theme system conventions" }
                 li { "• Test files: component_name_test.rb" }
                 li { "• Constants: SCREAMING_SNAKE_CASE (e.g., VARIANTS)" }
               end

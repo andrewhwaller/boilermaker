@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATENTWATCH — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #f5f3ef;
+      --bg-secondary: #eae7e1;
+      --bg-tertiary: #ddd9d0;
+      --bg-dark: #1a1a18;
+      --text-primary: #1a1a18;
+      --text-secondary: #5a5955;
+      --text-muted: #8a8884;
+      --accent-primary: #c54b32;
+      --accent-secondary: #2d5a4a;
+      --border-color: #1a1a18;
+      --border-light: #c4c1ba;
+      --mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--mono);
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      font-size: 13px;
+      line-height: 1.5;
+      display: flex;
+    }
+
+    /* Split Layout */
+    .login-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* Left Panel - Branding */
+    .brand-panel {
+      background: var(--bg-dark);
+      color: var(--bg-primary);
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 49px,
+          rgba(255,255,255,0.03) 49px,
+          rgba(255,255,255,0.03) 50px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 49px,
+          rgba(255,255,255,0.03) 49px,
+          rgba(255,255,255,0.03) 50px
+        );
+      pointer-events: none;
+    }
+
+    .brand-header {
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+    }
+
+    .brand-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-title {
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .brand-description {
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.6);
+      max-width: 400px;
+      margin-bottom: 48px;
+    }
+
+    .feature-list {
+      list-style: none;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .feature-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .feature-text {
+      padding-top: 4px;
+    }
+
+    .feature-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .feature-desc {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .brand-footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 48px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .stat-item {
+      text-align: left;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+
+    .stat-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+    }
+
+    /* Right Panel - Form */
+    .form-panel {
+      background: var(--bg-primary);
+      padding: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .form-header {
+      margin-bottom: 40px;
+    }
+
+    .form-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+
+    .form-subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .form-subtitle a {
+      color: var(--accent-primary);
+      text-decoration: none;
+    }
+
+    .form-subtitle a:hover {
+      text-decoration: underline;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: var(--mono);
+      font-size: 14px;
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+      color: var(--text-primary);
+      transition: all 0.15s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      background: var(--bg-primary);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .checkbox-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      transition: all 0.15s ease;
+    }
+
+    .checkbox-group.checked .checkbox-box {
+      background: var(--accent-secondary);
+      border-color: var(--accent-secondary);
+      color: var(--bg-primary);
+    }
+
+    .checkbox-label {
+      font-size: 12px;
+    }
+
+    .forgot-link {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .forgot-link:hover {
+      color: var(--accent-primary);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+      border: none;
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      margin-bottom: 24px;
+    }
+
+    .btn-submit:hover {
+      background: var(--bg-dark);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border-light);
+    }
+
+    .divider-text {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    .social-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn-social {
+      padding: 14px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-social:hover {
+      background: var(--border-color);
+      color: var(--bg-primary);
+    }
+
+    .form-footer {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-light);
+      text-align: center;
+    }
+
+    .form-footer-text {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .form-footer-text a {
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .form-footer-text a:hover {
+      color: var(--accent-primary);
+    }
+
+    /* Error State */
+    .form-error {
+      background: rgba(197, 75, 50, 0.1);
+      border: 1px solid var(--accent-primary);
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      font-size: 12px;
+      color: var(--accent-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .error-icon {
+      font-weight: 700;
+    }
+
+    /* System Status */
+    .system-status {
+      position: absolute;
+      bottom: 48px;
+      left: 48px;
+      right: 48px;
+      background: rgba(0,0,0,0.3);
+      padding: 12px 16px;
+      font-size: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .status-text {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .version-text {
+      color: rgba(255,255,255,0.3);
+    }
+
+    @media (max-width: 900px) {
+      .login-layout {
+        grid-template-columns: 1fr;
+      }
+      .brand-panel {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-layout">
+    <!-- Left Panel - Branding -->
+    <div class="brand-panel">
+      <div class="brand-header">
+        <div class="brand-logo">
+          <div class="logo-mark">PW</div>
+          <div>
+            <div class="logo-text">Patentwatch</div>
+            <div class="brand-tagline">USPTO Alert System</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-content">
+        <h1 class="brand-title">Monitor USPTO<br>Patent Filings<br>In Real-Time</h1>
+        <p class="brand-description">
+          Create custom alerts for patent classifications, keywords, and assignees. 
+          Get notified when new filings match your criteria.
+        </p>
+
+        <ul class="feature-list">
+          <li class="feature-item">
+            <div class="feature-icon">→</div>
+            <div class="feature-text">
+              <div class="feature-title">Real-Time Monitoring</div>
+              <div class="feature-desc">Daily sync with USPTO databases</div>
+            </div>
+          </li>
+          <li class="feature-item">
+            <div class="feature-icon">→</div>
+            <div class="feature-text">
+              <div class="feature-title">Custom Alert Rules</div>
+              <div class="feature-desc">Keywords, CPC codes, assignees, dates</div>
+            </div>
+          </li>
+          <li class="feature-item">
+            <div class="feature-icon">→</div>
+            <div class="feature-text">
+              <div class="feature-title">Instant Notifications</div>
+              <div class="feature-desc">Email digests or real-time alerts</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="brand-footer">
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="stat-value">18.4M</div>
+            <div class="stat-label">Patents Indexed</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">2.3K</div>
+            <div class="stat-label">Daily Filings</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">99.9%</div>
+            <div class="stat-label">Uptime</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="system-status">
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span class="status-text">All systems operational</span>
+        </div>
+        <span class="version-text">v1.0.0</span>
+      </div>
+    </div>
+
+    <!-- Right Panel - Form -->
+    <div class="form-panel">
+      <div class="form-container">
+        <div class="form-header">
+          <h2 class="form-title">Sign in to your account</h2>
+          <p class="form-subtitle">
+            Don't have an account? <a href="#">Create one →</a>
+          </p>
+        </div>
+
+        <!-- Optional error message -->
+        <!-- 
+        <div class="form-error">
+          <span class="error-icon">!</span>
+          <span>Invalid email or password. Please try again.</span>
+        </div>
+        -->
+
+        <form>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" placeholder="user@company.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-input" placeholder="••••••••••••">
+          </div>
+
+          <div class="form-row">
+            <div class="checkbox-group checked">
+              <div class="checkbox-box">✓</div>
+              <span class="checkbox-label">Remember me</span>
+            </div>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn-submit">Sign In →</button>
+        </form>
+
+        <div class="divider">
+          <div class="divider-line"></div>
+          <span class="divider-text">Or continue with</span>
+          <div class="divider-line"></div>
+        </div>
+
+        <div class="social-buttons">
+          <button type="button" class="btn-social">
+            <span>G</span> Google
+          </button>
+          <button type="button" class="btn-social">
+            <span>M</span> Microsoft
+          </button>
+        </div>
+
+        <div class="form-footer">
+          <p class="form-footer-text">
+            By signing in, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

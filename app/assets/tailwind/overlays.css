@@ -1,0 +1,111 @@
+/* ============================================
+   THEME OVERLAY EFFECTS
+   Visual effects that layer on top of content
+   ============================================ */
+
+/* ============================================
+   SCANLINES
+   CRT monitor effect for Terminal and DOS themes
+   ============================================ */
+[data-theme="terminal"] body::before,
+[data-theme="dos"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ============================================
+   VIGNETTE
+   Subtle edge darkening for Terminal theme
+   ============================================ */
+[data-theme="terminal"] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    transparent 60%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  pointer-events: none;
+  z-index: 9997;
+}
+
+/* ============================================
+   GRID PAPER
+   Engineering paper background for Blueprint theme
+   ============================================ */
+[data-theme="blueprint"] body {
+  background-image:
+    linear-gradient(var(--border-light) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-attachment: fixed;
+}
+
+/* Dark polarity grid - subtle version */
+[data-theme="blueprint"][data-polarity="dark"] body {
+  background-image:
+    linear-gradient(var(--border-light) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-attachment: fixed;
+}
+
+/* ============================================
+   CRT GLOW EFFECT
+   Subtle text glow for Terminal theme
+   ============================================ */
+[data-theme="terminal"] {
+  --glow-color: rgba(51, 255, 51, 0.15);
+}
+
+[data-theme="terminal"] .text-body,
+[data-theme="terminal"] .text-accent {
+  text-shadow: 0 0 10px var(--glow-color);
+}
+
+/* ============================================
+   AMBER GLOW EFFECT
+   Warm glow for DOS theme
+   ============================================ */
+[data-theme="dos"] {
+  --glow-color: rgba(255, 176, 0, 0.1);
+}
+
+[data-theme="dos"] .text-body,
+[data-theme="dos"] .text-accent {
+  text-shadow: 0 0 8px var(--glow-color);
+}
+
+/* ============================================
+   CURSOR BLINK
+   Terminal-style blinking cursor
+   ============================================ */
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+/* ============================================
+   DISABLE OVERLAYS
+   Utility class to opt out of effects
+   ============================================ */
+.no-overlay::before,
+.no-overlay::after {
+  display: none !important;
+}

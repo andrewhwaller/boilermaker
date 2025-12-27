@@ -16,7 +16,7 @@ module Views
           page_with_title("Account") do
             div(class: "flex items-center justify-between mb-4") do
               h1(class: "text-xl font-bold") { @account.name || "(unnamed)" }
-              link_to("All Accounts", admin_accounts_path, class: "btn")
+              link_to("All Accounts", admin_accounts_path, class: "ui-button")
             end
 
             div(class: "bg-base-200 rounded-box p-4 mb-4") do
@@ -26,7 +26,7 @@ module Views
 
             h2(class: "font-semibold mb-2") { "Members" }
             if @members.any?
-              ul(class: "menu bg-base-200 rounded-box p-2") do
+              ul(class: "ui-menu bg-base-200 rounded-box p-2") do
                 @members.each do |user|
                   li { link_to(user.email, admin_user_path(user)) }
                 end

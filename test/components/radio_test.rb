@@ -35,11 +35,11 @@ class RadioTest < ComponentTestCase
     assert_equal 3, radio_inputs.length
   end
 
-  test "applies Daisy UI radio classes correctly" do
+  test "applies radio classes correctly" do
     options = [ [ "Red", "red" ], [ "Green", "green" ] ]
     component = Components::Radio.new(options: options)
 
-    assert_has_css_class component, "radio"
+    assert_has_css_class component, "ui-radio"
   end
 
   test "renders radio buttons inside labels for accessibility" do
@@ -166,7 +166,7 @@ class RadioTest < ComponentTestCase
 
     radio_inputs.each do |radio|
       classes = radio["class"].split(" ")
-      assert_includes classes, "radio"
+      assert_includes classes, "ui-radio"
       assert_includes classes, "custom-radio"
     end
   end
@@ -175,7 +175,7 @@ class RadioTest < ComponentTestCase
     options = [ [ "Red", "red" ], [ "Green", "green" ] ]
     component = Components::Radio.new(options: options, error: "Please select an option")
 
-    assert_has_css_class component, "radio-error"
+    assert_has_css_class component, "ui-radio-error"
   end
 
   test "displays error message when error provided" do
@@ -256,7 +256,7 @@ class RadioTest < ComponentTestCase
     # Check custom classes and attributes
     radio_inputs.each do |radio|
       classes = radio["class"].split(" ")
-      assert_includes classes, "radio"
+      assert_includes classes, "ui-radio"
       assert_includes classes, "size-radio"
       assert_equal "size-selector", radio["data-controller"]
     end

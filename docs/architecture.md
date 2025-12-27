@@ -63,12 +63,13 @@ These Solid adapters eliminate the need for separate infrastructure services, si
 
 - **Tailwind CSS** - Utility-first CSS framework
   - Configured via `/app/assets/stylesheets/application.tailwind.css`
-  - Custom theme configuration
+  - Custom 5-theme system (paper, terminal, blueprint, brutalist, dos)
   - Responsive design utilities
-- **DaisyUI** - Component library built on Tailwind
-  - Pre-built UI components
-  - Theme system with built-in themes
-  - Customizable via configuration
+- **Custom Theme System** - CSS variable-based theming
+  - 5 distinct visual themes with unique personalities
+  - Light/dark polarity toggle within each theme
+  - Theme-specific components (CommandBar, SectionMarker, FnBar, KeyboardHint)
+  - Configured via `config/boilermaker.yml`
 
 ### Asset Pipeline
 

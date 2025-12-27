@@ -45,24 +45,22 @@ class ApplicationController < ActionController::Base
                   alert: "You must set up two-factor authentication to continue"
     end
 
-    # Server-driven theme selection for first paint
+    # Server-driven theme/polarity selection for first paint
     def assign_theme_from_cookie
-      name = cookies[:theme_name].to_s.strip
-      Current.theme_name = resolve_theme_name(name)
-    rescue
-      Current.theme_name = resolve_theme_name(nil)
+      # Theme is admin-controlled via config
+      Current.theme_name = Boilermaker::Config.theme_name
+
+      # Polarity is user-controlled via cookie
+      polarity = cookies[:polarity].to_s.strip
+      Current.polarity = resolve_polarity(polarity)
+    rescue => e
+      Rails.logger.warn "[theme] Error loading theme: #{e.message}"
+      Current.theme_name = "paper"
+      Current.polarity = "light"
     end
 
-    def resolve_theme_name(name)
-      # Accept configured names first
-      return name if [ Boilermaker::Config.theme_light_name, Boilermaker::Config.theme_dark_name ].include?(name)
-      # Accept custom themes
-      return name if Boilermaker::Themes::ALL.include?(name)
-      # Accept built-in DaisyUI themes
-      if defined?(Boilermaker::Themes) && Boilermaker::Themes::BUILTINS.include?(name)
-        return name
-      end
-      # Fallback to configured light theme
-      Boilermaker::Config.theme_light_name
+    def resolve_polarity(polarity)
+      return polarity if Boilermaker::Themes.valid_polarity?(polarity)
+      Boilermaker::Themes.default_polarity_for(Current.theme_name)
     end
 end

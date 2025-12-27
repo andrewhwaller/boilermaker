@@ -71,7 +71,7 @@ module Views
                             span(class: "text-sm text-base-content/60 whitespace-nowrap") { "#{time_ago_in_words(user.created_at)} ago" }
                           end
                           render Table::Actions.new do
-                            link_to("View", admin_user_path(user), class: "btn btn-ghost btn-xs")
+                            link_to("View", admin_user_path(user), class: "ui-button ui-button-ghost ui-button-xs")
                           end
                         end
                       end

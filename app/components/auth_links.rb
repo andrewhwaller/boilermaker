@@ -17,7 +17,7 @@ class Components::AuthLinks < Components::Base
       @links.each_with_index do |link, index|
         # Add separator between links (but not before first link)
         if index > 0 && @separator.present?
-          span(class: "text-muted-foreground") { @separator } # Changed from opacity-60
+          span(class: "text-muted") { @separator }
         end
 
         # Render the link

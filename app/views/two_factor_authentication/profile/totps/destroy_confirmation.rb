@@ -72,9 +72,9 @@ module Views
                   end
 
                   div(class: "flex items-center justify-between space-x-4") do
-                    link_to "Cancel", settings_path, class: "btn btn-outline"
+                    link_to "Cancel", settings_path, class: "ui-button ui-button-outline"
                     form.submit "Disable Two-Factor Authentication",
-                                class: "btn btn-error"
+                                class: "ui-button ui-button-error"
                   end
                 end
               end

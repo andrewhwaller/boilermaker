@@ -24,17 +24,14 @@ class FormFieldTest < ComponentTestCase
     assert_has_tag(form_field, "input")
   end
 
-  # Test Daisy UI form classes
-  test "applies correct Daisy UI form styling" do
+  # Test form classes
+  test "applies correct form styling" do
     form_field = Components::FormField.new(
       label_text: "Username",
       name: "user[username]"
     )
 
     assert_daisy_form_classes(form_field, [ "form-control" ])
-
-    # Verify form-control has full width
-    assert_has_css_class(form_field, "w-full")
   end
 
   # Test label generation and association
@@ -150,7 +147,7 @@ class FormFieldTest < ComponentTestCase
 
     assert_has_text(form_field, "Must be at least 8 characters long")
 
-    # Should have proper Daisy UI help text styling
+    # Should have proper help text styling
     assert_has_css_class(form_field, "label-text-alt")
   end
 
@@ -324,10 +321,7 @@ class FormFieldTest < ComponentTestCase
       name: "user[name]"
     )
 
-    # Should have full width by default
-    assert_has_css_class(form_field, "w-full")
-
-    # Form control should be responsive
+    # Form control should be responsive (width is handled by CSS)
     assert_has_css_class(form_field, "form-control")
   end
 end

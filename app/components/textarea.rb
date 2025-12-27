@@ -45,6 +45,6 @@ class Components::Textarea < Components::Base
   end
 
   def textarea_classes
-    css_classes("textarea", "textarea-bordered", "w-full", error_classes_for("textarea"))
+    css_classes("ui-textarea", error_classes_for("textarea"))
   end
 end

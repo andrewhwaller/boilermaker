@@ -18,8 +18,8 @@ module Views
               div(class: "flex items-center justify-between mb-6") do
                 h1(class: "font-bold text-base-content") { "Send Invitation" }
                 div(class: "flex gap-2") do
-                  link_to("View Invitations", account_invitations_path, class: "btn btn-outline")
-                  link_to("Back to Dashboard", account_dashboard_path, class: "btn btn-ghost")
+                  link_to("View Invitations", account_invitations_path, class: "ui-button ui-button-outline")
+                  link_to("Back to Dashboard", account_dashboard_path, class: "ui-button ui-button-ghost")
                 end
               end
 
@@ -32,7 +32,7 @@ module Views
                   div(class: "form-control w-full") do
                     f.label :email, "Email Address", class: "label"
                     f.email_field :email,
-                      class: "input input-bordered w-full",
+                      class: "ui-input",
                       required: true,
                       placeholder: "user@example.com",
                       value: @prefill_email # Optional prefill
@@ -42,7 +42,7 @@ module Views
                   # Admin privilege toggle
                   div do
                     label(class: "label cursor-pointer justify-start gap-3") do
-                      f.check_box :admin, class: "checkbox checkbox-primary"
+                      f.check_box :admin, class: "ui-checkbox"
                       div do
                         span(class: "label-text font-medium") { "Grant Admin Privileges" }
                         div(class: "text-xs text-base-content/70") do
@@ -56,7 +56,7 @@ module Views
                   div(class: "form-control w-full") do
                     f.label :message, "Custom Message (Optional)", class: "label"
                     f.text_area :message,
-                      class: "textarea textarea-bordered w-full h-24",
+                      class: "ui-textarea h-24",
                       placeholder: "Add a personal message to the invitation email...",
                       maxlength: 500
                     helper_text("Add a personal message to include in the invitation email (max 500 characters).")
@@ -64,8 +64,8 @@ module Views
 
                   # Submit actions
                   div(class: "flex gap-3 pt-4") do
-                    f.submit "Send Invitation", class: "btn btn-primary"
-                    link_to("Cancel", account_invitations_path, class: "btn btn-outline")
+                    f.submit "Send Invitation", class: "ui-button ui-button-primary"
+                    link_to("Cancel", account_invitations_path, class: "ui-button ui-button-outline")
                   end
                 end
               end
@@ -75,17 +75,17 @@ module Views
                 h3(class: "font-semibold text-base-content mb-4") { "How Invitations Work" }
                 div(class: "space-y-3 text-sm text-base-content/70") do
                   div(class: "flex gap-3") do
-                    span(class: "badge badge-primary badge-sm flex-shrink-0") { "1" }
+                    span(class: "ui-badge ui-badge-primary ui-badge-sm flex-shrink-0") { "1" }
                     p { "An invitation email is sent to the specified address with a secure signup link" }
                   end
 
                   div(class: "flex gap-3") do
-                    span(class: "badge badge-primary badge-sm flex-shrink-0") { "2" }
+                    span(class: "ui-badge ui-badge-primary ui-badge-sm flex-shrink-0") { "2" }
                     p { "The recipient clicks the link and completes their account setup" }
                   end
 
                   div(class: "flex gap-3") do
-                    span(class: "badge badge-primary badge-sm flex-shrink-0") { "3" }
+                    span(class: "ui-badge ui-badge-primary ui-badge-sm flex-shrink-0") { "3" }
                     p { "Once verified, they gain access to the account with the specified privileges" }
                   end
                 end

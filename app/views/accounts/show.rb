@@ -12,29 +12,29 @@ module Views
               h1(class: "text-3xl font-bold") { @account.name }
               div(class: "flex gap-2 mt-2") do
                 if @account.personal?
-                  span(class: "badge badge-primary") { "Personal" }
+                  span(class: "ui-badge ui-badge-primary") { "Personal" }
                 else
-                  span(class: "badge badge-secondary") { "Team" }
+                  span(class: "ui-badge ui-badge-secondary") { "Team" }
                 end
 
                 if @account.owner == Current.user
-                  span(class: "badge badge-accent") { "Owner" }
+                  span(class: "ui-badge ui-badge-accent") { "Owner" }
                 end
               end
             end
 
             if @account.owner == Current.user
               div(class: "flex gap-2") do
-                a(href: edit_account_path(@account), class: "btn btn-primary") { "Edit" }
+                a(href: edit_account_path(@account), class: "ui-button ui-button-primary") { "Edit" }
               end
             end
           end
 
           div(class: "grid gap-6") do
             # Account info card
-            div(class: "card bg-base-200 shadow-md") do
-              div(class: "card-body") do
-                h2(class: "card-title") { "Account Information" }
+            div(class: "ui-card bg-base-200 shadow-md") do
+              div(class: "ui-card-content") do
+                h2(class: "font-semibold text-lg mb-4") { "Account Information" }
                 div(class: "space-y-2") do
                   p do
                     strong { "Owner: " }
@@ -54,16 +54,16 @@ module Views
 
             # Conversion options (only for owner)
             if @account.owner == Current.user
-              div(class: "card bg-base-200 shadow-md") do
-                div(class: "card-body") do
-                  h2(class: "card-title") { "Account Type" }
+              div(class: "ui-card bg-base-200 shadow-md") do
+                div(class: "ui-card-content") do
+                  h2(class: "font-semibold text-lg mb-4") { "Account Type" }
 
                   if @account.personal?
                     p(class: "mb-4") { "Convert this personal account to a team account to invite members." }
                     form(action: account_conversion_to_team_path(@account), method: "post") do
                       button(
                         type: "submit",
-                        class: "btn btn-primary",
+                        class: "ui-button ui-button-primary",
                         data: { turbo_confirm: "Convert #{@account.name} to a team account?" }
                       ) { "Convert to Team" }
                     end
@@ -73,12 +73,12 @@ module Views
                       form(action: account_conversion_to_personal_path(@account), method: "post") do
                         button(
                           type: "submit",
-                          class: "btn btn-warning",
+                          class: "ui-button ui-button-warning",
                           data: { turbo_confirm: "Convert #{@account.name} to a personal account?" }
                         ) { "Convert to Personal" }
                       end
                     else
-                      div(class: "alert alert-warning") do
+                      div(class: "ui-alert ui-alert-warning") do
                         span { "Cannot convert: remove all other members first (must be only member)." }
                       end
                     end
@@ -86,15 +86,15 @@ module Views
                 end
               end
 
-              div(class: "card bg-error text-error-content shadow-md") do
-                div(class: "card-body") do
-                  h2(class: "card-title") { "Danger Zone" }
+              div(class: "ui-card bg-error text-error-content shadow-md") do
+                div(class: "ui-card-content") do
+                  h2(class: "font-semibold text-lg mb-4") { "Danger Zone" }
                   p(class: "mb-4") { "Deleting this account is permanent and cannot be undone." }
                   form(action: account_path(@account), method: "post") do
                     input(type: "hidden", name: "_method", value: "delete")
                     button(
                       type: "submit",
-                      class: "btn btn-outline btn-error",
+                      class: "ui-button ui-button-outline ui-button-error",
                       data: { turbo_confirm: "Are you sure? This cannot be undone." }
                     ) { "Delete Account" }
                   end

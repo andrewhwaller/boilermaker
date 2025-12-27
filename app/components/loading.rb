@@ -15,14 +15,14 @@ class Components::Loading < Components::Base
   }.freeze
 
   COLORS = {
-    primary: "text-primary",
-    secondary: "text-secondary",
+    primary: "text-accent",
+    secondary: "text-muted",
     accent: "text-accent",
-    neutral: "text-muted-foreground", # Updated
-    info: "text-info",
-    success: "text-success",
+    neutral: "text-muted",
+    info: "text-accent",
+    success: "text-accent-alt",
     warning: "text-warning",
-    error: "text-destructive" # Updated
+    error: "text-destructive"
   }.freeze
 
   def initialize(

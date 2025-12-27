@@ -43,18 +43,18 @@ class Components::Table::Actions < Components::Base
   end
 
   def render_action_dropdown(item)
-    div(class: "dropdown") do
+    div(class: "ui-dropdown") do
       render Components::Button.new(variant: :ghost, size: :xs, tabindex: "0") { "⋯" }
-      ul(class: "dropdown-content z-50 absolute w-52 p-2", tabindex: "0") do
+      ul(class: "ui-dropdown-content z-50 absolute w-52 p-2", tabindex: "0") do
         item[:items].each do |dropdown_item|
           li do
             case dropdown_item[:type]
             when :link
-              a(href: dropdown_item[:href], class: "menu-item", **dropdown_item.fetch(:attributes, {})) do
+              a(href: dropdown_item[:href], class: "ui-menu-item", **dropdown_item.fetch(:attributes, {})) do
                 dropdown_item[:text]
               end
             when :button
-              button(class: "menu-item", **dropdown_item.fetch(:attributes, {})) do
+              button(class: "ui-menu-item", **dropdown_item.fetch(:attributes, {})) do
                 dropdown_item[:text]
               end
             end

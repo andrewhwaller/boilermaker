@@ -54,6 +54,6 @@ class Components::Checkbox < Components::Base
   end
 
   def checkbox_classes
-    css_classes("checkbox", error_classes_for("checkbox"))
+    css_classes("ui-checkbox", error_classes_for("checkbox"))
   end
 end
