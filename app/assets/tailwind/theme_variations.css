@@ -77,8 +77,16 @@
 
 /* ============================================
    BRUTALIST THEME VARIATIONS
-   Inverted hover, minimal decoration
+   Inverted hover, minimal decoration, IBM Plex Mono
    ============================================ */
+
+/* IBM Plex Mono font for brutalist theme */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+[data-theme="brutalist"] {
+  --app-font-family: "IBM Plex Mono", monospace;
+  font-family: "IBM Plex Mono", monospace;
+}
 
 /* Invert links on hover */
 [data-theme="brutalist"] a:hover {

@@ -23,7 +23,7 @@ module Views
           div(class: "text-xs mb-6") {
             sample_stats.each do |stat|
               span(class: "mr-6") {
-                span(class: stat.highlight ? "font-semibold bg-inverse text-inverse px-1" : "font-semibold") { stat.value }
+                span(class: stat.highlight ? "font-semibold bg-inverse text-surface px-1" : "font-semibold") { stat.value }
                 plain " #{stat.label}"
               }
             end
@@ -71,7 +71,7 @@ module Views
             h2(class: "text-[11px] uppercase tracking-[0.08em] text-muted mb-3") { "Log" }
             div(class: "text-[11px] bg-surface-alt p-3 overflow-x-auto") {
               sample_log_entries.each do |entry|
-                log_line(entry.time, "#{entry.type} #{entry.message.downcase.gsub(' ', '-').gsub(':', '')}")
+                log_line(entry.time, format_log_message(entry.type, entry.message))
               end
             }
           }
@@ -114,6 +114,20 @@ module Views
             span(class: "text-muted mr-3") { time }
             plain message
           }
+        end
+
+        # Format log message in brutalist style: "TYPE kebab-name: details"
+        def format_log_message(type, message)
+          # Split on colon to separate alert name from details
+          if message.include?(":")
+            parts = message.split(":", 2)
+            alert_name = parts[0].strip.downcase.gsub(/\s+/, "-")
+            details = parts[1].strip
+            "#{type} #{alert_name}: #{details}"
+          else
+            # No colon - just kebab-case the whole message
+            "#{type} #{message.downcase.gsub(/\s+/, "-")}"
+          end
         end
       end
     end
