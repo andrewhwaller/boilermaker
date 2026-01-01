@@ -7,32 +7,32 @@ class PromptHeaderTest < ComponentTestCase
   include ComponentTestHelpers
 
   test "renders successfully" do
-    header = Components::PromptHeader.new(text: "test command")
+    header = Components::Boilermaker::PromptHeader.new(text: "test command")
 
     assert_renders_successfully(header)
     assert_produces_output(header)
   end
 
   test "renders dollar sign prompt prefix" do
-    header = Components::PromptHeader.new(text: "ls -la")
+    header = Components::Boilermaker::PromptHeader.new(text: "ls -la")
 
     assert_has_text(header, "$ ")
   end
 
   test "renders text content" do
-    header = Components::PromptHeader.new(text: "PATENTWATCH v2.1")
+    header = Components::Boilermaker::PromptHeader.new(text: "PATENTWATCH v2.1")
 
     assert_has_text(header, "PATENTWATCH v2.1")
   end
 
   test "applies text-sm class" do
-    header = Components::PromptHeader.new(text: "test")
+    header = Components::Boilermaker::PromptHeader.new(text: "test")
 
     assert_has_css_class(header, "text-sm")
   end
 
   test "prompt has accent styling" do
-    header = Components::PromptHeader.new(text: "test")
+    header = Components::Boilermaker::PromptHeader.new(text: "test")
 
     doc = render_and_parse(header)
     prompt_span = doc.css("span.text-accent").first
@@ -42,7 +42,7 @@ class PromptHeaderTest < ComponentTestCase
   end
 
   test "text has muted styling" do
-    header = Components::PromptHeader.new(text: "my text")
+    header = Components::Boilermaker::PromptHeader.new(text: "my text")
 
     doc = render_and_parse(header)
     text_span = doc.css("span.text-muted").first
@@ -52,7 +52,7 @@ class PromptHeaderTest < ComponentTestCase
   end
 
   test "accepts custom attributes" do
-    header = Components::PromptHeader.new(
+    header = Components::Boilermaker::PromptHeader.new(
       text: "test",
       id: "prompt-1",
       "data-testid": "prompt"

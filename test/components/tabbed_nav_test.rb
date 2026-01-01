@@ -15,20 +15,20 @@ class TabbedNavTest < ComponentTestCase
   end
 
   test "renders successfully" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     assert_renders_successfully(nav)
     assert_produces_output(nav)
   end
 
   test "renders nav element" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     assert_has_tag(nav, "nav")
   end
 
   test "renders all tab links" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     doc = render_and_parse(nav)
     links = doc.css("a")
@@ -37,7 +37,7 @@ class TabbedNavTest < ComponentTestCase
   end
 
   test "renders tab labels" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     assert_has_text(nav, "Dashboard")
     assert_has_text(nav, "Alerts")
@@ -45,7 +45,7 @@ class TabbedNavTest < ComponentTestCase
   end
 
   test "renders tab hrefs" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     doc = render_and_parse(nav)
     hrefs = doc.css("a").map { |a| a["href"] }
@@ -56,26 +56,26 @@ class TabbedNavTest < ComponentTestCase
   end
 
   test "applies flex layout to nav" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     assert_has_css_class(nav, "flex")
   end
 
   test "applies accent border bottom" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     assert_has_css_class(nav, "border-b-2")
     assert_has_css_class(nav, "border-accent")
   end
 
   test "applies bottom margin" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     assert_has_css_class(nav, "mb-8")
   end
 
   test "active tab has accent text color" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     doc = render_and_parse(nav)
     active_link = doc.css("a").find { |a| a.text == "Dashboard" }
@@ -84,7 +84,7 @@ class TabbedNavTest < ComponentTestCase
   end
 
   test "active tab has border styling" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     doc = render_and_parse(nav)
     active_link = doc.css("a").find { |a| a.text == "Dashboard" }
@@ -94,7 +94,7 @@ class TabbedNavTest < ComponentTestCase
   end
 
   test "inactive tab has muted text color" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     doc = render_and_parse(nav)
     inactive_link = doc.css("a").find { |a| a.text == "Alerts" }
@@ -103,7 +103,7 @@ class TabbedNavTest < ComponentTestCase
   end
 
   test "inactive tab has hover styling" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     doc = render_and_parse(nav)
     inactive_link = doc.css("a").find { |a| a.text == "Alerts" }
@@ -112,7 +112,7 @@ class TabbedNavTest < ComponentTestCase
   end
 
   test "tabs have uppercase styling" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     doc = render_and_parse(nav)
     first_link = doc.css("a").first
@@ -121,7 +121,7 @@ class TabbedNavTest < ComponentTestCase
   end
 
   test "tabs have letter-spacing styling" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     doc = render_and_parse(nav)
     first_link = doc.css("a").first
@@ -130,7 +130,7 @@ class TabbedNavTest < ComponentTestCase
   end
 
   test "tabs have 11px font size" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     doc = render_and_parse(nav)
     first_link = doc.css("a").first
@@ -140,17 +140,17 @@ class TabbedNavTest < ComponentTestCase
 
   test "accepts Tab data objects" do
     tabs = [
-      Components::TabbedNav::Tab.new(label: "Home", href: "/home", active: true),
-      Components::TabbedNav::Tab.new(label: "About", href: "/about")
+      Components::Boilermaker::TabbedNav::Tab.new(label: "Home", href: "/home", active: true),
+      Components::Boilermaker::TabbedNav::Tab.new(label: "About", href: "/about")
     ]
-    nav = Components::TabbedNav.new(tabs: tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: tabs)
 
     assert_has_text(nav, "Home")
     assert_has_text(nav, "About")
   end
 
   test "accepts custom attributes" do
-    nav = Components::TabbedNav.new(
+    nav = Components::Boilermaker::TabbedNav.new(
       tabs: sample_tabs,
       id: "main-nav",
       "data-testid": "tabbed-nav"
@@ -163,14 +163,14 @@ class TabbedNavTest < ComponentTestCase
   end
 
   test "tabs have negative margin for overlap" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     html = render_component(nav)
     assert html.include?("-mb-[2px]"), "Tabs should have negative margin"
   end
 
   test "tabs have padding" do
-    nav = Components::TabbedNav.new(tabs: sample_tabs)
+    nav = Components::Boilermaker::TabbedNav.new(tabs: sample_tabs)
 
     doc = render_and_parse(nav)
     first_link = doc.css("a").first

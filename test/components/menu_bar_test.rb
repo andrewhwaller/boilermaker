@@ -15,14 +15,14 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "renders successfully" do
-    bar = Components::MenuBar.new(items: sample_items)
+    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
 
     assert_renders_successfully(bar)
     assert_produces_output(bar)
   end
 
   test "renders all menu items" do
-    bar = Components::MenuBar.new(items: sample_items)
+    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
 
     doc = render_and_parse(bar)
     links = doc.css("a")
@@ -31,7 +31,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "renders item labels" do
-    bar = Components::MenuBar.new(items: sample_items)
+    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
 
     doc = render_and_parse(bar)
     text = doc.text
@@ -42,7 +42,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "renders item hrefs" do
-    bar = Components::MenuBar.new(items: sample_items)
+    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
 
     doc = render_and_parse(bar)
     hrefs = doc.css("a").map { |a| a["href"] }
@@ -53,31 +53,31 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "applies flex layout" do
-    bar = Components::MenuBar.new(items: sample_items)
+    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
 
     assert_has_css_class(bar, "flex")
   end
 
   test "applies accent background" do
-    bar = Components::MenuBar.new(items: sample_items)
+    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
 
     assert_has_css_class(bar, "bg-accent")
   end
 
   test "applies surface text color" do
-    bar = Components::MenuBar.new(items: sample_items)
+    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
 
     assert_has_css_class(bar, "text-surface")
   end
 
   test "applies text-sm styling" do
-    bar = Components::MenuBar.new(items: sample_items)
+    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
 
     assert_has_css_class(bar, "text-sm")
   end
 
   test "underlines hotkey character" do
-    bar = Components::MenuBar.new(items: sample_items)
+    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
 
     doc = render_and_parse(bar)
     underlined_spans = doc.css("span.underline")
@@ -90,7 +90,7 @@ class MenuBarTest < ComponentTestCase
 
   test "underlines correct character based on hotkey_index" do
     items = [{ label: "Help", hotkey_index: 0 }]
-    bar = Components::MenuBar.new(items: items)
+    bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
     underlined = doc.css("span.underline").first
@@ -100,7 +100,7 @@ class MenuBarTest < ComponentTestCase
 
   test "underlines middle character when hotkey_index is non-zero" do
     items = [{ label: "Help", hotkey_index: 2 }]
-    bar = Components::MenuBar.new(items: items)
+    bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
     underlined = doc.css("span.underline").first
@@ -110,7 +110,7 @@ class MenuBarTest < ComponentTestCase
 
   test "active item has surface background" do
     items = [{ label: "File", active: true }]
-    bar = Components::MenuBar.new(items: items)
+    bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
     active_link = doc.css("a").first
@@ -120,7 +120,7 @@ class MenuBarTest < ComponentTestCase
 
   test "active item has accent text" do
     items = [{ label: "File", active: true }]
-    bar = Components::MenuBar.new(items: items)
+    bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
     active_link = doc.css("a").first
@@ -130,7 +130,7 @@ class MenuBarTest < ComponentTestCase
 
   test "inactive item has hover styling" do
     items = [{ label: "File", active: false }]
-    bar = Components::MenuBar.new(items: items)
+    bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
     link = doc.css("a").first
@@ -140,7 +140,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "items have padding" do
-    bar = Components::MenuBar.new(items: sample_items)
+    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
 
     doc = render_and_parse(bar)
     first_link = doc.css("a").first
@@ -151,10 +151,10 @@ class MenuBarTest < ComponentTestCase
 
   test "accepts Item data objects" do
     items = [
-      Components::MenuBar::Item.new(label: "File", hotkey_index: 0, href: "#file"),
-      Components::MenuBar::Item.new(label: "Help", hotkey_index: 0, href: "#help")
+      Components::Boilermaker::MenuBar::Item.new(label: "File", hotkey_index: 0, href: "#file"),
+      Components::Boilermaker::MenuBar::Item.new(label: "Help", hotkey_index: 0, href: "#help")
     ]
-    bar = Components::MenuBar.new(items: items)
+    bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
     text = doc.text
@@ -165,7 +165,7 @@ class MenuBarTest < ComponentTestCase
 
   test "default href is #" do
     items = [{ label: "File" }]
-    bar = Components::MenuBar.new(items: items)
+    bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
     link = doc.css("a").first
@@ -174,7 +174,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "accepts custom attributes" do
-    bar = Components::MenuBar.new(
+    bar = Components::Boilermaker::MenuBar.new(
       items: sample_items,
       id: "main-menu",
       "data-testid": "menu-bar"

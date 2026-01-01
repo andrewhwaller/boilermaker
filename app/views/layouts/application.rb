@@ -20,8 +20,8 @@ module Views
         html(
           lang: "en",
           data: {
-            theme: Current.theme_name || Boilermaker::Config.theme_name,
-            polarity: Current.polarity || Boilermaker::Themes.default_polarity_for(Current.theme_name)
+            theme: Current.theme_name || ::Boilermaker::Config.theme_name,
+            polarity: Current.polarity || ::Boilermaker::Themes.default_polarity_for(Current.theme_name)
           }
         ) do
           head do
@@ -69,7 +69,7 @@ module Views
       private
 
       def sidebar_layout?
-        Boilermaker.config.get("ui.navigation.layout_mode") == "sidebar"
+        ::Boilermaker.config.get("ui.navigation.layout_mode") == "sidebar"
       end
 
       def authenticated_with_sidebar?

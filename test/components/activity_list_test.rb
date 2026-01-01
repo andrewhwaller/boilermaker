@@ -7,7 +7,7 @@ class ActivityListTest < ComponentTestCase
   include ComponentTestHelpers
 
   test "renders successfully" do
-    list = Components::ActivityList.new
+    list = Components::Boilermaker::ActivityList.new
 
     assert_renders_successfully(list)
     assert_produces_output(list)
@@ -18,7 +18,7 @@ class ActivityListTest < ComponentTestCase
       { time: "2 min ago", content: "First activity" },
       { time: "1 hr ago", content: "Second activity" }
     ]
-    list = Components::ActivityList.new(items: items)
+    list = Components::Boilermaker::ActivityList.new(items: items)
 
     assert_has_text(list, "2 min ago")
     assert_has_text(list, "First activity")
@@ -27,10 +27,10 @@ class ActivityListTest < ComponentTestCase
   end
 
   test "renders items from block" do
-    list = Components::ActivityList.new
+    list = Components::Boilermaker::ActivityList.new
 
     html = render_component(list) do
-      render Components::ActivityList::Item.new(time: "now") { "Block content" }
+      render Components::Boilermaker::ActivityList::Item.new(time: "now") { "Block content" }
     end
 
     assert html.include?("now"), "Should render time"
@@ -38,13 +38,13 @@ class ActivityListTest < ComponentTestCase
   end
 
   test "applies text styling" do
-    list = Components::ActivityList.new
+    list = Components::Boilermaker::ActivityList.new
 
     assert_has_css_class(list, "text-xs")
   end
 
   test "accepts custom attributes" do
-    list = Components::ActivityList.new(
+    list = Components::Boilermaker::ActivityList.new(
       id: "activity-feed",
       "data-testid": "activities"
     )
@@ -60,28 +60,28 @@ class ActivityListItemTest < ComponentTestCase
   include ComponentTestHelpers
 
   test "renders time and content" do
-    item = Components::ActivityList::Item.new(time: "2 min ago") { "Activity happened" }
+    item = Components::Boilermaker::ActivityList::Item.new(time: "2 min ago") { "Activity happened" }
 
     assert_has_text(item, "2 min ago")
     assert_has_text(item, "Activity happened")
   end
 
   test "applies flex layout" do
-    item = Components::ActivityList::Item.new(time: "now") { "Test" }
+    item = Components::Boilermaker::ActivityList::Item.new(time: "now") { "Test" }
 
     assert_has_css_class(item, "flex")
     assert_has_css_class(item, "gap-3")
   end
 
   test "applies border styling" do
-    item = Components::ActivityList::Item.new(time: "now") { "Test" }
+    item = Components::Boilermaker::ActivityList::Item.new(time: "now") { "Test" }
 
     assert_has_css_class(item, "border-b")
     assert_has_css_class(item, "border-border-light")
   end
 
   test "applies muted styling to time" do
-    item = Components::ActivityList::Item.new(time: "yesterday") { "Event" }
+    item = Components::Boilermaker::ActivityList::Item.new(time: "yesterday") { "Event" }
 
     doc = render_and_parse(item)
     time_span = doc.css("span").first
@@ -91,7 +91,7 @@ class ActivityListItemTest < ComponentTestCase
   end
 
   test "applies body styling to content" do
-    item = Components::ActivityList::Item.new(time: "now") { "Content text" }
+    item = Components::Boilermaker::ActivityList::Item.new(time: "now") { "Content text" }
 
     doc = render_and_parse(item)
     content_span = doc.css("span.text-body").first
@@ -100,7 +100,7 @@ class ActivityListItemTest < ComponentTestCase
   end
 
   test "renders html content in block" do
-    item = Components::ActivityList::Item.new(time: "now") { "Simple content" }
+    item = Components::Boilermaker::ActivityList::Item.new(time: "now") { "Simple content" }
 
     html = render_component(item)
 
@@ -108,7 +108,7 @@ class ActivityListItemTest < ComponentTestCase
   end
 
   test "accepts custom attributes" do
-    item = Components::ActivityList::Item.new(
+    item = Components::Boilermaker::ActivityList::Item.new(
       time: "now",
       id: "activity-1",
       "data-testid": "activity"
@@ -121,7 +121,7 @@ class ActivityListItemTest < ComponentTestCase
   end
 
   test "time cell has fixed min-width" do
-    item = Components::ActivityList::Item.new(time: "now") { "Test" }
+    item = Components::Boilermaker::ActivityList::Item.new(time: "now") { "Test" }
 
     doc = render_and_parse(item)
     time_span = doc.css("span").first

@@ -8,7 +8,7 @@ class StatsRowTest < ComponentTestCase
 
   test "renders successfully" do
     stats = [{ value: "10", label: "items" }]
-    row = Components::StatsRow.new(stats: stats)
+    row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     assert_renders_successfully(row)
     assert_produces_output(row)
@@ -20,7 +20,7 @@ class StatsRowTest < ComponentTestCase
       { value: "183", label: "this week" },
       { value: "12", label: "active" }
     ]
-    row = Components::StatsRow.new(stats: stats)
+    row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     assert_has_text(row, "47")
     assert_has_text(row, "new today")
@@ -32,7 +32,7 @@ class StatsRowTest < ComponentTestCase
 
   test "applies highlight styling to highlighted stats" do
     stats = [{ value: "47", label: "new", highlight: true }]
-    row = Components::StatsRow.new(stats: stats)
+    row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     doc = render_and_parse(row)
     value_span = doc.css("span.font-bold").first
@@ -42,7 +42,7 @@ class StatsRowTest < ComponentTestCase
 
   test "applies normal styling to non-highlighted stats" do
     stats = [{ value: "100", label: "total", highlight: false }]
-    row = Components::StatsRow.new(stats: stats)
+    row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     doc = render_and_parse(row)
     value_span = doc.css("span.font-bold").first
@@ -52,7 +52,7 @@ class StatsRowTest < ComponentTestCase
 
   test "applies flex layout with gap" do
     stats = [{ value: "1", label: "test" }]
-    row = Components::StatsRow.new(stats: stats)
+    row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     assert_has_css_class(row, "flex")
     assert_has_css_class(row, "gap-8")
@@ -60,7 +60,7 @@ class StatsRowTest < ComponentTestCase
 
   test "renders stat value with bold font" do
     stats = [{ value: "42", label: "count" }]
-    row = Components::StatsRow.new(stats: stats)
+    row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     doc = render_and_parse(row)
     value_span = doc.css("span.font-bold").first
@@ -71,7 +71,7 @@ class StatsRowTest < ComponentTestCase
 
   test "renders stat label with muted styling" do
     stats = [{ value: "1", label: "item" }]
-    row = Components::StatsRow.new(stats: stats)
+    row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     doc = render_and_parse(row)
     label_span = doc.css("span.text-muted").first
@@ -82,7 +82,7 @@ class StatsRowTest < ComponentTestCase
 
   test "accepts custom attributes" do
     stats = [{ value: "1", label: "test" }]
-    row = Components::StatsRow.new(
+    row = Components::Boilermaker::StatsRow.new(
       stats: stats,
       id: "stats-row",
       "data-testid": "stats"
@@ -95,7 +95,7 @@ class StatsRowTest < ComponentTestCase
   end
 
   test "uses Stat data structure" do
-    stat = Components::StatsRow::Stat.new(
+    stat = Components::Boilermaker::StatsRow::Stat.new(
       value: "99",
       label: "percent",
       highlight: true
@@ -107,7 +107,7 @@ class StatsRowTest < ComponentTestCase
   end
 
   test "Stat defaults highlight to false" do
-    stat = Components::StatsRow::Stat.new(value: "0", label: "none")
+    stat = Components::Boilermaker::StatsRow::Stat.new(value: "0", label: "none")
 
     refute stat.highlight
   end

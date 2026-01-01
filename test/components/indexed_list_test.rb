@@ -7,20 +7,20 @@ class IndexedListTest < ComponentTestCase
   include ComponentTestHelpers
 
   test "renders successfully with items" do
-    list = Components::IndexedList.new(items: %w[a b c])
+    list = Components::Boilermaker::IndexedList.new(items: %w[a b c])
 
     assert_renders_successfully(list)
     assert_produces_output(list)
   end
 
   test "renders successfully without items" do
-    list = Components::IndexedList.new
+    list = Components::Boilermaker::IndexedList.new
 
     assert_renders_successfully(list)
   end
 
   test "renders row indices starting from 0" do
-    list = Components::IndexedList.new(items: %w[first second third])
+    list = Components::Boilermaker::IndexedList.new(items: %w[first second third])
 
     html = render_component(list)
 
@@ -30,7 +30,7 @@ class IndexedListTest < ComponentTestCase
   end
 
   test "renders row indices with custom start_index" do
-    list = Components::IndexedList.new(items: %w[a b c], start_index: 5)
+    list = Components::Boilermaker::IndexedList.new(items: %w[a b c], start_index: 5)
 
     html = render_component(list)
 
@@ -40,13 +40,13 @@ class IndexedListTest < ComponentTestCase
   end
 
   test "applies text-sm styling" do
-    list = Components::IndexedList.new(items: %w[item])
+    list = Components::Boilermaker::IndexedList.new(items: %w[item])
 
     assert_has_css_class(list, "text-sm")
   end
 
   test "renders index in muted text-xs span" do
-    list = Components::IndexedList.new(items: %w[item])
+    list = Components::Boilermaker::IndexedList.new(items: %w[item])
 
     doc = render_and_parse(list)
     index_span = doc.css("span.text-muted.text-xs").first
@@ -56,7 +56,7 @@ class IndexedListTest < ComponentTestCase
   end
 
   test "renders dotted border between rows" do
-    list = Components::IndexedList.new(items: %w[a b])
+    list = Components::Boilermaker::IndexedList.new(items: %w[a b])
 
     html = render_component(list)
 
@@ -65,7 +65,7 @@ class IndexedListTest < ComponentTestCase
   end
 
   test "renders with flex layout" do
-    list = Components::IndexedList.new(items: %w[item])
+    list = Components::Boilermaker::IndexedList.new(items: %w[item])
 
     doc = render_and_parse(list)
     row = doc.css("div.flex").first
@@ -80,7 +80,7 @@ class IndexedListTest < ComponentTestCase
     ]
 
     html = render_component(
-      Components::IndexedList.new(items: items)
+      Components::Boilermaker::IndexedList.new(items: items)
     ) { |item| item[:name] }
 
     assert html.include?("First"), "Should render first item name"
@@ -88,7 +88,7 @@ class IndexedListTest < ComponentTestCase
   end
 
   test "accepts custom attributes" do
-    list = Components::IndexedList.new(
+    list = Components::Boilermaker::IndexedList.new(
       items: %w[item],
       id: "alerts-list",
       "data-testid": "indexed-list"
@@ -101,7 +101,7 @@ class IndexedListTest < ComponentTestCase
   end
 
   test "renders with hover-glow class" do
-    list = Components::IndexedList.new(items: %w[item])
+    list = Components::Boilermaker::IndexedList.new(items: %w[item])
 
     html = render_component(list)
 
@@ -109,7 +109,7 @@ class IndexedListTest < ComponentTestCase
   end
 
   test "renders empty when no items and no block" do
-    list = Components::IndexedList.new(items: [])
+    list = Components::Boilermaker::IndexedList.new(items: [])
 
     html = render_component(list)
 
@@ -119,13 +119,13 @@ class IndexedListTest < ComponentTestCase
   end
 
   test "yields block content when no items but block given" do
-    html = render_component(Components::IndexedList.new) { "Custom empty state" }
+    html = render_component(Components::Boilermaker::IndexedList.new) { "Custom empty state" }
 
     assert html.include?("Custom empty state"), "Should render block content when empty"
   end
 
   test "index column has fixed width" do
-    list = Components::IndexedList.new(items: %w[item])
+    list = Components::Boilermaker::IndexedList.new(items: %w[item])
 
     html = render_component(list)
 
@@ -134,7 +134,7 @@ class IndexedListTest < ComponentTestCase
   end
 
   test "content area is flexible" do
-    list = Components::IndexedList.new(items: %w[item])
+    list = Components::Boilermaker::IndexedList.new(items: %w[item])
 
     html = render_component(list)
 

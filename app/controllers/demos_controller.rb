@@ -9,26 +9,26 @@ class DemosController < ApplicationController
   layout false
 
   def terminal
-    render Views::Demos::TerminalDashboard.new
+    render Views::Boilermaker::Demos::TerminalDashboard.new
   end
 
   def blueprint
-    render Views::Demos::BlueprintDashboard.new
+    render Views::Boilermaker::Demos::BlueprintDashboard.new
   end
 
   def brutalist
-    render Views::Demos::BrutalistDashboard.new
+    render Views::Boilermaker::Demos::BrutalistDashboard.new
   end
 
   def amber
-    render Views::Demos::AmberDashboard.new
+    render Views::Boilermaker::Demos::AmberDashboard.new
   end
 
   def paper
-    render Views::Demos::PaperDashboard.new
+    render Views::Boilermaker::Demos::PaperDashboard.new
   end
 
   def industrial
-    render Views::Demos::IndustrialDashboard.new
+    render Views::Boilermaker::Demos::IndustrialDashboard.new
   end
 end

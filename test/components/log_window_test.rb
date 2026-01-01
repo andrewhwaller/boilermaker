@@ -7,7 +7,7 @@ class LogWindowTest < ComponentTestCase
   include ComponentTestHelpers
 
   test "renders successfully" do
-    window = Components::LogWindow.new
+    window = Components::Boilermaker::LogWindow.new
 
     assert_renders_successfully(window)
     assert_produces_output(window)
@@ -17,7 +17,7 @@ class LogWindowTest < ComponentTestCase
     entries = [
       { time: "14:32:01", type: "INFO", message: "Test message" }
     ]
-    window = Components::LogWindow.new(entries: entries)
+    window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     assert_renders_successfully(window)
   end
@@ -26,7 +26,7 @@ class LogWindowTest < ComponentTestCase
     entries = [
       { time: "14:32:01", type: "INFO", message: "Test" }
     ]
-    window = Components::LogWindow.new(entries: entries)
+    window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     assert_has_text(window, "[14:32:01]")
   end
@@ -35,7 +35,7 @@ class LogWindowTest < ComponentTestCase
     entries = [
       { time: "10:00:00", type: "ERROR", message: "Test" }
     ]
-    window = Components::LogWindow.new(entries: entries)
+    window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     assert_has_text(window, "[ERROR]")
   end
@@ -44,45 +44,45 @@ class LogWindowTest < ComponentTestCase
     entries = [
       { time: "10:00:00", type: "INFO", message: "System initialized" }
     ]
-    window = Components::LogWindow.new(entries: entries)
+    window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     assert_has_text(window, "System initialized")
   end
 
   test "applies monospace font" do
-    window = Components::LogWindow.new
+    window = Components::Boilermaker::LogWindow.new
 
     assert_has_css_class(window, "font-mono")
   end
 
   test "applies text-xs for small text" do
-    window = Components::LogWindow.new
+    window = Components::Boilermaker::LogWindow.new
 
     assert_has_css_class(window, "text-xs")
   end
 
   test "applies semi-transparent background" do
-    window = Components::LogWindow.new
+    window = Components::Boilermaker::LogWindow.new
 
     html = render_component(window)
     assert html.include?("bg-surface-alt/50"), "Should have bg-surface-alt/50"
   end
 
   test "applies overflow-y-auto for scrolling" do
-    window = Components::LogWindow.new
+    window = Components::Boilermaker::LogWindow.new
 
     assert_has_css_class(window, "overflow-y-auto")
   end
 
   test "applies default height of 120px" do
-    window = Components::LogWindow.new
+    window = Components::Boilermaker::LogWindow.new
 
     html = render_component(window)
     assert html.include?('style="height: 120px"'), "Should have default height"
   end
 
   test "accepts custom height" do
-    window = Components::LogWindow.new(height: "200px")
+    window = Components::Boilermaker::LogWindow.new(height: "200px")
 
     html = render_component(window)
     assert html.include?('style="height: 200px"'), "Should have custom height"
@@ -94,7 +94,7 @@ class LogWindowTest < ComponentTestCase
       { time: "14:31:00", type: "WARN", message: "Second message" },
       { time: "14:32:00", type: "ERROR", message: "Third message" }
     ]
-    window = Components::LogWindow.new(entries: entries)
+    window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     html = render_component(window)
 
@@ -105,7 +105,7 @@ class LogWindowTest < ComponentTestCase
 
   test "timestamp has muted text color" do
     entries = [{ time: "10:00:00", type: "INFO", message: "Test" }]
-    window = Components::LogWindow.new(entries: entries)
+    window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     doc = render_and_parse(window)
     time_span = doc.css("span.text-muted").first
@@ -116,7 +116,7 @@ class LogWindowTest < ComponentTestCase
 
   test "type badge has accent text color" do
     entries = [{ time: "10:00:00", type: "SYNC", message: "Test" }]
-    window = Components::LogWindow.new(entries: entries)
+    window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     doc = render_and_parse(window)
     type_span = doc.css("span.text-accent").first
@@ -127,7 +127,7 @@ class LogWindowTest < ComponentTestCase
 
   test "message has body text color" do
     entries = [{ time: "10:00:00", type: "INFO", message: "Hello world" }]
-    window = Components::LogWindow.new(entries: entries)
+    window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     doc = render_and_parse(window)
     message_span = doc.css("span.text-body").first
@@ -137,12 +137,12 @@ class LogWindowTest < ComponentTestCase
   end
 
   test "accepts Entry data objects" do
-    entry = Components::LogWindow::Entry.new(
+    entry = Components::Boilermaker::LogWindow::Entry.new(
       time: "12:00:00",
       type: "DEBUG",
       message: "Debug message"
     )
-    window = Components::LogWindow.new(entries: [entry])
+    window = Components::Boilermaker::LogWindow.new(entries: [entry])
 
     html = render_component(window)
 
@@ -152,13 +152,13 @@ class LogWindowTest < ComponentTestCase
   end
 
   test "renders empty state when no entries" do
-    window = Components::LogWindow.new(entries: [])
+    window = Components::Boilermaker::LogWindow.new(entries: [])
 
     assert_has_text(window, "No log entries")
   end
 
   test "empty state has muted italic styling" do
-    window = Components::LogWindow.new(entries: [])
+    window = Components::Boilermaker::LogWindow.new(entries: [])
 
     doc = render_and_parse(window)
     empty_div = doc.css("div.text-muted.italic").first
@@ -167,7 +167,7 @@ class LogWindowTest < ComponentTestCase
   end
 
   test "accepts custom attributes" do
-    window = Components::LogWindow.new(
+    window = Components::Boilermaker::LogWindow.new(
       id: "system-log",
       "data-testid": "log-window"
     )
@@ -180,7 +180,7 @@ class LogWindowTest < ComponentTestCase
 
   test "entries have margin bottom for spacing" do
     entries = [{ time: "10:00:00", type: "INFO", message: "Test" }]
-    window = Components::LogWindow.new(entries: entries)
+    window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     html = render_component(window)
     assert html.include?("mb-0.5"), "Should have mb-0.5 spacing"
@@ -188,7 +188,7 @@ class LogWindowTest < ComponentTestCase
 
   test "elements have margin left for spacing" do
     entries = [{ time: "10:00:00", type: "INFO", message: "Test" }]
-    window = Components::LogWindow.new(entries: entries)
+    window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     html = render_component(window)
     assert html.include?("ml-2"), "Should have ml-2 spacing"

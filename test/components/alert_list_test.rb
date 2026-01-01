@@ -7,7 +7,7 @@ class AlertListTest < ComponentTestCase
   include ComponentTestHelpers
 
   test "renders successfully" do
-    list = Components::AlertList.new
+    list = Components::Boilermaker::AlertList.new
 
     assert_renders_successfully(list)
     assert_produces_output(list)
@@ -18,7 +18,7 @@ class AlertListTest < ComponentTestCase
       { name: "ML Alert", href: "/alerts/1", count: 23, status: :active, updated: "2 min ago", has_new: true },
       { name: "Battery Tech", href: "/alerts/2", count: 8, status: :active, updated: "1 hr ago", has_new: true }
     ]
-    list = Components::AlertList.new(items: items)
+    list = Components::Boilermaker::AlertList.new(items: items)
 
     assert_has_text(list, "ML Alert")
     assert_has_text(list, "Battery Tech")
@@ -27,10 +27,10 @@ class AlertListTest < ComponentTestCase
   end
 
   test "renders items from block" do
-    list = Components::AlertList.new
+    list = Components::Boilermaker::AlertList.new
 
     html = render_component(list) do
-      render Components::AlertList::Item.new(
+      render Components::Boilermaker::AlertList::Item.new(
         name: "Custom Alert",
         href: "/custom",
         count: 5,
@@ -44,14 +44,14 @@ class AlertListTest < ComponentTestCase
   end
 
   test "applies border styling" do
-    list = Components::AlertList.new
+    list = Components::Boilermaker::AlertList.new
 
     assert_has_css_class(list, "border")
     assert_has_css_class(list, "border-border-default")
   end
 
   test "accepts custom attributes" do
-    list = Components::AlertList.new(
+    list = Components::Boilermaker::AlertList.new(
       id: "alert-list",
       "data-testid": "alerts"
     )
@@ -67,7 +67,7 @@ class AlertListItemTest < ComponentTestCase
   include ComponentTestHelpers
 
   test "renders all cells" do
-    item = Components::AlertList::Item.new(
+    item = Components::Boilermaker::AlertList::Item.new(
       name: "Machine Learning",
       href: "/alerts/ml",
       count: 23,
@@ -83,7 +83,7 @@ class AlertListItemTest < ComponentTestCase
   end
 
   test "renders name as link" do
-    item = Components::AlertList::Item.new(
+    item = Components::Boilermaker::AlertList::Item.new(
       name: "Test Alert",
       href: "/test",
       count: 0,
@@ -100,7 +100,7 @@ class AlertListItemTest < ComponentTestCase
   end
 
   test "applies highlight styling when has_new is true" do
-    item = Components::AlertList::Item.new(
+    item = Components::Boilermaker::AlertList::Item.new(
       name: "Alert",
       href: "/",
       count: 10,
@@ -117,7 +117,7 @@ class AlertListItemTest < ComponentTestCase
   end
 
   test "applies muted styling when has_new is false" do
-    item = Components::AlertList::Item.new(
+    item = Components::Boilermaker::AlertList::Item.new(
       name: "Alert",
       href: "/",
       count: 0,
@@ -133,7 +133,7 @@ class AlertListItemTest < ComponentTestCase
   end
 
   test "renders active status with accent-alt dot" do
-    item = Components::AlertList::Item.new(
+    item = Components::Boilermaker::AlertList::Item.new(
       name: "Alert",
       href: "/",
       count: 0,
@@ -148,7 +148,7 @@ class AlertListItemTest < ComponentTestCase
   end
 
   test "renders paused status with muted dot" do
-    item = Components::AlertList::Item.new(
+    item = Components::Boilermaker::AlertList::Item.new(
       name: "Alert",
       href: "/",
       count: 0,
@@ -164,7 +164,7 @@ class AlertListItemTest < ComponentTestCase
   end
 
   test "uses grid layout" do
-    item = Components::AlertList::Item.new(
+    item = Components::Boilermaker::AlertList::Item.new(
       name: "Alert",
       href: "/",
       count: 0,
@@ -176,7 +176,7 @@ class AlertListItemTest < ComponentTestCase
   end
 
   test "applies hover styling" do
-    item = Components::AlertList::Item.new(
+    item = Components::Boilermaker::AlertList::Item.new(
       name: "Alert",
       href: "/",
       count: 0,

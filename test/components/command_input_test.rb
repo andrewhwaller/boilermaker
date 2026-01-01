@@ -7,32 +7,32 @@ class CommandInputTest < ComponentTestCase
   include ComponentTestHelpers
 
   test "renders successfully" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     assert_renders_successfully(input)
     assert_produces_output(input)
   end
 
   test "renders default prompt" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     assert_has_text(input, ">")
   end
 
   test "renders custom prompt" do
-    input = Components::CommandInput.new(prompt: "$")
+    input = Components::Boilermaker::CommandInput.new(prompt: "$")
 
     assert_has_text(input, "$")
   end
 
   test "renders input element" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     assert_has_tag(input, "input")
   end
 
   test "input is text type" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     doc = render_and_parse(input)
     input_el = doc.css("input").first
@@ -41,7 +41,7 @@ class CommandInputTest < ComponentTestCase
   end
 
   test "applies default placeholder" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     doc = render_and_parse(input)
     input_el = doc.css("input").first
@@ -50,7 +50,7 @@ class CommandInputTest < ComponentTestCase
   end
 
   test "applies custom placeholder" do
-    input = Components::CommandInput.new(placeholder: "search patents...")
+    input = Components::Boilermaker::CommandInput.new(placeholder: "search patents...")
 
     doc = render_and_parse(input)
     input_el = doc.css("input").first
@@ -59,7 +59,7 @@ class CommandInputTest < ComponentTestCase
   end
 
   test "applies default name attribute" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     doc = render_and_parse(input)
     input_el = doc.css("input").first
@@ -68,7 +68,7 @@ class CommandInputTest < ComponentTestCase
   end
 
   test "applies custom name attribute" do
-    input = Components::CommandInput.new(name: "search_query")
+    input = Components::Boilermaker::CommandInput.new(name: "search_query")
 
     doc = render_and_parse(input)
     input_el = doc.css("input").first
@@ -77,44 +77,44 @@ class CommandInputTest < ComponentTestCase
   end
 
   test "applies flex layout" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     assert_has_css_class(input, "flex")
     assert_has_css_class(input, "items-center")
   end
 
   test "applies gap between elements" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     assert_has_css_class(input, "gap-2")
   end
 
   test "applies body background" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     assert_has_css_class(input, "bg-body")
   end
 
   test "applies surface text color" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     assert_has_css_class(input, "text-surface")
   end
 
   test "applies padding" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     assert_has_css_class(input, "p-3")
   end
 
   test "applies monospace font" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     assert_has_css_class(input, "font-mono")
   end
 
   test "prompt has muted text color" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     doc = render_and_parse(input)
     prompt_span = doc.css("span.text-muted").first
@@ -123,7 +123,7 @@ class CommandInputTest < ComponentTestCase
   end
 
   test "prompt does not shrink" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     doc = render_and_parse(input)
     prompt_span = doc.css("span.flex-shrink-0").first
@@ -132,7 +132,7 @@ class CommandInputTest < ComponentTestCase
   end
 
   test "input is flexible" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     doc = render_and_parse(input)
     input_el = doc.css("input.flex-1").first
@@ -141,7 +141,7 @@ class CommandInputTest < ComponentTestCase
   end
 
   test "input has transparent background" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     doc = render_and_parse(input)
     input_el = doc.css("input.bg-transparent").first
@@ -150,7 +150,7 @@ class CommandInputTest < ComponentTestCase
   end
 
   test "input has no border" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     doc = render_and_parse(input)
     input_el = doc.css("input.border-none").first
@@ -159,7 +159,7 @@ class CommandInputTest < ComponentTestCase
   end
 
   test "input has no outline" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     doc = render_and_parse(input)
     input_el = doc.css("input.outline-none").first
@@ -168,7 +168,7 @@ class CommandInputTest < ComponentTestCase
   end
 
   test "input has surface text color" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     doc = render_and_parse(input)
     input_el = doc.css("input.text-surface").first
@@ -177,14 +177,14 @@ class CommandInputTest < ComponentTestCase
   end
 
   test "placeholder has semi-transparent muted color" do
-    input = Components::CommandInput.new
+    input = Components::Boilermaker::CommandInput.new
 
     html = render_component(input)
     assert html.include?("placeholder:text-muted/50"), "Should have muted placeholder"
   end
 
   test "accepts custom attributes" do
-    input = Components::CommandInput.new(
+    input = Components::Boilermaker::CommandInput.new(
       id: "search-box",
       "data-testid": "command-input"
     )

@@ -7,62 +7,62 @@ class SectionMarkerTest < ComponentTestCase
   include ComponentTestHelpers
 
   test "renders successfully" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     assert_renders_successfully(marker)
     assert_produces_output(marker)
   end
 
   test "renders section element" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     assert_has_tag(marker, "section")
   end
 
   test "renders letter marker" do
-    marker = Components::SectionMarker.new(letter: "B", title: "DETAILS")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "B", title: "DETAILS")
 
     assert_has_text(marker, "B")
   end
 
   test "renders title text" do
-    marker = Components::SectionMarker.new(letter: "A", title: "SYSTEM OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "SYSTEM OVERVIEW")
 
     assert_has_text(marker, "SYSTEM OVERVIEW")
   end
 
   test "renders reference when provided" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW", ref: "REF-001")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW", ref: "REF-001")
 
     assert_has_text(marker, "REF-001")
   end
 
   test "applies relative positioning" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     assert_has_css_class(marker, "relative")
   end
 
   test "applies left padding for marker space" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     assert_has_css_class(marker, "pl-10")
   end
 
   test "applies bottom margin" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     assert_has_css_class(marker, "mb-8")
   end
 
   test "marker is absolutely positioned" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     assert_has_css_class(marker, "absolute")
   end
 
   test "marker has accent border" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     doc = render_and_parse(marker)
     marker_div = doc.css("div.border-accent.border-2").first
@@ -71,7 +71,7 @@ class SectionMarkerTest < ComponentTestCase
   end
 
   test "marker has fixed dimensions" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     doc = render_and_parse(marker)
     marker_div = doc.css("div.w-6.h-6").first
@@ -80,13 +80,13 @@ class SectionMarkerTest < ComponentTestCase
   end
 
   test "marker has surface background" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     assert_has_css_class(marker, "bg-surface")
   end
 
   test "marker letter is bold and small" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     doc = render_and_parse(marker)
     marker_div = doc.css("div.font-bold.text-xs").first
@@ -95,7 +95,7 @@ class SectionMarkerTest < ComponentTestCase
   end
 
   test "marker letter has accent color" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     doc = render_and_parse(marker)
     marker_div = doc.css("div.text-accent").first
@@ -104,7 +104,7 @@ class SectionMarkerTest < ComponentTestCase
   end
 
   test "marker is centered" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     doc = render_and_parse(marker)
     marker_div = doc.css("div.flex.items-center.justify-center").first
@@ -113,7 +113,7 @@ class SectionMarkerTest < ComponentTestCase
   end
 
   test "header has bottom border" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     doc = render_and_parse(marker)
     header_div = doc.css("div.border-b.border-accent").first
@@ -122,7 +122,7 @@ class SectionMarkerTest < ComponentTestCase
   end
 
   test "title has uppercase styling" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     doc = render_and_parse(marker)
     title_span = doc.css("span.uppercase").first
@@ -131,7 +131,7 @@ class SectionMarkerTest < ComponentTestCase
   end
 
   test "title has tracking wider" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     doc = render_and_parse(marker)
     title_span = doc.css("span.tracking-wider").first
@@ -140,7 +140,7 @@ class SectionMarkerTest < ComponentTestCase
   end
 
   test "title has accent color" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
 
     doc = render_and_parse(marker)
     title_span = doc.css("span.text-accent").first
@@ -149,7 +149,7 @@ class SectionMarkerTest < ComponentTestCase
   end
 
   test "reference has muted small text" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW", ref: "REF-001")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW", ref: "REF-001")
 
     doc = render_and_parse(marker)
     ref_span = doc.css("span.text-muted").first
@@ -158,7 +158,7 @@ class SectionMarkerTest < ComponentTestCase
   end
 
   test "reference has tiny text size" do
-    marker = Components::SectionMarker.new(letter: "A", title: "OVERVIEW", ref: "REF-001")
+    marker = Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW", ref: "REF-001")
 
     html = render_component(marker)
     assert html.include?("text-[9px]"), "Should have 9px text size"
@@ -166,14 +166,14 @@ class SectionMarkerTest < ComponentTestCase
 
   test "yields block content" do
     html = render_component(
-      Components::SectionMarker.new(letter: "A", title: "OVERVIEW")
+      Components::Boilermaker::SectionMarker.new(letter: "A", title: "OVERVIEW")
     ) { "Section content here" }
 
     assert html.include?("Section content here"), "Should render block content"
   end
 
   test "accepts custom attributes" do
-    marker = Components::SectionMarker.new(
+    marker = Components::Boilermaker::SectionMarker.new(
       letter: "A",
       title: "OVERVIEW",
       id: "section-a",

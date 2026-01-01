@@ -9,7 +9,7 @@ class ResultsTableTest < ComponentTestCase
   test "renders table element successfully" do
     columns = [{ key: :id, label: "ID" }]
     rows = [{ id: "1" }]
-    table = Components::ResultsTable.new(columns: columns, rows: rows)
+    table = Components::Boilermaker::ResultsTable.new(columns: columns, rows: rows)
 
     assert_renders_successfully(table)
     assert_produces_output(table)
@@ -19,7 +19,7 @@ class ResultsTableTest < ComponentTestCase
   test "renders thead and tbody" do
     columns = [{ key: :name, label: "Name" }]
     rows = [{ name: "Test" }]
-    table = Components::ResultsTable.new(columns: columns, rows: rows)
+    table = Components::Boilermaker::ResultsTable.new(columns: columns, rows: rows)
 
     assert_has_tag(table, "thead")
     assert_has_tag(table, "tbody")
@@ -32,7 +32,7 @@ class ResultsTableTest < ComponentTestCase
       { key: :assignee, label: "Assignee" }
     ]
     rows = []
-    table = Components::ResultsTable.new(columns: columns, rows: rows)
+    table = Components::Boilermaker::ResultsTable.new(columns: columns, rows: rows)
 
     doc = render_and_parse(table)
     headers = doc.css("th")
@@ -52,7 +52,7 @@ class ResultsTableTest < ComponentTestCase
       { id: "001", name: "First" },
       { id: "002", name: "Second" }
     ]
-    table = Components::ResultsTable.new(columns: columns, rows: rows)
+    table = Components::Boilermaker::ResultsTable.new(columns: columns, rows: rows)
 
     assert_has_text(table, "001")
     assert_has_text(table, "First")
@@ -63,7 +63,7 @@ class ResultsTableTest < ComponentTestCase
   test "renders link cells with href" do
     columns = [{ key: :patent, label: "Patent" }]
     rows = [{ patent: { text: "US2024001", href: "/patents/1" } }]
-    table = Components::ResultsTable.new(columns: columns, rows: rows)
+    table = Components::Boilermaker::ResultsTable.new(columns: columns, rows: rows)
 
     doc = render_and_parse(table)
     link = doc.css("a").first
@@ -76,7 +76,7 @@ class ResultsTableTest < ComponentTestCase
   test "applies column width when specified" do
     columns = [{ key: :id, label: "ID", width: "130px" }]
     rows = [{ id: "1" }]
-    table = Components::ResultsTable.new(columns: columns, rows: rows)
+    table = Components::Boilermaker::ResultsTable.new(columns: columns, rows: rows)
 
     doc = render_and_parse(table)
     header = doc.css("th").first
@@ -87,7 +87,7 @@ class ResultsTableTest < ComponentTestCase
   test "applies cell_class when specified" do
     columns = [{ key: :score, label: "Score", cell_class: "font-bold text-accent" }]
     rows = [{ score: "94%" }]
-    table = Components::ResultsTable.new(columns: columns, rows: rows)
+    table = Components::Boilermaker::ResultsTable.new(columns: columns, rows: rows)
 
     doc = render_and_parse(table)
     cell = doc.css("td").first
@@ -99,7 +99,7 @@ class ResultsTableTest < ComponentTestCase
   test "applies table styling" do
     columns = [{ key: :a, label: "A" }]
     rows = []
-    table = Components::ResultsTable.new(columns: columns, rows: rows)
+    table = Components::Boilermaker::ResultsTable.new(columns: columns, rows: rows)
 
     assert_has_css_class(table, "w-full")
     assert_has_css_class(table, "border-collapse")
@@ -110,7 +110,7 @@ class ResultsTableTest < ComponentTestCase
   test "applies hover styling to rows" do
     columns = [{ key: :a, label: "A" }]
     rows = [{ a: "test" }]
-    table = Components::ResultsTable.new(columns: columns, rows: rows)
+    table = Components::Boilermaker::ResultsTable.new(columns: columns, rows: rows)
 
     doc = render_and_parse(table)
     row = doc.css("tbody tr").first
@@ -121,7 +121,7 @@ class ResultsTableTest < ComponentTestCase
   test "applies header styling" do
     columns = [{ key: :a, label: "Header" }]
     rows = []
-    table = Components::ResultsTable.new(columns: columns, rows: rows)
+    table = Components::Boilermaker::ResultsTable.new(columns: columns, rows: rows)
 
     doc = render_and_parse(table)
     header = doc.css("th").first
@@ -133,7 +133,7 @@ class ResultsTableTest < ComponentTestCase
   test "accepts custom attributes" do
     columns = [{ key: :a, label: "A" }]
     rows = []
-    table = Components::ResultsTable.new(
+    table = Components::Boilermaker::ResultsTable.new(
       columns: columns,
       rows: rows,
       id: "results-table",
@@ -147,7 +147,7 @@ class ResultsTableTest < ComponentTestCase
   end
 
   test "uses Column data structure" do
-    column = Components::ResultsTable::Column.new(
+    column = Components::Boilermaker::ResultsTable::Column.new(
       key: :patent_id,
       label: "Patent",
       width: "100px",
@@ -161,7 +161,7 @@ class ResultsTableTest < ComponentTestCase
   end
 
   test "Column defaults width and cell_class to nil" do
-    column = Components::ResultsTable::Column.new(key: :id, label: "ID")
+    column = Components::Boilermaker::ResultsTable::Column.new(key: :id, label: "ID")
 
     assert_nil column.width
     assert_nil column.cell_class

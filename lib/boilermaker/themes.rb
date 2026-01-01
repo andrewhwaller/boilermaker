@@ -9,11 +9,11 @@ module Boilermaker
 
     # Layout class mapping (theme name -> layout class name)
     LAYOUT_CLASSES = {
-      "paper" => "Views::Layouts::PaperDashboard",
-      "terminal" => "Views::Layouts::TerminalDashboard",
-      "blueprint" => "Views::Layouts::BlueprintDashboard",
-      "brutalist" => "Views::Layouts::BrutalistDashboard",
-      "amber" => "Views::Layouts::AmberDashboard"
+      "paper" => "Views::Boilermaker::Layouts::PaperDashboard",
+      "terminal" => "Views::Boilermaker::Layouts::TerminalDashboard",
+      "blueprint" => "Views::Boilermaker::Layouts::BlueprintDashboard",
+      "brutalist" => "Views::Boilermaker::Layouts::BrutalistDashboard",
+      "amber" => "Views::Boilermaker::Layouts::AmberDashboard"
     }.freeze
 
     # Metadata for each theme
@@ -24,7 +24,7 @@ module Boilermaker
         default_polarity: "light",
         has_overlays: false,
         unique_components: [],
-        layout_class: "Views::Layouts::PaperDashboard"
+        layout_class: "Views::Boilermaker::Layouts::PaperDashboard"
       },
       "terminal" => {
         name: "Terminal",
@@ -32,7 +32,7 @@ module Boilermaker
         default_polarity: "dark",
         has_overlays: true,
         unique_components: %w[command_bar],
-        layout_class: "Views::Layouts::TerminalDashboard"
+        layout_class: "Views::Boilermaker::Layouts::TerminalDashboard"
       },
       "blueprint" => {
         name: "Blueprint",
@@ -40,7 +40,7 @@ module Boilermaker
         default_polarity: "light",
         has_overlays: true,
         unique_components: %w[section_marker],
-        layout_class: "Views::Layouts::BlueprintDashboard"
+        layout_class: "Views::Boilermaker::Layouts::BlueprintDashboard"
       },
       "brutalist" => {
         name: "Brutalist",
@@ -48,7 +48,7 @@ module Boilermaker
         default_polarity: "light",
         has_overlays: false,
         unique_components: %w[keyboard_hint],
-        layout_class: "Views::Layouts::BrutalistDashboard"
+        layout_class: "Views::Boilermaker::Layouts::BrutalistDashboard"
       },
       "amber" => {
         name: "Amber",
@@ -56,7 +56,7 @@ module Boilermaker
         default_polarity: "dark",
         has_overlays: true,
         unique_components: %w[fn_bar],
-        layout_class: "Views::Layouts::AmberDashboard"
+        layout_class: "Views::Boilermaker::Layouts::AmberDashboard"
       }
     }.freeze
 

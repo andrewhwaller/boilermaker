@@ -107,6 +107,6 @@ class Components::ThemeToggle < Components::Base
   end
 
   def default_polarity
-    Boilermaker::Themes.default_polarity_for(Current.theme_name || Boilermaker::Themes::DEFAULT)
+    ::Boilermaker::Themes.default_polarity_for(Current.theme_name || ::Boilermaker::Themes::DEFAULT)
   end
 end
