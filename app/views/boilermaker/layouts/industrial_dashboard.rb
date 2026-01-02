@@ -90,7 +90,7 @@ module Views
 
       def render_header_right
         div(class: "border-l-2 border-body px-6 py-4 flex items-center gap-3") {
-          div(class: "w-2 h-2 bg-success rounded-full") {}
+          div(class: "w-2 h-2 bg-success rounded-full") { }
           span(class: "text-[13px]") { "user@company.com" }
         }
       end
@@ -147,7 +147,7 @@ module Views
           div(class: "text-[10px] text-muted flex gap-3") {
             span(class: "flex items-center gap-1") {
               dot_class = alert[:status] == :active ? "bg-success" : "bg-muted"
-              span(class: "w-1.5 h-1.5 #{dot_class} rounded-full") {}
+              span(class: "w-1.5 h-1.5 #{dot_class} rounded-full") { }
               plain(alert[:status] == :active ? "Active" : "Paused")
             }
             span { "#{alert[:new_count]} new" }
@@ -190,7 +190,7 @@ module Views
         ) {
           div(class: "flex items-center gap-4") {
             span(class: "flex items-center gap-2") {
-              span(class: "w-1.5 h-1.5 #{@status.connected ? 'bg-success' : 'bg-error'} rounded-full #{@status.connected ? 'animate-pulse' : ''}") {}
+              span(class: "w-1.5 h-1.5 #{@status.connected ? 'bg-success' : 'bg-error'} rounded-full #{@status.connected ? 'animate-pulse' : ''}") { }
               plain "#{@status.connection_name} #{@status.connected ? 'Connected' : 'Disconnected'}"
             }
             span { "Last sync: #{@status.last_sync}" }
@@ -199,6 +199,7 @@ module Views
           span(class: "text-muted") { "#{@title.split('—').first.strip.upcase} v#{@status.version}" }
         }
       end
+    end
     end
   end
 end
