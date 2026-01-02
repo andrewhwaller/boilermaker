@@ -27,7 +27,7 @@ module Views
           footer(class: "max-w-4xl mx-auto px-6 py-6 mt-8 border-t border-border-light text-[10px] text-muted flex justify-between") {
             div(class: "flex gap-4") {
               span(class: "flex items-center gap-1") {
-                span(class: "w-1.5 h-1.5 bg-accent-alt rounded-full") {}
+                span(class: "w-1.5 h-1.5 bg-accent-alt rounded-full") { }
                 plain "USPTO connected"
               }
               span { "Last sync: 2m ago" }

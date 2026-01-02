@@ -49,7 +49,7 @@ module Views
             span(class: "before:content-['●_'] before:text-accent") {
               "#{@status.connection_name} CONNECTION #{@status.connected ? 'ESTABLISHED' : 'DISCONNECTED'}"
             }
-            status_parts = ["LAST SYNC: #{@status.last_sync.upcase}", "DB: #{@status.db_size} RECORDS"]
+            status_parts = [ "LAST SYNC: #{@status.last_sync.upcase}", "DB: #{@status.db_size} RECORDS" ]
             status_parts << "LATENCY: #{@status.latency}" if @status.latency
             span { status_parts.join(" | ") }
           }
@@ -63,27 +63,27 @@ module Views
                 placeholder: "type command or search query...",
                 class: "flex-1 bg-transparent border-none outline-none text-accent placeholder:text-muted"
               )
-              span(class: "w-2 h-4 bg-accent animate-pulse") {}
+              span(class: "w-2 h-4 bg-accent animate-pulse") { }
             }
           }
         end
 
         private
 
-        def render_body(&block)
-          body(class: "bg-surface text-body min-h-screen pb-24") {
-            header_content
-            main(class: "max-w-[900px] mx-auto px-6") { yield }
-            footer_content
-          }
-        end
+          def render_body(&block)
+            body(class: "bg-surface text-body min-h-screen pb-24") {
+              header_content
+              main(class: "max-w-[900px] mx-auto px-6") { yield }
+              footer_content
+            }
+          end
 
-        def nav_link(text, active: false)
-          a(
-            href: "#",
-            class: active ? "text-accent before:content-['>_']" : "text-muted hover:text-accent"
-          ) { text }
-        end
+          def nav_link(text, active: false)
+            a(
+              href: "#",
+              class: active ? "text-accent before:content-['>_']" : "text-muted hover:text-accent"
+            ) { text }
+          end
       end
     end
   end

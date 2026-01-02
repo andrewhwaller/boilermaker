@@ -3,69 +3,69 @@
 module Views
   module Boilermaker
     module Layouts
-    # Blueprint-themed dashboard layout
-    # Technical drawing aesthetic with title block and tabbed navigation
-    class BlueprintDashboard < DashboardBase
-      def initialize(title: "Dashboard", description: nil, user: nil, tabs: nil, status_info: nil)
-        super(title: title)
-        @description = description
-        @user = user
-        @tabs = tabs || default_tabs
-        @status = status_info || default_status_info
-      end
+      # Blueprint-themed dashboard layout
+      # Technical drawing aesthetic with title block and tabbed navigation
+      class BlueprintDashboard < DashboardBase
+        def initialize(title: "Dashboard", description: nil, user: nil, tabs: nil, status_info: nil)
+          super(title: title)
+          @description = description
+          @user = user
+          @tabs = tabs || default_tabs
+          @status = status_info || default_status_info
+        end
 
-      def default_status_info
-        Views::Boilermaker::Demos::SampleData::StatusInfo.new
-      end
+        def default_status_info
+          Views::Boilermaker::Demos::SampleData::StatusInfo.new
+        end
 
-      def theme_name = "blueprint"
-      def polarity = "light"
+        def theme_name = "blueprint"
+        def polarity = "light"
 
-      private
+        private
 
-      def render_body(&block)
-        body(class: "bg-surface text-body min-h-screen") {
-          div(class: "page-container max-w-[900px] mx-auto min-h-screen pl-14 pr-10 py-10") {
-            render Components::Boilermaker::TitleBlock.new(
-              title: @title.upcase,
-              description: @description || "System Dashboard",
-              user: @user || "user@company",
-              date: Time.current.strftime("%Y-%m-%d"),
-              revision: "1.0"
-            )
-            render Components::Boilermaker::TabbedNav.new(tabs: @tabs) if @tabs.any?
-            yield
-            render_footer
-          }
-        }
-      end
-
-      def render_footer
-        footer(class: "mt-10 pt-4 border-t-2 border-accent") {
-          div(class: "flex justify-between text-[9px] text-muted") {
-            div(class: "flex gap-4") {
-              span {
-                span(class: "text-accent") { "#{@status.connected ? '●' : '○'} " }
-                plain "#{@status.connection_name} CONNECTION #{@status.connected ? 'ESTABLISHED' : 'DISCONNECTED'}"
+          def render_body(&block)
+            body(class: "bg-surface text-body min-h-screen") {
+              div(class: "page-container max-w-[900px] mx-auto min-h-screen pl-14 pr-10 py-10") {
+                render Components::Boilermaker::TitleBlock.new(
+                  title: @title.upcase,
+                  description: @description || "System Dashboard",
+                  user: @user || "user@company",
+                  date: Time.current.strftime("%Y-%m-%d"),
+                  revision: "1.0"
+                )
+                render Components::Boilermaker::TabbedNav.new(tabs: @tabs) if @tabs.any?
+                yield
+                render_footer
               }
-              span { "LAST SYNC: #{@status.last_sync.upcase}" }
-              span { "DB: #{@status.db_size} RECORDS" }
             }
-            span { "#{@title.upcase} v#{@status.version} // SHEET 1 OF 1" }
-          }
-        }
-      end
+          end
 
-      def default_tabs
-        [
-          { label: "Dashboard", href: "/", active: true },
-          { label: "Alerts", href: "/alerts" },
-          { label: "Search", href: "/search" },
-          { label: "Reports", href: "/reports" },
-          { label: "Settings", href: "/settings" }
-        ]
+          def render_footer
+            footer(class: "mt-10 pt-4 border-t-2 border-accent") {
+              div(class: "flex justify-between text-[9px] text-muted") {
+                div(class: "flex gap-4") {
+                  span {
+                    span(class: "text-accent") { "#{@status.connected ? '●' : '○'} " }
+                    plain "#{@status.connection_name} CONNECTION #{@status.connected ? 'ESTABLISHED' : 'DISCONNECTED'}"
+                  }
+                  span { "LAST SYNC: #{@status.last_sync.upcase}" }
+                  span { "DB: #{@status.db_size} RECORDS" }
+                }
+                span { "#{@title.upcase} v#{@status.version} // SHEET 1 OF 1" }
+              }
+            }
+          end
+
+          def default_tabs
+            [
+              { label: "Dashboard", href: "/", active: true },
+              { label: "Alerts", href: "/alerts" },
+              { label: "Search", href: "/search" },
+              { label: "Reports", href: "/reports" },
+              { label: "Settings", href: "/settings" }
+            ]
+          end
       end
-    end
     end
   end
 end

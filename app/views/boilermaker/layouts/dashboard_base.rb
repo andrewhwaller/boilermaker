@@ -48,28 +48,28 @@ module Views
 
         private
 
-        def render_head
-          head {
-            meta(charset: "utf-8")
-            meta(name: "viewport", content: "width=device-width,initial-scale=1")
-            title { @title }
-            csrf_meta_tags
-            csp_meta_tag
-            link(rel: "icon", type: "image/svg+xml", href: "/favicon.svg")
-            stylesheet_link_tag(:app, "data-turbo-track": "reload")
-            raw app_font_style_tag
-            raw font_stylesheet_link_tag
-            javascript_importmap_tags
-          }
-        end
+          def render_head
+            head {
+              meta(charset: "utf-8")
+              meta(name: "viewport", content: "width=device-width,initial-scale=1")
+              title { @title }
+              csrf_meta_tags
+              csp_meta_tag
+              link(rel: "icon", type: "image/svg+xml", href: "/favicon.svg")
+              stylesheet_link_tag(:app, "data-turbo-track": "reload")
+              raw app_font_style_tag
+              raw font_stylesheet_link_tag
+              javascript_importmap_tags
+            }
+          end
 
-        def render_body(&block)
-          body(class: "bg-surface text-body min-h-screen") {
-            header_content
-            main(class: "max-w-4xl mx-auto p-6") { yield }
-            footer_content
-          }
-        end
+          def render_body(&block)
+            body(class: "bg-surface text-body min-h-screen") {
+              header_content
+              main(class: "max-w-4xl mx-auto p-6") { yield }
+              footer_content
+            }
+          end
       end
     end
   end
