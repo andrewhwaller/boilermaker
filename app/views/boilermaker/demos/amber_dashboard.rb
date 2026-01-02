@@ -120,8 +120,21 @@ module Views
             span(class: "text-muted") { time }
             plain " "
             span(class: "text-accent") { "[#{type}]" }
-            plain " #{message}"
+            plain " #{format_dos_message(message)}"
           }
+        end
+
+        # Format log message in DOS style: alert names become UPPERCASE-KEBAB-CASE
+        def format_dos_message(message)
+          # Split on colon to separate alert name from details
+          if message.include?(":")
+            parts = message.split(":", 2)
+            alert_name = parts[0].strip.upcase.gsub(/\s+/, "-")
+            details = parts[1].strip
+            "#{alert_name}: #{details}"
+          else
+            message
+          end
         end
       end
     end
