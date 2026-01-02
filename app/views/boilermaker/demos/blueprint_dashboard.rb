@@ -73,9 +73,9 @@ module Views
         # Dimension line divider
         def render_dimension_line
           div(class: "flex items-center gap-2 my-4") {
-            div(class: "flex-1 h-px bg-accent") {}
+            div(class: "flex-1 h-px bg-accent") { }
             span(class: "demo-label-wide text-accent") { "Latest Results — Machine Learning (B.1)" }
-            div(class: "flex-1 h-px bg-accent") {}
+            div(class: "flex-1 h-px bg-accent") { }
           }
         end
 
@@ -136,12 +136,12 @@ module Views
             td(class: "p-2.5 border-b border-border-light align-top") {
               if status == :active
                 span(class: "inline-flex items-center gap-1 text-[10px]") {
-                  span(class: "w-1.5 h-1.5 rounded-full bg-accent") {}
+                  span(class: "w-1.5 h-1.5 rounded-full bg-accent") { }
                   plain "Active"
                 }
               else
                 span(class: "inline-flex items-center gap-1 text-[10px] text-muted") {
-                  span(class: "w-1.5 h-1.5 rounded-full bg-muted") {}
+                  span(class: "w-1.5 h-1.5 rounded-full bg-muted") { }
                   plain "Paused"
                 }
               end

@@ -174,6 +174,6 @@ module Views
       def sample_log_entries = LOG_ENTRIES
       def sample_activity_items = ACTIVITY_ITEMS
     end
-  end
+    end
   end
 end

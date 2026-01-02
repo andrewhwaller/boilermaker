@@ -26,7 +26,7 @@ class AppFooterTest < ComponentTestCase
   end
 
   test "renders online indicator dot for online status items" do
-    status_items = [{ label: "Connected", online: true }]
+    status_items = [ { label: "Connected", online: true } ]
     footer = Components::AppFooter.new(status_items: status_items)
 
     doc = render_and_parse(footer)
@@ -37,7 +37,7 @@ class AppFooterTest < ComponentTestCase
   end
 
   test "does not render dot for offline status items" do
-    status_items = [{ label: "Disconnected", online: false }]
+    status_items = [ { label: "Disconnected", online: false } ]
     footer = Components::AppFooter.new(status_items: status_items)
 
     doc = render_and_parse(footer)

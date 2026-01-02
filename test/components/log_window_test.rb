@@ -104,7 +104,7 @@ class LogWindowTest < ComponentTestCase
   end
 
   test "timestamp has muted text color" do
-    entries = [{ time: "10:00:00", type: "INFO", message: "Test" }]
+    entries = [ { time: "10:00:00", type: "INFO", message: "Test" } ]
     window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     doc = render_and_parse(window)
@@ -115,7 +115,7 @@ class LogWindowTest < ComponentTestCase
   end
 
   test "type badge has accent text color" do
-    entries = [{ time: "10:00:00", type: "SYNC", message: "Test" }]
+    entries = [ { time: "10:00:00", type: "SYNC", message: "Test" } ]
     window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     doc = render_and_parse(window)
@@ -126,7 +126,7 @@ class LogWindowTest < ComponentTestCase
   end
 
   test "message has body text color" do
-    entries = [{ time: "10:00:00", type: "INFO", message: "Hello world" }]
+    entries = [ { time: "10:00:00", type: "INFO", message: "Hello world" } ]
     window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     doc = render_and_parse(window)
@@ -142,7 +142,7 @@ class LogWindowTest < ComponentTestCase
       type: "DEBUG",
       message: "Debug message"
     )
-    window = Components::Boilermaker::LogWindow.new(entries: [entry])
+    window = Components::Boilermaker::LogWindow.new(entries: [ entry ])
 
     html = render_component(window)
 
@@ -179,7 +179,7 @@ class LogWindowTest < ComponentTestCase
   end
 
   test "entries have margin bottom for spacing" do
-    entries = [{ time: "10:00:00", type: "INFO", message: "Test" }]
+    entries = [ { time: "10:00:00", type: "INFO", message: "Test" } ]
     window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     html = render_component(window)
@@ -187,7 +187,7 @@ class LogWindowTest < ComponentTestCase
   end
 
   test "elements have margin left for spacing" do
-    entries = [{ time: "10:00:00", type: "INFO", message: "Test" }]
+    entries = [ { time: "10:00:00", type: "INFO", message: "Test" } ]
     window = Components::Boilermaker::LogWindow.new(entries: entries)
 
     html = render_component(window)

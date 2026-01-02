@@ -89,7 +89,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "underlines correct character based on hotkey_index" do
-    items = [{ label: "Help", hotkey_index: 0 }]
+    items = [ { label: "Help", hotkey_index: 0 } ]
     bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
@@ -99,7 +99,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "underlines middle character when hotkey_index is non-zero" do
-    items = [{ label: "Help", hotkey_index: 2 }]
+    items = [ { label: "Help", hotkey_index: 2 } ]
     bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
@@ -109,7 +109,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "active item has surface background" do
-    items = [{ label: "File", active: true }]
+    items = [ { label: "File", active: true } ]
     bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
@@ -119,7 +119,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "active item has accent text" do
-    items = [{ label: "File", active: true }]
+    items = [ { label: "File", active: true } ]
     bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
@@ -129,7 +129,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "inactive item has hover styling" do
-    items = [{ label: "File", active: false }]
+    items = [ { label: "File", active: false } ]
     bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
@@ -164,7 +164,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "default href is #" do
-    items = [{ label: "File" }]
+    items = [ { label: "File" } ]
     bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)

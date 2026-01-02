@@ -7,7 +7,7 @@ class StatsRowTest < ComponentTestCase
   include ComponentTestHelpers
 
   test "renders successfully" do
-    stats = [{ value: "10", label: "items" }]
+    stats = [ { value: "10", label: "items" } ]
     row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     assert_renders_successfully(row)
@@ -31,7 +31,7 @@ class StatsRowTest < ComponentTestCase
   end
 
   test "applies highlight styling to highlighted stats" do
-    stats = [{ value: "47", label: "new", highlight: true }]
+    stats = [ { value: "47", label: "new", highlight: true } ]
     row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     doc = render_and_parse(row)
@@ -41,7 +41,7 @@ class StatsRowTest < ComponentTestCase
   end
 
   test "applies normal styling to non-highlighted stats" do
-    stats = [{ value: "100", label: "total", highlight: false }]
+    stats = [ { value: "100", label: "total", highlight: false } ]
     row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     doc = render_and_parse(row)
@@ -51,7 +51,7 @@ class StatsRowTest < ComponentTestCase
   end
 
   test "applies flex layout with gap" do
-    stats = [{ value: "1", label: "test" }]
+    stats = [ { value: "1", label: "test" } ]
     row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     assert_has_css_class(row, "flex")
@@ -59,7 +59,7 @@ class StatsRowTest < ComponentTestCase
   end
 
   test "renders stat value with bold font" do
-    stats = [{ value: "42", label: "count" }]
+    stats = [ { value: "42", label: "count" } ]
     row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     doc = render_and_parse(row)
@@ -70,7 +70,7 @@ class StatsRowTest < ComponentTestCase
   end
 
   test "renders stat label with muted styling" do
-    stats = [{ value: "1", label: "item" }]
+    stats = [ { value: "1", label: "item" } ]
     row = Components::Boilermaker::StatsRow.new(stats: stats)
 
     doc = render_and_parse(row)
@@ -81,7 +81,7 @@ class StatsRowTest < ComponentTestCase
   end
 
   test "accepts custom attributes" do
-    stats = [{ value: "1", label: "test" }]
+    stats = [ { value: "1", label: "test" } ]
     row = Components::Boilermaker::StatsRow.new(
       stats: stats,
       id: "stats-row",

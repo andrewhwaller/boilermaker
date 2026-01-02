@@ -89,7 +89,7 @@ module Views
               count > 0 ? "+#{count} new" : "0"
             }
             span(class: "flex items-center gap-1 text-[10px] text-muted") {
-              span(class: "w-1.5 h-1.5 rounded-full #{status == :active ? 'bg-accent-alt' : 'bg-muted'}") {}
+              span(class: "w-1.5 h-1.5 rounded-full #{status == :active ? 'bg-accent-alt' : 'bg-muted'}") { }
               plain status == :active ? "Active" : "Paused"
             }
             span(class: "text-[10px] text-muted text-right") { time }

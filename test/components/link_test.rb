@@ -239,7 +239,7 @@ class LinkTest < ComponentTestCase
       # Verify variant styling
       expected_variant_classes = Components::Link::VARIANTS[attrs[:variant]]
       if expected_variant_classes
-        expected_classes = (attrs[:variant] == :button ? ["ui-button"] : ["link"]) # Check for base "link" or "ui-button"
+        expected_classes = (attrs[:variant] == :button ? [ "ui-button" ] : [ "link" ]) # Check for base "link" or "ui-button"
         expected_classes << expected_variant_classes if attrs[:variant] != :default && attrs[:variant] != :button # Add specific variant if not default or button
         expected_classes.flatten!
 

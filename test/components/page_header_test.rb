@@ -53,7 +53,7 @@ class PageHeaderTest < ComponentTestCase
   end
 
   test "applies highlight styling to highlighted stats" do
-    stats = [{ value: "47", label: "new", highlight: true }]
+    stats = [ { value: "47", label: "new", highlight: true } ]
     header = Components::PageHeader.new(title: "Alerts", stats: stats)
 
     doc = render_and_parse(header)
@@ -63,7 +63,7 @@ class PageHeaderTest < ComponentTestCase
   end
 
   test "applies normal styling to non-highlighted stats" do
-    stats = [{ value: "100", label: "total", highlight: false }]
+    stats = [ { value: "100", label: "total", highlight: false } ]
     header = Components::PageHeader.new(title: "Alerts", stats: stats)
 
     doc = render_and_parse(header)

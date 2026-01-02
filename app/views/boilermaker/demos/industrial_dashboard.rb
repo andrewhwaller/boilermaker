@@ -118,7 +118,7 @@ module Views
         def render_match_score(score)
           span(class: "flex items-center gap-2") {
             span(class: "w-10 h-1 bg-border-light relative") {
-              span(class: "absolute left-0 top-0 h-full bg-success", style: "width: #{score}%") {}
+              span(class: "absolute left-0 top-0 h-full bg-success", style: "width: #{score}%") { }
             }
             span(class: "text-[11px]") { "#{score}%" }
           }
