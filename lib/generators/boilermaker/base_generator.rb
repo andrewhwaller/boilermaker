@@ -81,7 +81,7 @@ module Boilermaker
 
         config_path = Rails.root.join("config", "boilermaker.yml")
         config = if File.exist?(config_path)
-          YAML.load_file(config_path, aliases: true, permitted_classes: [Symbol]) || {}
+          YAML.load_file(config_path, aliases: true, permitted_classes: [ Symbol ]) || {}
         else
           {}
         end
@@ -139,7 +139,7 @@ module Boilermaker
         config_path = Rails.root.join("config", "boilermaker.yml")
         return false unless File.exist?(config_path)
 
-        config = YAML.load_file(config_path, aliases: true, permitted_classes: [Symbol]) || {}
+        config = YAML.load_file(config_path, aliases: true, permitted_classes: [ Symbol ]) || {}
         dev_config = config["development"] || {}
         features = dev_config["features"] || {}
         features[feature_name.to_s] == true
