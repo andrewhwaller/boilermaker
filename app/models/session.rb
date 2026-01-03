@@ -2,6 +2,7 @@ class Session < ApplicationRecord
   include Hashid::Rails
   belongs_to :user
   belongs_to :account, optional: true
+  belongs_to :impersonator, class_name: "User", optional: true
 
   before_create do
     self.user_agent = Current.user_agent

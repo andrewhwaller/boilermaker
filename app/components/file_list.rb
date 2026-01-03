@@ -54,7 +54,7 @@ class Components::FileList < Components::Base
         if attachment.representable?
           img(
             src: Rails.application.routes.url_helpers.rails_representation_path(
-              attachment.representation(resize_to_limit: [40, 40])
+              attachment.representation(resize_to_limit: [ 40, 40 ])
             ),
             class: "w-full h-full object-cover"
           )
