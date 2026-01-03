@@ -1,0 +1,101 @@
+# frozen_string_literal: true
+
+class Admin::AuditLogsController < ApplicationController
+  include AuditLogFeature
+
+  before_action :authorize_admin
+  before_action :set_audit_log, only: [:show]
+
+  # GET /admin/audit_logs
+  def index
+    @audit_logs = AuditLog.recent
+                          .includes(:user)
+                          .then { |scope| apply_filters(scope) }
+                          .page(params[:page])
+                          .per(50)
+
+    render Views::Admin::AuditLogs::Index.new(
+      audit_logs: @audit_logs,
+      filters: current_filters
+    )
+  end
+
+  # GET /admin/audit_logs/:id
+  def show
+    render Views::Admin::AuditLogs::Show.new(audit_log: @audit_log)
+  end
+
+  # GET /admin/audit_logs/export
+  def export
+    @audit_logs = AuditLog.recent
+                          .includes(:user)
+                          .then { |scope| apply_filters(scope) }
+                          .limit(10_000)
+
+    respond_to do |format|
+      format.csv do
+        send_data generate_csv(@audit_logs),
+                  filename: "audit_logs_#{Date.current}.csv",
+                  type: "text/csv"
+      end
+    end
+  end
+
+  private
+
+  def set_audit_log
+    @audit_log = AuditLog.find(params[:id])
+  end
+
+  def authorize_admin
+    return if Current.user&.app_admin?
+
+    redirect_to root_path, alert: "Access denied"
+  end
+
+  def apply_filters(scope)
+    scope = scope.for_type(params[:type]) if params[:type].present?
+    scope = scope.for_action(params[:action_type]) if params[:action_type].present?
+    scope = scope.for_user(User.find(params[:user_id])) if params[:user_id].present?
+
+    if params[:start_date].present? && params[:end_date].present?
+      scope = scope.in_date_range(
+        Date.parse(params[:start_date]).beginning_of_day,
+        Date.parse(params[:end_date]).end_of_day
+      )
+    end
+
+    scope
+  end
+
+  def current_filters
+    {
+      type: params[:type],
+      action_type: params[:action_type],
+      user_id: params[:user_id],
+      start_date: params[:start_date],
+      end_date: params[:end_date]
+    }
+  end
+
+  def generate_csv(audit_logs)
+    require "csv"
+
+    CSV.generate(headers: true) do |csv|
+      csv << ["ID", "Date", "User", "Action", "Model", "Record ID", "Changes", "IP Address"]
+
+      audit_logs.each do |log|
+        csv << [
+          log.id,
+          log.created_at.iso8601,
+          log.user&.email || "System",
+          log.action,
+          log.auditable_type,
+          log.auditable_id,
+          log.changes_summary,
+          log.ip_address
+        ]
+      end
+    end
+  end
+end

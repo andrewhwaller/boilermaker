@@ -1,0 +1,73 @@
+Description:
+    Generates file upload components with ActiveStorage and Stimulus.
+    Includes drag-and-drop upload, file preview, and file list components.
+
+Features:
+    - Drag-and-drop file upload with progress indicator
+    - ActiveStorage direct uploads for large files
+    - File preview component (images and documents)
+    - File list component with download/delete actions
+    - Stimulus controller for interactive uploads
+
+Example:
+    bin/rails generate boilermaker:uploads
+
+    This will create:
+        app/components/file_upload.rb
+        app/components/file_preview.rb
+        app/components/file_list.rb
+        app/javascript/controllers/upload_controller.js
+        app/controllers/concerns/uploads_feature.rb
+        config/routes/uploads.rb
+        test/components/file_upload_component_test.rb
+
+Options:
+    --skip-routes   Skip generating route file
+    --skip-tests    Skip generating test files
+    --skip-config   Skip updating boilermaker.yml
+    --skip-seeds    Skip adding seed data (n/a for this generator)
+
+Usage in Models:
+    class User < ApplicationRecord
+      has_one_attached :avatar
+      has_many_attached :documents
+    end
+
+Usage in Views:
+    # Single file upload
+    render Components::FileUpload.new(
+      name: "user[avatar]",
+      accept: "image/*"
+    )
+
+    # Multiple file upload
+    render Components::FileUpload.new(
+      name: "user[documents][]",
+      multiple: true
+    )
+
+    # File preview
+    render Components::FilePreview.new(
+      attachment: @user.avatar,
+      size: :medium
+    )
+
+    # File list with actions
+    render Components::FileList.new(
+      attachments: @user.documents,
+      deletable: true,
+      delete_path: ->(a) { document_path(a) }
+    )
+
+Production Setup:
+    Configure cloud storage in config/storage.yml:
+
+    amazon:
+      service: S3
+      access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
+      secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
+      region: us-east-1
+      bucket: your-bucket
+
+    Then update config/environments/production.rb:
+      config.active_storage.service = :amazon

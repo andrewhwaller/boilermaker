@@ -1,0 +1,118 @@
+# frozen_string_literal: true
+
+class Components::PricingCard < Components::Base
+  include Phlex::Rails::Helpers::ButtonTo
+  include Phlex::Rails::Helpers::LinkTo
+
+  def initialize(plan:, current: false)
+    @plan = plan
+    @current = current
+  end
+
+  def view_template
+    div(class: card_classes) do
+      popular_badge if @plan[:popular]
+      plan_header
+      price_section
+      features_section
+      action_section
+    end
+  end
+
+  private
+
+  def card_classes
+    base = "relative rounded-lg border p-6"
+    if @plan[:popular]
+      "#{base} border-accent bg-surface-alt"
+    else
+      "#{base} border-border-light bg-surface"
+    end
+  end
+
+  def popular_badge
+    div(class: "absolute -top-3 left-1/2 -translate-x-1/2") do
+      span(class: "bg-accent text-accent-content text-xs font-medium px-3 py-1 rounded-full") do
+        plain "Most Popular"
+      end
+    end
+  end
+
+  def plan_header
+    div(class: "text-center mb-6") do
+      h3(class: "text-lg font-bold text-body") { @plan[:name] }
+    end
+  end
+
+  def price_section
+    div(class: "text-center mb-6") do
+      span(class: "text-4xl font-bold text-body") { @plan[:price] }
+      span(class: "text-muted") { "/#{@plan[:interval]}" }
+    end
+  end
+
+  def features_section
+    ul(class: "space-y-3 mb-8") do
+      @plan[:features].each do |feature|
+        li(class: "flex items-center gap-2 text-sm text-body") do
+          check_icon
+          span { feature }
+        end
+      end
+    end
+  end
+
+  def action_section
+    div(class: "mt-auto") do
+      if @current
+        current_plan_button
+      elsif Current.user.present?
+        checkout_button
+      else
+        sign_up_button
+      end
+    end
+  end
+
+  def current_plan_button
+    span(class: "block w-full text-center py-2 text-sm text-muted") do
+      plain "Current Plan"
+    end
+  end
+
+  def checkout_button
+    button_to "Get Started",
+              checkout_path(@plan[:id]),
+              method: :post,
+              class: button_classes
+  end
+
+  def sign_up_button
+    link_to "Get Started",
+            sign_up_path,
+            class: button_classes
+  end
+
+  def button_classes
+    if @plan[:popular]
+      "ui-button ui-button-primary w-full"
+    else
+      "ui-button ui-button-outline w-full"
+    end
+  end
+
+  def check_icon
+    svg(
+      xmlns: "http://www.w3.org/2000/svg",
+      class: "h-5 w-5 text-success flex-shrink-0",
+      viewBox: "0 0 20 20",
+      fill: "currentColor"
+    ) do |s|
+      s.path(
+        fill_rule: "evenodd",
+        d: "M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z",
+        clip_rule: "evenodd"
+      )
+    end
+  end
+end

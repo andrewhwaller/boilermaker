@@ -1,0 +1,119 @@
+# frozen_string_literal: true
+
+require "test_helper"
+
+class MasqueradesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @admin = users(:admin)
+    @regular_user = users(:verified)
+    @other_admin = users(:other_admin) if user_fixtures_have?(:other_admin)
+  end
+
+  # ============================================================================
+  # CREATE (Start Impersonation)
+  # ============================================================================
+
+  test "admin can impersonate a regular user" do
+    sign_in(@admin)
+
+    assert_difference -> { Session.count }, 1 do
+      post user_masquerade_path(@regular_user)
+    end
+
+    assert_redirected_to root_path
+    assert_match(/masquerading as #{@regular_user.email}/i, flash[:notice])
+
+    # Verify the new session has impersonator set
+    new_session = Session.last
+    assert_equal @regular_user, new_session.user
+    assert_equal @admin, new_session.impersonator
+  end
+
+  test "admin cannot impersonate another admin" do
+    skip "No other_admin fixture" unless user_fixtures_have?(:other_admin)
+
+    sign_in(@admin)
+
+    assert_no_difference -> { Session.count } do
+      post user_masquerade_path(@other_admin)
+    end
+
+    assert_redirected_to admin_users_path
+    assert_match(/cannot impersonate/i, flash[:alert])
+  end
+
+  test "regular user cannot impersonate anyone" do
+    sign_in(@regular_user)
+
+    assert_no_difference -> { Session.count } do
+      post user_masquerade_path(@admin)
+    end
+
+    assert_redirected_to root_path
+    assert_match(/access denied/i, flash[:alert])
+  end
+
+  test "unauthenticated user cannot impersonate" do
+    assert_no_difference -> { Session.count } do
+      post user_masquerade_path(@regular_user)
+    end
+
+    assert_redirected_to sign_in_path
+  end
+
+  # ============================================================================
+  # DESTROY (Stop Impersonation)
+  # ============================================================================
+
+  test "impersonating user can exit impersonation" do
+    sign_in(@admin)
+    post user_masquerade_path(@regular_user)
+
+    # Now we're "signed in" as regular_user with impersonator = admin
+    assert_difference -> { Session.count }, 0 do
+      # One session destroyed, one created
+      delete stop_masquerade_path
+    end
+
+    assert_redirected_to admin_users_path
+    assert_match(/stopped masquerading/i, flash[:notice])
+
+    # Verify the new session is for the admin without impersonator
+    new_session = Session.last
+    assert_equal @admin, new_session.user
+    assert_nil new_session.impersonator
+  end
+
+  test "non-impersonating user cannot exit impersonation" do
+    sign_in(@admin)
+
+    # Admin is not impersonating anyone
+    delete stop_masquerade_path
+
+    assert_redirected_to root_path
+    assert_match(/not currently impersonating/i, flash[:alert])
+  end
+
+  # ============================================================================
+  # HELPERS
+  # ============================================================================
+
+  private
+
+  def sign_in(user)
+    session = user.sessions.create!(
+      user_agent: "Test Agent",
+      ip_address: "127.0.0.1"
+    )
+    cookies[:session_token] = session.id
+  end
+
+  def user_fixtures_have?(fixture_name)
+    begin
+      users(fixture_name)
+      true
+    rescue StandardError
+      false
+    end
+  end
+end

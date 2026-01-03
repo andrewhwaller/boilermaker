@@ -1,0 +1,113 @@
+# frozen_string_literal: true
+
+require "test_helper"
+
+class AuditLogTest < ActiveSupport::TestCase
+  setup do
+    @user = users(:verified)
+    Current.user = @user
+    Current.ip_address = "127.0.0.1"
+    Current.user_agent = "Test Agent"
+  end
+
+  teardown do
+    Current.reset
+  end
+
+  # ============================================================================
+  # MODEL BASICS
+  # ============================================================================
+
+  test "creates audit log with valid attributes" do
+    log = AuditLog.log(
+      user: @user,
+      action: :create,
+      auditable: @user,
+      changes: { email: [nil, "test@example.com"] }
+    )
+
+    assert log.persisted?
+    assert_equal @user, log.user
+    assert_equal "create", log.action
+    assert_equal "User", log.auditable_type
+    assert_equal @user.id, log.auditable_id
+  end
+
+  test "sanitizes sensitive fields from changes" do
+    log = AuditLog.log(
+      user: @user,
+      action: :update,
+      auditable: @user,
+      changes: {
+        email: ["old@example.com", "new@example.com"],
+        password_digest: ["old_hash", "new_hash"],
+        otp_secret: ["old_secret", "new_secret"]
+      }
+    )
+
+    assert log.changes_made.key?("email")
+    assert_not log.changes_made.key?("password_digest")
+    assert_not log.changes_made.key?("otp_secret")
+  end
+
+  # ============================================================================
+  # SCOPES
+  # ============================================================================
+
+  test "for_type scope filters by auditable type" do
+    AuditLog.log(user: @user, action: :create, auditable: @user, changes: {})
+    account = accounts(:team)
+    AuditLog.log(user: @user, action: :create, auditable: account, changes: {})
+
+    user_logs = AuditLog.for_type("User")
+    assert user_logs.all? { |log| log.auditable_type == "User" }
+  end
+
+  test "for_action scope filters by action" do
+    AuditLog.log(user: @user, action: :create, auditable: @user, changes: {})
+    AuditLog.log(user: @user, action: :update, auditable: @user, changes: {})
+
+    create_logs = AuditLog.for_action("create")
+    assert create_logs.all? { |log| log.action == "create" }
+  end
+
+  # ============================================================================
+  # CLEANUP
+  # ============================================================================
+
+  test "cleanup_old_records deletes logs older than retention period" do
+    # Create an old log
+    old_log = AuditLog.create!(
+      user: @user,
+      action: "create",
+      auditable_type: "User",
+      auditable_id: @user.id,
+      created_at: 100.days.ago
+    )
+
+    # Create a recent log
+    recent_log = AuditLog.log(user: @user, action: :create, auditable: @user, changes: {})
+
+    deleted_count = AuditLog.cleanup_old_records!
+
+    assert_equal 1, deleted_count
+    assert_raises(ActiveRecord::RecordNotFound) { old_log.reload }
+    assert_nothing_raised { recent_log.reload }
+  end
+
+  # ============================================================================
+  # HELPER METHODS
+  # ============================================================================
+
+  test "human_action returns humanized action" do
+    log = AuditLog.new(action: "impersonation_start")
+    assert_equal "Impersonation start", log.human_action
+  end
+
+  test "changes_summary returns formatted summary" do
+    log = AuditLog.new(changes_made: { email: ["old@test.com", "new@test.com"] })
+    assert_includes log.changes_summary, "email:"
+    assert_includes log.changes_summary, "old@test.com"
+    assert_includes log.changes_summary, "new@test.com"
+  end
+end

@@ -1,0 +1,82 @@
+# frozen_string_literal: true
+
+# Include this concern in models to automatically track changes
+#
+# Usage:
+#   class Document < ApplicationRecord
+#     include Auditable
+#   end
+#
+# This will automatically log:
+#   - create: when a new record is created
+#   - update: when a record is updated (with changed fields)
+#   - destroy: when a record is deleted
+#
+module Auditable
+  extend ActiveSupport::Concern
+
+  included do
+    after_create :log_create
+    after_update :log_update
+    after_destroy :log_destroy
+  end
+
+  private
+
+  def log_create
+    return unless should_audit?
+
+    AuditLog.log(
+      user: audit_user,
+      action: :create,
+      auditable: self,
+      changes: auditable_create_changes,
+      metadata: audit_metadata
+    )
+  end
+
+  def log_update
+    return unless should_audit?
+    return if saved_changes.blank?
+
+    AuditLog.log(
+      user: audit_user,
+      action: :update,
+      auditable: self,
+      changes: saved_changes.except("updated_at"),
+      metadata: audit_metadata
+    )
+  end
+
+  def log_destroy
+    return unless should_audit?
+
+    AuditLog.log(
+      user: audit_user,
+      action: :destroy,
+      auditable: self,
+      changes: {},
+      metadata: audit_metadata.merge(destroyed_attributes: attributes)
+    )
+  end
+
+  def should_audit?
+    Boilermaker.config.feature_enabled?("audit_log")
+  end
+
+  def audit_user
+    Current.user
+  end
+
+  def auditable_create_changes
+    # For creates, show the initial values (not as changes)
+    attributes.except("id", "created_at", "updated_at").transform_values { |v| [nil, v] }
+  end
+
+  def audit_metadata
+    {
+      model_class: self.class.name,
+      record_id: id
+    }
+  end
+end

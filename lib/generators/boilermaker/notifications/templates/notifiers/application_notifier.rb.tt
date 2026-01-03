@@ -1,0 +1,39 @@
+# frozen_string_literal: true
+
+# Base notifier class for all application notifications
+# All notifiers should inherit from this class
+#
+# Usage:
+#   class CommentNotifier < ApplicationNotifier
+#     deliver_by :database
+#     deliver_by :email, mailer: "NotificationMailer", method: :comment_notification
+#
+#     notification_methods do
+#       def message
+#         "#{params[:commenter].name} commented on your post"
+#       end
+#
+#       def url
+#         post_path(params[:post])
+#       end
+#     end
+#   end
+#
+#   # To send:
+#   CommentNotifier.with(commenter: current_user, post: @post).deliver(post.author)
+#
+class ApplicationNotifier < Noticed::Event
+  # Always deliver to database for in-app notifications
+  deliver_by :database
+
+  # Common notification methods
+  notification_methods do
+    def message
+      params[:message] || "You have a new notification"
+    end
+
+    def url
+      params[:url]
+    end
+  end
+end
