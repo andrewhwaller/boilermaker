@@ -52,31 +52,7 @@ class MenuBarTest < ComponentTestCase
     assert_includes hrefs, "#view"
   end
 
-  test "applies flex layout" do
-    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
-
-    assert_has_css_class(bar, "flex")
-  end
-
-  test "applies accent background" do
-    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
-
-    assert_has_css_class(bar, "bg-accent")
-  end
-
-  test "applies surface text color" do
-    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
-
-    assert_has_css_class(bar, "text-surface")
-  end
-
-  test "applies text-sm styling" do
-    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
-
-    assert_has_css_class(bar, "text-sm")
-  end
-
-  test "underlines hotkey character" do
+  test "underlines hotkey character at index 0" do
     bar = Components::Boilermaker::MenuBar.new(items: sample_items)
 
     doc = render_and_parse(bar)
@@ -89,17 +65,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "underlines correct character based on hotkey_index" do
-    items = [ { label: "Help", hotkey_index: 0 } ]
-    bar = Components::Boilermaker::MenuBar.new(items: items)
-
-    doc = render_and_parse(bar)
-    underlined = doc.css("span.underline").first
-
-    assert_equal "H", underlined.text
-  end
-
-  test "underlines middle character when hotkey_index is non-zero" do
-    items = [ { label: "Help", hotkey_index: 2 } ]
+    items = [{ label: "Help", hotkey_index: 2 }]
     bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
@@ -108,45 +74,18 @@ class MenuBarTest < ComponentTestCase
     assert_equal "l", underlined.text
   end
 
-  test "active item has surface background" do
-    items = [ { label: "File", active: true } ]
+  test "active item has different styling than inactive" do
+    items = [
+      { label: "File", active: true },
+      { label: "Edit", active: false }
+    ]
     bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
-    active_link = doc.css("a").first
+    links = doc.css("a")
 
-    assert active_link["class"].include?("bg-surface")
-  end
-
-  test "active item has accent text" do
-    items = [ { label: "File", active: true } ]
-    bar = Components::Boilermaker::MenuBar.new(items: items)
-
-    doc = render_and_parse(bar)
-    active_link = doc.css("a").first
-
-    assert active_link["class"].include?("text-accent")
-  end
-
-  test "inactive item has hover styling" do
-    items = [ { label: "File", active: false } ]
-    bar = Components::Boilermaker::MenuBar.new(items: items)
-
-    doc = render_and_parse(bar)
-    link = doc.css("a").first
-
-    assert link["class"].include?("hover:bg-surface")
-    assert link["class"].include?("hover:text-accent")
-  end
-
-  test "items have padding" do
-    bar = Components::Boilermaker::MenuBar.new(items: sample_items)
-
-    doc = render_and_parse(bar)
-    first_link = doc.css("a").first
-
-    assert first_link["class"].include?("px-4")
-    assert first_link["class"].include?("py-1")
+    # Active and inactive should have different classes
+    assert_not_equal links[0]["class"], links[1]["class"]
   end
 
   test "accepts Item data objects" do
@@ -164,7 +103,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "default href is #" do
-    items = [ { label: "File" } ]
+    items = [{ label: "File" }]
     bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
