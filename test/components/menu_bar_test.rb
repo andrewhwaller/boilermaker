@@ -65,7 +65,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "underlines correct character based on hotkey_index" do
-    items = [{ label: "Help", hotkey_index: 2 }]
+    items = [ { label: "Help", hotkey_index: 2 } ]
     bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
@@ -103,7 +103,7 @@ class MenuBarTest < ComponentTestCase
   end
 
   test "default href is #" do
-    items = [{ label: "File" }]
+    items = [ { label: "File" } ]
     bar = Components::Boilermaker::MenuBar.new(items: items)
 
     doc = render_and_parse(bar)
