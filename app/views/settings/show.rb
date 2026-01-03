@@ -45,7 +45,7 @@ module Views
           div(class: "space-y-2") do
             if Current.user.otp_required_for_sign_in?
               div(class: "flex items-center gap-2") do
-                if Boilermaker.config.require_two_factor_authentication?
+                if ::Boilermaker.config.require_two_factor_authentication?
                   render Components::Badge.new(variant: :warning, size: :sm, style: :outline) { "Required" }
                 end
               end
@@ -55,7 +55,7 @@ module Views
               end
             else
               div(class: "flex items-center gap-2") do
-                if Boilermaker.config.require_two_factor_authentication?
+                if ::Boilermaker.config.require_two_factor_authentication?
                   render Components::Badge.new(variant: :warning, size: :sm) { "Setup required" }
                 end
               end
@@ -75,7 +75,7 @@ module Views
                         class: "ui-button ui-button-outline"
               end
 
-              unless Boilermaker.config.require_two_factor_authentication?
+              unless ::Boilermaker.config.require_two_factor_authentication?
                 div do
                   link_to "Disable Two-Factor Authentication",
                           destroy_confirmation_two_factor_authentication_profile_totp_path,
