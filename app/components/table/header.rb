@@ -8,7 +8,7 @@ class Components::Table::Header < Components::Base
   end
 
   def view_template(&block)
-    th(class: css_classes((@sortable ? "cursor-pointer select-none" : nil)), **filtered_attributes) do
+    th(class: css_classes((@sortable ? "cursor-pointer select-none" : nil)), **@attributes) do
       div(class: "flex items-center gap-1") do
         span(&block)
 

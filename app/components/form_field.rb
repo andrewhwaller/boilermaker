@@ -12,10 +12,10 @@ class Components::FormField < Components::Base
   end
 
   def view_template
-    div(class: "form-control w-full") do
-      Label(for_id: @id, required: @required) { @label_text }
+    div(class: "form-control") do
+      render Components::Label.new(for_id: @id, required: @required) { @label_text }
 
-      Input(
+      render Components::Input.new(
         type: @input_type,
         name: @name,
         id: @id,
@@ -24,7 +24,7 @@ class Components::FormField < Components::Base
       )
 
       if @help_text.present?
-        label(class: "label") { span(class: "label-text-alt") { @help_text } }
+        div(class: "mt-1") { span(class: "label-text-alt") { @help_text } }
       end
     end
   end

@@ -25,7 +25,7 @@ class ButtonTest < ComponentTestCase
     button = Components::Button.new
 
     # Should have primary variant classes
-    assert_daisy_button_classes(button, [ "btn", "btn-primary" ])
+    assert_daisy_button_classes(button, [ "ui-button", "ui-button-primary" ])
 
     # Create new instance for attributes test
     button_attrs = Components::Button.new
@@ -37,18 +37,14 @@ class ButtonTest < ComponentTestCase
     Components::Button::VARIANTS.each do |variant, expected_class|
       # Use separate instances for each assertion to avoid double rendering
       button_base = Components::Button.new(variant: variant)
-      assert_has_css_class(button_base, "btn",
-        "Button with variant #{variant} should have base 'btn' class")
+      assert_has_css_class(button_base, "ui-button",
+        "Button with variant #{variant} should have base 'ui-button' class")
 
       button_variant = Components::Button.new(variant: variant)
       assert_has_css_class(button_variant, expected_class,
         "Button with variant #{variant} should have class '#{expected_class}'")
 
-      # Check for disabled styling class using string inclusion instead of CSS selector
-      button_disabled = Components::Button.new(variant: variant)
-      html = render_component(button_disabled)
-      assert html.include?("disabled:opacity-50"),
-        "Button with variant #{variant} should have disabled styling class"
+      # Note: Disabled styling is applied via CSS rules, not HTML classes
     end
   end
 
@@ -59,7 +55,7 @@ class ButtonTest < ComponentTestCase
 
     # Create new instance to avoid double render error
     button_check = Components::Button.new(variant: :primary)
-    assert_no_css_class(button_check, [ "btn-secondary", "btn-error", "btn-outline", "btn-ghost", "btn-link" ])
+    assert_no_css_class(button_check, [ "ui-button-secondary", "ui-button-error", "ui-button-outline", "ui-button-ghost", "ui-button-link" ])
   end
 
   test "secondary variant has correct styling" do
@@ -67,7 +63,7 @@ class ButtonTest < ComponentTestCase
     assert_daisy_variant(button, :secondary, :button)
 
     button_check = Components::Button.new(variant: :secondary)
-    assert_no_css_class(button_check, [ "btn-primary", "btn-error", "btn-outline", "btn-ghost", "btn-link" ])
+    assert_no_css_class(button_check, [ "ui-button-primary", "ui-button-error", "ui-button-outline", "ui-button-ghost", "ui-button-link" ])
   end
 
   test "destructive variant has correct styling" do
@@ -75,7 +71,7 @@ class ButtonTest < ComponentTestCase
     assert_daisy_variant(button, :destructive, :button)
 
     button_check = Components::Button.new(variant: :destructive)
-    assert_no_css_class(button_check, [ "btn-primary", "btn-secondary", "btn-outline", "btn-ghost", "btn-link" ])
+    assert_no_css_class(button_check, [ "ui-button-primary", "ui-button-secondary", "ui-button-outline", "ui-button-ghost", "ui-button-link" ])
   end
 
   test "outline variant has correct styling" do
@@ -83,7 +79,7 @@ class ButtonTest < ComponentTestCase
     assert_daisy_variant(button, :outline, :button)
 
     button_check = Components::Button.new(variant: :outline)
-    assert_no_css_class(button_check, [ "btn-primary", "btn-secondary", "btn-error", "btn-ghost", "btn-link" ])
+    assert_no_css_class(button_check, [ "ui-button-primary", "ui-button-secondary", "ui-button-error", "ui-button-ghost", "ui-button-link" ])
   end
 
   test "ghost variant has correct styling" do
@@ -91,7 +87,7 @@ class ButtonTest < ComponentTestCase
     assert_daisy_variant(button, :ghost, :button)
 
     button_check = Components::Button.new(variant: :ghost)
-    assert_no_css_class(button_check, [ "btn-primary", "btn-secondary", "btn-error", "btn-outline", "btn-link" ])
+    assert_no_css_class(button_check, [ "ui-button-primary", "ui-button-secondary", "ui-button-error", "ui-button-outline", "ui-button-link" ])
   end
 
   test "link variant has correct styling" do
@@ -99,7 +95,7 @@ class ButtonTest < ComponentTestCase
     assert_daisy_variant(button, :link, :button)
 
     button_check = Components::Button.new(variant: :link)
-    assert_no_css_class(button_check, [ "btn-primary", "btn-secondary", "btn-error", "btn-outline", "btn-ghost" ])
+    assert_no_css_class(button_check, [ "ui-button-primary", "ui-button-secondary", "ui-button-error", "ui-button-outline", "ui-button-ghost" ])
   end
 
   # Test button type attribute
@@ -147,7 +143,7 @@ class ButtonTest < ComponentTestCase
 
     assert html.include?("<button"), "Should render button tag"
     assert html.include?('type="button"'), "Should have default button type"
-    assert html.include?("btn"), "Should have btn class"
+    assert html.include?("ui-button"), "Should have ui-button class"
   end
 
   test "applies casing classes when requested" do
@@ -158,13 +154,19 @@ class ButtonTest < ComponentTestCase
     assert_has_css_class(normal_case_button, "normal-case")
   end
 
-  test "ignores size variants (no sizing classes)" do
-    [ :xs, :sm, :md, :lg ].each do |size|
+  test "applies size variants correctly" do
+    size_mappings = {
+      xs: "ui-button-xs",
+      sm: "ui-button-sm",
+      md: "ui-button-md",
+      lg: "ui-button-lg"
+    }
+
+    size_mappings.each do |size, expected_class|
       button = Components::Button.new(variant: :primary, size: size)
-      html = render_component(button)
-      # Ensure no DaisyUI size classes are present on the button
-      refute_match(/\bbtn-(xs|sm|md|lg|xl)\b/, html)
+      assert_has_css_class(button, expected_class)
       # Ensure we didn't leak a raw size attribute to the DOM
+      html = render_component(button)
       refute_match(/\ssize=("|')#{size}("|')/, html)
     end
   end
@@ -176,9 +178,9 @@ class ButtonTest < ComponentTestCase
 
     assert_renders_successfully(button)
 
-    # Should still have base btn class
+    # Should still have base ui-button class
     button_check = Components::Button.new(variant: :invalid)
-    assert_has_css_class(button_check, "btn")
+    assert_has_css_class(button_check, "ui-button")
   end
 
   test "handles nil variant" do
@@ -187,7 +189,7 @@ class ButtonTest < ComponentTestCase
     assert_renders_successfully(button)
 
     button_check = Components::Button.new(variant: nil)
-    assert_has_css_class(button_check, "btn")
+    assert_has_css_class(button_check, "ui-button")
   end
 
   # Test attribute combinations
@@ -240,13 +242,13 @@ class ButtonTest < ComponentTestCase
     button = Components::Button.new(variant: :primary)
     all_classes = extract_css_classes(button)
 
-    # Should have essential Daisy UI classes
-    assert_includes all_classes, "btn"
-    assert_includes all_classes, "btn-primary"
-    assert_includes all_classes, "disabled:opacity-50"
+    # Should have essential button classes
+    assert_includes all_classes, "ui-button"
+    assert_includes all_classes, "ui-button-primary"
+    assert_includes all_classes, "ui-button-md" # Default size
 
     # Should not have conflicting variant classes
-    conflicting_classes = Components::Button::VARIANTS.values - [ "btn-primary" ]
+    conflicting_classes = Components::Button::VARIANTS.values - [ "ui-button-primary" ]
     conflicting_classes.each do |conflicting_class|
       assert_not_includes all_classes, conflicting_class,
         "Primary button should not have conflicting class: #{conflicting_class}"

@@ -24,7 +24,7 @@ class AlertTest < ComponentTestCase
 
   test "has correct base CSS classes" do
     alert = Components::Alert.new(message: "Test")
-    assert_has_css_class(alert, "alert")
+    assert_has_css_class(alert, "ui-alert")
   end
 
   test "renders all variants correctly" do

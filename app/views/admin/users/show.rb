@@ -101,7 +101,7 @@ module Views
                             end
                           end
                         end
-                        a(href: account_path(account), class: "btn btn-xs btn-ghost") { "View" }
+                        a(href: account_path(account), class: "ui-button ui-button-xs ui-button-ghost") { "View" }
                       end
                     end
                   else

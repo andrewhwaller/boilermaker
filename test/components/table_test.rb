@@ -21,21 +21,21 @@ class TableTest < ComponentTestCase
   # Test default table configuration
   test "renders with default configuration" do
     table = Components::Table.new
-    assert_has_css_class(table, "table")
+    assert_has_css_class(table, "ui-table")
 
     # Should not have variant class by default
     table_default = Components::Table.new
     html = render_component(table_default)
-    refute html.include?("table-zebra"), "Default table should not have zebra variant"
-    refute html.include?("table-compact"), "Default table should not have compact variant"
+    refute html.include?("ui-table-striped"), "Default table should not have striped variant"
+    refute html.include?("ui-table-bordered"), "Default table should not have bordered variant"
   end
 
   # Test all available table variants
   test "renders all table variants correctly" do
     Components::Table::VARIANTS.each do |variant, expected_class|
       table_base = Components::Table.new(variant: variant)
-      assert_has_css_class(table_base, "table",
-        "Table with variant #{variant} should have base 'table' class")
+      assert_has_css_class(table_base, "ui-table",
+        "Table with variant #{variant} should have base 'ui-table' class")
 
       table_variant = Components::Table.new(variant: variant)
       assert_has_css_class(table_variant, expected_class,
@@ -54,7 +54,7 @@ class TableTest < ComponentTestCase
       else
         # Medium size should not have a size class
         html = render_component(table)
-        refute html.match?(/table-(xs|sm|lg)/),
+        refute html.match?(/ui-table-(xs|sm|lg)/),
           "Medium table should not have explicit size class"
       end
     end
@@ -91,7 +91,7 @@ class TableTest < ComponentTestCase
     assert html.include?("<tbody>"), "Table should have tbody element"
 
     # Should have tr elements for each row
-    assert html.scan(/<tr>/).length >= 2, "Table should have at least 2 tr elements in tbody"
+    assert html.scan("<tr>").length >= 2, "Table should have at least 2 tr elements in tbody"
 
     # Should have td elements with data
     assert html.include?("<td>John</td>"), "Table should have John data"
@@ -182,21 +182,21 @@ class TableTest < ComponentTestCase
 
   # Test table combinations
   test "renders table with multiple option combinations correctly" do
-    # Zebra compact table
-    zebra_compact = Components::Table.new(
-      variant: :zebra,
+    # Striped compact table
+    striped_compact = Components::Table.new(
+      variant: :striped,
       size: :sm
     )
 
-    assert_has_css_class(zebra_compact, [ "table", "table-zebra", "table-sm" ])
+    assert_has_css_class(striped_compact, [ "ui-table", "ui-table-striped", "ui-table-sm" ])
 
-    # Pin rows large table
-    pin_rows_large = Components::Table.new(
-      variant: :pin_rows,
+    # Header pin large table
+    header_pin_large = Components::Table.new(
+      variant: :header_pin,
       size: :lg
     )
 
-    assert_has_css_class(pin_rows_large, [ "table", "table-pin-rows", "table-lg" ])
+    assert_has_css_class(header_pin_large, [ "ui-table", "ui-table-header-pin", "ui-table-lg" ])
   end
 
   # Test edge cases
@@ -298,7 +298,7 @@ class TableTest < ComponentTestCase
     assert html.include?("User 49"), "Should render last row"
 
     # Should have correct number of data rows (50 + 1 header row)
-    tr_count = html.scan(/<tr>/).length
+    tr_count = html.scan("<tr>").length
     assert tr_count >= 50, "Should have at least 50 data rows"
   end
 end

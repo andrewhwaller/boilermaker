@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATENTWATCH — Create Alert</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #f5f3ef;
+      --bg-secondary: #eae7e1;
+      --bg-tertiary: #ddd9d0;
+      --bg-dark: #1a1a18;
+      --text-primary: #1a1a18;
+      --text-secondary: #5a5955;
+      --text-muted: #8a8884;
+      --accent-primary: #c54b32;
+      --accent-secondary: #2d5a4a;
+      --border-color: #1a1a18;
+      --border-light: #c4c1ba;
+      --mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--mono);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--border-color);
+      padding: 0;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+    }
+
+    .logo-block {
+      border-right: 2px solid var(--border-color);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--bg-primary);
+      font-size: 11px;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .logo-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-top: 2px;
+    }
+
+    .nav-main {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .nav-item {
+      padding: 16px 24px;
+      border-right: 1px solid var(--border-light);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      transition: all 0.15s ease;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    .nav-item.active {
+      background: var(--border-color);
+      color: var(--bg-primary);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: stretch;
+      border-left: 2px solid var(--border-color);
+    }
+
+    .user-block {
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-indicator {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-secondary);
+      border-radius: 50%;
+    }
+
+    /* Page Layout */
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 32px 120px;
+    }
+
+    .page-header {
+      margin-bottom: 48px;
+    }
+
+    .breadcrumb {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--text-primary);
+    }
+
+    .breadcrumb-sep {
+      margin: 0 8px;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .page-description {
+      color: var(--text-secondary);
+      font-size: 14px;
+      max-width: 600px;
+    }
+
+    /* Form Sections */
+    .form-section {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      background: var(--bg-dark);
+      color: var(--bg-primary);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .section-number {
+      font-size: 10px;
+      opacity: 0.6;
+    }
+
+    .section-body {
+      padding: 24px;
+    }
+
+    /* Form Elements */
+    .form-row {
+      margin-bottom: 24px;
+    }
+
+    .form-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .form-label-required::after {
+      content: ' *';
+      color: var(--accent-primary);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      font-family: var(--mono);
+      font-size: 14px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      transition: all 0.15s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(197, 75, 50, 0.1);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-help {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* Keyword Tags */
+    .keyword-input-wrapper {
+      display: flex;
+      gap: 8px;
+    }
+
+    .keyword-input-wrapper .form-input {
+      flex: 1;
+    }
+
+    .btn-add {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 12px 20px;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-add:hover {
+      background: var(--border-color);
+      color: var(--bg-primary);
+    }
+
+    .keyword-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .keyword-tag {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 6px 12px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .keyword-tag-remove {
+      cursor: pointer;
+      opacity: 0.5;
+      transition: all 0.15s ease;
+    }
+
+    .keyword-tag-remove:hover {
+      opacity: 1;
+      color: var(--accent-primary);
+    }
+
+    /* Classification Grid */
+    .classification-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .classification-item {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .classification-item:hover {
+      border-color: var(--accent-secondary);
+    }
+
+    .classification-item.selected {
+      background: var(--accent-secondary);
+      color: var(--bg-primary);
+      border-color: var(--accent-secondary);
+    }
+
+    .classification-code {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .classification-name {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.8;
+    }
+
+    /* Date Range */
+    .date-range {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 16px;
+      align-items: end;
+    }
+
+    .date-separator {
+      padding-bottom: 12px;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    /* Toggle Group */
+    .toggle-group {
+      display: flex;
+      border: 1px solid var(--border-color);
+    }
+
+    .toggle-option {
+      flex: 1;
+      padding: 12px 20px;
+      text-align: center;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--bg-primary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border-right: 1px solid var(--border-color);
+    }
+
+    .toggle-option:last-child {
+      border-right: none;
+    }
+
+    .toggle-option:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .toggle-option.active {
+      background: var(--border-color);
+      color: var(--bg-primary);
+    }
+
+    /* Notification Options */
+    .notification-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .notification-option {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .notification-option:hover {
+      border-color: var(--accent-secondary);
+    }
+
+    .notification-option.selected {
+      border-color: var(--accent-secondary);
+      background: rgba(45, 90, 74, 0.05);
+    }
+
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .notification-title {
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .notification-check {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+
+    .notification-option.selected .notification-check {
+      background: var(--accent-secondary);
+      border-color: var(--accent-secondary);
+      color: var(--bg-primary);
+    }
+
+    .notification-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Preview Panel */
+    .preview-section {
+      background: var(--bg-dark);
+      border: 2px solid var(--border-color);
+      color: var(--bg-primary);
+    }
+
+    .preview-section .section-header {
+      background: var(--accent-primary);
+    }
+
+    .preview-body {
+      padding: 24px;
+    }
+
+    .preview-query {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 16px;
+      font-size: 12px;
+      line-height: 1.8;
+      border-left: 3px solid var(--accent-primary);
+    }
+
+    .query-keyword {
+      background: var(--accent-primary);
+      padding: 2px 6px;
+    }
+
+    .query-operator {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .preview-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .preview-stat {
+      text-align: center;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .preview-stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+
+    .preview-stat-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 4px;
+    }
+
+    /* Action Bar */
+    .action-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg-secondary);
+      border-top: 2px solid var(--border-color);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .action-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .action-status {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-secondary {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      padding: 12px 24px;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-tertiary);
+    }
+
+    .btn-primary {
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+      border: none;
+      padding: 12px 32px;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--border-color);
+    }
+
+    /* Checkbox */
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+
+    .checkbox-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .checkbox-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    .checkbox-row.checked .checkbox-box {
+      background: var(--accent-secondary);
+      border-color: var(--accent-secondary);
+      color: var(--bg-primary);
+    }
+
+    .checkbox-label {
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-block">
+      <div class="logo-mark">PW</div>
+      <div>
+        <div class="logo-text">Patentwatch</div>
+        <div class="logo-sub">USPTO Alert System</div>
+      </div>
+    </div>
+    
+    <nav class="nav-main">
+      <a href="#" class="nav-item">Dashboard</a>
+      <a href="#" class="nav-item active">Alerts</a>
+      <a href="#" class="nav-item">Patents</a>
+      <a href="#" class="nav-item">Analytics</a>
+      <a href="#" class="nav-item">Settings</a>
+    </nav>
+
+    <div class="header-right">
+      <div class="user-block">
+        <div class="user-indicator"></div>
+        <span>user@company.com</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <div class="page-container">
+    <header class="page-header">
+      <div class="breadcrumb">
+        <a href="#">Dashboard</a>
+        <span class="breadcrumb-sep">→</span>
+        <a href="#">Alerts</a>
+        <span class="breadcrumb-sep">→</span>
+        <span>New Alert</span>
+      </div>
+      <h1 class="page-title">Create New Alert</h1>
+      <p class="page-description">Configure your patent monitoring criteria. You'll receive notifications when new USPTO filings match your parameters.</p>
+    </header>
+
+    <!-- Basic Info -->
+    <section class="form-section">
+      <div class="section-header">
+        <span class="section-title">Basic Information</span>
+        <span class="section-number">01</span>
+      </div>
+      <div class="section-body">
+        <div class="form-row">
+          <label class="form-label form-label-required">Alert Name</label>
+          <input type="text" class="form-input" placeholder="e.g., Machine Learning — Image Recognition" value="Machine Learning — Image Recognition">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Description</label>
+          <textarea class="form-input form-textarea" placeholder="Brief description of what this alert monitors...">Monitor USPTO filings related to machine learning applications in image recognition, computer vision, and visual pattern analysis. Focus on neural network architectures and deep learning methods.</textarea>
+          <div class="form-help">Optional. Helps you remember the purpose of this alert.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search Criteria -->
+    <section class="form-section">
+      <div class="section-header">
+        <span class="section-title">Search Criteria</span>
+        <span class="section-number">02</span>
+      </div>
+      <div class="section-body">
+        <div class="form-row">
+          <label class="form-label form-label-required">Keywords</label>
+          <div class="keyword-input-wrapper">
+            <input type="text" class="form-input" placeholder="Enter keyword or phrase...">
+            <button class="btn-add">Add</button>
+          </div>
+          <div class="keyword-tags">
+            <span class="keyword-tag">machine learning <span class="keyword-tag-remove">×</span></span>
+            <span class="keyword-tag">image recognition <span class="keyword-tag-remove">×</span></span>
+            <span class="keyword-tag">convolutional neural network <span class="keyword-tag-remove">×</span></span>
+            <span class="keyword-tag">computer vision <span class="keyword-tag-remove">×</span></span>
+            <span class="keyword-tag">deep learning <span class="keyword-tag-remove">×</span></span>
+            <span class="keyword-tag">object detection <span class="keyword-tag-remove">×</span></span>
+          </div>
+          <div class="form-help">Keywords are matched against patent titles, abstracts, and claims.</div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Search Operator</label>
+          <div class="toggle-group">
+            <div class="toggle-option">All (AND)</div>
+            <div class="toggle-option active">Any (OR)</div>
+            <div class="toggle-option">Exact Phrase</div>
+          </div>
+          <div class="form-help">How keywords should be combined in the search query.</div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">CPC Classification (Optional)</label>
+          <div class="classification-grid">
+            <div class="classification-item selected">
+              <div class="classification-code">G06N</div>
+              <div class="classification-name">Computing Arrangements</div>
+            </div>
+            <div class="classification-item selected">
+              <div class="classification-code">G06T</div>
+              <div class="classification-name">Image Processing</div>
+            </div>
+            <div class="classification-item">
+              <div class="classification-code">G06F</div>
+              <div class="classification-name">Electric Digital Data</div>
+            </div>
+            <div class="classification-item">
+              <div class="classification-code">G06K</div>
+              <div class="classification-name">Pattern Recognition</div>
+            </div>
+            <div class="classification-item">
+              <div class="classification-code">H04N</div>
+              <div class="classification-name">Pictorial Communication</div>
+            </div>
+            <div class="classification-item">
+              <div class="classification-code">G16H</div>
+              <div class="classification-name">Healthcare Informatics</div>
+            </div>
+            <div class="classification-item">
+              <div class="classification-code">G01N</div>
+              <div class="classification-name">Material Analysis</div>
+            </div>
+            <div class="classification-item">
+              <div class="classification-code">B60W</div>
+              <div class="classification-name">Vehicle Control</div>
+            </div>
+          </div>
+          <div class="form-help">Narrow results to specific patent classification codes.</div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Date Range</label>
+          <div class="date-range">
+            <div>
+              <div class="form-label" style="font-size: 9px;">From</div>
+              <input type="date" class="form-input" value="2024-01-01">
+            </div>
+            <div class="date-separator">to</div>
+            <div>
+              <div class="form-label" style="font-size: 9px;">To</div>
+              <input type="date" class="form-input" value="">
+            </div>
+          </div>
+          <div class="form-help">Leave "To" empty to monitor all future filings.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="form-section">
+      <div class="section-header">
+        <span class="section-title">Additional Filters</span>
+        <span class="section-number">03</span>
+      </div>
+      <div class="section-body">
+        <div class="form-row">
+          <label class="form-label">Patent Type</label>
+          <div class="checkbox-row checked">
+            <div class="checkbox-box">✓</div>
+            <span class="checkbox-label">Utility Patents</span>
+          </div>
+          <div class="checkbox-row checked">
+            <div class="checkbox-box">✓</div>
+            <span class="checkbox-label">Patent Applications</span>
+          </div>
+          <div class="checkbox-row">
+            <div class="checkbox-box"></div>
+            <span class="checkbox-label">Design Patents</span>
+          </div>
+          <div class="checkbox-row">
+            <div class="checkbox-box"></div>
+            <span class="checkbox-label">Plant Patents</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Assignee Filter (Optional)</label>
+          <input type="text" class="form-input" placeholder="e.g., Google, Apple, Microsoft (comma-separated)">
+          <div class="form-help">Monitor patents from specific companies or leave blank for all.</div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Inventor Country (Optional)</label>
+          <input type="text" class="form-input" placeholder="e.g., US, CN, DE (comma-separated)">
+        </div>
+      </div>
+    </section>
+
+    <!-- Notifications -->
+    <section class="form-section">
+      <div class="section-header">
+        <span class="section-title">Notification Settings</span>
+        <span class="section-number">04</span>
+      </div>
+      <div class="section-body">
+        <div class="form-row">
+          <label class="form-label">Delivery Frequency</label>
+          <div class="notification-grid">
+            <div class="notification-option">
+              <div class="notification-header">
+                <span class="notification-title">Real-time</span>
+                <div class="notification-check"></div>
+              </div>
+              <div class="notification-desc">Instant notification when new patents match</div>
+            </div>
+            <div class="notification-option selected">
+              <div class="notification-header">
+                <span class="notification-title">Daily Digest</span>
+                <div class="notification-check">✓</div>
+              </div>
+              <div class="notification-desc">Summary email once per day at 9:00 AM</div>
+            </div>
+            <div class="notification-option">
+              <div class="notification-header">
+                <span class="notification-title">Weekly Digest</span>
+                <div class="notification-check"></div>
+              </div>
+              <div class="notification-desc">Summary email every Monday morning</div>
+            </div>
+            <div class="notification-option">
+              <div class="notification-header">
+                <span class="notification-title">Manual Only</span>
+                <div class="notification-check"></div>
+              </div>
+              <div class="notification-desc">No emails, check dashboard manually</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Email Addresses</label>
+          <input type="text" class="form-input" placeholder="Additional recipients (comma-separated)" value="user@company.com">
+        </div>
+      </div>
+    </section>
+
+    <!-- Query Preview -->
+    <section class="form-section preview-section">
+      <div class="section-header">
+        <span class="section-title">Query Preview</span>
+        <span class="section-number">Preview</span>
+      </div>
+      <div class="preview-body">
+        <div class="preview-query">
+          (<span class="query-keyword">machine learning</span> <span class="query-operator">OR</span> 
+          <span class="query-keyword">image recognition</span> <span class="query-operator">OR</span> 
+          <span class="query-keyword">convolutional neural network</span> <span class="query-operator">OR</span> 
+          <span class="query-keyword">computer vision</span> <span class="query-operator">OR</span> 
+          <span class="query-keyword">deep learning</span> <span class="query-operator">OR</span> 
+          <span class="query-keyword">object detection</span>) 
+          <span class="query-operator">AND</span> CPC:(<span class="query-keyword">G06N</span> <span class="query-operator">OR</span> <span class="query-keyword">G06T</span>) 
+          <span class="query-operator">AND</span> DATE>=<span class="query-keyword">2024-01-01</span>
+        </div>
+        <div class="preview-stats">
+          <div class="preview-stat">
+            <div class="preview-stat-value">~2,340</div>
+            <div class="preview-stat-label">Estimated Weekly Matches</div>
+          </div>
+          <div class="preview-stat">
+            <div class="preview-stat-value">18.4M</div>
+            <div class="preview-stat-label">Patents in Database</div>
+          </div>
+          <div class="preview-stat">
+            <div class="preview-stat-value">94%</div>
+            <div class="preview-stat-label">Query Specificity</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Action Bar -->
+  <div class="action-bar">
+    <div class="action-left">
+      <span class="action-status">Draft saved 2 seconds ago</span>
+    </div>
+    <div class="action-buttons">
+      <button class="btn-secondary">Cancel</button>
+      <button class="btn-secondary">Save as Draft</button>
+      <button class="btn-primary">Create Alert →</button>
+    </div>
+  </div>
+</body>
+</html>

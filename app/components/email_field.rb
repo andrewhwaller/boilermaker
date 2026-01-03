@@ -12,7 +12,7 @@ class Components::EmailField < Components::Base
   end
 
   def view_template
-    FormGroup(
+    render Components::FormField.new(
       label_text: @label_text,
       input_type: :email,
       name: @name,

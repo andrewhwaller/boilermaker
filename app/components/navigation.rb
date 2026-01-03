@@ -10,7 +10,7 @@ class Components::Navigation < Components::Base
   end
 
   def view_template
-    nav(class: "bg-base-100 border-b border-base-300/50 px-4 py-1 text-sm", data_controller: "navigation") do
+    nav(class: "bg-surface border-b border-border-light px-4 py-1 text-sm", data_controller: "navigation") do
       # Desktop navigation
       div(class: "hidden md:flex items-center justify-between w-full") do
         div(class: "flex items-center gap-6") do
@@ -35,8 +35,8 @@ class Components::Navigation < Components::Base
 
   def branding
     div(class: "flex items-center") do
-      a(href: root_path, class: "flex items-center gap-2 text-base-content hover:text-primary transition-colors") do
-        div(class: "w-1 h-6 bg-primary/70")
+      a(href: root_path, class: "flex items-center gap-2 text-body hover:text-accent transition-colors") do
+        div(class: "w-1 h-6 bg-accent/70")
         span(class: "font-medium text-xs") { app_name }
       end
     end
@@ -97,28 +97,28 @@ class Components::Navigation < Components::Base
 
   def account_dropdown
     render Components::DropdownMenu.new(trigger_text: current_user_display_name) do
-      render Components::DropdownMenuItem.new(settings_path, "Settings")
+      render Components::DropdownMenuItem.new(href: settings_path, text: "Settings")
 
       if (Current.account && Current.user&.account_admin_for?(Current.account)) || Current.user&.app_admin?
-        render Components::DropdownMenuItem.new(account_dashboard_path, "Account", class: "text-primary")
+        render Components::DropdownMenuItem.new(href: account_dashboard_path, text: "Account", class: "text-accent")
       end
 
       if Current.user&.app_admin?
-        render Components::DropdownMenuItem.new(admin_path, "Admin", class: "text-primary")
+        render Components::DropdownMenuItem.new(href: admin_path, text: "Admin", class: "text-accent")
       end
 
       if Rails.env.development?
-        render Components::DropdownMenuItem.new("/letter_opener", "Email Preview", target: "_blank")
+        render Components::DropdownMenuItem.new(href: "/letter_opener", text: "Email Preview", target: "_blank")
       end
 
-      render Components::DropdownMenuItem.new(session_path("current"), "Sign out", method: :delete, class: "text-error")
+      render Components::DropdownMenuItem.new(href: session_path("current"), text: "Sign out", method: :delete, class: "text-destructive")
     end
   end
 
   def nav_link_class(path)
     base_classes = "link link-hover text-sm"
     # Avoid current_page? here to prevent requiring full Rails request context in tests
-    "#{base_classes} text-base-content/70"
+    "#{base_classes} text-muted"
   end
 
   # Industrial-style navigation helpers
@@ -129,13 +129,13 @@ class Components::Navigation < Components::Base
   end
 
   def nav_separator
-    div(class: "w-px h-4 bg-base-300/50")
+    div(class: "w-px h-4 bg-border-light")
   end
 
   def sign_out_button
     button_to session_path("current"),
       method: :delete,
-      class: "btn btn-ghost btn-sm text-xs border-0 rounded-none text-error hover:bg-error/10" do
+      class: "ui-button ui-button-ghost ui-button-sm text-xs border-0 text-destructive hover:bg-destructive/10" do
       navigation_label("Exit")
     end
   end
@@ -143,20 +143,20 @@ class Components::Navigation < Components::Base
   # Mobile navigation methods
   def mobile_menu_button
     button(
-      class: "btn btn-ghost btn-sm rounded-none border-base-300 hover:bg-base-200",
+      class: "ui-button ui-button-ghost ui-button-sm border-border-light hover:bg-surface-alt",
       type: "button",
       data_action: "click->navigation#toggleMobileMenu"
     ) do
       # Industrial-style hamburger menu
       div(class: "flex flex-col gap-1") do
-        3.times { div(class: "w-4 h-px bg-base-content") }
+        3.times { div(class: "w-4 h-px bg-body") }
       end
     end
   end
 
   def mobile_menu
     div(
-      class: "hidden md:hidden absolute top-full left-0 right-0 bg-base-100 border-b border-base-300/50 z-50",
+      class: "hidden md:hidden absolute top-full left-0 right-0 bg-surface border-b border-border-light z-50",
       data_navigation_target: "mobileMenu"
     ) do
       div(class: "px-4 py-3 space-y-3") do
@@ -179,15 +179,15 @@ class Components::Navigation < Components::Base
       end
     end
 
-    div(class: "pt-3 mt-3 border-t border-base-300/50 flex items-center justify-between") do
+    div(class: "pt-3 mt-3 border-t border-border-light flex items-center justify-between") do
       render Components::ThemeToggle.new(show_label: false, position: :mobile)
 
       if show_account_dropdown?
-        span(class: "text-xs text-base-content/70 ") { current_user_display_name }
+        span(class: "text-xs text-muted ") { current_user_display_name }
       else
         button_to session_path("current"),
           method: :delete,
-          class: "text-xs font-medium text-error border-0 bg-transparent" do
+          class: "text-xs font-medium text-destructive border-0 bg-transparent" do
           navigation_label("Exit")
         end
       end
@@ -203,7 +203,7 @@ class Components::Navigation < Components::Base
       mobile_nav_item(sign_in_path, "Access")
     end
 
-    div(class: "pt-3 mt-3 border-t border-base-300/50") do
+    div(class: "pt-3 mt-3 border-t border-border-light") do
       render Components::ThemeToggle.new(show_label: false, position: :mobile)
     end
   end
@@ -218,6 +218,6 @@ class Components::Navigation < Components::Base
   end
 
   def mobile_nav_item_class(path)
-    nav_item_class(path, base_classes: "btn btn-sm w-full justify-start text-xs border-0 rounded-none")
+    nav_item_class(path, base_classes: "ui-button ui-button-sm w-full justify-start text-xs border-0")
   end
 end

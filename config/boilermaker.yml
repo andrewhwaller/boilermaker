@@ -26,14 +26,13 @@ development:
     require_two_factor_authentication: false
   ui:
     theme:
-      light: drafting-table
-      dark: dim
+      name: terminal
     navigation:
-      layout_mode: sidebar
+      layout_mode: navbar
     typography:
-      font: JetBrains Mono
+      font: CommitMono
       uppercase: true
-      size: dense
+      size: base
 test:
   security:
     require_two_factor_authentication: false

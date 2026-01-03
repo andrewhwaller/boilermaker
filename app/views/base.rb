@@ -51,7 +51,7 @@ class Views::Base < Components::Base
   def form_errors(model)
     return unless model&.errors&.any?
 
-    div(class: "alert alert-error mb-6") do
+    div(class: "ui-alert ui-alert-destructive mb-6") do
       div do
         strong { "#{pluralize(model.errors.count, "error")} prohibited this #{model.class.name.downcase} from being saved:" }
         ul(class: "list-disc list-inside mt-2") do

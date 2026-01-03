@@ -29,12 +29,12 @@ class Components::Account::UserTable < Components::Base
  tr do
  td { user_name(user) }
  td { user.email }
- td { span(class: "text-success font-medium text-xs") { "Verified" } }
+ td { span(class: "text-accent-alt font-medium text-xs") { "Verified" } }
  td { user_role(user) }
  td { user.created_at.strftime("%b %d %Y") }
  td(class: "text-right") do
  div(class: "flex justify-end gap-3") do
- link_to("EDIT", edit_account_user_path(user), class: "text-primary hover:underline cursor-pointer")
+ link_to("EDIT", edit_account_user_path(user), class: "text-accent hover:underline cursor-pointer")
  end
  end
  end
@@ -42,8 +42,8 @@ class Components::Account::UserTable < Components::Base
  end
  end
  else
- div(class: "text-center py-8 bg-base-200 rounded-box") do
- p(class: "text-base-content/70 mb-4") { "No verified users yet." }
+ div(class: "text-center py-8 bg-surface-alt") do
+ p(class: "text-muted mb-4") { "No verified users yet." }
  end
  end
  end
@@ -60,7 +60,7 @@ class Components::Account::UserTable < Components::Base
  end
 
  def user_role(user)
- span(class: "text-primary font-medium text-xs") { "Admin" } if user.account_admin_for?(Current.account)
+ span(class: "text-accent font-medium text-xs") { "Admin" } if user.account_admin_for?(Current.account)
  end
 
  def formatted_date(value)

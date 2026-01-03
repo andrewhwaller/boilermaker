@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATENTWATCH TERMINAL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --dark: #111110;
+      --green: #33ff33;
+      --green-dim: #1a8c1a;
+      --green-glow: rgba(51, 255, 51, 0.15);
+      --amber: #ffb000;
+      --amber-dim: #805800;
+      --mono: 'IBM Plex Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--mono);
+      background: var(--black);
+      color: var(--green);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* CRT effect overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.15),
+          rgba(0, 0, 0, 0.15) 1px,
+          transparent 1px,
+          transparent 2px
+        );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* Subtle vignette */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+      position: relative;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 1px solid var(--green-dim);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 12px;
+      letter-spacing: 0.15em;
+    }
+
+    .logo-main {
+      color: var(--green);
+    }
+
+    .system-info {
+      font-size: 11px;
+      color: var(--green-dim);
+    }
+
+    .nav {
+      display: flex;
+      gap: 24px;
+      margin-top: 12px;
+      font-size: 12px;
+    }
+
+    .nav a {
+      color: var(--green-dim);
+      text-decoration: none;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--green);
+    }
+
+    .nav a.active::before {
+      content: '> ';
+    }
+
+    /* Prompt style headers */
+    .prompt {
+      color: var(--green-dim);
+      margin-bottom: 4px;
+      font-size: 11px;
+    }
+
+    .prompt::before {
+      content: '$ ';
+      color: var(--green);
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      color: var(--green-dim);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed var(--green-dim);
+    }
+
+    .section-header::before {
+      content: '// ';
+    }
+
+    /* Stats row */
+    .stats {
+      display: flex;
+      gap: 32px;
+      padding: 12px 0;
+      border: 1px solid var(--green-dim);
+      border-left: none;
+      border-right: none;
+      margin-bottom: 24px;
+      font-size: 13px;
+    }
+
+    .stat-value {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .stat-value.alert {
+      color: var(--amber);
+      text-shadow: 0 0 10px var(--amber);
+    }
+
+    .stat-label {
+      color: var(--green-dim);
+      margin-left: 6px;
+    }
+
+    /* Alert list */
+    .alert-list {
+      font-size: 13px;
+    }
+
+    .alert-row {
+      display: grid;
+      grid-template-columns: 20px 1fr 80px 70px 90px;
+      gap: 16px;
+      padding: 6px 0;
+      border-bottom: 1px dotted var(--green-dim);
+      align-items: center;
+    }
+
+    .alert-row:hover {
+      background: var(--green-glow);
+    }
+
+    .alert-idx {
+      color: var(--green-dim);
+      font-size: 11px;
+    }
+
+    .alert-name {
+      color: var(--green);
+    }
+
+    .alert-name a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .alert-name a:hover {
+      text-decoration: underline;
+    }
+
+    .alert-count {
+      text-align: right;
+    }
+
+    .alert-count.has-new {
+      color: var(--amber);
+    }
+
+    .alert-status {
+      font-size: 11px;
+      color: var(--green-dim);
+    }
+
+    .alert-status.active::before {
+      content: '● ';
+      color: var(--green);
+    }
+
+    .alert-status.paused::before {
+      content: '○ ';
+    }
+
+    .alert-time {
+      font-size: 11px;
+      color: var(--green-dim);
+      text-align: right;
+    }
+
+    /* Results table */
+    .results {
+      font-size: 12px;
+    }
+
+    .results-header {
+      display: grid;
+      grid-template-columns: 130px 1fr 100px 70px 50px;
+      gap: 12px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--green-dim);
+      color: var(--green-dim);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .results-row {
+      display: grid;
+      grid-template-columns: 130px 1fr 100px 70px 50px;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px dotted var(--green-dim);
+    }
+
+    .results-row:hover {
+      background: var(--green-glow);
+    }
+
+    .patent-id {
+      color: var(--amber);
+    }
+
+    .patent-id a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .patent-id a:hover {
+      text-decoration: underline;
+    }
+
+    .patent-title {
+      color: var(--green);
+      line-height: 1.4;
+    }
+
+    .patent-meta {
+      color: var(--green-dim);
+    }
+
+    .match-score {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    /* Activity log */
+    .log {
+      font-size: 12px;
+      background: var(--dark);
+      padding: 12px;
+      border: 1px solid var(--green-dim);
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .log-entry {
+      padding: 3px 0;
+      display: flex;
+      gap: 12px;
+    }
+
+    .log-time {
+      color: var(--green-dim);
+      min-width: 80px;
+    }
+
+    .log-msg {
+      color: var(--green);
+    }
+
+    .log-msg .highlight {
+      color: var(--amber);
+    }
+
+    /* Command input */
+    .command-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--dark);
+      border-top: 1px solid var(--green-dim);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .command-prompt {
+      color: var(--green);
+    }
+
+    .command-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--green);
+      font-family: var(--mono);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .command-input::placeholder {
+      color: var(--green-dim);
+    }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background: var(--green);
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* Footer info */
+    .footer-info {
+      position: fixed;
+      bottom: 50px;
+      left: 24px;
+      right: 24px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--green-dim);
+    }
+
+    .status-ok::before {
+      content: '● ';
+      color: var(--green);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--dark);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--green-dim);
+    }
+
+    /* Selection */
+    ::selection {
+      background: var(--green);
+      color: var(--black);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-row">
+        <div class="logo">
+          <span class="logo-main">PATENTWATCH</span>
+          <span class="system-info"> v1.0.0 // USPTO MONITOR</span>
+        </div>
+        <div class="system-info">user@company.com | SESSION 4a7f2</div>
+      </div>
+      <nav class="nav">
+        <a href="#" class="active">alerts</a>
+        <a href="#">search</a>
+        <a href="#">collections</a>
+        <a href="#">settings</a>
+        <a href="#">help</a>
+      </nav>
+    </header>
+
+    <div class="prompt">patentwatch --list-alerts --with-stats</div>
+
+    <div class="stats">
+      <span><span class="stat-value alert">47</span><span class="stat-label">new matches</span></span>
+      <span><span class="stat-value">183</span><span class="stat-label">this week</span></span>
+      <span><span class="stat-value">12</span><span class="stat-label">active alerts</span></span>
+      <span><span class="stat-value">18.4M</span><span class="stat-label">patents indexed</span></span>
+    </div>
+
+    <section class="section">
+      <div class="section-header">Active Alerts</div>
+      <div class="alert-list">
+        <div class="alert-row">
+          <span class="alert-idx">01</span>
+          <span class="alert-name"><a href="#">Machine Learning — Image Recognition</a></span>
+          <span class="alert-count has-new">+23 new</span>
+          <span class="alert-status active">ACTIVE</span>
+          <span class="alert-time">2m ago</span>
+        </div>
+        <div class="alert-row">
+          <span class="alert-idx">02</span>
+          <span class="alert-name"><a href="#">Battery Technology — Solid State</a></span>
+          <span class="alert-count has-new">+8 new</span>
+          <span class="alert-status active">ACTIVE</span>
+          <span class="alert-time">1h ago</span>
+        </div>
+        <div class="alert-row">
+          <span class="alert-idx">03</span>
+          <span class="alert-name"><a href="#">Semiconductor — 3nm Process</a></span>
+          <span class="alert-count has-new">+12 new</span>
+          <span class="alert-status active">ACTIVE</span>
+          <span class="alert-time">1h ago</span>
+        </div>
+        <div class="alert-row">
+          <span class="alert-idx">04</span>
+          <span class="alert-name"><a href="#">Quantum Computing — Error Correction</a></span>
+          <span class="alert-count has-new">+4 new</span>
+          <span class="alert-status active">ACTIVE</span>
+          <span class="alert-time">3h ago</span>
+        </div>
+        <div class="alert-row">
+          <span class="alert-idx">05</span>
+          <span class="alert-name"><a href="#">Autonomous Vehicles — LIDAR</a></span>
+          <span class="alert-count">0 new</span>
+          <span class="alert-status paused">PAUSED</span>
+          <span class="alert-time">2d ago</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="prompt">patentwatch --query "ML Image Recognition" --limit 5</div>
+      <div class="section-header">Latest Results // Machine Learning</div>
+      <div class="results">
+        <div class="results-header">
+          <span>PATENT_ID</span>
+          <span>TITLE</span>
+          <span>ASSIGNEE</span>
+          <span>FILED</span>
+          <span>MATCH</span>
+        </div>
+        <div class="results-row">
+          <span class="patent-id"><a href="#">US20240401234</a></span>
+          <span class="patent-title">Neural Network Architecture for Real-Time Object Detection in Autonomous Systems</span>
+          <span class="patent-meta">Google LLC</span>
+          <span class="patent-meta">2024-12-18</span>
+          <span class="match-score">94%</span>
+        </div>
+        <div class="results-row">
+          <span class="patent-id"><a href="#">US20240398765</a></span>
+          <span class="patent-title">Convolutional Layer Optimization for Edge Device Deployment</span>
+          <span class="patent-meta">Apple Inc.</span>
+          <span class="patent-meta">2024-12-17</span>
+          <span class="match-score">89%</span>
+        </div>
+        <div class="results-row">
+          <span class="patent-id"><a href="#">US20240396543</a></span>
+          <span class="patent-title">Multi-Modal Feature Extraction for Medical Imaging Analysis</span>
+          <span class="patent-meta">NVIDIA Corp</span>
+          <span class="patent-meta">2024-12-16</span>
+          <span class="match-score">87%</span>
+        </div>
+        <div class="results-row">
+          <span class="patent-id"><a href="#">US20240394321</a></span>
+          <span class="patent-title">Attention Mechanism for Fine-Grained Image Classification</span>
+          <span class="patent-meta">Meta Platforms</span>
+          <span class="patent-meta">2024-12-15</span>
+          <span class="match-score">82%</span>
+        </div>
+        <div class="results-row">
+          <span class="patent-id"><a href="#">US20240392109</a></span>
+          <span class="patent-title">Self-Supervised Learning for Unlabeled Image Datasets</span>
+          <span class="patent-meta">Microsoft</span>
+          <span class="patent-meta">2024-12-14</span>
+          <span class="match-score">78%</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">System Log</div>
+      <div class="log">
+        <div class="log-entry">
+          <span class="log-time">[14:32:01]</span>
+          <span class="log-msg">SYNC COMPLETE — <span class="highlight">23 new matches</span> for "ML Image Recognition"</span>
+        </div>
+        <div class="log-entry">
+          <span class="log-time">[13:00:00]</span>
+          <span class="log-msg">DIGEST SENT — 8 alerts delivered to user@company.com</span>
+        </div>
+        <div class="log-entry">
+          <span class="log-time">[11:45:23]</span>
+          <span class="log-msg">CONFIG UPDATE — "Battery Tech" keywords modified</span>
+        </div>
+        <div class="log-entry">
+          <span class="log-time">[09:15:00]</span>
+          <span class="log-msg">USPTO SYNC — <span class="highlight">14,293 patents</span> indexed</span>
+        </div>
+        <div class="log-entry">
+          <span class="log-time">[YESTERDAY]</span>
+          <span class="log-msg">ALERT CREATED — "Quantum Computing — Error Correction"</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="footer-info">
+    <span class="status-ok">USPTO CONNECTION ESTABLISHED</span>
+    <span>LAST SYNC: 2 MIN AGO | DB: 18.4M RECORDS | LATENCY: 42ms</span>
+  </div>
+
+  <div class="command-bar">
+    <span class="command-prompt">patentwatch $</span>
+    <input type="text" class="command-input" placeholder="type command or search query...">
+    <span class="cursor-blink"></span>
+  </div>
+</body>
+</html>

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATENTWATCH v1.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #1a1400;
+      --amber: #ffb000;
+      --amber-dim: #996a00;
+      --amber-bright: #ffc832;
+      --mono: 'IBM Plex Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.4;
+      background: var(--bg);
+      color: var(--amber);
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    /* Scanline effect */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    .screen {
+      max-width: 80ch;
+      margin: 0 auto;
+    }
+
+    /* Box drawing borders */
+    .box {
+      border: 2px solid var(--amber);
+      margin-bottom: 16px;
+    }
+
+    .box-title {
+      background: var(--amber);
+      color: var(--bg);
+      padding: 4px 12px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+    }
+
+    .box-content {
+      padding: 12px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .logo-art {
+      font-size: 11px;
+      line-height: 1.2;
+      color: var(--amber-bright);
+      margin-bottom: 8px;
+      white-space: pre;
+    }
+
+    .header-sub {
+      font-size: 12px;
+      color: var(--amber-dim);
+    }
+
+    /* Menu bar */
+    .menubar {
+      display: flex;
+      background: var(--amber);
+      color: var(--bg);
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    .menu-item {
+      padding: 4px 16px;
+      cursor: pointer;
+    }
+
+    .menu-item:hover,
+    .menu-item.active {
+      background: var(--bg);
+      color: var(--amber);
+    }
+
+    .menu-key {
+      text-decoration: underline;
+    }
+
+    /* Status bar */
+    .statusbar {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 8px;
+      background: var(--amber-dim);
+      color: var(--bg);
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+
+    /* Table styling */
+    .data-table {
+      width: 100%;
+      font-size: 13px;
+    }
+
+    .table-header {
+      display: flex;
+      border-bottom: 1px solid var(--amber);
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+      color: var(--amber-bright);
+    }
+
+    .table-row {
+      display: flex;
+      padding: 4px 0;
+      border-bottom: 1px dotted var(--amber-dim);
+    }
+
+    .table-row:hover {
+      background: rgba(255, 176, 0, 0.1);
+    }
+
+    .table-row.selected {
+      background: var(--amber);
+      color: var(--bg);
+    }
+
+    .col-idx { width: 30px; color: var(--amber-dim); }
+    .col-name { flex: 1; }
+    .col-count { width: 70px; text-align: right; }
+    .col-status { width: 80px; text-align: center; }
+    .col-time { width: 80px; text-align: right; color: var(--amber-dim); }
+
+    .count-alert {
+      color: var(--amber-bright);
+      font-weight: 700;
+    }
+
+    .status-active::before {
+      content: '● ';
+    }
+
+    .status-paused {
+      color: var(--amber-dim);
+    }
+
+    .status-paused::before {
+      content: '○ ';
+    }
+
+    /* Highlight row */
+    .highlight {
+      animation: blink-highlight 1s ease-in-out;
+    }
+
+    @keyframes blink-highlight {
+      0%, 100% { background: transparent; }
+      50% { background: rgba(255, 176, 0, 0.2); }
+    }
+
+    /* Stats display */
+    .stats-row {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      padding: 8px 0;
+    }
+
+    .stat {
+      padding: 0 16px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--amber-bright);
+    }
+
+    .stat-value.alert {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: var(--amber-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Results detail */
+    .result-item {
+      padding: 8px;
+      border-bottom: 1px solid var(--amber-dim);
+    }
+
+    .result-item:hover {
+      background: rgba(255, 176, 0, 0.1);
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .result-id {
+      color: var(--amber-bright);
+      font-weight: 600;
+    }
+
+    .result-match {
+      color: var(--amber-bright);
+    }
+
+    .result-title {
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .result-meta {
+      font-size: 11px;
+      color: var(--amber-dim);
+    }
+
+    .result-meta span {
+      margin-right: 16px;
+    }
+
+    /* Log window */
+    .log-window {
+      height: 120px;
+      overflow-y: auto;
+      font-size: 12px;
+      background: rgba(0,0,0,0.3);
+      padding: 8px;
+    }
+
+    .log-line {
+      margin-bottom: 2px;
+    }
+
+    .log-time {
+      color: var(--amber-dim);
+    }
+
+    .log-type {
+      color: var(--amber-bright);
+    }
+
+    /* Function key bar */
+    .fn-bar {
+      display: flex;
+      background: var(--bg);
+      border-top: 2px solid var(--amber);
+      margin-top: 16px;
+      padding-top: 8px;
+    }
+
+    .fn-key {
+      flex: 1;
+      text-align: center;
+      font-size: 11px;
+    }
+
+    .fn-key span {
+      background: var(--amber);
+      color: var(--bg);
+      padding: 1px 4px;
+      font-weight: 700;
+    }
+
+    .fn-label {
+      color: var(--amber-dim);
+      margin-left: 4px;
+    }
+
+    /* Command line */
+    .cmdline {
+      margin-top: 16px;
+      padding: 8px;
+      border: 2px solid var(--amber);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .prompt {
+      color: var(--amber-bright);
+      font-weight: 700;
+    }
+
+    .cmdline input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--amber);
+      font-family: var(--mono);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 16px;
+      background: var(--amber);
+      animation: cursor-blink 0.8s step-end infinite;
+    }
+
+    @keyframes cursor-blink {
+      50% { opacity: 0; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+      border: 1px solid var(--amber-dim);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--amber-dim);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--amber);
+    }
+
+    /* Links */
+    a {
+      color: var(--amber);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--amber-bright);
+      text-decoration: underline;
+    }
+
+    /* Selection */
+    ::selection {
+      background: var(--amber);
+      color: var(--bg);
+    }
+  </style>
+</head>
+<body>
+  <div class="screen">
+    <header class="header">
+      <div class="logo-art">╔═══════════════════════════════════════╗
+║     P A T E N T W A T C H   v1.0      ║
+║     USPTO Monitoring System           ║
+╚═══════════════════════════════════════╝</div>
+      <div class="header-sub">Licensed to: user@company.com │ Session ID: 4A7F2</div>
+    </header>
+
+    <div class="menubar">
+      <div class="menu-item active"><span class="menu-key">A</span>lerts</div>
+      <div class="menu-item"><span class="menu-key">S</span>earch</div>
+      <div class="menu-item"><span class="menu-key">C</span>ollections</div>
+      <div class="menu-item">Se<span class="menu-key">t</span>tings</div>
+      <div class="menu-item"><span class="menu-key">H</span>elp</div>
+    </div>
+
+    <div class="statusbar">
+      <span>● USPTO CONNECTED</span>
+      <span>Last Sync: 2 min ago</span>
+      <span>DB: 18.4M records</span>
+      <span>Latency: 42ms</span>
+    </div>
+
+    <div class="box">
+      <div class="box-title">SYSTEM STATUS</div>
+      <div class="box-content">
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-value alert">47</div>
+            <div class="stat-label">New Matches</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">183</div>
+            <div class="stat-label">This Week</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">12</div>
+            <div class="stat-label">Active Alerts</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">18.4M</div>
+            <div class="stat-label">Patents</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-title">ACTIVE ALERTS</div>
+      <div class="box-content">
+        <div class="data-table">
+          <div class="table-header">
+            <span class="col-idx">#</span>
+            <span class="col-name">ALERT NAME</span>
+            <span class="col-count">NEW</span>
+            <span class="col-status">STATUS</span>
+            <span class="col-time">UPDATED</span>
+          </div>
+          <div class="table-row selected">
+            <span class="col-idx">01</span>
+            <span class="col-name"><a href="#">Machine Learning — Image Recognition</a></span>
+            <span class="col-count count-alert">+23</span>
+            <span class="col-status status-active">ACTIVE</span>
+            <span class="col-time">2m ago</span>
+          </div>
+          <div class="table-row">
+            <span class="col-idx">02</span>
+            <span class="col-name"><a href="#">Battery Technology — Solid State</a></span>
+            <span class="col-count count-alert">+8</span>
+            <span class="col-status status-active">ACTIVE</span>
+            <span class="col-time">1h ago</span>
+          </div>
+          <div class="table-row">
+            <span class="col-idx">03</span>
+            <span class="col-name"><a href="#">Semiconductor — 3nm Process</a></span>
+            <span class="col-count count-alert">+12</span>
+            <span class="col-status status-active">ACTIVE</span>
+            <span class="col-time">1h ago</span>
+          </div>
+          <div class="table-row">
+            <span class="col-idx">04</span>
+            <span class="col-name"><a href="#">Quantum Computing — Error Correction</a></span>
+            <span class="col-count count-alert">+4</span>
+            <span class="col-status status-active">ACTIVE</span>
+            <span class="col-time">3h ago</span>
+          </div>
+          <div class="table-row">
+            <span class="col-idx">05</span>
+            <span class="col-name"><a href="#">Autonomous Vehicles — LIDAR</a></span>
+            <span class="col-count">0</span>
+            <span class="col-status status-paused">PAUSED</span>
+            <span class="col-time">2d ago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-title">RESULTS: MACHINE LEARNING — IMAGE RECOGNITION (23)</div>
+      <div class="box-content" style="padding: 0;">
+        <div class="result-item">
+          <div class="result-header">
+            <span class="result-id"><a href="#">US20240401234A1</a></span>
+            <span class="result-match">MATCH: 94%</span>
+          </div>
+          <div class="result-title">Neural Network Architecture for Real-Time Object Detection in Autonomous Systems</div>
+          <div class="result-meta">
+            <span>Google LLC</span>
+            <span>Filed: 2024-12-18</span>
+            <span>CPC: G06N, G06T</span>
+          </div>
+        </div>
+        <div class="result-item">
+          <div class="result-header">
+            <span class="result-id"><a href="#">US20240398765A1</a></span>
+            <span class="result-match">MATCH: 89%</span>
+          </div>
+          <div class="result-title">Convolutional Layer Optimization for Edge Device Deployment</div>
+          <div class="result-meta">
+            <span>Apple Inc.</span>
+            <span>Filed: 2024-12-17</span>
+            <span>CPC: G06N</span>
+          </div>
+        </div>
+        <div class="result-item">
+          <div class="result-header">
+            <span class="result-id"><a href="#">US20240396543A1</a></span>
+            <span class="result-match">MATCH: 87%</span>
+          </div>
+          <div class="result-title">Multi-Modal Feature Extraction for Medical Imaging Analysis</div>
+          <div class="result-meta">
+            <span>NVIDIA Corp</span>
+            <span>Filed: 2024-12-16</span>
+            <span>CPC: G06T, G16H</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-title">SYSTEM LOG</div>
+      <div class="box-content" style="padding: 0;">
+        <div class="log-window">
+          <div class="log-line"><span class="log-time">14:32:01</span> <span class="log-type">[SYNC]</span> ML-IMAGE-RECOGNITION: 23 new matches found</div>
+          <div class="log-line"><span class="log-time">13:00:00</span> <span class="log-type">[MAIL]</span> Daily digest sent to user@company.com</div>
+          <div class="log-line"><span class="log-time">11:45:23</span> <span class="log-type">[EDIT]</span> BATTERY-TECH: keywords configuration updated</div>
+          <div class="log-line"><span class="log-time">09:15:00</span> <span class="log-type">[SYNC]</span> USPTO database: 14,293 new patents indexed</div>
+          <div class="log-line"><span class="log-time">YESTERDAY</span> <span class="log-type">[NEW]</span> Alert created: QUANTUM-COMPUTING</div>
+          <div class="log-line"><span class="log-time">YESTERDAY</span> <span class="log-type">[PAUSE]</span> Alert paused: AUTONOMOUS-VEHICLES</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fn-bar">
+      <div class="fn-key"><span>F1</span><span class="fn-label">Help</span></div>
+      <div class="fn-key"><span>F2</span><span class="fn-label">New</span></div>
+      <div class="fn-key"><span>F3</span><span class="fn-label">Edit</span></div>
+      <div class="fn-key"><span>F4</span><span class="fn-label">Delete</span></div>
+      <div class="fn-key"><span>F5</span><span class="fn-label">Refresh</span></div>
+      <div class="fn-key"><span>F6</span><span class="fn-label">Export</span></div>
+      <div class="fn-key"><span>F10</span><span class="fn-label">Quit</span></div>
+    </div>
+
+    <div class="cmdline">
+      <span class="prompt">C:\PATENTWATCH&gt;</span>
+      <input type="text" placeholder="" autofocus>
+      <span class="cursor"></span>
+    </div>
+  </div>
+</body>
+</html>

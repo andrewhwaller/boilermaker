@@ -1,0 +1,172 @@
+/* ============================================
+   THEME STRUCTURAL VARIATIONS
+   CSS that changes appearance based on theme
+   where the underlying markup is identical
+   ============================================ */
+
+/* ============================================
+   TERMINAL THEME VARIATIONS
+   Dotted borders, glow effects, scanlines
+   ============================================ */
+
+/* Scanline overlay effect */
+[data-theme="terminal"]::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1) 0 1px,
+    transparent 1px 2px
+  );
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Subtle vignette */
+[data-theme="terminal"]::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* Glow effect on highlighted stats */
+[data-theme="terminal"] .stat-highlight,
+[data-theme="terminal"] .text-accent {
+  text-shadow: 0 0 8px currentColor;
+}
+
+/* Dotted borders for terminal feel */
+[data-theme="terminal"] .border-dotted-theme {
+  border-style: dotted;
+}
+
+/* Hover glow effect */
+[data-theme="terminal"] .hover-glow:hover {
+  background: rgba(51, 255, 51, 0.1);
+}
+
+/* ============================================
+   BLUEPRINT THEME VARIATIONS
+   Grid paper background, technical styling
+   ============================================ */
+
+/* Grid paper background */
+[data-theme="blueprint"] {
+  background-image:
+    linear-gradient(var(--border-light) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-color: var(--bg);
+}
+
+/* Page container gets solid background */
+[data-theme="blueprint"] .page-container {
+  background: var(--bg);
+  border-left: 1px solid var(--border-light);
+  border-right: 1px solid var(--border-light);
+}
+
+/* Thicker borders for technical drawing feel */
+[data-theme="blueprint"] .border-technical {
+  border-width: 2px;
+}
+
+/* ============================================
+   BRUTALIST THEME VARIATIONS
+   Inverted hover, minimal decoration, IBM Plex Mono
+   ============================================ */
+
+/* IBM Plex Mono font for brutalist theme */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+[data-theme="brutalist"] {
+  --app-font-family: "IBM Plex Mono", monospace;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* Invert links on hover */
+[data-theme="brutalist"] a:hover {
+  background: var(--text);
+  color: var(--bg);
+  text-decoration: none;
+}
+
+/* Left border accent on hover */
+[data-theme="brutalist"] .hover-border-accent:hover {
+  border-left-color: var(--text);
+}
+
+/* ============================================
+   AMBER THEME VARIATIONS
+   Scanlines, chunky borders, warm glow
+   ============================================ */
+
+/* Scanline overlay effect (same as terminal but amber-tinted) */
+[data-theme="amber"]::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.08) 0 1px,
+    transparent 1px 2px
+  );
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Blinking cursor animation */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+[data-theme="amber"] .cursor-blink {
+  animation: cursor-blink 0.8s step-end infinite;
+}
+
+/* Pulsing highlight for alerts */
+@keyframes pulse-highlight {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+[data-theme="amber"] .pulse-alert {
+  animation: pulse-highlight 2s infinite;
+}
+
+/* ============================================
+   PAPER THEME VARIATIONS
+   Warm, refined, minimal effects
+   ============================================ */
+
+/* Paper uses the default styling - no special effects needed */
+/* It's the baseline from which other themes diverge */
+
+/* ============================================
+   SHARED UTILITY CLASSES
+   Theme-aware utilities that work across all themes
+   ============================================ */
+
+/* Stat highlight - themed glow for terminal, bold for others */
+.stat-highlight {
+  font-weight: 700;
+}
+
+/* Theme-aware hover background */
+.hover-surface-alt:hover {
+  background: var(--bg-alt);
+}
+
+/* Theme-aware border that adapts */
+.border-theme {
+  border-color: var(--border);
+}
+
+.border-theme-light {
+  border-color: var(--border-light);
+}

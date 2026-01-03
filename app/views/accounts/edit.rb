@@ -23,7 +23,7 @@ module Views
                 type: "text",
                 name: "account[name]",
                 value: @account.name,
-                class: "input input-bordered w-full",
+                class: "ui-input",
                 required: true,
                 autofocus: true
               )
@@ -35,8 +35,8 @@ module Views
             end
 
             div(class: "flex gap-4") do
-              button(type: "submit", class: "btn btn-primary") { "Update Account" }
-              a(href: account_path(@account), class: "btn btn-ghost") { "Cancel" }
+              button(type: "submit", class: "ui-button ui-button-primary") { "Update Account" }
+              a(href: account_path(@account), class: "ui-button ui-button-ghost") { "Cancel" }
             end
           end
         end

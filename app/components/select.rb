@@ -14,14 +14,8 @@ class Components::Select < Components::Base
   end
 
   def view_template
-    div(class: "form-control w-full") do
-      select(
-        name: @name,
-        id: @id || generate_id_from_name(@name),
-        class: select_classes,
-        required: (@required ? "required" : nil),
-        **filtered_attributes
-      ) do
+    div(class: "form-control") do
+      select(**select_attributes) do
         render_prompt if @prompt
         render_options
       end
@@ -31,8 +25,29 @@ class Components::Select < Components::Base
 
   private
 
+  def select_attributes
+    attrs = {
+      name: @name,
+      id: @id || generate_id_from_name(@name),
+      required: (@required ? "required" : nil)
+    }
+
+    # Merge classes properly
+    all_classes = select_classes
+    if @attributes[:class]
+      all_classes += Array(@attributes[:class])
+    end
+    attrs[:class] = all_classes
+
+    # Add other attributes
+    attrs.merge!(@attributes.except(:class))
+    attrs.compact
+  end
+
+  private
+
   def select_classes
-    css_classes("select", "select-bordered", "w-full", error_classes_for("select"))
+    css_classes("ui-select", error_classes_for("select"))
   end
 
   def render_prompt

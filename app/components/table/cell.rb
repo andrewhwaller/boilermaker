@@ -16,7 +16,7 @@ class Components::Table::Cell < Components::Base
   end
 
   def view_template(&block)
-    attrs = filtered_attributes
+    attrs = @attributes
     attrs[:colspan] = @colspan if @colspan
     attrs[:rowspan] = @rowspan if @rowspan
 

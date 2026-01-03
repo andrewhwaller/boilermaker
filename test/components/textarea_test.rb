@@ -10,20 +10,19 @@ class TextareaTest < ComponentTestCase
     assert_renders_successfully component
     assert_produces_output Components::Textarea.new
     assert_has_tag Components::Textarea.new, "textarea"
-    assert_has_css_class Components::Textarea.new, "textarea"
+    assert_has_css_class Components::Textarea.new, "ui-textarea"
   end
 
   test "renders textarea with form control wrapper" do
     component = Components::Textarea.new
 
     assert_has_css_class component, "form-control"
-    assert_has_css_class Components::Textarea.new, "w-full"
   end
 
-  test "applies Daisy UI textarea classes correctly" do
+  test "applies textarea classes correctly" do
     component = Components::Textarea.new
 
-    assert_daisy_form_classes component, [ "textarea", "textarea-bordered", "w-full" ]
+    assert_daisy_form_classes component, [ "ui-textarea" ]
   end
 
   test "renders with name attribute" do
@@ -98,16 +97,14 @@ class TextareaTest < ComponentTestCase
     textarea = doc.css("textarea").first
     classes = textarea["class"].split(" ")
 
-    assert_includes classes, "textarea"
-    assert_includes classes, "textarea-bordered"
-    assert_includes classes, "w-full"
+    assert_includes classes, "ui-textarea"
     assert_includes classes, "custom-class"
   end
 
   test "renders error state with error class" do
     component = Components::Textarea.new(error: "This field is required")
 
-    assert_has_css_class component, "textarea-error"
+    assert_has_css_class component, "ui-textarea-error"
   end
 
   test "displays error message when error provided" do
@@ -204,8 +201,7 @@ class TextareaTest < ComponentTestCase
     textarea = doc.css("textarea").first
     classes = textarea["class"].split(" ")
     assert_includes classes, "bio-textarea"
-    assert_includes classes, "textarea"
-    assert_includes classes, "textarea-bordered"
+    assert_includes classes, "ui-textarea"
   end
 
   test "handles empty and nil values gracefully" do

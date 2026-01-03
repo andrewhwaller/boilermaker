@@ -8,7 +8,7 @@ class Components::Table::Actions < Components::Base
   end
 
   def view_template(&block)
-    td(class: css_classes(*action_classes), **filtered_attributes) do
+    td(class: css_classes(*action_classes), **@attributes) do
       if block_given?
         div(class: "flex items-center gap-1", &block)
       else
@@ -33,51 +33,28 @@ class Components::Table::Actions < Components::Base
     @items.each do |item|
       case item[:type]
       when :button
-        render_action_button(item)
+        render Components::Button.new(variant: :ghost, size: :xs, **item.fetch(:attributes, {})) { item[:text] }
       when :link
-        render_action_link(item)
+        render Components::Link.new(href: item[:href], variant: :ghost, size: :xs, **item.fetch(:attributes, {})) { item[:text] }
       when :dropdown
         render_action_dropdown(item)
       end
     end
   end
 
-  def render_action_button(item)
-    button(
-      class: "btn btn-ghost btn-xs",
-      **item.fetch(:attributes, {})
-    ) do
-      item[:text]
-    end
-  end
-
-  def render_action_link(item)
-    a(
-      href: item[:href],
-      class: "btn btn-ghost btn-xs",
-      **item.fetch(:attributes, {})
-    ) do
-      item[:text]
-    end
-  end
-
   def render_action_dropdown(item)
-    div(class: "dropdown dropdown-end", style: "position: static;") do
-      button(class: "btn btn-ghost btn-xs", tabindex: "0") do
-        "⋯"
-      end
-      ul(class: "dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52",
-         style: "z-index: 9999 !important; position: absolute;",
-         tabindex: "0") do
+    div(class: "ui-dropdown") do
+      render Components::Button.new(variant: :ghost, size: :xs, tabindex: "0") { "⋯" }
+      ul(class: "ui-dropdown-content z-50 absolute w-52 p-2", tabindex: "0") do
         item[:items].each do |dropdown_item|
           li do
             case dropdown_item[:type]
             when :link
-              a(href: dropdown_item[:href], **dropdown_item.fetch(:attributes, {})) do
+              a(href: dropdown_item[:href], class: "ui-menu-item", **dropdown_item.fetch(:attributes, {})) do
                 dropdown_item[:text]
               end
             when :button
-              button(**dropdown_item.fetch(:attributes, {})) do
+              button(class: "ui-menu-item", **dropdown_item.fetch(:attributes, {})) do
                 dropdown_item[:text]
               end
             end

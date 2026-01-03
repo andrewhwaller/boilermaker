@@ -1,47 +1,55 @@
 # frozen_string_literal: true
 
 class Components::Button < Components::Base
- VARIANTS = {
- primary: "btn-primary",
- secondary: "btn-secondary",
- success: "btn-success",
- info: "btn-info",
- warning: "btn-warning",
- error: "btn-error",
- destructive: "btn-error",
- outline: "btn-outline",
- ghost: "btn-ghost",
- link: "btn-link"
- }.freeze
+  VARIANTS = {
+    primary: "ui-button-primary",
+    secondary: "ui-button-secondary",
+    success: "ui-button-success",
+    info: "ui-button-info",
+    warning: "ui-button-warning",
+    error: "ui-button-error",
+    destructive: "ui-button-error",
+    outline: "ui-button-outline",
+    ghost: "ui-button-ghost",
+    link: "ui-button-link"
+  }.freeze
 
- def initialize(variant: :primary, type: :button, uppercase: nil, **attributes)
- @variant = variant
- @type = type
- @uppercase = uppercase
- @attributes = attributes
- end
+  SIZES = {
+    lg: "ui-button-lg",
+    md: "ui-button-md",
+    sm: "ui-button-sm",
+    xs: "ui-button-xs"
+  }.freeze
 
- def view_template(&block)
- button(
- type: @type,
- class: css_classes(
- "btn",
- "disabled:opacity-50",
- VARIANTS[@variant],
- button_casing_class
-),
- **filtered_attributes(:size)
-) do
- yield if block
- end
- end
+  def initialize(variant: :primary, type: :button, uppercase: nil, size: :md, **attributes)
+    @variant = variant
+    @type = type
+    @uppercase = uppercase
+    @size = size
+    @attributes = attributes
+  end
 
- private
+  def view_template(&block)
+    button(
+      type: @type,
+      class: css_classes(
+        "ui-button",
+        VARIANTS[@variant],
+        SIZES[@size],
+        button_casing_class
+      ),
+      **@attributes
+    ) do
+      yield if block
+    end
+  end
 
- def button_casing_class
- return "uppercase" if @uppercase == true
- return "normal-case" if @uppercase == false
+  private
 
- nil
- end
+  def button_casing_class
+    return "uppercase" if @uppercase == true
+    return "normal-case" if @uppercase == false
+
+    nil
+  end
 end

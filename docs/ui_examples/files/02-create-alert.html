@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATENTWATCH — New Alert</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f3ef;
+      --bg-alt: #eae7e1;
+      --ink: #1a1a18;
+      --ink-muted: #6a6965;
+      --rust: #c54b32;
+      --forest: #2d5a4a;
+      --border: #1a1a18;
+      --border-light: #d4d1ca;
+      --mono: 'IBM Plex Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--mono);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Compact Header */
+    .header {
+      border-bottom: 2px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+
+    .nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav a {
+      font-size: 12px;
+      text-decoration: none;
+      color: var(--ink-muted);
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--ink);
+    }
+
+    .user {
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+
+    /* Main */
+    .main {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      font-size: 11px;
+      color: var(--ink-muted);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb a {
+      color: var(--ink-muted);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--ink);
+    }
+
+    /* Page Header */
+    .page-header {
+      margin-bottom: 32px;
+    }
+
+    .page-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .page-desc {
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+
+    /* Form */
+    .form-section {
+      margin-bottom: 28px;
+    }
+
+    .form-section-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-muted);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 16px;
+    }
+
+    .form-row {
+      margin-bottom: 16px;
+    }
+
+    .form-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .form-label-req::after {
+      content: ' *';
+      color: var(--rust);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      font-family: var(--mono);
+      font-size: 13px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--ink);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--rust);
+    }
+
+    .form-input::placeholder {
+      color: var(--ink-muted);
+    }
+
+    .form-textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .form-hint {
+      font-size: 11px;
+      color: var(--ink-muted);
+      margin-top: 4px;
+    }
+
+    /* Inline Form */
+    .form-inline {
+      display: flex;
+      gap: 8px;
+    }
+
+    .form-inline .form-input {
+      flex: 1;
+    }
+
+    /* Tags */
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border-light);
+      font-size: 12px;
+    }
+
+    .tag-remove {
+      cursor: pointer;
+      opacity: 0.5;
+      font-size: 11px;
+    }
+
+    .tag-remove:hover {
+      opacity: 1;
+      color: var(--rust);
+    }
+
+    /* Toggle Row */
+    .toggle-row {
+      display: flex;
+      border: 1px solid var(--border);
+    }
+
+    .toggle-option {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 12px;
+      text-align: center;
+      cursor: pointer;
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+    }
+
+    .toggle-option:last-child {
+      border-right: none;
+    }
+
+    .toggle-option:hover {
+      background: var(--bg-alt);
+    }
+
+    .toggle-option.active {
+      background: var(--ink);
+      color: var(--bg);
+    }
+
+    /* Checkbox */
+    .checkbox-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .checkbox-box {
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      background: var(--bg);
+    }
+
+    .checkbox.checked .checkbox-box {
+      background: var(--ink);
+      color: var(--bg);
+    }
+
+    /* Classification Grid */
+    .class-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .class-item {
+      padding: 10px;
+      border: 1px solid var(--border-light);
+      cursor: pointer;
+      text-align: center;
+      font-size: 12px;
+      background: var(--bg);
+    }
+
+    .class-item:hover {
+      border-color: var(--border);
+    }
+
+    .class-item.selected {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+    }
+
+    .class-code {
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .class-name {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      opacity: 0.7;
+      margin-top: 2px;
+    }
+
+    /* Date Range */
+    .date-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .date-sep {
+      padding-bottom: 10px;
+      color: var(--ink-muted);
+      font-size: 11px;
+    }
+
+    /* Radio Options */
+    .radio-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .radio-option {
+      padding: 12px;
+      border: 1px solid var(--border-light);
+      cursor: pointer;
+      background: var(--bg);
+    }
+
+    .radio-option:hover {
+      border-color: var(--border);
+    }
+
+    .radio-option.selected {
+      border-color: var(--ink);
+      background: var(--bg-alt);
+    }
+
+    .radio-title {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .radio-desc {
+      font-size: 10px;
+      color: var(--ink-muted);
+    }
+
+    /* Preview Box */
+    .preview-box {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 16px;
+      font-size: 12px;
+      line-height: 1.7;
+      margin-top: 8px;
+    }
+
+    .preview-keyword {
+      background: var(--rust);
+      padding: 1px 5px;
+    }
+
+    .preview-op {
+      opacity: 0.5;
+    }
+
+    .preview-stats {
+      display: flex;
+      gap: 24px;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 11px;
+    }
+
+    .preview-stat-value {
+      font-weight: 700;
+      color: var(--rust);
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 10px 18px;
+      font-family: var(--mono);
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+
+    .btn:hover {
+      background: var(--ink);
+      color: var(--bg);
+    }
+
+    .btn-primary {
+      background: var(--rust);
+      border-color: var(--rust);
+      color: var(--bg);
+    }
+
+    .btn-primary:hover {
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 11px;
+    }
+
+    /* Action Bar */
+    .action-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg-alt);
+      border-top: 2px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .action-bar-left {
+      font-size: 11px;
+      color: var(--ink-muted);
+    }
+
+    .action-bar-right {
+      display: flex;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <span class="logo">PATENTWATCH</span>
+    <nav class="nav">
+      <a href="#" class="active">Alerts</a>
+      <a href="#">Search</a>
+      <a href="#">Settings</a>
+    </nav>
+    <span class="user">user@company.com</span>
+  </header>
+
+  <main class="main">
+    <div class="breadcrumb">
+      <a href="#">Alerts</a> → New Alert
+    </div>
+
+    <header class="page-header">
+      <h1 class="page-title">Create Alert</h1>
+      <p class="page-desc">Set up keyword monitoring for USPTO patent filings.</p>
+    </header>
+
+    <form>
+      <div class="form-section">
+        <div class="form-section-title">Basic Info</div>
+        
+        <div class="form-row">
+          <label class="form-label form-label-req">Alert Name</label>
+          <input type="text" class="form-input" placeholder="e.g., Machine Learning — Image Recognition" value="Machine Learning — Image Recognition">
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Description</label>
+          <textarea class="form-input form-textarea" placeholder="Brief description (optional)...">Monitor USPTO filings for ML applications in image recognition and computer vision.</textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">Search Criteria</div>
+        
+        <div class="form-row">
+          <label class="form-label form-label-req">Keywords</label>
+          <div class="form-inline">
+            <input type="text" class="form-input" placeholder="Enter keyword...">
+            <button type="button" class="btn btn-small">Add</button>
+          </div>
+          <div class="tag-list">
+            <span class="tag">machine learning <span class="tag-remove">×</span></span>
+            <span class="tag">image recognition <span class="tag-remove">×</span></span>
+            <span class="tag">convolutional neural network <span class="tag-remove">×</span></span>
+            <span class="tag">computer vision <span class="tag-remove">×</span></span>
+            <span class="tag">deep learning <span class="tag-remove">×</span></span>
+          </div>
+          <div class="form-hint">Matched against titles, abstracts, and claims.</div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Keyword Logic</label>
+          <div class="toggle-row">
+            <div class="toggle-option">All (AND)</div>
+            <div class="toggle-option active">Any (OR)</div>
+            <div class="toggle-option">Exact</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">CPC Classification</label>
+          <div class="class-grid">
+            <div class="class-item selected">
+              <div class="class-code">G06N</div>
+              <div class="class-name">Computing</div>
+            </div>
+            <div class="class-item selected">
+              <div class="class-code">G06T</div>
+              <div class="class-name">Image Proc.</div>
+            </div>
+            <div class="class-item">
+              <div class="class-code">G06F</div>
+              <div class="class-name">Digital Data</div>
+            </div>
+            <div class="class-item">
+              <div class="class-code">G06K</div>
+              <div class="class-name">Recognition</div>
+            </div>
+            <div class="class-item">
+              <div class="class-code">H04N</div>
+              <div class="class-name">Pictorial</div>
+            </div>
+            <div class="class-item">
+              <div class="class-code">G16H</div>
+              <div class="class-name">Healthcare</div>
+            </div>
+            <div class="class-item">
+              <div class="class-code">B60W</div>
+              <div class="class-name">Vehicles</div>
+            </div>
+            <div class="class-item">
+              <div class="class-code">G01N</div>
+              <div class="class-name">Analysis</div>
+            </div>
+          </div>
+          <div class="form-hint">Optional. Narrow results to specific patent classes.</div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Date Range</label>
+          <div class="date-row">
+            <div>
+              <input type="date" class="form-input" value="2024-01-01">
+            </div>
+            <span class="date-sep">to</span>
+            <div>
+              <input type="date" class="form-input" placeholder="ongoing">
+            </div>
+          </div>
+          <div class="form-hint">Leave end date empty for ongoing monitoring.</div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">Filters</div>
+        
+        <div class="form-row">
+          <label class="form-label">Patent Type</label>
+          <div class="checkbox-list">
+            <label class="checkbox checked">
+              <span class="checkbox-box">✓</span>
+              Utility Patents
+            </label>
+            <label class="checkbox checked">
+              <span class="checkbox-box">✓</span>
+              Applications
+            </label>
+            <label class="checkbox">
+              <span class="checkbox-box"></span>
+              Design Patents
+            </label>
+            <label class="checkbox">
+              <span class="checkbox-box"></span>
+              Plant Patents
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Assignee Filter</label>
+          <input type="text" class="form-input" placeholder="e.g., Google, Apple, Microsoft (comma-separated)">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">Notifications</div>
+        
+        <div class="form-row">
+          <label class="form-label">Frequency</label>
+          <div class="radio-list">
+            <div class="radio-option">
+              <div class="radio-title">Real-time</div>
+              <div class="radio-desc">Instant notifications</div>
+            </div>
+            <div class="radio-option selected">
+              <div class="radio-title">Daily Digest</div>
+              <div class="radio-desc">Summary at 9:00 AM</div>
+            </div>
+            <div class="radio-option">
+              <div class="radio-title">Weekly</div>
+              <div class="radio-desc">Every Monday</div>
+            </div>
+            <div class="radio-option">
+              <div class="radio-title">Manual</div>
+              <div class="radio-desc">Check dashboard only</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" value="user@company.com">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section-title">Query Preview</div>
+        <div class="preview-box">
+          (<span class="preview-keyword">machine learning</span> <span class="preview-op">OR</span>
+          <span class="preview-keyword">image recognition</span> <span class="preview-op">OR</span>
+          <span class="preview-keyword">convolutional neural network</span> <span class="preview-op">OR</span>
+          <span class="preview-keyword">computer vision</span> <span class="preview-op">OR</span>
+          <span class="preview-keyword">deep learning</span>)
+          <span class="preview-op">AND</span> CPC:(<span class="preview-keyword">G06N</span> <span class="preview-op">OR</span> <span class="preview-keyword">G06T</span>)
+          <span class="preview-op">AND</span> DATE>=<span class="preview-keyword">2024-01-01</span>
+          
+          <div class="preview-stats">
+            <span><span class="preview-stat-value">~2,340</span> weekly matches (est.)</span>
+            <span><span class="preview-stat-value">94%</span> specificity</span>
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <div class="action-bar">
+    <span class="action-bar-left">Draft saved</span>
+    <div class="action-bar-right">
+      <button class="btn">Cancel</button>
+      <button class="btn">Save Draft</button>
+      <button class="btn btn-primary">Create Alert →</button>
+    </div>
+  </div>
+</body>
+</html>

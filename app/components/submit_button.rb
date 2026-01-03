@@ -10,7 +10,7 @@ class Components::SubmitButton < Components::Base
   end
 
   def view_template(&block)
-    Button(type: :submit, variant: @variant, **@button_attrs) do
+    render Components::Button.new(type: :submit, variant: @variant, **@button_attrs) do
       if block_given?
         yield
       else

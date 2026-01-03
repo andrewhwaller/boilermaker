@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATENTWATCH — Sign In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f3ef;
+      --bg-alt: #eae7e1;
+      --ink: #1a1a18;
+      --ink-muted: #6a6965;
+      --rust: #c54b32;
+      --forest: #2d5a4a;
+      --border: #1a1a18;
+      --border-light: #d4d1ca;
+      --mono: 'IBM Plex Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--mono);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header - Minimal */
+    .header {
+      border-bottom: 2px solid var(--border);
+      padding: 12px 24px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 360px;
+    }
+
+    /* Title */
+    .login-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .login-subtitle {
+      font-size: 12px;
+      color: var(--ink-muted);
+      margin-bottom: 32px;
+    }
+
+    .login-subtitle a {
+      color: var(--rust);
+      text-decoration: none;
+    }
+
+    .login-subtitle a:hover {
+      text-decoration: underline;
+    }
+
+    /* Form */
+    .form-row {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      font-family: var(--mono);
+      font-size: 13px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--ink);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--rust);
+    }
+
+    .form-input::placeholder {
+      color: var(--ink-muted);
+    }
+
+    /* Checkbox row */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 12px;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .checkbox-box {
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      background: var(--bg);
+    }
+
+    .checkbox.checked .checkbox-box {
+      background: var(--ink);
+      color: var(--bg);
+    }
+
+    .forgot-link {
+      color: var(--ink-muted);
+      text-decoration: none;
+      font-size: 11px;
+    }
+
+    .forgot-link:hover {
+      color: var(--rust);
+    }
+
+    /* Button */
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      background: var(--ink);
+      color: var(--bg);
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    .btn-submit:hover {
+      background: var(--rust);
+      border-color: var(--rust);
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      font-size: 10px;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border-light);
+    }
+
+    /* Social */
+    .social-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .btn-social {
+      padding: 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-social:hover {
+      border-color: var(--border);
+      background: var(--bg-alt);
+    }
+
+    /* Footer text */
+    .login-footer {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-light);
+      text-align: center;
+      font-size: 10px;
+      color: var(--ink-muted);
+    }
+
+    .login-footer a {
+      color: var(--ink-muted);
+      text-decoration: none;
+    }
+
+    .login-footer a:hover {
+      color: var(--ink);
+    }
+
+    /* Error */
+    .error-box {
+      background: rgba(197, 75, 50, 0.08);
+      border: 1px solid var(--rust);
+      padding: 10px 12px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      color: var(--rust);
+    }
+
+    /* Page Footer */
+    .page-footer {
+      border-top: 1px solid var(--border-light);
+      padding: 12px 24px;
+      font-size: 10px;
+      color: var(--ink-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .footer-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-status::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background: var(--forest);
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <span class="logo">PATENTWATCH</span>
+  </header>
+
+  <main class="main">
+    <div class="login-box">
+      <h1 class="login-title">Sign in</h1>
+      <p class="login-subtitle">No account? <a href="#">Create one →</a></p>
+
+      <!-- Error state (hidden by default) -->
+      <!-- <div class="error-box">Invalid email or password.</div> -->
+
+      <form>
+        <div class="form-row">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" placeholder="you@company.com">
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" placeholder="••••••••">
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox checked">
+            <span class="checkbox-box">✓</span>
+            Remember me
+          </label>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-submit">Sign In →</button>
+      </form>
+
+      <div class="divider">
+        <span class="divider-line"></span>
+        <span>or</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <div class="social-row">
+        <button type="button" class="btn-social">Google</button>
+        <button type="button" class="btn-social">Microsoft</button>
+      </div>
+
+      <div class="login-footer">
+        <a href="#">Terms</a> · <a href="#">Privacy</a> · <a href="#">Help</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="page-footer">
+    <span class="footer-status">All systems operational</span>
+    <span>PATENTWATCH v1.0</span>
+  </footer>
+</body>
+</html>

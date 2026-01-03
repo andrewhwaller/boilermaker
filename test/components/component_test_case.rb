@@ -5,7 +5,7 @@ require "nokogiri"
 
 class ComponentTestCase < ActiveSupport::TestCase
   # Base test class for Phlex component testing
-  # Provides HTML parsing, assertion helpers, and Daisy UI validation methods
+  # Provides HTML parsing, assertion helpers, and component class validation methods
 
   protected
 
@@ -127,11 +127,11 @@ class ComponentTestCase < ActiveSupport::TestCase
     end
   end
 
-  # Verify Daisy UI button classes are correctly applied
+  # Verify button classes are correctly applied
   # @param component [Phlex::HTML] The component to test
-  # @param expected_classes [Array<String>] Expected Daisy UI classes
+  # @param expected_classes [Array<String>] Expected CSS classes
   # @param message [String] Optional custom assertion message
-  def assert_daisy_button_classes(component, expected_classes, message = nil)
+  def assert_button_classes(component, expected_classes, message = nil)
     html = render_component(component)
     doc = parse_html(html)
     button = doc.css("button").first
@@ -141,29 +141,35 @@ class ComponentTestCase < ActiveSupport::TestCase
 
     actual_classes = button["class"]&.split(" ") || []
 
-    # Always expect base btn class for Daisy UI buttons
-    assert_includes actual_classes, "btn", "Expected button to have base 'btn' class"
+    # Always expect base ui-button class for buttons
+    assert_includes actual_classes, "ui-button", "Expected button to have base 'ui-button' class"
 
     expected_classes.each do |expected_class|
-      class_message = message || "Expected button to have Daisy UI class '#{expected_class}'"
+      class_message = message || "Expected button to have class '#{expected_class}'"
       assert_includes actual_classes, expected_class, class_message
     end
   end
 
-  # Verify Daisy UI form control classes are correctly applied
+  # Alias for backwards compatibility
+  alias_method :assert_daisy_button_classes, :assert_button_classes
+
+  # Verify form control classes are correctly applied
   # @param component [Phlex::HTML] The component to test
-  # @param expected_classes [Array<String>] Expected Daisy UI form classes
+  # @param expected_classes [Array<String>] Expected CSS form classes
   # @param message [String] Optional custom assertion message
-  def assert_daisy_form_classes(component, expected_classes, message = nil)
+  def assert_form_classes(component, expected_classes, message = nil)
     html = render_component(component)
     doc = parse_html(html)
 
     expected_classes.each do |expected_class|
       elements = doc.css(".#{expected_class}")
-      class_message = message || "Expected component to have Daisy UI form class '#{expected_class}'"
+      class_message = message || "Expected component to have form class '#{expected_class}'"
       assert elements.any?, class_message
     end
   end
+
+  # Alias for backwards compatibility
+  alias_method :assert_daisy_form_classes, :assert_form_classes
 
   # Extract all CSS classes from the rendered component
   # Useful for debugging and verification

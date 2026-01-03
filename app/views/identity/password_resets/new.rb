@@ -15,7 +15,7 @@ module Views
             centered_container do
               card do
           if @alert
-            div(class: "alert alert-error mb-6") { span { plain(@alert) } }
+            div(class: "ui-alert ui-alert-destructive mb-6") { span { plain(@alert) } }
           end
 
                 h1(class: "text-xl font-semibold text-base-content mb-6") { "Forgot your password?" }

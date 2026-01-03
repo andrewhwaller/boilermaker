@@ -177,14 +177,14 @@ end
 
 ## Styling System
 
-Components use DaisyUI semantic classes and tokens that adapt to the active theme, for example:
+Components use CSS variable-based semantic classes that adapt to the active theme. The theme system provides 5 distinct visual themes (paper, terminal, blueprint, brutalist, dos) with light/dark polarity. For example:
 
 ```html
-<button class="btn btn-primary">Primary</button>
-<input class="input input-bordered" />
-<div class="card bg-base-100"><div class="card-body">...</div></div>
-<div class="alert alert-error">Something went wrong</div>
-<p class="text-base-content/70">Muted text</p>
+<button class="bg-accent text-inverse">Primary</button>
+<input class="bg-surface border-default" />
+<div class="bg-surface-alt border-default"><div class="p-4">...</div></div>
+<div class="border-default bg-surface">Something went wrong</div>
+<p class="text-muted">Muted text</p>
 ```
 
 ## Example Usage

@@ -10,20 +10,19 @@ class SelectTest < ComponentTestCase
     assert_renders_successfully component
     assert_produces_output component
     assert_has_tag component, "select"
-    assert_has_css_class component, "select"
+    assert_has_css_class component, "ui-select"
   end
 
   test "renders select with form control wrapper" do
     component = Components::Select.new
 
     assert_has_css_class component, "form-control"
-    assert_has_css_class component, "w-full"
   end
 
-  test "applies Daisy UI select classes correctly" do
+  test "applies select classes correctly" do
     component = Components::Select.new
 
-    assert_daisy_form_classes component, [ "select", "select-bordered", "w-full" ]
+    assert_daisy_form_classes component, [ "ui-select" ]
   end
 
   test "renders with name attribute" do
@@ -164,16 +163,14 @@ class SelectTest < ComponentTestCase
     select = doc.css("select").first
     classes = select["class"].split(" ")
 
-    assert_includes classes, "select"
-    assert_includes classes, "select-bordered"
-    assert_includes classes, "w-full"
+    assert_includes classes, "ui-select"
     assert_includes classes, "custom-select"
   end
 
   test "renders error state with error class" do
     component = Components::Select.new(error: "Please select an option")
 
-    assert_has_css_class component, "select-error"
+    assert_has_css_class component, "ui-select-error"
   end
 
   test "displays error message when error provided" do
@@ -228,8 +225,7 @@ class SelectTest < ComponentTestCase
     select = doc.css("select").first
     classes = select["class"].split(" ")
     assert_includes classes, "size-select"
-    assert_includes classes, "select"
-    assert_includes classes, "select-bordered"
+    assert_includes classes, "ui-select"
 
     # Check options
     option_elements = doc.css("option")

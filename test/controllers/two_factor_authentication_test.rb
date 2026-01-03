@@ -11,7 +11,7 @@ class TwoFactorAuthenticationTest < ActionDispatch::IntegrationTest
     sign_in_as @user
     get new_two_factor_authentication_profile_totp_path
     assert_response :success
-    assert_select "h1", text: "Set up two-factor authentication"
+    assert_select "h3", text: "Set up two-factor authentication"
   end
 
   test "should generate QR code for 2FA setup" do
@@ -144,7 +144,7 @@ class TwoFactorAuthenticationTest < ActionDispatch::IntegrationTest
 
   test "should reject used recovery code" do
     @user.update!(otp_required_for_sign_in: true)
-    recovery_code = @user.recovery_codes.create!(code: "testcode123", used: true)
+    @user.recovery_codes.create!(code: "testcode123", used: true)
 
     # Start sign in process
     post sign_in_path, params: { email: @user.email, password: "Secret1*3*5*" }

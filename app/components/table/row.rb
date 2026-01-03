@@ -2,8 +2,7 @@
 
 class Components::Table::Row < Components::Base
   VARIANTS = {
-    active: "active",
-    hover: "hover"
+    active: "active"
   }.freeze
 
   def initialize(variant: nil, **attributes)
@@ -12,6 +11,6 @@ class Components::Table::Row < Components::Base
   end
 
   def view_template(&block)
-    tr(class: css_classes(VARIANTS[@variant]), **filtered_attributes, &block)
+    tr(class: css_classes(VARIANTS[@variant]), **@attributes, &block)
   end
 end

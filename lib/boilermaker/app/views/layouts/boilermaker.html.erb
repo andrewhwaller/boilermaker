@@ -1,164 +1,344 @@
-<%# Boilermaker engine layout: independent styling with terminal theme %>
+<%# Boilermaker engine layout: terminal theme %>
 <!DOCTYPE html>
-<html lang="en" data-theme="terminal">
- <head>
- <meta charset="utf-8" />
- <meta name="viewport" content="width=device-width, initial-scale=1" />
- <title>Boilermaker Settings</title>
- <%= csrf_meta_tags %>
- <%= csp_meta_tag %>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BOILERMAKER TERMINAL</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
- <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <style>
+    /*
+     * TERMINAL THEME - Standalone version for Boilermaker config UI
+     * Keep in sync with: app/assets/tailwind/themes.css (Terminal dark polarity)
+     *
+     * This is intentionally self-contained so the engine works independently.
+     * Variable names match the main theme system for consistency.
+     */
+    :root {
+      /* Core theme variables - match themes.css Terminal dark */
+      --bg: #0a0a0a;
+      --bg-alt: #111110;
+      --bg-inverse: #33ff33;
+      --text: #33ff33;
+      --text-muted: #1a8c1a;
+      --accent: #ffb000;
+      --accent-muted: #805800;
+      --border: #1a8c1a;
+      --border-light: #143614;
+      /* Config-specific extras */
+      --glow: rgba(51, 255, 51, 0.15);
+      --font-mono: 'IBM Plex Mono', monospace;
+    }
 
- <script type="module">
-   import { Application, Controller } from "<%= asset_path "stimulus.min.js" %>"
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-   class ServerStatusController extends Controller {
-     static targets = ["submitButton", "message"]
-     static values = { restartUrl: String }
+    body {
+      font-family: var(--font-mono);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
 
-     connect() {
-       const form = document.getElementById('settings_form')
-       if (form) {
-         form.addEventListener('submit', this.handleSubmit.bind(this))
-       }
-     }
+    /* CRT effect overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.15),
+          rgba(0, 0, 0, 0.15) 1px,
+          transparent 1px,
+          transparent 2px
+        );
+      pointer-events: none;
+      z-index: 1000;
+    }
 
-     handleSubmit(event) {
-       if (this.hasSubmitButtonTarget) {
-         this.submitButtonTarget.disabled = true
-         this.submitButtonTarget.textContent = 'Saving...'
-       }
-       if (this.hasMessageTarget) {
-         this.messageTarget.textContent = 'Saving configuration and restarting server...'
-       }
-       setTimeout(() => this.startRestartMonitoring(), 1000)
-     }
+    /* Subtle vignette */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+      pointer-events: none;
+      z-index: 999;
+    }
 
-     startRestartMonitoring() {
-       if (this.hasMessageTarget) {
-         this.messageTarget.innerHTML = '<span class="inline-flex items-center gap-2"><span class="loading loading-spinner loading-xs"></span> Server is restarting... Please wait.</span>'
-       }
-       this.pollInterval = setInterval(() => this.checkServerHealth(), 2000)
-       this.pollTimeout = setTimeout(() => this.stopMonitoring(false), 30000)
-     }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+      padding-bottom: 100px;
+      position: relative;
+    }
 
-     async checkServerHealth() {
-       try {
-         const response = await fetch(this.restartUrlValue, { method: 'GET', cache: 'no-cache' })
-         if (response.ok) {
-           this.stopMonitoring(true)
-         }
-       } catch (error) {}
-     }
+    /* Header */
+    .header {
+      border-bottom: 1px solid var(--text-muted);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
 
-     stopMonitoring(success) {
-       if (this.pollInterval) {
-         clearInterval(this.pollInterval)
-         this.pollInterval = null
-       }
-       if (this.pollTimeout) {
-         clearTimeout(this.pollTimeout)
-         this.pollTimeout = null
-       }
-       if (this.hasMessageTarget) {
-         if (success) {
-           this.messageTarget.innerHTML = '<span class="text-success font-medium">✓ Server restarted successfully! You can now return to the app.</span>'
-           if (this.hasSubmitButtonTarget) {
-             this.submitButtonTarget.disabled = false
-             this.submitButtonTarget.textContent = 'Save Changes'
-           }
-         } else {
-           this.messageTarget.innerHTML = '<span class="text-warning">Server is taking longer than expected to restart. Please refresh the page manually.</span>'
-           if (this.hasSubmitButtonTarget) {
-             this.submitButtonTarget.disabled = false
-             this.submitButtonTarget.textContent = 'Save Changes'
-           }
-         }
-       }
-     }
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-     disconnect() {
-       this.stopMonitoring(false)
-     }
-   }
+    .logo {
+      font-size: 12px;
+      letter-spacing: 0.15em;
+    }
 
-   class ClockController extends Controller {
-     static values = { format: { type: String, default: "%H:%M:%S UTC" }, interval: { type: Number, default: 1000 } }
+    .logo-main {
+      color: var(--text);
+    }
 
-     connect() {
-       this.tick()
-       this.timer = setInterval(() => this.tick(), this.intervalValue)
-     }
+    .system-info {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
 
-     disconnect() {
-       clearInterval(this.timer)
-     }
+    .nav {
+      display: flex;
+      gap: 24px;
+      margin-top: 12px;
+      font-size: 12px;
+    }
 
-     tick() {
-       const now = new Date()
-       const options = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false, timeZone: "UTC" }
-       const formatted = now.toLocaleTimeString("en-GB", options)
-       this.element.textContent = `${formatted} UTC`
-     }
-   }
+    .nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
 
-   const application = Application.start()
-   application.register("server-status", ServerStatusController)
-   application.register("clock", ClockController)
- </script>
+    .nav a:hover,
+    .nav a.active {
+      color: var(--text);
+    }
 
- <style>
-   :root {
-     --app-font-family: "CommitMonoIndustrial", monospace;
-     --app-text-transform: uppercase;
-     --app-font-scale: 1.12;
-   }
- </style>
- </head>
- <body class="min-h-screen bg-base-100 text-base-content">
- <!-- TOP HEADER -->
- <header class="border-b border-base-300 bg-base-200">
- <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
- <div class="flex items-center gap-4">
- <div class="text-sm text-base-content/70 font-semibold uppercase">BOILERMAKER SETTINGS</div>
- </div>
- <div class="flex items-center gap-4">
- <span class="text-xs text-base-content/50">SYSTEM TIME: <span data-controller="clock" data-clock-format-value="%H:%M:%S UTC"><%= Time.current.strftime("%H:%M:%S UTC") %></span></span>
- </div>
- </div>
- </header>
+    .nav a.active::before {
+      content: '> ';
+    }
 
- <!-- SYSTEM MESSAGES -->
- <% unless flash.empty? %>
- <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 space-y-2">
+    /* Flash messages */
+    .flash-messages {
+      margin-bottom: 24px;
+    }
+
+    .flash {
+      padding: 8px 12px;
+      border: 1px solid var(--text-muted);
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .flash::before {
+      content: '> ';
+      color: var(--text);
+    }
+
+    .flash.notice {
+      border-color: var(--text);
+      color: var(--text);
+    }
+
+    .flash.alert {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Footer info */
+    .footer-info {
+      position: fixed;
+      bottom: 50px;
+      left: 24px;
+      right: 24px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .status-ok::before {
+      content: '● ';
+      color: var(--text);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-alt);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--text-muted);
+    }
+
+    /* Selection */
+    ::selection {
+      background: var(--text);
+      color: var(--bg);
+    }
+  </style>
+
+  <script type="module">
+    import { Application, Controller } from "<%= asset_path "stimulus.min.js" %>"
+
+    class ServerStatusController extends Controller {
+      static targets = ["submitButton", "message"]
+      static values = { restartUrl: String }
+
+      connect() {
+        const form = document.getElementById('settings_form')
+        if (form) {
+          form.addEventListener('submit', this.handleSubmit.bind(this))
+        }
+      }
+
+      handleSubmit(event) {
+        if (this.hasSubmitButtonTarget) {
+          this.submitButtonTarget.disabled = true
+          this.submitButtonTarget.textContent = 'SAVING...'
+        }
+        if (this.hasMessageTarget) {
+          this.messageTarget.textContent = 'SAVING CONFIGURATION AND RESTARTING SERVER...'
+        }
+        setTimeout(() => this.startRestartMonitoring(), 1000)
+      }
+
+      startRestartMonitoring() {
+        if (this.hasMessageTarget) {
+          this.messageTarget.innerHTML = '<span style="animation: blink 1s step-end infinite">▌</span> SERVER IS RESTARTING... PLEASE WAIT.'
+        }
+        this.pollInterval = setInterval(() => this.checkServerHealth(), 2000)
+        this.pollTimeout = setTimeout(() => this.stopMonitoring(false), 30000)
+      }
+
+      async checkServerHealth() {
+        try {
+          const response = await fetch(this.restartUrlValue, { method: 'GET', cache: 'no-cache' })
+          if (response.ok) {
+            this.stopMonitoring(true)
+          }
+        } catch (error) {}
+      }
+
+      stopMonitoring(success) {
+        if (this.pollInterval) {
+          clearInterval(this.pollInterval)
+          this.pollInterval = null
+        }
+        if (this.pollTimeout) {
+          clearTimeout(this.pollTimeout)
+          this.pollTimeout = null
+        }
+        if (this.hasMessageTarget) {
+          if (success) {
+            this.messageTarget.innerHTML = '● SERVER RESTARTED SUCCESSFULLY. YOU MAY RETURN TO THE APP.'
+            this.messageTarget.style.color = 'var(--text)'  /* success: green */
+            if (this.hasSubmitButtonTarget) {
+              this.submitButtonTarget.disabled = false
+              this.submitButtonTarget.textContent = 'SAVE CHANGES'
+            }
+          } else {
+            this.messageTarget.innerHTML = '○ SERVER IS TAKING LONGER THAN EXPECTED. PLEASE REFRESH MANUALLY.'
+            this.messageTarget.style.color = 'var(--accent)'
+            if (this.hasSubmitButtonTarget) {
+              this.submitButtonTarget.disabled = false
+              this.submitButtonTarget.textContent = 'SAVE CHANGES'
+            }
+          }
+        }
+      }
+
+      disconnect() {
+        this.stopMonitoring(false)
+      }
+    }
+
+    class ClockController extends Controller {
+      connect() {
+        this.tick()
+        this.timer = setInterval(() => this.tick(), 1000)
+      }
+
+      disconnect() {
+        clearInterval(this.timer)
+      }
+
+      tick() {
+        const now = new Date()
+        const options = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false, timeZone: "UTC" }
+        const formatted = now.toLocaleTimeString("en-GB", options)
+        this.element.textContent = `${formatted} UTC`
+      }
+    }
+
+    const application = Application.start()
+    application.register("server-status", ServerStatusController)
+    application.register("clock", ClockController)
+  </script>
+
+  <style>
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-row">
+        <div class="logo">
+          <span class="logo-main">BOILERMAKER</span>
+          <span class="system-info"> v<%= Boilermaker::VERSION %> // SYSTEM CONFIGURATION</span>
+        </div>
+        <div class="system-info">
+          <span data-controller="clock"><%= Time.current.strftime("%H:%M:%S UTC") %></span>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="<%= boilermaker.edit_settings_path %>" class="active">settings</a>
+        <a href="<%= main_app.root_path %>">app</a>
+      </nav>
+    </header>
+
+    <% unless flash.empty? %>
+      <div class="flash-messages">
         <% flash.each do |type, message| %>
-          <% status_config = case type.to_sym
-          when :notice, :success
-            { color: 'success', bg: 'bg-success/10', border: 'border-success/30', text: 'text-success' }
-          when :alert, :error
-            { color: 'error', bg: 'bg-error/10', border: 'border-error/30', text: 'text-error' }
-          else
-            { color: 'info', bg: 'bg-info/10', border: 'border-info/30', text: 'text-info' }
-          end %>
- <div class="<%= status_config[:bg] %> border <%= status_config[:border] %> p-3">
- <div class="flex items-center gap-2">
- <div class="w-1.5 h-1.5 bg-<%= status_config[:color] %> rounded-full"></div>
- <span class="text-base-content text-sm"><%= message %></span>
- </div>
- </div>
- <% end %>
- </div>
- <% end %>
+          <div class="flash <%= type %>"><%= message %></div>
+        <% end %>
+      </div>
+    <% end %>
 
- <!-- MAIN CONTROL INTERFACE -->
- <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
- <div class="grid grid-cols-1 gap-6">
- <%= yield %>
- </div>
-  <!-- SYSTEM STATUS BAR -->
- <div class="mt-8 border-t border-primary/30 pt-4">
- </div>
- </main>
- </body>
+    <%= yield %>
+  </div>
+
+  <div class="footer-info">
+    <span class="status-ok">RAILS <%= Rails.version %> | RUBY <%= RUBY_VERSION %></span>
+    <span>ENV: <%= Rails.env.upcase %> | THEME: <%= Boilermaker::Config.theme_name.upcase %></span>
+  </div>
+</body>
 </html>

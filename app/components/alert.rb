@@ -2,10 +2,10 @@
 
 class Components::Alert < Components::Base
   VARIANTS = {
-    success: "alert-success",
-    error: "alert-error",
-    warning: "alert-warning",
-    info: "alert-info"
+    success: "ui-alert-success",
+    error: "ui-alert-destructive",
+    warning: "ui-alert-warning",
+    info: "ui-alert-info"
   }.freeze
 
   def initialize(message:, variant: :info, dismissible: false, icon: nil, **attributes)
@@ -23,7 +23,7 @@ class Components::Alert < Components::Base
       "aria-live": @variant == :error ? "assertive" : "polite"
     }
 
-    div(class: css_classes("alert", VARIANTS[@variant]), **aria_attrs, **filtered_attributes) do
+    div(class: css_classes("ui-alert", VARIANTS[@variant]), **aria_attrs, **filtered_attributes) do
       div(class: "flex items-center justify-between w-full") do
         div(class: "flex items-center gap-2") do
           div(class: "flex-1") do
@@ -39,7 +39,7 @@ class Components::Alert < Components::Base
       if @dismissible
         button(
           type: "button",
-          class: "btn btn-ghost ml-auto shrink-0",
+          class: "ui-button ui-button-ghost ml-auto shrink-0",
           "aria-label": "Dismiss alert",
           "data-dismiss": "alert"
         ) do

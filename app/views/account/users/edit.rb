@@ -38,18 +38,18 @@ module Views
                   div(class: "grid grid-cols-1 md:grid-cols-2 gap-4") do
                     div(class: "form-control w-full") do
                       f.label :first_name, "First Name", class: "label"
-                      f.text_field :first_name, class: "input input-bordered w-full", placeholder: "First name"
+                      f.text_field :first_name, class: "ui-input", placeholder: "First name"
                     end
 
                     div(class: "form-control w-full") do
                       f.label :last_name, "Last Name", class: "label"
-                      f.text_field :last_name, class: "input input-bordered w-full", placeholder: "Last name"
+                      f.text_field :last_name, class: "ui-input", placeholder: "Last name"
                     end
                   end
 
                   div(class: "form-control w-full") do
                     f.label :email, "Email Address", class: "label"
-                    f.email_field :email, class: "input input-bordered w-full", required: true
+                    f.email_field :email, class: "ui-input", required: true
                     helper_text("The user's email address. Used for login and notifications.")
                   end
 
@@ -72,8 +72,8 @@ module Views
                   end
 
                   div(class: "pt-4") do
-                    f.submit "Update User", class: "btn btn-primary"
-                    link_to("Cancel", account_path, class: "btn btn-outline ml-3")
+                    f.submit "Update User", class: "ui-button ui-button-primary"
+                    link_to("Cancel", account_path, class: "ui-button ui-button-outline ml-3")
                   end
                 end
               end
@@ -96,7 +96,7 @@ module Views
                           name: "role",
                           value: "admin",
                           checked: membership&.admin? || false,
-                          class: "radio radio-primary",
+                          class: "ui-radio",
                           data: { action: "change->auto-submit#submit" }
                         )
 
@@ -114,7 +114,7 @@ module Views
                           name: "role",
                           value: "member",
                           checked: !(membership&.admin?) || false,
-                          class: "radio radio-primary",
+                          class: "ui-radio",
                           data: { action: "change->auto-submit#submit" }
                         )
 
@@ -127,7 +127,7 @@ module Views
                   end
                 else
                   div(class: "flex items-center gap-3") do
-                    input(type: "radio", disabled: true, checked: true, class: "radio radio-primary")
+                    input(type: "radio", disabled: true, checked: true, class: "ui-radio")
 
                     div do
                       span(class: "text-sm font-medium text-primary ") { "Owner" }
@@ -137,7 +137,7 @@ module Views
                 end
 
                 if @user == Current.user
-                  div(class: "alert alert-info mt-4") do
+                  div(class: "ui-alert ui-alert-info mt-4") do
                     div do
                       strong { "Note: " }
                       plain "You are editing your own account. Be careful when changing privileges."
@@ -162,7 +162,7 @@ module Views
                     ) do |f|
                       f.submit(
                         "Remove User",
-                        class: "btn btn-error btn-outline",
+                        class: "ui-button ui-button-error",
                         confirm: "Are you sure you want to remove #{@user.email} from this account? This action cannot be undone."
                       )
                     end

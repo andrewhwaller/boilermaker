@@ -32,22 +32,22 @@ module Views
               div(class: "flex flex-wrap gap-2 mb-4") do
                 button(
                   data: { action: "click->theme#light" },
-                  class: "btn btn-outline"
+                  class: "ui-button ui-button-outline"
                 ) { "Light Theme" }
 
                 button(
                   data: { action: "click->theme#dark" },
-                  class: "btn btn-outline"
+                  class: "ui-button ui-button-outline"
                 ) { "Dark Theme" }
 
                 button(
                   data: { action: "click->theme#system" },
-                  class: "btn btn-outline"
+                  class: "ui-button ui-button-outline"
                 ) { "System Theme" }
 
                 button(
                   data: { action: "click->theme#toggle" },
-                  class: "btn btn-accent"
+                  class: "ui-button ui-button-accent"
                 ) { "Toggle Theme" }
               end
 
@@ -82,7 +82,7 @@ module Views
             # Sign out section
             card do
               button_to("Sign out", session_path("current"), method: :delete,
-                class: "btn btn-error")
+                class: "ui-button ui-button-error")
             end
           end
         end
@@ -97,7 +97,7 @@ module Views
         div(class: "p-3 rounded-box #{box_classes}") do
           div(class: "flex items-center justify-between") do
             span(class: "text-sm font-medium text-base-content") { name }
-            span(class: "badge #{enabled ? 'badge-success' : 'badge-ghost'} badge-sm") do
+            span(class: "ui-badge #{enabled ? 'ui-badge-success' : 'ui-badge-ghost'} ui-badge-sm") do
               enabled ? "Enabled" : "Disabled"
             end
           end

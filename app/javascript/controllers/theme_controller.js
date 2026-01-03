@@ -3,30 +3,44 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["toggle"]
   static values = {
-    lightName: { type: String, default: "work-station" },
-    darkName: { type: String, default: "command-center" }
+    defaultPolarity: { type: String, default: "light" }
   }
 
-  toggleTargetConnected() {
-    this.syncToggleState()
+  connect() {
+    this.syncPolarity()
   }
 
   toggle() {
-    const currentTheme = document.documentElement.getAttribute("data-theme")
-    const isDark = currentTheme === this.darkNameValue
-    const newTheme = isDark ? this.lightNameValue : this.darkNameValue
-    const newMode = isDark ? "light" : "dark"
+    const currentPolarity = document.documentElement.getAttribute("data-polarity") || this.defaultPolarityValue
+    const newPolarity = currentPolarity === "dark" ? "light" : "dark"
 
-    document.documentElement.setAttribute("data-theme", newTheme)
-    localStorage.setItem("theme-preference", newMode)
-    document.cookie = `theme_name=${encodeURIComponent(newTheme)}; path=/; max-age=31536000; samesite=lax`
+    this.setPolarity(newPolarity)
+  }
+
+  setPolarity(polarity) {
+    document.documentElement.setAttribute("data-polarity", polarity)
+    localStorage.setItem("polarity", polarity)
+    document.cookie = `polarity=${polarity};path=/;max-age=31536000;SameSite=Lax`
+
+    this.syncToggleState()
+  }
+
+  syncPolarity() {
+    const storedPolarity = localStorage.getItem("polarity")
+
+    if (storedPolarity) {
+      document.documentElement.setAttribute("data-polarity", storedPolarity)
+    } else {
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+      const polarity = prefersDark ? "dark" : this.defaultPolarityValue
+      document.documentElement.setAttribute("data-polarity", polarity)
+    }
 
     this.syncToggleState()
   }
 
   syncToggleState() {
-    const currentTheme = document.documentElement.getAttribute("data-theme")
-    const isDark = currentTheme === this.darkNameValue
+    const isDark = document.documentElement.getAttribute("data-polarity") === "dark"
 
     this.toggleTargets.forEach(toggle => {
       toggle.setAttribute("aria-pressed", isDark ? "true" : "false")
@@ -34,7 +48,7 @@ export default class extends Controller {
 
       const textSpan = toggle.querySelector("span")
       if (textSpan) {
-        textSpan.textContent = isDark ? "NEGATIVE" : "POSITIVE"
+        textSpan.textContent = isDark ? "DARK" : "LIGHT"
       }
     })
   }

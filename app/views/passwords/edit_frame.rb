@@ -30,11 +30,11 @@ module Views
 
       def notifications
         if @notice
-          div(class: "alert alert-success mb-4") { span { @notice } }
+          div(class: "ui-alert ui-alert-success mb-4") { span { @notice } }
         end
 
         if @alert
-          div(class: "alert alert-error mb-4") { span { @alert } }
+          div(class: "ui-alert ui-alert-destructive mb-4") { span { @alert } }
         end
       end
 

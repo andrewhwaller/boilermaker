@@ -27,14 +27,14 @@ module Views
                 form_with(model: @account, url: account_dashboard_path, method: :patch, local: true, class: "space-y-4") do |f|
                   div(class: "form-control w-full") do
                     f.label :name, "Account Name", class: "label"
-                    f.text_field :name, class: "input input-bordered w-full", placeholder: "Enter account name", required: true
+                    f.text_field :name, class: "ui-input", placeholder: "Enter account name", required: true
                     label(class: "label") do
                       span(class: "label-text-alt text-xs text-base-content/70") { "The display name for this account" }
                     end
                   end
 
                   div do
-                    f.submit "Update", class: "btn btn-primary"
+                    f.submit "Update", class: "ui-button ui-button-primary"
                   end
                 end
               end
@@ -126,16 +126,16 @@ module Views
                 form_with(url: account_invitations_path, local: true, class: "space-y-4") do |f|
                   div(class: "form-control w-full") do
                     f.label :email, "Email Address", class: "label"
-                    f.email_field :email, class: "input input-bordered w-full", placeholder: "user@example.com", required: true
+                    f.email_field :email, class: "ui-input", placeholder: "user@example.com", required: true
                   end
 
                   div(class: "form-control w-full") do
                     f.label :message, "Personal Message (Optional)", class: "label"
-                    f.text_area :message, class: "textarea textarea-bordered w-full", rows: 3, placeholder: "Welcome to the team!"
+                    f.text_area :message, class: "ui-textarea", rows: 3, placeholder: "Welcome to the team!"
                   end
 
                   div do
-                    f.submit "Send Invitation", class: "btn btn-primary"
+                    f.submit "Send Invitation", class: "ui-button ui-button-primary"
                   end
                 end
               end

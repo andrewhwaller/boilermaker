@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PATENTWATCH — US20240401234</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f3ef;
+      --bg-alt: #eae7e1;
+      --ink: #1a1a18;
+      --ink-muted: #6a6965;
+      --rust: #c54b32;
+      --forest: #2d5a4a;
+      --ochre: #b8860b;
+      --border: #1a1a18;
+      --border-light: #d4d1ca;
+      --mono: 'IBM Plex Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--mono);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+
+    .nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav a {
+      font-size: 12px;
+      text-decoration: none;
+      color: var(--ink-muted);
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--ink);
+    }
+
+    .user {
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+
+    /* Main */
+    .main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      font-size: 11px;
+      color: var(--ink-muted);
+      margin-bottom: 20px;
+    }
+
+    .breadcrumb a {
+      color: var(--ink-muted);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--ink);
+    }
+
+    /* Patent Header */
+    .patent-header {
+      margin-bottom: 24px;
+    }
+
+    .patent-id-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .patent-id {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--rust);
+    }
+
+    .patent-status {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      background: var(--ochre);
+      color: var(--bg);
+    }
+
+    .patent-status.granted {
+      background: var(--forest);
+    }
+
+    .patent-title {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    /* Meta Grid */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding: 16px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border-light);
+      margin-bottom: 24px;
+    }
+
+    .meta-item {
+      font-size: 12px;
+    }
+
+    .meta-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-muted);
+      margin-bottom: 2px;
+    }
+
+    .meta-value {
+      font-weight: 500;
+    }
+
+    .meta-value a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .meta-value a:hover {
+      color: var(--rust);
+    }
+
+    /* Match Banner */
+    .match-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--ink);
+      color: var(--bg);
+      margin-bottom: 24px;
+      font-size: 12px;
+    }
+
+    .match-score {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--rust);
+    }
+
+    .match-details {
+      display: flex;
+      gap: 20px;
+    }
+
+    .match-detail {
+      opacity: 0.7;
+    }
+
+    .match-detail strong {
+      opacity: 1;
+    }
+
+    /* Action Row */
+    .action-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      font-family: var(--mono);
+      font-size: 11px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .btn:hover {
+      background: var(--ink);
+      color: var(--bg);
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-muted);
+    }
+
+    .section-action {
+      font-size: 11px;
+      color: var(--ink-muted);
+      text-decoration: none;
+    }
+
+    .section-action:hover {
+      color: var(--rust);
+    }
+
+    /* Abstract */
+    .abstract {
+      font-size: 14px;
+      line-height: 1.8;
+      padding: 16px;
+      background: var(--bg-alt);
+      border-left: 3px solid var(--rust);
+    }
+
+    /* Claims */
+    .claims-list {
+      border: 1px solid var(--border-light);
+    }
+
+    .claim {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 12px;
+    }
+
+    .claim:last-child {
+      border-bottom: none;
+    }
+
+    .claim-header {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .claim-num {
+      font-weight: 700;
+      font-size: 11px;
+      background: var(--ink);
+      color: var(--bg);
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .claim-type {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-muted);
+    }
+
+    .claim-text {
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    /* Tags */
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      padding: 6px 10px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border-light);
+      font-size: 11px;
+    }
+
+    .tag-code {
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    .tag-name {
+      color: var(--ink-muted);
+    }
+
+    /* Inventors */
+    .inventor-list {
+      font-size: 12px;
+    }
+
+    .inventor {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .inventor:last-child {
+      border-bottom: none;
+    }
+
+    .inventor-name {
+      font-weight: 500;
+    }
+
+    .inventor-location {
+      color: var(--ink-muted);
+    }
+
+    /* Related */
+    .related-list {
+      font-size: 12px;
+    }
+
+    .related-item {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-light);
+      align-items: start;
+    }
+
+    .related-item:last-child {
+      border-bottom: none;
+    }
+
+    .related-id {
+      font-weight: 600;
+      color: var(--rust);
+    }
+
+    .related-id a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .related-id a:hover {
+      text-decoration: underline;
+    }
+
+    .related-title {
+      line-height: 1.4;
+    }
+
+    .related-score {
+      color: var(--ink-muted);
+      font-size: 11px;
+    }
+
+    /* Timeline */
+    .timeline {
+      font-size: 12px;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 16px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .timeline-item:last-child {
+      border-bottom: none;
+    }
+
+    .timeline-date {
+      color: var(--ink-muted);
+      min-width: 80px;
+    }
+
+    .timeline-event {
+      font-weight: 500;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border-light);
+      padding: 12px 24px;
+      font-size: 10px;
+      color: var(--ink-muted);
+      display: flex;
+      justify-content: space-between;
+      margin-top: 48px;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <span class="logo">PATENTWATCH</span>
+    <nav class="nav">
+      <a href="#">Alerts</a>
+      <a href="#" class="active">Search</a>
+      <a href="#">Settings</a>
+    </nav>
+    <span class="user">user@company.com</span>
+  </header>
+
+  <main class="main">
+    <div class="breadcrumb">
+      <a href="#">Alerts</a> → <a href="#">ML Image Recognition</a> → US20240401234
+    </div>
+
+    <header class="patent-header">
+      <div class="patent-id-row">
+        <span class="patent-id">US20240401234A1</span>
+        <span class="patent-status">Application</span>
+      </div>
+      <h1 class="patent-title">Neural Network Architecture for Real-Time Object Detection in Autonomous Systems with Adaptive Feature Extraction</h1>
+    </header>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <div class="meta-label">Filed</div>
+        <div class="meta-value">Dec 18, 2024</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Published</div>
+        <div class="meta-value">Dec 20, 2024</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Assignee</div>
+        <div class="meta-value"><a href="#">Google LLC</a></div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">App. No.</div>
+        <div class="meta-value">18/456,789</div>
+      </div>
+    </div>
+
+    <div class="match-banner">
+      <div>
+        <span class="match-score">94%</span> match confidence
+      </div>
+      <div class="match-details">
+        <span class="match-detail">Keyword: <strong>96%</strong></span>
+        <span class="match-detail">CPC: <strong>100%</strong></span>
+        <span class="match-detail">Semantic: <strong>89%</strong></span>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <a href="#" class="btn">View on USPTO ↗</a>
+      <a href="#" class="btn">Download PDF</a>
+      <a href="#" class="btn">Add to Collection</a>
+      <a href="#" class="btn">Share</a>
+    </div>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-title">Abstract</span>
+        <a href="#" class="section-action">Copy</a>
+      </div>
+      <div class="abstract">
+        A neural network system and method for real-time object detection in autonomous vehicle applications. The system comprises an adaptive feature extraction module that dynamically adjusts receptive field sizes based on input image characteristics, a multi-scale attention mechanism for improved small object detection, and a lightweight inference engine optimized for edge deployment. The architecture achieves sub-10ms latency while maintaining detection accuracy above 95% mAP on standard autonomous driving benchmarks. The system further includes a novel temporal consistency module that leverages sequential frame information to reduce false positives and improve tracking stability in dynamic environments.
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-title">Claims (24)</span>
+        <a href="#" class="section-action">Expand All</a>
+      </div>
+      <div class="claims-list">
+        <div class="claim">
+          <div class="claim-header">
+            <span class="claim-num">1</span>
+            <span class="claim-type">Independent</span>
+          </div>
+          <p class="claim-text">A computer-implemented method for real-time object detection comprising: receiving an input image from a sensor array; processing the input image through an adaptive feature extraction module configured to dynamically adjust receptive field parameters; applying a multi-scale attention mechanism to extracted features; generating object detection outputs including bounding boxes and classification scores; and outputting detection results in sub-10ms latency.</p>
+        </div>
+        <div class="claim">
+          <div class="claim-header">
+            <span class="claim-num">2</span>
+            <span class="claim-type">Dependent</span>
+          </div>
+          <p class="claim-text">The method of claim 1, wherein the adaptive feature extraction module comprises a plurality of convolutional layers with dynamically adjustable kernel sizes based on input image resolution.</p>
+        </div>
+        <div class="claim">
+          <div class="claim-header">
+            <span class="claim-num">3</span>
+            <span class="claim-type">Dependent</span>
+          </div>
+          <p class="claim-text">The method of claim 1, wherein the multi-scale attention mechanism comprises a self-attention layer operating across multiple spatial scales simultaneously.</p>
+        </div>
+        <div class="claim">
+          <div class="claim-header">
+            <span class="claim-num">4</span>
+            <span class="claim-type">Dependent</span>
+          </div>
+          <p class="claim-text">The method of claim 1, further comprising a temporal consistency module that processes sequential frames to reduce false positive detections.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-title">Classifications</span>
+      </div>
+      <div class="tag-list">
+        <span class="tag"><span class="tag-code">G06N 3/08</span><span class="tag-name">Learning methods</span></span>
+        <span class="tag"><span class="tag-code">G06T 7/70</span><span class="tag-name">Determining position</span></span>
+        <span class="tag"><span class="tag-code">G06V 20/56</span><span class="tag-name">Vehicles</span></span>
+        <span class="tag"><span class="tag-code">G06N 3/045</span><span class="tag-name">CNN</span></span>
+        <span class="tag"><span class="tag-code">B60W 60/00</span><span class="tag-name">Drive control</span></span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-title">Inventors</span>
+      </div>
+      <div class="inventor-list">
+        <div class="inventor">
+          <span class="inventor-name">Chen, Wei</span>
+          <span class="inventor-location">Mountain View, CA</span>
+        </div>
+        <div class="inventor">
+          <span class="inventor-name">Patel, Arun K.</span>
+          <span class="inventor-location">San Jose, CA</span>
+        </div>
+        <div class="inventor">
+          <span class="inventor-name">Smith, Jennifer L.</span>
+          <span class="inventor-location">Palo Alto, CA</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-title">Timeline</span>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="timeline-date">Dec 20, 2024</span>
+          <span class="timeline-event">Application Published</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-date">Dec 18, 2024</span>
+          <span class="timeline-event">Application Filed</span>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-date">Jun 15, 2024</span>
+          <span class="timeline-event">Provisional Filed</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <span class="section-title">Related Patents</span>
+        <a href="#" class="section-action">View All →</a>
+      </div>
+      <div class="related-list">
+        <div class="related-item">
+          <span class="related-id"><a href="#">US20240398765</a></span>
+          <span class="related-title">Convolutional Layer Optimization for Edge Device Deployment</span>
+          <span class="related-score">89% similar</span>
+        </div>
+        <div class="related-item">
+          <span class="related-id"><a href="#">US20240396543</a></span>
+          <span class="related-title">Multi-Modal Feature Extraction for Medical Imaging Analysis</span>
+          <span class="related-score">87% similar</span>
+        </div>
+        <div class="related-item">
+          <span class="related-id"><a href="#">US11854189B2</a></span>
+          <span class="related-title">Attention Mechanism for Real-Time Object Detection</span>
+          <span class="related-score">82% similar</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Last synced 2 min ago · 18.4M patents indexed</span>
+    <span>PATENTWATCH v1.0</span>
+  </footer>
+</body>
+</html>

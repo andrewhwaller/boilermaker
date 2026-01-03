@@ -17,7 +17,7 @@ module Views
         def view_template
           turbo_frame_tag "profile_settings" do
             unless Current.user.verified?
-              div(class: "alert alert-warning mb-6") do
+              div(class: "ui-alert ui-alert-warning mb-6") do
                 p(class: "font-medium") { "Email verification required" }
                 p(class: "text-sm") { "We sent a verification email to your address. Check that email and follow the instructions to confirm it's yours." }
               end
@@ -33,7 +33,7 @@ module Views
         private
 
         def form_errors
-          div(class: "alert alert-error mb-4") do
+          div(class: "ui-alert ui-alert-destructive mb-4") do
             strong { "#{pluralize(@user.errors.count, "error")} prohibited this change:" }
             ul(class: "mt-2 text-sm list-disc list-inside") do
               @user.errors.each do |error|

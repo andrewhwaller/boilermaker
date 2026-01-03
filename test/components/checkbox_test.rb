@@ -10,7 +10,7 @@ class CheckboxTest < ComponentTestCase
     assert_renders_successfully component
     assert_produces_output component
     assert_has_tag component, "input"
-    assert_has_css_class component, "checkbox"
+    assert_has_css_class component, "ui-checkbox"
   end
 
   test "renders checkbox with form control wrapper" do
@@ -30,10 +30,10 @@ class CheckboxTest < ComponentTestCase
     assert checkbox, "Checkbox input should be inside the label"
   end
 
-  test "applies Daisy UI checkbox classes correctly" do
+  test "applies checkbox classes correctly" do
     component = Components::Checkbox.new
 
-    assert_has_css_class component, "checkbox"
+    assert_has_css_class component, "ui-checkbox"
   end
 
   test "renders with name attribute" do
@@ -116,14 +116,14 @@ class CheckboxTest < ComponentTestCase
     checkbox = doc.css("input[type='checkbox']").first
     classes = checkbox["class"].split(" ")
 
-    assert_includes classes, "checkbox"
+    assert_includes classes, "ui-checkbox"
     assert_includes classes, "custom-checkbox"
   end
 
   test "renders error state with error class" do
     component = Components::Checkbox.new(error: "This field is required")
 
-    assert_has_css_class component, "checkbox-error"
+    assert_has_css_class component, "ui-checkbox-error"
   end
 
   test "displays error message when error provided" do
@@ -184,7 +184,7 @@ class CheckboxTest < ComponentTestCase
     doc = render_and_parse(component)
     checkbox = doc.css("input[type='checkbox']").first
     classes = checkbox["class"].split(" ")
-    assert_includes classes, "checkbox"
+    assert_includes classes, "ui-checkbox"
     assert_includes classes, "newsletter-cb"
   end
 
