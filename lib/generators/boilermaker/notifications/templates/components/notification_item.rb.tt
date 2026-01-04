@@ -1,0 +1,85 @@
+# frozen_string_literal: true
+
+class Components::NotificationItem < Components::Base
+  include Phlex::Rails::Helpers::LinkTo
+  include Phlex::Rails::Helpers::ButtonTo
+  include ActionView::Helpers::DateHelper
+
+  def initialize(notification:)
+    @notification = notification
+  end
+
+  def view_template
+    div(class: item_classes) do
+      div(class: "flex-1 min-w-0") do
+        div(class: "flex items-start gap-3") do
+          unread_indicator unless @notification.read?
+          content_section
+        end
+      end
+
+      actions_section
+    end
+  end
+
+  private
+
+  def item_classes
+    base = "flex items-start gap-4 p-4 rounded-lg border"
+    if @notification.read?
+      "#{base} bg-surface border-border-light"
+    else
+      "#{base} bg-surface-alt border-accent/20"
+    end
+  end
+
+  def unread_indicator
+    div(class: "flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-accent")
+  end
+
+  def content_section
+    div(class: "flex-1 min-w-0") do
+      # Title/message from notification params
+      if notification_message.present?
+        p(class: "text-sm font-medium text-body") { notification_message }
+      end
+
+      # Type indicator
+      p(class: "text-xs text-muted mt-1") do
+        plain notification_type_label
+        plain " • "
+        plain time_ago_in_words(@notification.created_at)
+        plain " ago"
+      end
+    end
+  end
+
+  def actions_section
+    div(class: "flex-shrink-0 flex items-center gap-2") do
+      if notification_url.present?
+        link_to "View",
+                notification_path(@notification),
+                class: "ui-button ui-button-sm ui-button-outline"
+      end
+
+      unless @notification.read?
+        button_to "Mark read",
+                  mark_read_notification_path(@notification),
+                  method: :post,
+                  class: "ui-button ui-button-sm ui-button-ghost"
+      end
+    end
+  end
+
+  def notification_message
+    @notification.params[:message] || @notification.params[:title] || "New notification"
+  end
+
+  def notification_type_label
+    @notification.type.to_s.demodulize.underscore.humanize.gsub("Notifier", "")
+  end
+
+  def notification_url
+    @notification.params[:url]
+  end
+end

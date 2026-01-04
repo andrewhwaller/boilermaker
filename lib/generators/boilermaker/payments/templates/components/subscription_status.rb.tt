@@ -1,0 +1,92 @@
+# frozen_string_literal: true
+
+class Components::SubscriptionStatus < Components::Base
+  include Phlex::Rails::Helpers::LinkTo
+
+  def initialize(subscription:)
+    @subscription = subscription
+  end
+
+  def view_template
+    div(class: "space-y-4") do
+      status_header
+      status_details
+      actions
+    end
+  end
+
+  private
+
+  def status_header
+    div(class: "flex items-center justify-between") do
+      div do
+        h4(class: "font-medium text-body") { plan_name }
+        p(class: "text-sm text-muted") { status_text }
+      end
+      status_badge
+    end
+  end
+
+  def status_details
+    div(class: "grid grid-cols-2 gap-4 text-sm") do
+      detail_item("Status", @subscription.status.humanize)
+      detail_item("Billing Period", billing_period)
+
+      if @subscription.trial_ends_at.present? && @subscription.on_trial?
+        detail_item("Trial Ends", @subscription.trial_ends_at.strftime("%B %d, %Y"))
+      end
+
+      if @subscription.ends_at.present?
+        detail_item("Cancels On", @subscription.ends_at.strftime("%B %d, %Y"))
+      end
+    end
+  end
+
+  def detail_item(label, value)
+    div do
+      span(class: "text-muted") { "#{label}: " }
+      span(class: "text-body font-medium") { value }
+    end
+  end
+
+  def actions
+    div(class: "flex gap-2 pt-4 border-t border-border-light") do
+      link_to "Change Plan", pricing_path, class: "ui-button ui-button-outline ui-button-sm"
+    end
+  end
+
+  def plan_name
+    @subscription.processor_plan&.titleize || "Unknown Plan"
+  end
+
+  def status_text
+    if @subscription.on_trial?
+      "Trial period"
+    elsif @subscription.cancelled?
+      "Cancelled"
+    elsif @subscription.active?
+      "Active subscription"
+    else
+      @subscription.status
+    end
+  end
+
+  def status_badge
+    variant = case
+    when @subscription.on_trial? then :warning
+    when @subscription.cancelled? then :error
+    when @subscription.active? then :success
+    else :ghost
+    end
+
+    render Components::Badge.new(variant: variant, size: :sm) { @subscription.status.humanize }
+  end
+
+  def billing_period
+    if @subscription.current_period_end.present?
+      "Renews #{@subscription.current_period_end.strftime('%B %d, %Y')}"
+    else
+      "Monthly"
+    end
+  end
+end

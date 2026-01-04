@@ -47,6 +47,7 @@ module Views
           end
 
           body(class: body_classes) do
+            render Components::ImpersonationBanner.new
             render_navigation if Current.user.present?
 
             div(class: content_wrapper_classes) do
