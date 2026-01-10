@@ -32,7 +32,7 @@ class PaymentsController < ApplicationController
       cancel_url: payment_cancel_url
     )
 
-    redirect_to checkout_session.url, allow_other_host: true
+    redirect_to_stripe(checkout_session.url)
   end
 
   # GET /payments/success
@@ -53,7 +53,7 @@ class PaymentsController < ApplicationController
       return_url: settings_billing_url
     )
 
-    redirect_to portal_session.url, allow_other_host: true
+    redirect_to_stripe(portal_session.url)
   end
 
   private
@@ -72,5 +72,14 @@ class PaymentsController < ApplicationController
     raise "Price ID not found for plan: #{plan}" unless price_id
 
     [ { price: price_id, quantity: 1 } ]
+  end
+
+  def redirect_to_stripe(url)
+    uri = URI.parse(url)
+    unless uri.host&.end_with?(".stripe.com")
+      redirect_to pricing_path, alert: "Invalid payment URL"
+      return
+    end
+    redirect_to url, allow_other_host: true
   end
 end
