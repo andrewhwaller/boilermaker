@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Notifiable
+  pay_customer
   include Hashid::Rails
   has_many :sessions, dependent: :destroy
   has_many :account_memberships, dependent: :destroy

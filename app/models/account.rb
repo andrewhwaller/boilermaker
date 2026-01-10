@@ -1,4 +1,6 @@
 class Account < ApplicationRecord
+  pay_customer
+  include Notifiable
   include Hashid::Rails
 
   belongs_to :owner, class_name: "User"
