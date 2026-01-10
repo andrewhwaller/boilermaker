@@ -3,7 +3,6 @@
 class NotificationsController < ApplicationController
   include NotificationsFeature
 
-  before_action :require_authentication
   before_action :set_notification, only: [ :show, :mark_read ]
 
   # GET /notifications

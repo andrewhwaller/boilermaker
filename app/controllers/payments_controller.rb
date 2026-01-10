@@ -3,7 +3,8 @@
 class PaymentsController < ApplicationController
   include PaymentsFeature
 
-  before_action :require_authentication, except: [ :pricing ]
+  skip_before_action :authenticate, only: [ :pricing ]
+  skip_before_action :ensure_verified, only: [ :pricing ]
   before_action :set_billable, except: [ :pricing ]
 
   # GET /pricing
