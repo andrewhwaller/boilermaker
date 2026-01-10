@@ -77,3 +77,9 @@ end
  end
 
 gem "phlex-rails", "~> 2.3"
+
+gem "pay", "~> 11.0"
+
+gem "stripe", "~> 18.0"
+
+gem "noticed", "~> 2.0"
