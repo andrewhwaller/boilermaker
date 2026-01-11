@@ -7,6 +7,8 @@ default:
   features:
     user_registration: true
     personal_accounts: false
+    payments: false
+    notifications: false
   security:
     require_two_factor_authentication: false
   ui:
@@ -22,6 +24,8 @@ development:
   features:
     user_registration: true
     personal_accounts: true
+    payments: true
+    notifications: true
   security:
     require_two_factor_authentication: false
   ui:

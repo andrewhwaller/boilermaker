@@ -51,11 +51,34 @@ Rails.application.routes.draw do
 
   # Invitations are account-scoped under /account/invitations
 
-  # Masquerading
+  # Masquerading (admin impersonation)
   post "users/:user_id/masquerade", to: "masquerades#create", as: :user_masquerade
+  delete "masquerade", to: "masquerades#destroy", as: :stop_masquerade
 
   # Settings
   resource :settings, only: [ :show ]
+
+  # Payments
+  get "pricing", to: "payments#pricing"
+  scope :payments do
+    post "checkout/:plan", to: "payments#checkout", as: :checkout
+    get  "success",        to: "payments#success",  as: :payment_success
+    get  "cancel",         to: "payments#cancel",   as: :payment_cancel
+    post "portal",         to: "payments#portal",   as: :billing_portal
+  end
+  namespace :settings do
+    resource :billing, only: [ :show ]
+  end
+
+  # Notifications
+  resources :notifications, only: [ :index, :show ] do
+    collection do
+      post :mark_all_read
+    end
+    member do
+      post :mark_read
+    end
+  end
 
   # Account switching
   resources :account_switches, only: [ :create ]
