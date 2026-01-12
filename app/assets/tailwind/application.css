@@ -148,6 +148,13 @@
     outline: 2px solid var(--accent) !important;
     outline-offset: 2px !important;
   }
+
+  /* Blackbox theme: use browser default focus (removes Tailwind ring, keeps native outline) */
+  [data-theme="blackbox"] *:focus-visible {
+    outline: revert !important;
+    outline-offset: revert !important;
+    box-shadow: none !important;
+  }
 }
 
 /* ============================================

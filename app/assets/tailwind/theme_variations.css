@@ -148,6 +148,233 @@
 /* It's the baseline from which other themes diverge */
 
 /* ============================================
+   BLACKBOX THEME VARIATIONS
+   Minimal, no decorations, system monospace
+   ============================================ */
+
+[data-theme="blackbox"] {
+  --app-font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --radius: 0;
+}
+
+/* Links always underlined - except in navigation */
+[data-theme="blackbox"] a {
+  text-decoration: underline;
+}
+
+[data-theme="blackbox"] a:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+/* Nav links - no underline */
+[data-theme="blackbox"] nav a,
+[data-theme="blackbox"] header nav a {
+  text-decoration: none;
+}
+
+[data-theme="blackbox"] nav a:hover,
+[data-theme="blackbox"] header nav a:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+
+/* Blackbox utilities (Bloomberg-lite, opt-in) */
+[data-theme="blackbox"] .bb-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+/* One topbar system: padding comes from CSS, not scattered px-* */
+[data-theme="blackbox"] .bb-topbar-row {
+  padding: 0 1rem;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+[data-theme="blackbox"] .bb-topbar-brand {
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+[data-theme="blackbox"] .bb-topbar-brand:hover {
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+[data-theme="blackbox"] .bb-chip {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 0 0.25rem;
+  white-space: nowrap;
+}
+
+[data-theme="blackbox"] .bb-divider {
+  color: var(--text-muted);
+}
+
+[data-theme="blackbox"] .bb-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+[data-theme="blackbox"] .bb-menu-item {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 1rem;
+  font-size: 12px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-decoration: none;
+  background: transparent;
+}
+
+[data-theme="blackbox"] .bb-menu-item:hover {
+  color: var(--text);
+  background: var(--hover-bg);
+  text-decoration: none;
+}
+
+[data-theme="blackbox"] .bb-menu-item.is-active,
+[data-theme="blackbox"] .bb-menu-item[aria-current="page"] {
+  color: var(--text);
+  font-weight: 600;
+  background: var(--bg-alt);
+  text-decoration: none;
+}
+
+[data-theme="blackbox"] .bb-panel {
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+[data-theme="blackbox"] .bb-panel-header {
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  [data-theme="blackbox"] .bb-topbar {
+    position: static;
+  }
+}
+
+[data-theme="blackbox"] .bb-row.is-selected {
+  background: var(--bg-alt);
+}
+
+/* Density knob: tighter controls when desired */
+[data-theme="blackbox"] .bb-dense .ui-input,
+[data-theme="blackbox"] .bb-dense .ui-select,
+[data-theme="blackbox"] .bb-dense .ui-textarea {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+[data-theme="blackbox"] .bb-dense .ui-button {
+  padding: 0.25rem 0.5rem;
+}
+
+/* Compact menu variant - smaller, with borders on active */
+[data-theme="blackbox"] .bb-menu-compact {
+  gap: 0.5rem;
+}
+
+[data-theme="blackbox"] .bb-menu-compact .bb-menu-item {
+  min-height: auto;
+  padding: 0.125rem 0.375rem;
+  font-size: inherit;
+  text-transform: none;
+  letter-spacing: normal;
+  border: 1px solid transparent;
+}
+
+[data-theme="blackbox"] .bb-menu-compact .bb-menu-item.is-active {
+  border-color: var(--border);
+}
+
+/* Buttons should not be underlined */
+[data-theme="blackbox"] a.ui-button,
+[data-theme="blackbox"] a[class*="ui-button"] {
+  text-decoration: none;
+}
+
+[data-theme="blackbox"] a.ui-button:hover,
+[data-theme="blackbox"] a[class*="ui-button"]:hover {
+  text-decoration: none;
+  opacity: 1;
+}
+
+/* Table - compact density with grid lines */
+[data-theme="blackbox"] .ui-table th,
+[data-theme="blackbox"] .ui-table td {
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.5rem;
+}
+
+[data-theme="blackbox"] .ui-table th {
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: inherit;
+}
+
+/* Button colors - grayscale inversion works for all polarities */
+[data-theme="blackbox"] .ui-button-primary,
+[data-theme="blackbox"] .ui-button-success,
+[data-theme="blackbox"] .ui-button-info {
+  background-color: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+
+[data-theme="blackbox"] .ui-button-primary:hover,
+[data-theme="blackbox"] .ui-button-success:hover,
+[data-theme="blackbox"] .ui-button-info:hover {
+  background-color: var(--text-muted);
+  border-color: var(--text-muted);
+  color: var(--bg);
+}
+
+/* Badges - grayscale inversion */
+[data-theme="blackbox"] .ui-badge-primary,
+[data-theme="blackbox"] .ui-badge-accent,
+[data-theme="blackbox"] .ui-badge-info,
+[data-theme="blackbox"] .ui-badge-success {
+  background-color: var(--text);
+  color: var(--bg);
+}
+
+/* Alerts - solid backgrounds like badges for contrast + distinction */
+[data-theme="blackbox"] .ui-alert-destructive {
+  background-color: #dc2626;
+  border-color: #dc2626;
+  color: #ffffff;
+}
+
+[data-theme="blackbox"] .ui-alert-warning {
+  background-color: #f59e0b;
+  border-color: #f59e0b;
+  color: #000000;
+}
+
+[data-theme="blackbox"] .ui-alert-success {
+  background-color: #22c55e;
+  border-color: #22c55e;
+  color: #000000;
+}
+
+/* ============================================
    SHARED UTILITY CLASSES
    Theme-aware utilities that work across all themes
    ============================================ */
