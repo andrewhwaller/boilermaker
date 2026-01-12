@@ -2,7 +2,7 @@
 
 module Boilermaker
   module Themes
-    AVAILABLE = %w[paper terminal blueprint brutalist amber].freeze
+    AVAILABLE = %w[paper terminal blueprint brutalist amber blackbox].freeze
     DEFAULT = "paper"
     DEFAULT_POLARITY = "light"
     POLARITIES = %w[light dark].freeze
@@ -13,7 +13,8 @@ module Boilermaker
       "terminal" => "Views::Boilermaker::Layouts::TerminalDashboard",
       "blueprint" => "Views::Boilermaker::Layouts::BlueprintDashboard",
       "brutalist" => "Views::Boilermaker::Layouts::BrutalistDashboard",
-      "amber" => "Views::Boilermaker::Layouts::AmberDashboard"
+      "amber" => "Views::Boilermaker::Layouts::AmberDashboard",
+      "blackbox" => "Views::Boilermaker::Layouts::BlackboxDashboard"
     }.freeze
 
     # Metadata for each theme
@@ -57,6 +58,14 @@ module Boilermaker
         has_overlays: true,
         unique_components: %w[fn_bar],
         layout_class: "Views::Boilermaker::Layouts::AmberDashboard"
+      },
+      "blackbox" => {
+        name: "Blackbox",
+        description: "Pure grayscale, maximum density, tool energy",
+        default_polarity: "light",
+        has_overlays: false,
+        unique_components: [],
+        layout_class: "Views::Boilermaker::Layouts::BlackboxDashboard"
       }
     }.freeze
 

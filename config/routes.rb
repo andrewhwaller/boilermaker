@@ -130,6 +130,7 @@ Rails.application.routes.draw do
       get :amber
       get :paper
       get :industrial
+      get :blackbox
     end
   end
 end
