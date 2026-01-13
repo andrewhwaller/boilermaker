@@ -329,30 +329,131 @@
   font-size: inherit;
 }
 
-/* Button colors - grayscale inversion works for all polarities */
-[data-theme="blackbox"] .ui-button-primary,
-[data-theme="blackbox"] .ui-button-success,
-[data-theme="blackbox"] .ui-button-info {
-  background-color: var(--text);
-  border-color: var(--text);
-  color: var(--bg);
+/* Primary button - light mode: black fill */
+[data-theme="blackbox"][data-polarity="light"] .ui-button-primary,
+[data-theme="blackbox"]:not([data-polarity]) .ui-button-primary {
+  background-color: #171717;
+  border-color: #171717;
+  color: #ffffff;
 }
 
-[data-theme="blackbox"] .ui-button-primary:hover,
-[data-theme="blackbox"] .ui-button-success:hover,
-[data-theme="blackbox"] .ui-button-info:hover {
-  background-color: var(--text-muted);
+[data-theme="blackbox"][data-polarity="light"] .ui-button-primary:hover,
+[data-theme="blackbox"]:not([data-polarity]) .ui-button-primary:hover {
+  background-color: #404040;
+  border-color: #404040;
+  color: #ffffff;
+}
+
+/* Primary button - dark mode: outline */
+[data-theme="blackbox"][data-polarity="dark"] .ui-button-primary {
+  background-color: transparent;
+  border-color: #fafafa;
+  color: #fafafa;
+}
+
+[data-theme="blackbox"][data-polarity="dark"] .ui-button-primary:hover {
+  background-color: #fafafa;
+  border-color: #fafafa;
+  color: #0a0a0a;
+}
+
+/* Secondary button - muted gray */
+[data-theme="blackbox"] .ui-button-secondary {
+  background-color: var(--bg-alt);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+[data-theme="blackbox"] .ui-button-secondary:hover {
+  background-color: var(--hover-bg);
   border-color: var(--text-muted);
-  color: var(--bg);
+  color: var(--text);
 }
 
-/* Badges - grayscale inversion */
-[data-theme="blackbox"] .ui-badge-primary,
-[data-theme="blackbox"] .ui-badge-accent,
-[data-theme="blackbox"] .ui-badge-info,
+/* Outline button - border only */
+[data-theme="blackbox"] .ui-button-outline {
+  background-color: transparent;
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+[data-theme="blackbox"] .ui-button-outline:hover {
+  background-color: var(--bg-alt);
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+
+/* Success button - green in both modes */
+[data-theme="blackbox"] .ui-button-success {
+  background-color: #16a34a;
+  border-color: #16a34a;
+  color: #ffffff;
+}
+
+[data-theme="blackbox"] .ui-button-success:hover {
+  background-color: #15803d;
+  border-color: #15803d;
+  color: #ffffff;
+}
+
+/* Info button - follows primary pattern */
+[data-theme="blackbox"][data-polarity="light"] .ui-button-info,
+[data-theme="blackbox"]:not([data-polarity]) .ui-button-info {
+  background-color: #171717;
+  border-color: #171717;
+  color: #ffffff;
+}
+
+[data-theme="blackbox"][data-polarity="light"] .ui-button-info:hover,
+[data-theme="blackbox"]:not([data-polarity]) .ui-button-info:hover {
+  background-color: #404040;
+  border-color: #404040;
+  color: #ffffff;
+}
+
+[data-theme="blackbox"][data-polarity="dark"] .ui-button-info {
+  background-color: transparent;
+  border-color: #fafafa;
+  color: #fafafa;
+}
+
+[data-theme="blackbox"][data-polarity="dark"] .ui-button-info:hover {
+  background-color: #fafafa;
+  border-color: #fafafa;
+  color: #0a0a0a;
+}
+
+/* Primary/accent/info badges - light mode: black fill */
+[data-theme="blackbox"][data-polarity="light"] .ui-badge-primary,
+[data-theme="blackbox"][data-polarity="light"] .ui-badge-accent,
+[data-theme="blackbox"][data-polarity="light"] .ui-badge-info,
+[data-theme="blackbox"]:not([data-polarity]) .ui-badge-primary,
+[data-theme="blackbox"]:not([data-polarity]) .ui-badge-accent,
+[data-theme="blackbox"]:not([data-polarity]) .ui-badge-info {
+  background-color: #171717;
+  color: #ffffff;
+}
+
+/* Primary/accent/info badges - dark mode: outline */
+[data-theme="blackbox"][data-polarity="dark"] .ui-badge-primary,
+[data-theme="blackbox"][data-polarity="dark"] .ui-badge-accent,
+[data-theme="blackbox"][data-polarity="dark"] .ui-badge-info {
+  background-color: transparent;
+  border-color: #fafafa;
+  color: #fafafa;
+}
+
+/* Secondary badge - muted */
+[data-theme="blackbox"] .ui-badge-secondary {
+  background-color: var(--bg-alt);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+/* Success badge - green */
 [data-theme="blackbox"] .ui-badge-success {
-  background-color: var(--text);
-  color: var(--bg);
+  background-color: #16a34a;
+  color: #ffffff;
 }
 
 /* Alerts - solid backgrounds like badges for contrast + distinction */
