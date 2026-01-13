@@ -37,7 +37,12 @@ module Views
                   end
                 }
               }
-              div(class: "flex items-center gap-3") {
+              div(class: "flex items-center gap-3", data: { controller: "theme" }) {
+                button(
+                  type: "button",
+                  class: "text-muted cursor-pointer",
+                  data: { action: "click->theme#toggle", "theme-target": "toggle" }
+                ) { span { "LIGHT" } }
                 span(class: "text-muted") { @user }
                 a(href: "#", class: "text-muted") { "logout" }
               }
