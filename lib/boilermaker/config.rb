@@ -88,23 +88,6 @@ module Boilermaker
         Themes.metadata_for(theme_name)
       end
 
-      def theme_has_overlays?
-        Themes.has_overlays?(theme_name)
-      end
-
-      def theme_unique_components
-        Themes.unique_components_for(theme_name)
-      end
-
-      def layout_name
-        name = get("ui.layout.name")
-        return theme_name if name.nil?
-        Themes.valid?(name) ? name : theme_name
-      end
-
-      def layout_class
-        Themes.layout_class_for(layout_name)
-      end
 
       def font_name
         get("ui.typography.font") || "CommitMono"
