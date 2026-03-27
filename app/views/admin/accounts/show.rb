@@ -19,20 +19,20 @@ module Views
               link_to("All Accounts", admin_accounts_path, class: "ui-button")
             end
 
-            div(class: "bg-base-200 rounded-box p-4 mb-4") do
+            div(class: "bg-surface-alt border border-line p-4 mb-4") do
               div { "ID: #{@account.hashid}" }
               div { "Users: #{pluralize(@members.size, 'user')}" }
             end
 
             h2(class: "font-semibold mb-2") { "Members" }
             if @members.any?
-              ul(class: "ui-menu bg-base-200 rounded-box p-2") do
+              ul(class: "ui-menu bg-surface-alt border border-line p-2") do
                 @members.each do |user|
                   li { link_to(user.email, admin_user_path(user)) }
                 end
               end
             else
-              div(class: "text-base-content/70") { "No members." }
+              div(class: "text-muted") { "No members." }
             end
           end
         end

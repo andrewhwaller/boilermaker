@@ -80,7 +80,7 @@ class Components::ThemeToggle < Components::Base
 
   def button_classes
     base = "relative flex items-center justify-center cursor-pointer select-none " \
-      "border border-border-default bg-surface text-body transition-all duration-150 " \
+      "border border-line bg-surface text-body transition-all duration-150 " \
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent " \
       "focus-visible:ring-offset-2 " \
       "disabled:cursor-not-allowed disabled:opacity-50 " \

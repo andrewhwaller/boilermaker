@@ -333,7 +333,7 @@
       <div class="section-header">Theme</div>
       <%= form.fields_for :ui do |ui_form| %>
         <%= ui_form.fields_for :theme do |theme_form| %>
-          <% current_theme = @settings.dig('ui', 'theme', 'name') || 'paper' %>
+          <% current_theme = @settings.dig('ui', 'theme', 'name') || 'default' %>
           <% Boilermaker::Themes::AVAILABLE.each do |theme| %>
             <% metadata = Boilermaker::Themes.metadata_for(theme) %>
             <label class="theme-option <%= theme == current_theme ? 'selected' : '' %>">

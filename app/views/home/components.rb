@@ -3,9 +3,9 @@
 class Views::Home::Components < Views::Base
   def view_template
     div(class: "min-h-screen") do
-      div(class: "sticky top-0 bg-background border-b border-border p-4 z-10") do
+      div(class: "sticky top-0 bg-surface border-b border-line p-4 z-10") do
         div(class: "flex items-center justify-between max-w-6xl mx-auto") do
-          h1(class: "font-bold text-foreground") { "Phlex Component Showcase" }
+          h1(class: "font-bold text-body") { "Phlex Component Showcase" }
         end
 
         div(class: "max-w-6xl mx-auto mt-4") do
@@ -28,11 +28,11 @@ class Views::Home::Components < Views::Base
 
       div(class: "max-w-6xl mx-auto p-8 space-y-16") do
         section(id: "typography") do
-          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Typography System" }
+          h2(class: "font-bold text-body mb-8 border-b border-line pb-4") { "Typography System" }
 
           component_section("Heading Hierarchy", "Current heading styles with default CSS") do
             div(class: "space-y-6") do
-              div(class: "bg-background rounded-md p-6") do
+              div(class: "bg-surface rounded-md p-6") do
                 h1 { "H1 Heading - Main page titles" }
                 h2 { "H2 Heading - Section headers" }
                 h3 { "H3 Heading - Subsection headers" }
@@ -45,7 +45,7 @@ class Views::Home::Components < Views::Base
 
           component_section("Text Size Scale", "Available Tailwind text size classes") do
             div(class: "space-y-3") do
-              div(class: "bg-background rounded-md p-6 space-y-2") do
+              div(class: "bg-surface rounded-md p-6 space-y-2") do
                 p(class: "text-xs") { "text-xs (0.75rem) - Fine print, captions" }
                 p(class: "text-sm") { "text-sm (0.875rem) - Small text, labels" }
                 p(class: "text-base") { "text-base (1rem) - Default body text" }
@@ -59,17 +59,17 @@ class Views::Home::Components < Views::Base
 
           component_section("Body Text Examples", "Different text content with various sizes") do
             div(class: "space-y-4") do
-              div(class: "bg-background rounded-md p-6") do
+              div(class: "bg-surface rounded-md p-6") do
                 p(class: "text-base") { "This is regular body text using text-base. It should be comfortable to read and not too large or small." }
-                p(class: "text-sm text-foreground/70 mt-2") { "This is smaller supporting text using text-sm with reduced opacity." }
-                p(class: "text-xs text-foreground/60 mt-2") { "This is very small text using text-xs, suitable for fine print or metadata." }
+                p(class: "text-sm text-muted mt-2") { "This is smaller supporting text using text-sm with reduced opacity." }
+                p(class: "text-xs text-muted mt-2") { "This is very small text using text-xs, suitable for fine print or metadata." }
               end
             end
           end
         end
 
         section(id: "links") do
-          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Link Components" }
+          h2(class: "font-bold text-body mb-8 border-b border-line pb-4") { "Link Components" }
 
           component_section("Link Variants", "All link variants with proper styling and hover effects") do
             div(class: "flex flex-wrap gap-4") do
@@ -119,7 +119,7 @@ class Views::Home::Components < Views::Base
 
         # Buttons Section
         section(id: "buttons") do
-          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Button Components" }
+          h2(class: "font-bold text-body mb-8 border-b border-line pb-4") { "Button Components" }
 
           component_section("Button Variants", "Primary button styles for different contexts") do
             div(class: "flex flex-wrap gap-4") do
@@ -175,7 +175,7 @@ class Views::Home::Components < Views::Base
         end
 
         section(id: "form-inputs") do
-          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Form Input Components" }
+          h2(class: "font-bold text-body mb-8 border-b border-line pb-4") { "Form Input Components" }
 
           component_section("Textarea Component", "Multi-line text input with validation states") do
             div(class: "space-y-4 max-w-md") do
@@ -264,7 +264,7 @@ class Views::Home::Components < Views::Base
 
         # Form Components Section
         section(id: "form-components") do
-          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Form Layout Components" }
+          h2(class: "font-bold text-body mb-8 border-b border-line pb-4") { "Form Layout Components" }
 
           component_section("FormField Component", "Wrapper for form inputs with labels and validation") do
             div(class: "space-y-6 max-w-md") do
@@ -306,7 +306,7 @@ class Views::Home::Components < Views::Base
 
         # Feedback Components Section
         section(id: "feedback") do
-          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Feedback Components" }
+          h2(class: "font-bold text-body mb-8 border-b border-line pb-4") { "Feedback Components" }
 
           component_section("Alert Component", "Alert messages with different severity levels") do
             div(class: "space-y-4 max-w-2xl") do
@@ -337,7 +337,7 @@ class Views::Home::Components < Views::Base
 
         # Utility Components Section
         section(id: "utility") do
-          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Utility Components" }
+          h2(class: "font-bold text-body mb-8 border-b border-line pb-4") { "Utility Components" }
 
           component_section("Badge Component", "Badges with different colors, sizes, and styles") do
             div(class: "space-y-6") do
@@ -420,7 +420,7 @@ class Views::Home::Components < Views::Base
 
         # Table Components Section
         section(id: "tables") do
-          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Table Components" }
+          h2(class: "font-bold text-body mb-8 border-b border-line pb-4") { "Table Components" }
 
           component_section("Basic Table", "Simple data table with headers and rows") do
             render Components::Table.new(headers: [ "Name", "Email", "Role", "Status" ], data: [ [ "John Doe", "john@example.com", "Admin", "Active" ], [ "Jane Smith", "jane@example.com", "User", "Active" ], [ "Mike Johnson", "mike@example.com", "Editor", "Inactive" ] ])
@@ -462,7 +462,7 @@ class Views::Home::Components < Views::Base
                 div(class: "max-h-48 overflow-y-auto") do
                   render Components::Table.new(variant: :header_pin, size: :sm, headers: [ "Timestamp", "Level", "Service", "Message", "Source" ], data: [ [ "2024-01-15T10:30:15Z", "INFO", "web-server", "Request processed successfully", "nginx" ], [ "2024-01-15T10:30:16Z", "WARN", "database", "Connection pool near limit", "postgres" ], [ "2024-01-15T10:30:17Z", "ERROR", "auth-service", "Invalid token provided", "oauth" ], [ "2024-01-15T10:30:18Z", "INFO", "cache", "Cache miss, fetching from DB", "redis" ], [ "2024-01-15T10:30:19Z", "DEBUG", "scheduler", "Job queued for processing", "sidekiq" ], [ "2024-01-15T10:30:20Z", "INFO", "web-server", "Static asset served", "nginx" ], [ "2024-01-15T10:30:21Z", "WARN", "monitoring", "Disk space below threshold", "system" ], [ "2024-01-15T10:30:22Z", "INFO", "database", "Transaction committed", "postgres" ] ])
                 end
-                p(class: "text-sm text-foreground/60 mt-2") { "Scroll to see sticky header effect" }
+                p(class: "text-sm text-muted mt-2") { "Scroll to see sticky header effect" }
               end
             end
 
@@ -498,7 +498,7 @@ class Views::Home::Components < Views::Base
           end
 
           component_section("Custom Table Structure", "Building tables with subcomponents") do
-            p(class: "text-foreground/70 mb-4") { "Use table subcomponents for complete control over structure and styling:" }
+            p(class: "text-muted mb-4") { "Use table subcomponents for complete control over structure and styling:" }
 
             render Components::Table.new(variant: :striped) do
               thead do
@@ -571,7 +571,7 @@ class Views::Home::Components < Views::Base
 
           component_section("Hash Data Rendering", "Tables with hash-based data") do
             div(class: "space-y-6") do
-              p(class: "text-foreground/70") { "Tables can render hash data by matching keys to headers:" }
+              p(class: "text-muted") { "Tables can render hash data by matching keys to headers:" }
 
               render Components::Table.new(headers: [ "name", "age", "department", "salary" ], data: [ { "name" => "Alice Johnson", "age" => "28", "department" => "Engineering", "salary" => "$85,000" }, { "name" => "Bob Wilson", "age" => "35", "department" => "Design", "salary" => "$75,000" }, { "name" => "Carol Brown", "age" => "31", "department" => "Product", "salary" => "$90,000" } ])
             end
@@ -589,7 +589,7 @@ class Views::Home::Components < Views::Base
 
           component_section("Empty Table State", "Handling tables with no data") do
             div(class: "space-y-6") do
-              p(class: "text-foreground/70") { "Tables gracefully handle empty data with a helpful message:" }
+              p(class: "text-muted") { "Tables gracefully handle empty data with a helpful message:" }
 
               render Components::Table.new(headers: [ "User", "Last Login", "Status" ], data: [])
             end
@@ -604,13 +604,13 @@ class Views::Home::Components < Views::Base
 
           component_section("Industrial Data Monitor", "Wide technical tables with horizontal scrolling") do
             div(class: "space-y-4") do
-              p(class: "text-foreground/70 mb-4") { "Industrial monitoring dashboards often require wide data tables. This example shows server metrics with horizontal scrolling:" }
+              p(class: "text-muted mb-4") { "Industrial monitoring dashboards often require wide data tables. This example shows server metrics with horizontal scrolling:" }
 
               div(class: "overflow-x-auto") do
                 render Components::Table.new(variant: :dense, size: :sm, headers: [ "Server", "IP Address", "Region", "CPU Load", "Memory", "Disk I/O", "Network In", "Network Out", "Connections", "Uptime", "Load Avg", "Processes", "Last Check", "Status", "Alerts", "Actions" ], data: [ [ "prod-web-01", "172.16.1.10", "us-east-1a", "23.4%", "78.2%", "1.2MB/s", "45.6MB/s", "23.1MB/s", "156", "15d 4h 23m", "1.23", "87", "2024-01-15 14:30:15", "HEALTHY", "0", "SSH" ], [ "prod-web-02", "172.16.1.11", "us-east-1b", "45.7%", "82.1%", "2.4MB/s", "67.8MB/s", "34.2MB/s", "203", "12d 18h 45m", "1.89", "92", "2024-01-15 14:30:18", "WARNING", "2", "SSH" ], [ "prod-db-01", "172.16.2.10", "us-east-1a", "67.8%", "94.3%", "15.7MB/s", "12.3MB/s", "8.9MB/s", "45", "22d 7h 12m", "2.34", "34", "2024-01-15 14:30:12", "CRITICAL", "5", "SSH" ], [ "prod-cache-01", "172.16.3.15", "us-east-1c", "12.1%", "34.7%", "0.8MB/s", "89.2MB/s", "67.4MB/s", "1,234", "8d 14h 56m", "0.45", "23", "2024-01-15 14:30:20", "HEALTHY", "0", "SSH" ], [ "prod-lb-01", "172.16.0.5", "us-east-1a", "34.5%", "45.8%", "0.2MB/s", "156.7MB/s", "142.3MB/s", "2,789", "31d 2h 18m", "1.12", "15", "2024-01-15 14:30:16", "HEALTHY", "1", "SSH" ] ])
               end
 
-              p(class: "text-sm text-foreground/60 mt-2") { "Dense variant optimizes space for maximum data visibility. Table scrolls horizontally on smaller screens." }
+              p(class: "text-sm text-muted mt-2") { "Dense variant optimizes space for maximum data visibility. Table scrolls horizontally on smaller screens." }
             end
 
             code_example("Industrial Data Table", <<~RUBY.strip)
@@ -630,7 +630,7 @@ class Views::Home::Components < Views::Base
 
           component_section("Table Actions", "Action buttons and dropdowns for table rows") do
             div(class: "space-y-6") do
-              p(class: "text-foreground/70") { "Use the Actions component for clean, industrial-styled action buttons in table rows:" }
+              p(class: "text-muted") { "Use the Actions component for clean, industrial-styled action buttons in table rows:" }
 
               Table(variant: :zebra, size: :sm) do
                 thead do
@@ -677,7 +677,7 @@ class Views::Home::Components < Views::Base
 
               div(class: "mt-6") do
                 h4(class: "font-medium mb-3") { "Actions with Pre-configured Items" }
-                p(class: "text-sm text-foreground/60 mb-4") { "Actions component supports pre-configured button, link, and dropdown items:" }
+                p(class: "text-sm text-muted mb-4") { "Actions component supports pre-configured button, link, and dropdown items:" }
 
                 Table(size: :sm) do
                   thead do
@@ -713,9 +713,9 @@ class Views::Home::Components < Views::Base
             code_example("Table Actions", <<~RUBY.strip)
               # Custom action buttons with blocks
               render Table::Actions.new do
-                button(class: "btn btn-ghost btn-xs") { "View" }
+                button(class: "ui-button ui-button-ghost ui-button-xs") { "View" }
                 render Components::Button.new(variant: :ghost, size: :xs) { "Edit" }
-                button(class: "btn btn-ghost btn-xs") { "Delete" }
+                button(class: "ui-button ui-button-ghost ui-button-xs") { "Delete" }
               end
 
               # Pre-configured action items
@@ -743,27 +743,22 @@ class Views::Home::Components < Views::Base
 
         # Layout Components Section
         section(id: "layout") do
-          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Layout Components" }
+          h2(class: "font-bold text-body mb-8 border-b border-line pb-4") { "Layout Components" }
 
           component_section("Cards & Containers", "Card components for content organization") do
             div(class: "grid md:grid-cols-2 gap-6") do
               ExampleCard(title: "System Features") do
-                p(class: "text-foreground/70") { "This card demonstrates the command-line aesthetic with colored headers." }
+                p(class: "text-muted") { "This card demonstrates the command-line aesthetic with colored headers." }
               end
 
-              FormCard(title: "Application Config", header_color: :warning) do
-                p(class: "text-foreground/70 mb-4") { "This form card uses a warning-colored header for configuration sections." }
+              FormCard(title: "Application Config") do
+                p(class: "text-muted mb-4") { "This form card uses a warning-colored header for configuration sections." }
                 render Components::Button.new(variant: :primary) { "Configure" }
               end
 
-              div(class: "bg-background border border-border") do
-                div(class: "bg-info/20 border-b border-info/30 px-3 py-1") do
-                  h3(class: "text-xs font-bold text-info uppercase tracking-wide") { "Themes" }
-                end
-                div(class: "p-6") do
-                  p(class: "text-foreground/70 mb-4") { "Custom card with info-colored terminal-style header." }
-                  render Components::Button.new(variant: :primary) { "Select Theme" }
-                end
+              render Components::Card.new(title: "Themes") do
+                p(class: "text-muted mb-4") { "Card with info-colored header." }
+                render Components::Button.new(variant: :primary) { "Select Theme" }
               end
             end
           end
@@ -774,7 +769,7 @@ class Views::Home::Components < Views::Base
               render Components::DropdownMenu.new(trigger_text: "Account Menu") do
                 render Components::DropdownMenuItem.new(href: "#", text: "Profile")
                 render Components::DropdownMenuItem.new(href: "#", text: "Settings")
-                render Components::DropdownMenuItem.new(href: "#", text: "Sign out", method: :delete, class: "text-error")
+                render Components::DropdownMenuItem.new(href: "#", text: "Sign out", method: :delete, class: "text-destructive")
               end
             end
           end
@@ -807,13 +802,13 @@ class Views::Home::Components < Views::Base
 
         # Testing Infrastructure Section
         section(id: "testing") do
-          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Testing Infrastructure" }
+          h2(class: "font-bold text-body mb-8 border-b border-line pb-4") { "Testing Infrastructure" }
 
           component_section("Component Testing Patterns", "How to test Phlex components effectively") do
             div(class: "space-y-6") do
-              div(class: "bg-background rounded-md p-6") do
+              div(class: "bg-surface rounded-md p-6") do
                 h4(class: "font-semibold mb-4") { "ComponentTestCase" }
-                p(class: "text-foreground/70 mb-4") { "Base test case class for all component tests with helper methods:" }
+                p(class: "text-muted mb-4") { "Base test case class for all component tests with helper methods:" }
 
                 code_example("Test Example", <<~RUBY.strip
                   class Components::BadgeTest < ComponentTestCase
@@ -826,7 +821,7 @@ class Views::Home::Components < Views::Base
                 )
               end
 
-              div(class: "bg-background rounded-md p-6") do
+              div(class: "bg-surface rounded-md p-6") do
                 h4(class: "font-semibold mb-4") { "Test Helpers Available" }
                 ul(class: "space-y-2 text-sm") do
                   li { "• assert_component_html - Test rendered HTML output" }
@@ -841,7 +836,7 @@ class Views::Home::Components < Views::Base
 
           component_section("Testing Best Practices", "Guidelines for component testing") do
             div(class: "prose max-w-none") do
-              div(class: "bg-background rounded-md p-6") do
+              div(class: "bg-surface rounded-md p-6") do
                 ul(class: "space-y-2") do
                   li { "✓ Test all variants and combinations" }
                   li { "✓ Verify accessibility attributes" }
@@ -857,11 +852,11 @@ class Views::Home::Components < Views::Base
 
         # Style Guide Section
         section(id: "style-guide") do
-          h2(class: "font-bold text-foreground mb-8 border-b border-border pb-4") { "Developer Style Guide" }
+          h2(class: "font-bold text-body mb-8 border-b border-line pb-4") { "Developer Style Guide" }
 
           component_section("Component Architecture", "How to build new Phlex components") do
             div(class: "space-y-6") do
-              div(class: "bg-background rounded-md p-6") do
+              div(class: "bg-surface rounded-md p-6") do
                 h4(class: "font-semibold mb-4") { "Component Structure" }
                 code_example("Component Template", <<~RUBY.strip
                   class Components::NewComponent < Components::Base
@@ -894,7 +889,7 @@ class Views::Home::Components < Views::Base
           end
 
           component_section("Naming Conventions", "Consistent naming patterns across components") do
-            div(class: "bg-background rounded-md p-6") do
+            div(class: "bg-surface rounded-md p-6") do
               h4(class: "font-semibold mb-4") { "Naming Standards" }
               ul(class: "space-y-2 text-sm") do
                 li { "• Components: PascalCase (e.g., Components::FormField)" }
@@ -908,7 +903,7 @@ class Views::Home::Components < Views::Base
 
           component_section("Integration Patterns", "Rails and accessibility integration") do
             div(class: "space-y-4") do
-              div(class: "bg-background rounded-md p-6") do
+              div(class: "bg-surface rounded-md p-6") do
                 h4(class: "font-semibold mb-4") { "Rails Form Integration" }
                 code_example("Form Helper Usage", <<~RUBY.strip
                   # In Rails forms, use components like this:
@@ -923,7 +918,7 @@ class Views::Home::Components < Views::Base
                 )
               end
 
-              div(class: "bg-background rounded-md p-6") do
+              div(class: "bg-surface rounded-md p-6") do
                 h4(class: "font-semibold mb-4") { "Accessibility Requirements" }
                 ul(class: "space-y-2 text-sm") do
                   li { "• Always include proper ARIA attributes" }
@@ -937,7 +932,7 @@ class Views::Home::Components < Views::Base
           end
 
           component_section("Performance Guidelines", "Component optimization best practices") do
-            div(class: "bg-background rounded-md p-6") do
+            div(class: "bg-surface rounded-md p-6") do
               h4(class: "font-semibold mb-4") { "Performance Best Practices" }
               ul(class: "space-y-2 text-sm") do
                 li { "• Use frozen string literals" }
@@ -953,17 +948,17 @@ class Views::Home::Components < Views::Base
       end
 
       # Footer
-      div(class: "mt-16 border-t border-border bg-background p-8") do
+      div(class: "mt-16 border-t border-line bg-surface p-8") do
         div(class: "max-w-6xl mx-auto") do
           div(class: "text-center mb-6") do
             h3(class: "font-semibold mb-2") { "Phlex Component Library" }
-            p(class: "text-foreground/70") { "All components automatically adapt to light and dark themes using semantic color tokens." }
+            p(class: "text-muted") { "All components automatically adapt to light and dark themes using semantic color tokens." }
           end
 
           div(class: "grid md:grid-cols-3 gap-6 text-sm") do
             div do
               h4(class: "font-semibold mb-2") { "Component Categories" }
-              ul(class: "space-y-1 text-foreground/70") do
+              ul(class: "space-y-1 text-muted") do
                 li { "• Links & Buttons" }
                 li { "• Form Inputs" }
                 li { "• Feedback (Alerts)" }
@@ -973,7 +968,7 @@ class Views::Home::Components < Views::Base
 
             div do
               h4(class: "font-semibold mb-2") { "Features" }
-              ul(class: "space-y-1 text-foreground/70") do
+              ul(class: "space-y-1 text-muted") do
                 li { "• Variant Support" }
                 li { "• Accessibility Compliant" }
                 li { "• Rails Integration" }
@@ -983,7 +978,7 @@ class Views::Home::Components < Views::Base
 
             div do
               h4(class: "font-semibold mb-2") { "Development" }
-              ul(class: "space-y-1 text-foreground/70") do
+              ul(class: "space-y-1 text-muted") do
                 li { "• ComponentTestCase" }
                 li { "• Style Guide" }
                 li { "• Best Practices" }
@@ -1007,9 +1002,9 @@ class Views::Home::Components < Views::Base
   def component_section(title, description = nil, &block)
     div(class: "space-y-6") do
       div do
-        h3(class: "font-semibold text-foreground mb-2") { title }
+        h3(class: "font-semibold text-body mb-2") { title }
         if description
-          p(class: "text-sm text-muted-foreground mb-4") { description }
+          p(class: "text-sm text-muted mb-4") { description }
         end
       end
       yield if block
@@ -1018,7 +1013,7 @@ class Views::Home::Components < Views::Base
 
   # Code example display
   def code_example(title, code)
-    div(class: "mt-4 bg-muted border border-border p-4") do # bg-muted for secondary background, border-border for accent
+    div(class: "mt-4 bg-surface-alt border border-line p-4") do # bg-surface-alt for secondary background, border-line for accent
       div(class: "flex items-center justify-between mb-3") do
         h5(class: "font-medium text-sm") { title }
         render Components::Button.new(
@@ -1027,7 +1022,7 @@ class Views::Home::Components < Views::Base
           attributes: { "data-clipboard-target": "#code-#{title.downcase.tr(" ", "-")}" }
         ) { "Copy" }
       end
-      pre(class: "text-xs text-foreground/80 overflow-x-auto", id: "code-#{title.downcase.tr(" ", "-")}") do
+      pre(class: "text-xs text-body overflow-x-auto", id: "code-#{title.downcase.tr(" ", "-")}") do
         code { code }
       end
     end

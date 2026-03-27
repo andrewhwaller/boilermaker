@@ -3,17 +3,13 @@
 require "test_helper"
 
 class Boilermaker::ThemesTest < ActiveSupport::TestCase
-  test "AVAILABLE contains all 5 themes" do
-    assert_equal 5, Boilermaker::Themes::AVAILABLE.length
-    assert_includes Boilermaker::Themes::AVAILABLE, "paper"
-    assert_includes Boilermaker::Themes::AVAILABLE, "terminal"
-    assert_includes Boilermaker::Themes::AVAILABLE, "blueprint"
-    assert_includes Boilermaker::Themes::AVAILABLE, "brutalist"
-    assert_includes Boilermaker::Themes::AVAILABLE, "amber"
+  test "AVAILABLE contains only the default theme" do
+    assert_equal 1, Boilermaker::Themes::AVAILABLE.length
+    assert_includes Boilermaker::Themes::AVAILABLE, "default"
   end
 
-  test "DEFAULT is paper" do
-    assert_equal "paper", Boilermaker::Themes::DEFAULT
+  test "DEFAULT is default" do
+    assert_equal "default", Boilermaker::Themes::DEFAULT
   end
 
   test "POLARITIES contains light and dark" do
@@ -32,6 +28,12 @@ class Boilermaker::ThemesTest < ActiveSupport::TestCase
     refute Boilermaker::Themes.valid?("")
   end
 
+  test "valid? returns false for removed themes" do
+    %w[paper terminal blueprint brutalist amber blackbox].each do |removed|
+      refute Boilermaker::Themes.valid?(removed), "Expected #{removed} to no longer be valid"
+    end
+  end
+
   test "valid_polarity? returns true for light and dark" do
     assert Boilermaker::Themes.valid_polarity?("light")
     assert Boilermaker::Themes.valid_polarity?("dark")
@@ -42,45 +44,33 @@ class Boilermaker::ThemesTest < ActiveSupport::TestCase
     refute Boilermaker::Themes.valid_polarity?(nil)
   end
 
-  test "metadata_for returns correct metadata for each theme" do
-    metadata = Boilermaker::Themes.metadata_for("paper")
-    assert_equal "Paper", metadata[:name]
+  test "metadata_for returns correct metadata for default theme" do
+    metadata = Boilermaker::Themes.metadata_for("default")
+    assert_equal "Default", metadata[:name]
+    assert_equal "Neutral gray scale, clean and professional", metadata[:description]
     assert_equal "light", metadata[:default_polarity]
     assert_equal false, metadata[:has_overlays]
-
-    metadata = Boilermaker::Themes.metadata_for("terminal")
-    assert_equal "Terminal", metadata[:name]
-    assert_equal "dark", metadata[:default_polarity]
-    assert_equal true, metadata[:has_overlays]
-    assert_includes metadata[:unique_components], "command_bar"
+    assert_empty metadata[:unique_components]
   end
 
   test "metadata_for returns default metadata for invalid theme" do
     metadata = Boilermaker::Themes.metadata_for("invalid")
-    assert_equal "Paper", metadata[:name]
+    assert_equal "Default", metadata[:name]
   end
 
-  test "default_polarity_for returns correct polarity" do
-    assert_equal "light", Boilermaker::Themes.default_polarity_for("paper")
-    assert_equal "dark", Boilermaker::Themes.default_polarity_for("terminal")
-    assert_equal "light", Boilermaker::Themes.default_polarity_for("blueprint")
-    assert_equal "light", Boilermaker::Themes.default_polarity_for("brutalist")
-    assert_equal "dark", Boilermaker::Themes.default_polarity_for("amber")
+  test "default_polarity_for returns light for default theme" do
+    assert_equal "light", Boilermaker::Themes.default_polarity_for("default")
   end
 
-  test "has_overlays? returns correct value" do
-    refute Boilermaker::Themes.has_overlays?("paper")
-    assert Boilermaker::Themes.has_overlays?("terminal")
-    assert Boilermaker::Themes.has_overlays?("blueprint")
-    refute Boilermaker::Themes.has_overlays?("brutalist")
-    assert Boilermaker::Themes.has_overlays?("amber")
+  test "default_polarity_for falls back to default for unknown theme" do
+    assert_equal "light", Boilermaker::Themes.default_polarity_for("nonexistent")
   end
 
-  test "unique_components_for returns correct components" do
-    assert_empty Boilermaker::Themes.unique_components_for("paper")
-    assert_equal %w[command_bar], Boilermaker::Themes.unique_components_for("terminal")
-    assert_equal %w[section_marker], Boilermaker::Themes.unique_components_for("blueprint")
-    assert_equal %w[keyboard_hint], Boilermaker::Themes.unique_components_for("brutalist")
-    assert_equal %w[fn_bar], Boilermaker::Themes.unique_components_for("amber")
+  test "has_overlays? returns false for default theme" do
+    refute Boilermaker::Themes.has_overlays?("default")
+  end
+
+  test "unique_components_for returns empty for default theme" do
+    assert_empty Boilermaker::Themes.unique_components_for("default")
   end
 end

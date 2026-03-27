@@ -46,10 +46,10 @@ module Views
 
                 # Confirmation instructions
                 div do
-                  h2(class: "text-lg font-medium text-base-content") do
+                  h2(class: "text-lg font-medium text-body") do
                     plain "Confirm by entering your current authentication code"
                   end
-                  p(class: "mt-1 text-sm text-base-content/60") do
+                  p(class: "mt-1 text-sm text-muted") do
                     plain "Enter the 6-digit code from your authenticator app to confirm you want to disable two-factor authentication."
                   end
                 end
@@ -61,7 +61,7 @@ module Views
                   class: "space-y-6"
                 ) do |form|
                   div(class: "space-y-2") do
-                    form.label :code, "Authentication Code", class: "block text-sm font-medium text-base-content"
+                    form.label :code, "Authentication Code", class: "block text-sm font-medium text-body"
                     form.text_field :code,
                                     class: "block w-full rounded-lg border-input-border shadow-sm focus:border-accent focus:ring-accent sm:text-sm",
                                     autocomplete: "one-time-code",

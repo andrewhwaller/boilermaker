@@ -32,14 +32,14 @@ class Components::ImpersonationBanner < Components::Base
   end
 
   def banner_classes
-    "fixed top-0 left-0 right-0 z-50 bg-warning text-warning-content py-2"
+    "fixed top-0 left-0 right-0 z-50 bg-warning text-on-accent py-2"
   end
 
   def exit_button_classes
     [
       "ui-button ui-button-sm",
-      "bg-warning-content text-warning",
-      "hover:bg-warning-content/90",
+      "bg-surface text-warning",
+      "hover:bg-surface-alt",
       "border-0"
     ].join(" ")
   end

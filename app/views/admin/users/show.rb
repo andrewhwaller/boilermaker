@@ -17,21 +17,21 @@ module Views
             div(class: "space-y-6") do
               div(class: "flex items-center justify-between mb-6") do
                 div(class: "flex items-center gap-4") do
-                  link_to("← All Users", admin_users_path, class: "text-sm text-base-content/70 hover:text-primary")
-                  h1(class: "font-bold text-base-content") { "User Details" }
+                  link_to("← All Users", admin_users_path, class: "text-sm text-muted hover:text-accent")
+                  h1(class: "font-bold text-body") { "User Details" }
                 end
               end
 
               card do
                 div(class: "flex items-start gap-6") do
-                  div(class: "avatar placeholder") do
-                    div(class: "bg-primary text-primary-content w-16 rounded-full") do
+                  div do
+                    div(class: "bg-accent text-on-accent w-16 rounded-full") do
                       span(class: "text-xl") { @user.email[0].upcase }
                     end
                   end
 
                   div(class: "flex-1") do
-                    h2(class: "font-semibold text-base-content mb-2") { @user.email }
+                    h2(class: "font-semibold text-body mb-2") { @user.email }
 
                     div(class: "flex flex-wrap gap-2 mb-4") do
                       if @user.verified?
@@ -49,31 +49,31 @@ module Views
 
                     div(class: "grid grid-cols-2 gap-4 text-sm") do
                       div do
-                        div(class: "text-base-content/70") { "User ID" }
+                        div(class: "text-muted") { "User ID" }
                         div(class: "font-medium font-mono") { @user.hashid }
                       end
 
                       div do
-                        div(class: "text-base-content/70") { "Accounts" }
+                        div(class: "text-muted") { "Accounts" }
                         div(class: "font-medium") { "#{@user.accounts.count} account(s)" }
                       end
 
                       div do
-                        div(class: "text-base-content/70") { "Joined" }
+                        div(class: "text-muted") { "Joined" }
                         div(class: "font-medium") do
                           plain("#{time_ago_in_words(@user.created_at)} ago")
                         end
-                        div(class: "text-xs text-base-content/50") do
+                        div(class: "text-xs text-muted") do
                           plain(@user.created_at.strftime("%B %d, %Y at %I:%M %p"))
                         end
                       end
 
                       div do
-                        div(class: "text-base-content/70") { "Updated" }
+                        div(class: "text-muted") { "Updated" }
                         div(class: "font-medium") do
                           plain("#{time_ago_in_words(@user.updated_at)} ago")
                         end
-                        div(class: "text-xs text-base-content/50") do
+                        div(class: "text-xs text-muted") do
                           plain(@user.updated_at.strftime("%B %d, %Y at %I:%M %p"))
                         end
                       end
@@ -83,15 +83,15 @@ module Views
               end
 
               card do
-                h3(class: "font-semibold text-base-content mb-4") { "Account Memberships" }
+                h3(class: "font-semibold text-body mb-4") { "Account Memberships" }
 
                 div(class: "space-y-2") do
                   if @user.accounts.any?
                     @user.accounts.each do |account|
-                      div(class: "flex justify-between items-center p-2 bg-base-300/30 rounded") do
+                      div(class: "flex justify-between items-center p-2 bg-hover rounded") do
                         div do
                           div(class: "font-medium") { account.name }
-                          div(class: "text-xs text-base-content/60") do
+                          div(class: "text-xs text-muted") do
                             if account.owner == @user
                               "Owner"
                             elsif @user.account_admin_for?(account)
@@ -105,25 +105,25 @@ module Views
                       end
                     end
                   else
-                    div(class: "text-base-content/60") { "No account memberships" }
+                    div(class: "text-muted") { "No account memberships" }
                   end
                 end
               end
 
               if @user.sessions.any?
                 card do
-                  h3(class: "font-semibold text-base-content mb-4") { "Recent Sessions" }
+                  h3(class: "font-semibold text-body mb-4") { "Recent Sessions" }
 
                   div(class: "space-y-2") do
                     @user.sessions.order(created_at: :desc).limit(5).each do |session|
-                      div(class: "flex justify-between items-center py-2 border-b border-base-300 last:border-b-0") do
+                      div(class: "flex justify-between items-center py-2 border-b border-line last:border-b-0") do
                         div do
                           div(class: "text-sm font-medium") { "Session" }
-                          div(class: "text-xs text-base-content/70") do
+                          div(class: "text-xs text-muted") do
                             plain("Started #{time_ago_in_words(session.created_at)} ago")
                           end
                         end
-                        div(class: "text-xs text-base-content/50") do
+                        div(class: "text-xs text-muted") do
                           plain(session.ip_address)
                         end
                       end
@@ -132,7 +132,7 @@ module Views
 
                   if @user.sessions.count > 5
                     div(class: "mt-4 text-center") do
-                      p(class: "text-sm text-base-content/70") do
+                      p(class: "text-sm text-muted") do
                         plain("and #{@user.sessions.count - 5} more sessions...")
                       end
                     end

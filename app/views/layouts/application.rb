@@ -35,7 +35,7 @@ module Views
 
             link(rel: "icon", type: "image/svg+xml", href: "/favicon.svg")
 
-            stylesheet_link_tag(:app, "data-turbo-track": "reload")
+            stylesheet_link_tag(:tailwind, "data-turbo-track": "reload")
 
             raw app_font_style_tag
 
@@ -57,8 +57,6 @@ module Views
                 yield_content_or(&block)
               end
             end
-
-            render_theme_components if Current.user.present?
           end
         end
       end
@@ -88,7 +86,6 @@ module Views
       def body_classes
         base = "min-h-screen bg-surface text-body theme-transition"
         base = "#{base} pl-64" if authenticated_with_sidebar?
-        base = "#{base} pb-12" if has_bottom_bar?
         base
       end
 
@@ -127,22 +124,6 @@ module Views
 
       def yield_content_or(&block)
         block_given? ? yield : content_for(:content)
-      end
-
-      def render_theme_components
-        theme = Current.theme_name || Boilermaker::Config.theme_name
-
-        case theme
-        when "terminal"
-          render Components::Terminal::CommandBar.new
-        when "amber"
-          render Components::Amber::FnBar.new
-        end
-      end
-
-      def has_bottom_bar?
-        theme = Current.theme_name || Boilermaker::Config.theme_name
-        %w[terminal amber].include?(theme)
       end
     end
   end

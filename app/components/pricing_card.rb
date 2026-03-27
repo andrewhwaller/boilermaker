@@ -27,9 +27,9 @@ module Components
     def card_classes
       base = "relative p-6 rounded-lg border"
       if @popular
-        "#{base} border-primary bg-primary/5"
+        "#{base} border-accent bg-surface-alt"
       else
-        "#{base} border-base-300 bg-base-100"
+        "#{base} border-line bg-surface"
       end
     end
 

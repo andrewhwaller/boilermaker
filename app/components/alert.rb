@@ -8,7 +8,7 @@ class Components::Alert < Components::Base
     info: "ui-alert-info"
   }.freeze
 
-  def initialize(message:, variant: :info, dismissible: false, icon: nil, **attributes)
+  def initialize(message:, variant: :info, dismissible: false, **attributes)
     @message = message
     @variant = variant.to_sym
     @dismissible = dismissible

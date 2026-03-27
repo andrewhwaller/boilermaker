@@ -30,13 +30,13 @@ development:
     require_two_factor_authentication: false
   ui:
     theme:
-      name: terminal
+      name: default
     navigation:
-      layout_mode: navbar
+      layout_mode: sidebar
     typography:
-      font: CommitMono
+      font: JetBrains Mono
       uppercase: true
-      size: base
+      size: dense
 test:
   security:
     require_two_factor_authentication: false

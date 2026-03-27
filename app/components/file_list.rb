@@ -35,7 +35,7 @@ class Components::FileList < Components::Base
   end
 
   def file_row(attachment)
-    div(class: "flex items-center justify-between p-3 bg-surface-alt rounded-lg border border-border-light") do
+    div(class: "flex items-center justify-between p-3 bg-surface-alt rounded-lg border border-line-muted") do
       file_info(attachment)
       file_actions(attachment)
     end

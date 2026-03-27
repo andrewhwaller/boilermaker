@@ -34,7 +34,7 @@ module Views
 
       def render_notifications
         if @notifications.empty?
-          div(class: "text-center py-12 text-base-content/60") do
+          div(class: "text-center py-12 text-muted") do
             p { "No notifications yet" }
           end
         else

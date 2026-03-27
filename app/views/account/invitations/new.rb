@@ -16,7 +16,7 @@ module Views
             div(class: "space-y-6") do
               # Header
               div(class: "flex items-center justify-between mb-6") do
-                h1(class: "font-bold text-base-content") { "Send Invitation" }
+                h1(class: "font-bold text-body") { "Send Invitation" }
                 div(class: "flex gap-2") do
                   link_to("View Invitations", account_invitations_path, class: "ui-button ui-button-outline")
                   link_to("Back to Dashboard", account_dashboard_path, class: "ui-button ui-button-ghost")
@@ -25,11 +25,11 @@ module Views
 
               # Invitation form
               card do
-                h2(class: "font-semibold text-base-content mb-6") { "Invite New User" }
+                h2(class: "font-semibold text-body mb-6") { "Invite New User" }
 
                 form_with(url: account_invitations_path, local: true, class: "space-y-4") do |f|
                   # Email field
-                  div(class: "form-control w-full") do
+                  div(class: "space-y-1") do
                     f.label :email, "Email Address", class: "label"
                     f.email_field :email,
                       class: "ui-input",
@@ -44,8 +44,8 @@ module Views
                     label(class: "label cursor-pointer justify-start gap-3") do
                       f.check_box :admin, class: "ui-checkbox"
                       div do
-                        span(class: "label-text font-medium") { "Grant Admin Privileges" }
-                        div(class: "text-xs text-base-content/70") do
+                        span(class: "text-sm font-medium font-medium") { "Grant Admin Privileges" }
+                        div(class: "text-xs text-muted") do
                           "Allow this user to manage account settings and invite other users"
                         end
                       end
@@ -53,7 +53,7 @@ module Views
                   end
 
                   # Custom message field
-                  div(class: "form-control w-full") do
+                  div(class: "space-y-1") do
                     f.label :message, "Custom Message (Optional)", class: "label"
                     f.text_area :message,
                       class: "ui-textarea h-24",
@@ -72,8 +72,8 @@ module Views
 
               # Info card
               card do
-                h3(class: "font-semibold text-base-content mb-4") { "How Invitations Work" }
-                div(class: "space-y-3 text-sm text-base-content/70") do
+                h3(class: "font-semibold text-body mb-4") { "How Invitations Work" }
+                div(class: "space-y-3 text-sm text-muted") do
                   div(class: "flex gap-3") do
                     span(class: "ui-badge ui-badge-primary ui-badge-sm flex-shrink-0") { "1" }
                     p { "An invitation email is sent to the specified address with a secure signup link" }
@@ -95,12 +95,6 @@ module Views
         end
 
         private
-
-        def helper_text(text)
-          label(class: "label") do
-            span(class: "label-text-alt text-xs text-base-content/70") { text }
-          end
-        end
       end
     end
   end

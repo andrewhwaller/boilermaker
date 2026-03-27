@@ -4,102 +4,101 @@ module Views
   module Home
     class Index < Views::Base
       include Phlex::Rails::Helpers::LinkTo
-      include Phlex::Rails::Helpers::ButtonTo
 
       def initialize
       end
 
       def view_template
         page_with_title("Dashboard") do
-          div(class: "space-y-6") do
-            # Welcome section
-            card do
-              h1(class: "font-bold text-base-content mb-4") { "Welcome to #{app_name}" }
-              p(class: "text-base-content/70 mb-4") { plain("Version #{app_version}") }
-            end
-
-            # User info section
-            card do
-              h2(class: "font-semibold text-base-content mb-4") { "User Information" }
-              p(class: "text-base-content/70") { "You are currently signed in as #{Current.user.email}" }
-            end
-
-            # Theme testing section
-            card do
-              h2(class: "font-semibold text-base-content mb-4") { "Theme Controls" }
-              p(class: "text-base-content/70 mb-4") { "Test the theme system with these controls:" }
-
-              div(class: "flex flex-wrap gap-2 mb-4") do
-                button(
-                  data: { action: "click->theme#light" },
-                  class: "ui-button ui-button-outline"
-                ) { "Light Theme" }
-
-                button(
-                  data: { action: "click->theme#dark" },
-                  class: "ui-button ui-button-outline"
-                ) { "Dark Theme" }
-
-                button(
-                  data: { action: "click->theme#system" },
-                  class: "ui-button ui-button-outline"
-                ) { "System Theme" }
-
-                button(
-                  data: { action: "click->theme#toggle" },
-                  class: "ui-button ui-button-accent"
-                ) { "Toggle Theme" }
-              end
-
-              div(class: "text-sm text-base-content/70") do
-                p { "Test the theme system by clicking the buttons above or using the theme toggle in the navigation bar." }
-              end
-            end
-
-            # Feature showcase section
-            card do
-              h2(class: "font-semibold text-base-content mb-4") { "Available Features" }
-              div(class: "grid grid-cols-2 md:grid-cols-3 gap-4") do
-                feature_card("Two-Factor Authentication", "two_factor_authentication")
-                feature_card("User Invitations", "user_invitations")
-                feature_card("Dark Mode", "dark_mode")
-                feature_card("Personal Accounts", "personal_accounts")
-                feature_card("Notifications", "notifications")
-              end
-            end
-
-            # Development tools section
-            if Rails.env.development?
-              card do
-                h2(class: "font-semibold text-base-content mb-4") { "Development Tools" }
-                div(class: "space-y-2") do
-                  link_to("Component Showcase", components_showcase_path, class: "link link-primary")
-                  plain(" - Test all UI components in light and dark themes")
-                end
-              end
-            end
-
-            # Sign out section
-            card do
-              button_to("Sign out", session_path("current"), method: :delete,
-                class: "ui-button ui-button-error")
-            end
+          div(class: "max-w-3xl space-y-8") do
+            header_section
+            quick_links_section
+            account_section
+            features_section
+            dev_tools_section if Rails.env.development?
           end
         end
       end
 
       private
 
-      def feature_card(name, feature_key)
-        enabled = feature_enabled?(feature_key)
-        box_classes = "border border-base-300 bg-base-100"
+      def header_section
+        div do
+          h1 { app_name }
+          p(class: "text-muted text-sm mt-1") do
+            span { "v#{app_version}" }
+            span(class: "mx-2") { "\u00B7" }
+            span { Current.user.email }
+          end
+        end
+      end
 
-        div(class: "p-3 rounded-box #{box_classes}") do
-          div(class: "flex items-center justify-between") do
-            span(class: "text-sm font-medium text-base-content") { name }
-            span(class: "ui-badge #{enabled ? 'ui-badge-success' : 'ui-badge-ghost'} ui-badge-sm") do
-              enabled ? "Enabled" : "Disabled"
+      def quick_links_section
+        div(class: "flex flex-wrap gap-2") do
+          link_to("Settings", settings_path, class: "ui-button ui-button-outline ui-button-sm")
+
+          if Current.account && Current.user&.account_admin_for?(Current.account)
+            link_to("Account", account_dashboard_path, class: "ui-button ui-button-outline ui-button-sm")
+          end
+
+          if Current.user&.app_admin?
+            link_to("Admin", admin_path, class: "ui-button ui-button-outline ui-button-sm")
+          end
+
+          if feature_enabled?("two_factor_authentication") && !Current.user.otp_required_for_sign_in?
+            link_to("Set up 2FA", new_two_factor_authentication_profile_totp_path, class: "ui-button ui-button-primary ui-button-sm")
+          end
+        end
+      end
+
+      def account_section
+        return unless Current.account
+
+        card(title: "Account") do
+          div(class: "grid grid-cols-2 gap-4 text-sm") do
+            div do
+              div(class: "text-muted") { "Name" }
+              div(class: "font-medium") { Current.account.name }
             end
+
+            div do
+              div(class: "text-muted") { "Members" }
+              div(class: "font-medium") { Current.account.members.count.to_s }
+            end
+          end
+        end
+      end
+
+      def features_section
+        card(title: "Features") do
+          div(class: "grid grid-cols-2 md:grid-cols-3 gap-3") do
+            feature_item("Two-Factor Auth", "two_factor_authentication")
+            feature_item("Invitations", "user_invitations")
+            feature_item("Dark Mode", "dark_mode")
+            feature_item("Personal Accounts", "personal_accounts")
+            feature_item("Notifications", "notifications")
+          end
+        end
+      end
+
+      def dev_tools_section
+        card(title: "Development") do
+          div(class: "flex flex-wrap gap-2") do
+            link_to("Component Showcase", components_showcase_path, class: "ui-button ui-button-outline ui-button-sm")
+            link_to("Config", boilermaker.edit_settings_path, class: "ui-button ui-button-outline ui-button-sm")
+          end
+        end
+      end
+
+      def feature_item(name, feature_key)
+        enabled = feature_enabled?(feature_key)
+
+        div(class: "flex items-center justify-between py-2 px-3 rounded-box border border-line text-sm") do
+          span { name }
+          if enabled
+            span(class: "ui-badge ui-badge-success ui-badge-xs") { "On" }
+          else
+            span(class: "text-muted text-xs") { "Off" }
           end
         end
       end

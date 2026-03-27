@@ -10,7 +10,7 @@ class Components::Navigation < Components::Base
   end
 
   def view_template
-    nav(class: "bg-surface border-b border-border-light px-4 py-1 text-sm", data_controller: "navigation") do
+    nav(class: "bg-surface border-b border-line-muted px-4 py-1 text-sm", data_controller: "navigation") do
       # Desktop navigation
       div(class: "hidden md:flex items-center justify-between w-full") do
         div(class: "flex items-center gap-6") do
@@ -35,7 +35,7 @@ class Components::Navigation < Components::Base
 
   def branding
     div(class: "flex items-center") do
-      a(href: root_path, class: "flex items-center gap-2 text-body hover:text-accent transition-colors") do
+      a(href: root_path, class: "flex items-center gap-2 text-body hover:text-accent transition-colors no-underline") do
         div(class: "w-1 h-6 bg-accent/70")
         span(class: "font-medium text-xs") { app_name }
       end
@@ -115,13 +115,6 @@ class Components::Navigation < Components::Base
     end
   end
 
-  def nav_link_class(path)
-    base_classes = "link link-hover text-sm"
-    # Avoid current_page? here to prevent requiring full Rails request context in tests
-    "#{base_classes} text-muted"
-  end
-
-  # Industrial-style navigation helpers
   def nav_item(path, label)
     a(href: path, class: nav_item_class(path)) do
       span(class: "text-xs font-medium ") { navigation_label(label) }
@@ -129,7 +122,7 @@ class Components::Navigation < Components::Base
   end
 
   def nav_separator
-    div(class: "w-px h-4 bg-border-light")
+    div(class: "w-px h-4 bg-line-muted")
   end
 
   def sign_out_button
@@ -143,7 +136,7 @@ class Components::Navigation < Components::Base
   # Mobile navigation methods
   def mobile_menu_button
     button(
-      class: "ui-button ui-button-ghost ui-button-sm border-border-light hover:bg-surface-alt",
+      class: "ui-button ui-button-ghost ui-button-sm border-line-muted hover:bg-surface-alt",
       type: "button",
       data_action: "click->navigation#toggleMobileMenu"
     ) do
@@ -156,7 +149,7 @@ class Components::Navigation < Components::Base
 
   def mobile_menu
     div(
-      class: "hidden md:hidden absolute top-full left-0 right-0 bg-surface border-b border-border-light z-50",
+      class: "hidden md:hidden absolute top-full left-0 right-0 bg-surface border-b border-line-muted z-50",
       data_navigation_target: "mobileMenu"
     ) do
       div(class: "px-4 py-3 space-y-3") do
@@ -179,7 +172,7 @@ class Components::Navigation < Components::Base
       end
     end
 
-    div(class: "pt-3 mt-3 border-t border-border-light flex items-center justify-between") do
+    div(class: "pt-3 mt-3 border-t border-line-muted flex items-center justify-between") do
       render Components::ThemeToggle.new(show_label: false, position: :mobile)
 
       if show_account_dropdown?
@@ -203,7 +196,7 @@ class Components::Navigation < Components::Base
       mobile_nav_item(sign_in_path, "Access")
     end
 
-    div(class: "pt-3 mt-3 border-t border-border-light") do
+    div(class: "pt-3 mt-3 border-t border-line-muted") do
       render Components::ThemeToggle.new(show_label: false, position: :mobile)
     end
   end

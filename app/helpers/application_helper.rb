@@ -35,7 +35,7 @@ module ApplicationHelper
   # Determine the initial theme name for server render
   # Always returns a valid theme name so data-theme is never missing.
   def current_theme_name
-    @initial_theme_name.presence || Boilermaker::Config.theme_light_name
+    @initial_theme_name.presence || Boilermaker::Config.theme_name
   end
 
   # Helper to conditionally render content if feature is enabled

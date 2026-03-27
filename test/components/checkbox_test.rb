@@ -16,7 +16,7 @@ class CheckboxTest < ComponentTestCase
   test "renders checkbox with form control wrapper" do
     component = Components::Checkbox.new
 
-    assert_has_css_class component, "form-control"
+    assert_has_css_class component, "space-y-1"
   end
 
   test "renders checkbox inside label for accessibility" do
@@ -72,14 +72,14 @@ class CheckboxTest < ComponentTestCase
     component = Components::Checkbox.new(label: "I agree to the terms")
 
     assert_has_text component, "I agree to the terms"
-    assert_has_css_class component, "label-text"
+    assert_has_css_class component, %w[text-sm font-medium]
   end
 
   test "renders without label span when no label provided" do
     component = Components::Checkbox.new
 
     doc = render_and_parse(component)
-    label_text = doc.css(".label-text")
+    label_text = doc.css(".text-sm.font-medium")
     assert_equal 0, label_text.length
   end
 
@@ -165,7 +165,7 @@ class CheckboxTest < ComponentTestCase
     assert_renders_successfully component
 
     # Check structure
-    assert_has_css_class component, "form-control"
+    assert_has_css_class component, "space-y-1"
 
     # Check checkbox attributes
     assert_has_attributes component, "input[type='checkbox']", {

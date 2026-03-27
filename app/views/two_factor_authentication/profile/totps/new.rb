@@ -17,9 +17,9 @@ module Views
           def view_template
             page_with_title("Set up two-factor authentication") do
               div(class: "space-y-6 max-w-xl") do
-                FormCard(title: "Set up two-factor authentication", header_color: :primary) do
+                FormCard(title: "Set up two-factor authentication") do
                   div(class: "space-y-6") do
-                    div(class: "space-y-3 text-sm text-base-content/80") do
+                    div(class: "space-y-3 text-sm text-muted") do
                       p do
                         plain "Two-factor authentication adds an extra layer of security to your account. "
                         plain "You will need both your password and a code from your authenticator app to sign in."
@@ -29,21 +29,21 @@ module Views
 
                     div(class: "space-y-6") do
                       div(class: "space-y-3") do
-                        h2(class: "font-semibold text-base-content") { "1. Scan this QR code with your authenticator app." }
+                        h2(class: "font-semibold text-body") { "1. Scan this QR code with your authenticator app." }
 
                         figure(class: "flex flex-col items-center gap-2") do
                           img(
                             src: @qr_code,
                             alt: "QR code for authenticator app setup",
-                            class: "h-48 w-48 rounded-lg border border-base-300 bg-white"
+                            class: "h-48 w-48 rounded-lg border border-line bg-white"
                           )
-                          figcaption(class: "text-xs text-base-content/60") { "Open your authenticator app and point your camera here." }
+                          figcaption(class: "text-xs text-muted") { "Open your authenticator app and point your camera here." }
                         end
                       end
 
                       div(class: "space-y-3") do
-                        h2(class: "font-semibold text-base-content") { "2. Enter the code from your authenticator app" }
-                        p(class: "text-sm text-base-content/80") { "The code refreshes every 30 seconds, so type it in right away." }
+                        h2(class: "font-semibold text-body") { "2. Enter the code from your authenticator app" }
+                        p(class: "text-sm text-muted") { "The code refreshes every 30 seconds, so type it in right away." }
                       end
                     end
 

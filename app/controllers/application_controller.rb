@@ -55,8 +55,8 @@ class ApplicationController < ActionController::Base
       Current.polarity = resolve_polarity(polarity)
     rescue => e
       Rails.logger.warn "[theme] Error loading theme: #{e.message}"
-      Current.theme_name = "paper"
-      Current.polarity = "light"
+      Current.theme_name = Boilermaker::Themes::DEFAULT
+      Current.polarity = Boilermaker::Themes::DEFAULT_POLARITY
     end
 
     def resolve_polarity(polarity)

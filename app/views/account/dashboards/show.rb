@@ -19,17 +19,17 @@ module Views
         def view_template
           page_with_title("Account") do
             div(class: "flex items-start justify-between mb-4") do
-              h1(class: "font-bold text-base-content ") { "Manage Account" }
+              h1(class: "font-bold text-body") { "Manage Account" }
             end
 
             div(class: "flex flex-col gap-6 max-w-3xl") do
-              render Components::Card.new(title: "Account Details", header_color: :primary) do
+              render Components::Card.new(title: "Account Details") do
                 form_with(model: @account, url: account_dashboard_path, method: :patch, local: true, class: "space-y-4") do |f|
-                  div(class: "form-control w-full") do
+                  div(class: "space-y-1") do
                     f.label :name, "Account Name", class: "label"
                     f.text_field :name, class: "ui-input", placeholder: "Enter account name", required: true
                     label(class: "label") do
-                      span(class: "label-text-alt text-xs text-base-content/70") { "The display name for this account" }
+                      span(class: "text-xs text-muted") { "The display name for this account" }
                     end
                   end
 
@@ -39,8 +39,8 @@ module Views
                 end
               end
 
-              render Components::Card.new(title: "Users", header_color: :primary, content_class: "p-0") do
-                Table(variant: :zebra, class: "text-xs") do
+              render Components::Card.new(title: "Users", content_class: "p-0") do
+                Table(variant: :zebra) do
                   thead do
                     tr do
                       th { "Name" }
@@ -54,32 +54,12 @@ module Views
                   tbody do
                     @users.each do |user|
                       tr do
-                        td { plain(user_display_name(user)) }
+                        td(class: "whitespace-nowrap") { plain(user_display_name(user)) }
                         td { user.email }
-                        td do
-                          if user != Current.user
-                            form_with(model: user, url: account_user_path(user), method: :patch, local: false, class: "inline-flex items-center gap-2", data: { controller: "auto-submit" }) do |f|
-                              membership = user.membership_for(Current.account)
-                              input(type: "hidden", name: "role", value: "member")
-                              input(
-                                type: "checkbox",
-                                name: "role",
-                                value: "admin",
-                                checked: membership&.admin? || false,
-                                class: "peer toggle toggle-primary toggle-sm",
-                                data: { action: "change->auto-submit#submit" }
-                              )
-                              label(class: "text-xs text-base-content/70 peer-checked:text-primary peer-checked:font-medium") { "Admin" }
-                            end
-                          else
-                            role_badge(user)
-                          end
-                        end
-                        td(class: "") { user.created_at.strftime("%b %d %Y") }
+                        td { role_badge(user) }
+                        td(class: "whitespace-nowrap") { user.created_at.strftime("%b %d %Y") }
                         td(class: "text-right") do
-                          div(class: "flex justify-end gap-3") do
-                            link_to("EDIT", edit_account_user_path(user), class: "text-primary hover:underline cursor-pointer")
-                          end
+                          link_to("Edit", edit_account_user_path(user), class: "text-xs")
                         end
                       end
                     end
@@ -87,7 +67,7 @@ module Views
                 end
               end
 
-              render Components::Card.new(title: "Pending Invitations", header_color: :primary, content_class: "p-0") do
+              render Components::Card.new(title: "Pending Invitations", content_class: "p-0") do
                 Table(variant: :zebra) do
                   thead do
                     tr do
@@ -101,7 +81,7 @@ module Views
                     @invitations.each do |invitation|
                       tr do
                         td { invitation.email }
-                        td(class: "") do
+                        td do
                           invitation.created_at.strftime("%b %d %Y")
                         end
                         td(class: "text-right") do
@@ -112,7 +92,7 @@ module Views
                               class: "text-success hover:underline cursor-pointer")
                             button_to("CANCEL", account_invitation_path(invitation),
                               method: :delete,
-                              class: "text-error hover:underline cursor-pointer",
+                              class: "text-destructive hover:underline cursor-pointer",
                               confirm: "Cancel invitation?")
                           end
                         end
@@ -122,14 +102,14 @@ module Views
                 end
               end
 
-              render Components::Card.new(title: "New Invitation", header_color: :primary) do
+              render Components::Card.new(title: "New Invitation") do
                 form_with(url: account_invitations_path, local: true, class: "space-y-4") do |f|
-                  div(class: "form-control w-full") do
+                  div(class: "space-y-1") do
                     f.label :email, "Email Address", class: "label"
                     f.email_field :email, class: "ui-input", placeholder: "user@example.com", required: true
                   end
 
-                  div(class: "form-control w-full") do
+                  div(class: "space-y-1") do
                     f.label :message, "Personal Message (Optional)", class: "label"
                     f.text_area :message, class: "ui-textarea", rows: 3, placeholder: "Welcome to the team!"
                   end
@@ -155,9 +135,9 @@ module Views
         def role_badge(user)
           membership = user.membership_for(Current.account)
           if membership&.admin?
-            span(class: "text-primary font-medium text-xs") { "Admin" }
+            span(class: "text-accent font-medium text-xs") { "Admin" }
           else
-            span(class: "text-base-content/60 text-xs") { "Member" }
+            span(class: "text-muted text-xs") { "Member" }
           end
         end
       end

@@ -9,14 +9,14 @@ class Components::Label < Components::Base
 
   def view_template(&block)
     label(for: @for_id, class: "label") do
-      span(class: "label-text") do
+      span(class: "text-sm font-medium") do
         if block
           yield
         else
           plain @text
         end
 
-        span(class: "text-error ml-1") { "*" } if @required
+        span(class: "text-destructive ml-1") { "*" } if @required
       end
     end
   end

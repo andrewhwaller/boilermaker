@@ -15,15 +15,15 @@ module ComponentTestHelpers
   }.freeze
 
   FORM_CLASSES = [
-    "form-control",
+    "space-y-1",
     "label",
     "ui-input",
     "ui-textarea",
     "ui-select",
     "ui-checkbox",
     "ui-radio",
-    "label-text",
-    "label-text-alt"
+    "text-sm font-medium",
+    "text-xs text-muted"
   ].freeze
 
   LAYOUT_CLASSES = [

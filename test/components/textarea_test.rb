@@ -16,7 +16,7 @@ class TextareaTest < ComponentTestCase
   test "renders textarea with form control wrapper" do
     component = Components::Textarea.new
 
-    assert_has_css_class component, "form-control"
+    assert_has_css_class component, "space-y-1"
   end
 
   test "applies textarea classes correctly" do
@@ -145,7 +145,7 @@ class TextareaTest < ComponentTestCase
       class: "bio-textarea",
       data_controller: "character-counter",
       maxlength: 1000
-    ), "form-control"
+    ), "space-y-1"
 
     # Check textarea attributes
     component2 = Components::Textarea.new(

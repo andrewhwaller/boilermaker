@@ -33,7 +33,7 @@ class AppFooterTest < ComponentTestCase
     dots = doc.css("span.rounded-full")
 
     assert_equal 1, dots.length, "Should have one status dot"
-    assert_includes dots.first["class"], "bg-accent-alt"
+    assert_includes dots.first["class"], "bg-success"
   end
 
   test "does not render dot for offline status items" do
@@ -63,7 +63,7 @@ class AppFooterTest < ComponentTestCase
     footer = Components::AppFooter.new
 
     assert_has_css_class(footer, "border-t")
-    assert_has_css_class(footer, "border-border-light")
+    assert_has_css_class(footer, "border-line-muted")
     assert_has_css_class(footer, "bg-surface")
   end
 

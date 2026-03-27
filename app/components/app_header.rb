@@ -22,7 +22,7 @@ class Components::AppHeader < Components::Base
 
   def header_classes
     css_classes(
-      "border-b-2 border-border-default bg-surface",
+      "border-b border-line bg-surface",
       "px-6 py-3",
       "flex justify-between items-center"
     )

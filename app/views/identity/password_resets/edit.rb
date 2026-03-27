@@ -16,14 +16,14 @@ module Views
           page_with_title("Reset Password") do
             centered_container do
               card do
-                h1(class: "text-xl font-semibold text-base-content mb-6") { "Reset your password" }
+                h1(class: "text-xl font-semibold text-body mb-6") { "Reset your password" }
 
                 form_errors(@user) if @user.errors.any?
 
                 form_with(url: identity_password_reset_path, method: :patch, class: "space-y-4") do |form|
                   input(type: "hidden", name: "sid", value: @sid)
 
-                  div(class: "form-control w-full") do
+                  div(class: "space-y-1") do
                     render Components::Label.new(for_id: "password", required: true) { "New password" }
                     render Components::Input.new(
                       type: :password,
@@ -34,11 +34,11 @@ module Views
                       autocomplete: "new-password"
                     )
                     label(class: "label") do
-                      span(class: "label-text-alt text-sm text-base-content/70") { "12 characters minimum." }
+                      span(class: "text-xs text-muted text-sm text-muted") { "12 characters minimum." }
                     end
                   end
 
-                  div(class: "form-control w-full") do
+                  div(class: "space-y-1") do
                     render Components::Label.new(for_id: "password_confirmation", required: true) { "Confirm new password" }
                     render Components::Input.new(
                       type: :password,

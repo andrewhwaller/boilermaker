@@ -29,7 +29,7 @@ class Components::Section < Components::Base
   end
 
   def header_classes
-    "flex justify-between items-center pb-2 border-b border-border-light mb-3"
+    "flex justify-between items-center pb-2 border-b border-line-muted mb-3"
   end
 
   def title_classes
