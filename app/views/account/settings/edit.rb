@@ -16,7 +16,7 @@ module Views
             div(class: "space-y-6") do
               # Header
               div(class: "flex items-center justify-between mb-6") do
-                h1(class: "font-bold text-base-content") { "Edit Account Settings" }
+                h1(class: "font-bold text-body") { "Edit Account Settings" }
                 div(class: "flex gap-2") do
                   link_to("View Settings", account_settings_path, class: "ui-button ui-button-outline")
                   link_to("Back to Dashboard", account_dashboard_path, class: "ui-button ui-button-ghost")
@@ -25,13 +25,13 @@ module Views
 
               # Settings form
               card do
-                h2(class: "font-semibold text-base-content mb-6") { "Account Information" }
+                h2(class: "font-semibold text-body mb-6") { "Account Information" }
 
                 form_errors(@account)
 
                 form_with(model: @account, url: account_settings_path, local: true, class: "space-y-4") do |f|
                   # Account name field
-                  div(class: "form-control w-full") do
+                  div(class: "space-y-1") do
                     f.label :name, "Account Name", class: "label"
                     f.text_field :name,
                       class: "ui-input",
@@ -41,27 +41,27 @@ module Views
                   end
 
                   # Account information display
-                  div(class: "bg-base-200 rounded-box p-4") do
-                    h3(class: "font-semibold text-base-content mb-3") { "Account Information" }
+                  div(class: "bg-surface-alt p-4") do
+                    h3(class: "font-semibold text-body mb-3") { "Account Information" }
 
                     div(class: "grid grid-cols-1 md:grid-cols-2 gap-4 text-sm") do
                       div do
-                        span(class: "text-base-content/70") { "Created: " }
+                        span(class: "text-muted") { "Created: " }
                         span(class: "font-medium") { @account.created_at.strftime("%B %d, %Y") }
                       end
 
                       div do
-                        span(class: "text-base-content/70") { "Total Users: " }
+                        span(class: "text-muted") { "Total Users: " }
                         span(class: "font-medium") { @account.members.count }
                       end
 
                       div do
-                        span(class: "text-base-content/70") { "Admin Users: " }
+                        span(class: "text-muted") { "Admin Users: " }
                         span(class: "font-medium") { @account.members.where(app_admin: true).count }
                       end
 
                       div do
-                        span(class: "text-base-content/70") { "Last Updated: " }
+                        span(class: "text-muted") { "Last Updated: " }
                         span(class: "font-medium") { @account.updated_at.strftime("%B %d, %Y") }
                       end
                     end
@@ -77,8 +77,8 @@ module Views
 
               # Help section
               card do
-                h3(class: "font-semibold text-base-content mb-4") { "About Account Settings" }
-                div(class: "space-y-2 text-sm text-base-content/70") do
+                h3(class: "font-semibold text-body mb-4") { "About Account Settings" }
+                div(class: "space-y-2 text-sm text-muted") do
                   p { "• Account Name: Used to identify your account throughout the application" }
                   p { "• Only account administrators can modify these settings" }
                   p { "• Changes to account settings affect all users in this account" }
@@ -89,12 +89,6 @@ module Views
         end
 
         private
-
-        def helper_text(text)
-          label(class: "label") do
-            span(class: "label-text-alt text-xs text-base-content/70") { text }
-          end
-        end
       end
     end
   end

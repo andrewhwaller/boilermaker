@@ -16,17 +16,17 @@ module Views
             div(class: "mb-4") do
               link_to(
                 "Return to Account",
-                account_path,
-                class: "text-sm text-base-content/70 hover:text-primary transition-colors "
+                account_dashboard_path,
+                class: "\1"
               )
             end
 
             div(class: "flex items-start justify-between mb-4") do
-              h1(class: "font-bold text-base-content ") { "Edit User" }
+              h1(class: "\1") { "Edit User" }
             end
 
             div(class: "flex flex-col gap-6") do
-              render Components::Card.new(title: "User Information", header_color: :primary) do
+              render Components::Card.new(title: "User Information") do
                 form_errors(@user)
 
                 form_with(
@@ -36,24 +36,24 @@ module Views
                   class: "space-y-4"
                 ) do |f|
                   div(class: "grid grid-cols-1 md:grid-cols-2 gap-4") do
-                    div(class: "form-control w-full") do
+                    div(class: "space-y-1") do
                       f.label :first_name, "First Name", class: "label"
                       f.text_field :first_name, class: "ui-input", placeholder: "First name"
                     end
 
-                    div(class: "form-control w-full") do
+                    div(class: "space-y-1") do
                       f.label :last_name, "Last Name", class: "label"
                       f.text_field :last_name, class: "ui-input", placeholder: "Last name"
                     end
                   end
 
-                  div(class: "form-control w-full") do
+                  div(class: "space-y-1") do
                     f.label :email, "Email Address", class: "label"
                     f.email_field :email, class: "ui-input", required: true
                     helper_text("The user's email address. Used for login and notifications.")
                   end
 
-                  div(class: "grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-base-300") do
+                  div(class: "grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-line") do
                     div do
                       label(class: "label") { "Verification Status" }
                       div(class: "flex items-center gap-2") do
@@ -67,18 +67,18 @@ module Views
 
                     div do
                       label(class: "label") { "Member Since" }
-                      div(class: "text-sm text-base-content") { formatted_date(@user.created_at) }
+                      div(class: "text-sm text-body") { formatted_date(@user.created_at) }
                     end
                   end
 
                   div(class: "pt-4") do
                     f.submit "Update User", class: "ui-button ui-button-primary"
-                    link_to("Cancel", account_path, class: "ui-button ui-button-outline ml-3")
+                    link_to("Cancel", account_dashboard_path, class: "ui-button ui-button-outline ml-3")
                   end
                 end
               end
 
-              render Components::Card.new(title: "Account Role", header_color: :primary) do
+              render Components::Card.new(title: "Account Role") do
                 membership = @user.membership_for(Current.account)
 
                 unless Current.account.owner == @user
@@ -101,8 +101,8 @@ module Views
                         )
 
                         div do
-                          span(class: "text-sm font-medium ") { "Admin" }
-                          div(class: "text-xs text-base-content/70") { "Can manage users and account settings" }
+                          span(class: "\1") { "Admin" }
+                          div(class: "text-xs text-muted") { "Can manage users and account settings" }
                         end
                       end
                     end
@@ -119,8 +119,8 @@ module Views
                         )
 
                         div do
-                          span(class: "text-sm font-medium ") { "Member" }
-                          div(class: "text-xs text-base-content/70") { "Standard user access" }
+                          span(class: "\1") { "Member" }
+                          div(class: "text-xs text-muted") { "Standard user access" }
                         end
                       end
                     end
@@ -130,8 +130,8 @@ module Views
                     input(type: "radio", disabled: true, checked: true, class: "ui-radio")
 
                     div do
-                      span(class: "text-sm font-medium text-primary ") { "Owner" }
-                      div(class: "text-xs text-base-content/70") { "Account owner with full privileges" }
+                      span(class: "\1") { "Owner" }
+                      div(class: "text-xs text-muted") { "Account owner with full privileges" }
                     end
                   end
                 end
@@ -147,10 +147,10 @@ module Views
               end
 
               unless @user == Current.user
-                render Components::Card.new(title: "Danger Zone", header_color: :error, class: "border-error/30") do
+                render Components::Card.new(title: "Danger Zone", class: "border-destructive/30") do
                   div do
-                    h4(class: "font-medium text-base-content mb-2") { "Remove User from Account" }
-                    p(class: "text-sm text-base-content/70 mb-4") do
+                    h4(class: "font-medium text-body mb-2") { "Remove User from Account" }
+                    p(class: "text-sm text-muted mb-4") do
                       plain "This will remove #{@user.email} from this account. They will lose access to all account resources."
                     end
 
@@ -175,11 +175,6 @@ module Views
 
         private
 
-        def helper_text(text)
-          label(class: "label") do
-            span(class: "label-text-alt text-xs text-base-content/70") { text }
-          end
-        end
 
         def formatted_date(value)
           value.strftime("%b %d %Y").upcase

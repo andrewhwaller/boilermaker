@@ -45,7 +45,7 @@ module Views
 
         def form_fields(form)
           div(class: "space-y-4") do
-            div(class: "form-control w-full") do
+            div(class: "space-y-1") do
               render Components::Label.new(for_id: "current_email", text: "Current email")
               div(class: "flex items-center gap-2") do
                 render Components::Input.new(
@@ -58,12 +58,12 @@ module Views
               end
             end
 
-            div(class: "form-control w-full") do
+            div(class: "space-y-1") do
               render Components::Label.new(for_id: "email", text: "New email")
               render Components::Input.new(type: "email", name: "email", id: "email", required: true)
             end
 
-            div(class: "form-control w-full") do
+            div(class: "space-y-1") do
               render Components::Label.new(for_id: "password_challenge", text: "Current password")
               render Components::Input.new(type: "password", name: "password_challenge", id: "password_challenge", required: true)
             end

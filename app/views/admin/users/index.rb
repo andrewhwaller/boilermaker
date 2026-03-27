@@ -17,14 +17,14 @@ module Views
             div(class: "space-y-6") do
               div(class: "flex items-center justify-between mb-6") do
                 div(class: "flex items-center gap-4") do
-                  link_to("← Admin", admin_path, class: "text-sm text-base-content/70 hover:text-primary")
-                  h1(class: "text-2xl font-bold text-base-content") { "All Users" }
-                  span(class: "text-sm text-base-content/60 font-medium") { "#{@users.count} total" }
+                  link_to("← Admin", admin_path, class: "text-sm text-muted hover:text-accent")
+                  h1(class: "text-2xl font-bold text-body") { "All Users" }
+                  span(class: "text-sm text-muted font-medium") { "#{@users.count} total" }
                 end
               end
 
               if @users.any?
-                div(class: "bg-base-200 border border-base-300 rounded-box overflow-hidden shadow-sm") do
+                div(class: "bg-surface-alt border border-line overflow-hidden shadow-sm") do
                   div(class: "overflow-x-auto") do
                     Table(variant: :zebra, size: :sm) do
                     thead do
@@ -42,7 +42,7 @@ module Views
                       @users.each do |user|
                         render Table::Row.new(variant: :hover) do
                           render Table::Cell.new(class: "font-medium") do
-                            div(class: "truncate max-w-[200px] text-base-content") { user.email }
+                            div(class: "truncate max-w-[200px] text-body") { user.email }
                           end
                           render Table::Cell.new(align: :center) do
                             if user.verified?
@@ -53,13 +53,13 @@ module Views
                           end
                           render Table::Cell.new(align: :center) do
                             if user.app_admin?
-                              span(class: "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-error/20 text-error border border-error/30") { "Admin" }
+                              span(class: "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-destructive/20 text-destructive border border-destructive/30") { "Admin" }
                             else
-                              span(class: "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-base-300/50 text-base-content/70 border border-base-300") { "User" }
+                              span(class: "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-hover text-muted border border-line") { "User" }
                             end
                           end
                           render Table::Cell.new do
-                            div(class: "truncate max-w-[150px] text-base-content/80") do
+                            div(class: "truncate max-w-[150px] text-muted") do
                               if user.accounts.any?
                                 "#{user.accounts.count} account(s)"
                               else
@@ -68,7 +68,7 @@ module Views
                             end
                           end
                           render Table::Cell.new do
-                            span(class: "text-sm text-base-content/60 whitespace-nowrap") { "#{time_ago_in_words(user.created_at)} ago" }
+                            span(class: "text-sm text-muted whitespace-nowrap") { "#{time_ago_in_words(user.created_at)} ago" }
                           end
                           render Table::Actions.new do
                             link_to("View", admin_user_path(user), class: "ui-button ui-button-ghost ui-button-xs")
@@ -80,10 +80,10 @@ module Views
                   end
                 end
               else
-                div(class: "bg-base-200 border border-base-300 rounded-box p-12 text-center shadow-sm") do
+                div(class: "bg-surface-alt border border-line p-12 text-center shadow-sm") do
                   div(class: "max-w-sm mx-auto") do
-                    h3(class: "text-lg font-semibold text-base-content mb-2") { "No users found" }
-                    p(class: "text-base-content/60") { "There are no users in the system yet." }
+                    h3(class: "text-lg font-semibold text-body mb-2") { "No users found" }
+                    p(class: "text-muted") { "There are no users in the system yet." }
                   end
                 end
               end

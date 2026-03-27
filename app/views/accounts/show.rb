@@ -32,72 +32,62 @@ module Views
 
           div(class: "grid gap-6") do
             # Account info card
-            div(class: "ui-card bg-base-200 shadow-md") do
-              div(class: "ui-card-content") do
-                h2(class: "font-semibold text-lg mb-4") { "Account Information" }
-                div(class: "space-y-2") do
-                  p do
-                    strong { "Owner: " }
-                    span { @account.owner.email }
-                  end
-                  p do
-                    strong { "Members: " }
-                    span { @account.members.count }
-                  end
-                  p do
-                    strong { "Type: " }
-                    span { @account.personal? ? "Personal Account" : "Team Account" }
-                  end
+            render Components::Card.new(title: "Account Information") do
+              div(class: "space-y-2") do
+                p do
+                  strong { "Owner: " }
+                  span { @account.owner.email }
+                end
+                p do
+                  strong { "Members: " }
+                  span { @account.members.count }
+                end
+                p do
+                  strong { "Type: " }
+                  span { @account.personal? ? "Personal Account" : "Team Account" }
                 end
               end
             end
 
             # Conversion options (only for owner)
             if @account.owner == Current.user
-              div(class: "ui-card bg-base-200 shadow-md") do
-                div(class: "ui-card-content") do
-                  h2(class: "font-semibold text-lg mb-4") { "Account Type" }
-
-                  if @account.personal?
-                    p(class: "mb-4") { "Convert this personal account to a team account to invite members." }
-                    form(action: account_conversion_to_team_path(@account), method: "post") do
+              render Components::Card.new(title: "Account Type") do
+                if @account.personal?
+                  p(class: "mb-4") { "Convert this personal account to a team account to invite members." }
+                  form(action: account_conversion_to_team_path(@account), method: "post") do
+                    button(
+                      type: "submit",
+                      class: "ui-button ui-button-primary",
+                      data: { turbo_confirm: "Convert #{@account.name} to a team account?" }
+                    ) { "Convert to Team" }
+                  end
+                else
+                  if @account.can_convert_to_personal?(Current.user)
+                    p(class: "mb-4") { "Convert this team account to a personal account. This will prevent inviting new members." }
+                    form(action: account_conversion_to_personal_path(@account), method: "post") do
                       button(
                         type: "submit",
-                        class: "ui-button ui-button-primary",
-                        data: { turbo_confirm: "Convert #{@account.name} to a team account?" }
-                      ) { "Convert to Team" }
+                        class: "ui-button ui-button-warning",
+                        data: { turbo_confirm: "Convert #{@account.name} to a personal account?" }
+                      ) { "Convert to Personal" }
                     end
                   else
-                    if @account.can_convert_to_personal?(Current.user)
-                      p(class: "mb-4") { "Convert this team account to a personal account. This will prevent inviting new members." }
-                      form(action: account_conversion_to_personal_path(@account), method: "post") do
-                        button(
-                          type: "submit",
-                          class: "ui-button ui-button-warning",
-                          data: { turbo_confirm: "Convert #{@account.name} to a personal account?" }
-                        ) { "Convert to Personal" }
-                      end
-                    else
-                      div(class: "ui-alert ui-alert-warning") do
-                        span { "Cannot convert: remove all other members first (must be only member)." }
-                      end
+                    div(class: "ui-alert ui-alert-warning") do
+                      span { "Cannot convert: remove all other members first (must be only member)." }
                     end
                   end
                 end
               end
 
-              div(class: "ui-card bg-error text-error-content shadow-md") do
-                div(class: "ui-card-content") do
-                  h2(class: "font-semibold text-lg mb-4") { "Danger Zone" }
-                  p(class: "mb-4") { "Deleting this account is permanent and cannot be undone." }
-                  form(action: account_path(@account), method: "post") do
-                    input(type: "hidden", name: "_method", value: "delete")
-                    button(
-                      type: "submit",
-                      class: "ui-button ui-button-outline ui-button-error",
-                      data: { turbo_confirm: "Are you sure? This cannot be undone." }
-                    ) { "Delete Account" }
-                  end
+              render Components::Card.new(title: "Danger Zone", class: "border-destructive/30") do
+                p(class: "mb-4") { "Deleting this account is permanent and cannot be undone." }
+                form(action: account_path(@account), method: "post") do
+                  input(type: "hidden", name: "_method", value: "delete")
+                  button(
+                    type: "submit",
+                    class: "ui-button ui-button-error",
+                    data: { turbo_confirm: "Are you sure? This cannot be undone." }
+                  ) { "Delete Account" }
                 end
               end
             end

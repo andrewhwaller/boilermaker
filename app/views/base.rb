@@ -31,19 +31,21 @@ class Views::Base < Components::Base
 
     super(**attrs.merge(class: section_class)) do
       if title.present?
-        h2(class: "font-semibold text-base-content mb-4") { title }
+        h2(class: "font-semibold text-body mb-4") { title }
       end
       yield_content_or(&block)
     end
   end
 
-  # Helper method to render a card container
-  def card(**attrs, &block)
-    card_class = "bg-base-200 border border-base-300 rounded-box p-6"
-    card_class = [ card_class, attrs.delete(:class) ].compact.join(" ")
+  # Helper method to render a card container — delegates to Components::Card
+  def card(title: nil, **attrs, &block)
+    render Components::Card.new(title: title, **attrs, &block)
+  end
 
-    div(**attrs.merge(class: card_class)) do
-      yield_content_or(&block)
+  # Helper method to render hint text below form fields
+  def helper_text(text)
+    label(class: "label") do
+      span(class: "text-xs text-muted") { text }
     end
   end
 

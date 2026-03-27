@@ -46,25 +46,23 @@ module Views
       private
 
       def render_account_card(account)
-        div(class: "ui-card bg-base-200 shadow-md") do
-          div(class: "ui-card-content") do
-            div(class: "flex justify-between items-start") do
-              div do
-                h3(class: "font-semibold text-lg") { account.name }
-                if account.owner == Current.user
-                  span(class: "ui-badge ui-badge-primary ui-badge-sm mt-2") { "Owner" }
+        render Components::Card.new do
+          div(class: "flex justify-between items-start") do
+            div do
+              h3(class: "font-semibold text-lg") { account.name }
+              if account.owner == Current.user
+                span(class: "ui-badge ui-badge-primary mt-2") { "Owner" }
+              else
+                membership = Current.user.membership_for(account)
+                if membership&.admin?
+                  span(class: "ui-badge ui-badge-secondary mt-2") { "Admin" }
                 else
-                  membership = Current.user.membership_for(account)
-                  if membership&.admin?
-                    span(class: "ui-badge ui-badge-secondary ui-badge-sm mt-2") { "Admin" }
-                  else
-                    span(class: "ui-badge ui-badge-ghost ui-badge-sm mt-2") { "Member" }
-                  end
+                  span(class: "ui-badge ui-badge-outline mt-2") { "Member" }
                 end
               end
-              div(class: "flex gap-2") do
-                a(href: account_path(account), class: "ui-button ui-button-sm ui-button-ghost") { "View" }
-              end
+            end
+            div(class: "flex gap-2") do
+              a(href: account_path(account), class: "ui-button ui-button-sm ui-button-ghost") { "View" }
             end
           end
         end

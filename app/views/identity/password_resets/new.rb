@@ -18,7 +18,7 @@ module Views
             div(class: "ui-alert ui-alert-destructive mb-6") { span { plain(@alert) } }
           end
 
-                h1(class: "text-xl font-semibold text-base-content mb-6") { "Forgot your password?" }
+                h1(class: "text-xl font-semibold text-body mb-6") { "Forgot your password?" }
 
                 form_with(url: identity_password_reset_path, class: "space-y-4") do |form|
                   div do

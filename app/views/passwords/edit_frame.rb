@@ -25,7 +25,7 @@ module Views
       private
 
       def header
-        h3(class: "text-lg font-medium text-base-content mb-4") { "Password Settings" }
+        h3(class: "text-lg font-medium text-body mb-4") { "Password Settings" }
       end
 
       def notifications
@@ -47,7 +47,7 @@ module Views
 
       def form_fields(form)
         div(class: "space-y-4") do
-          div(class: "form-control w-full") do
+          div(class: "space-y-1") do
             render Components::Label.new(for_id: "password_challenge", text: "Current password")
             render Components::Input.new(
               type: "password",
@@ -58,7 +58,7 @@ module Views
             )
           end
 
-          div(class: "form-control w-full") do
+          div(class: "space-y-1") do
             render Components::Label.new(for_id: "password", text: "New password")
             render Components::Input.new(
               type: "password",
@@ -68,11 +68,11 @@ module Views
               autocomplete: "new-password"
             )
             label(class: "label") do
-              span(class: "label-text-alt text-sm text-base-content/70") { "12 characters minimum." }
+              span(class: "text-xs text-muted text-sm text-muted") { "12 characters minimum." }
             end
           end
 
-          div(class: "form-control w-full") do
+          div(class: "space-y-1") do
             render Components::Label.new(for_id: "password_confirmation", text: "Confirm new password")
             render Components::Input.new(
               type: "password",

@@ -15,7 +15,7 @@ module Views
           div(class: "max-w-4xl mx-auto") do
             div(class: "text-center mb-8") do
               h1(class: "text-3xl font-bold mb-2") { "Choose Your Plan" }
-              p(class: "text-base-content/70") { "Select the plan that best fits your needs" }
+              p(class: "text-muted") { "Select the plan that best fits your needs" }
             end
 
             div(class: "grid md:grid-cols-3 gap-6") do

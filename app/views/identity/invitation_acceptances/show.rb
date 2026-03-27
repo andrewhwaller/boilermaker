@@ -28,9 +28,9 @@ module Views
         private
 
         def render_existing_user_acceptance
-          h1(class: "text-xl font-semibold text-base-content mb-4") { "You've been invited!" }
+          h1(class: "text-xl font-semibold text-body mb-4") { "You've been invited!" }
 
-          p(class: "text-base-content mb-6") do
+          p(class: "text-body mb-6") do
             plain "You've been invited to join a new account. Click below to accept the invitation."
           end
 
@@ -42,16 +42,16 @@ module Views
             end
           end
 
-          div(class: "mt-4 text-sm text-base-content/70") do
+          div(class: "mt-4 text-sm text-muted") do
             plain "Already have an account? "
             a(href: sign_in_path, class: "link link-primary") { "Sign in here" }
           end
         end
 
         def render_new_user_setup
-          h1(class: "text-xl font-semibold text-base-content mb-4") { "Welcome! Set your password" }
+          h1(class: "text-xl font-semibold text-body mb-4") { "Welcome! Set your password" }
 
-          p(class: "text-base-content mb-6") do
+          p(class: "text-body mb-6") do
             plain "You've been invited to join. Set your password below to get started."
           end
 
@@ -60,7 +60,7 @@ module Views
           form_with(url: identity_invitation_acceptance_path, method: :patch, model: @user, class: "space-y-4") do |form|
             input(type: "hidden", name: "sid", value: @sid)
 
-            div(class: "form-control w-full") do
+            div(class: "space-y-1") do
               render Components::Label.new(for_id: "user_password", required: true) { "Password" }
               render Components::Input.new(
                 type: :password,
@@ -71,13 +71,13 @@ module Views
                 autocomplete: "new-password"
               )
               label(class: "label") do
-                span(class: "label-text-alt text-sm text-base-content/70") do
+                span(class: "text-xs text-muted text-sm text-muted") do
                   plain "12 characters minimum."
                 end
               end
             end
 
-            div(class: "form-control w-full") do
+            div(class: "space-y-1") do
               render Components::Label.new(for_id: "user_password_confirmation", required: true) { "Confirm password" }
               render Components::Input.new(
                 type: :password,

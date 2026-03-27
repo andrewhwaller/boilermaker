@@ -13,23 +13,23 @@ module Views
       def view_template
         page_with_title("Settings") do
           div(class: "flex items-start justify-between mb-4") do
-            h1(class: "font-bold text-base-content") { "User Settings" }
+            h1(class: "font-bold text-body") { "User Settings" }
           end
 
           div(class: "max-w-xl space-y-6") do
-            render Components::Card.new(title: "Email", header_color: :primary) do
+            render Components::Card.new(title: "Email") do
               turbo_frame_tag "profile_settings", class: "block" do
                 render Views::Identity::Emails::EditFrame.new(user: Current.user)
               end
             end
 
-            render Components::Card.new(title: "Password", header_color: :primary) do
+            render Components::Card.new(title: "Password") do
               turbo_frame_tag "password_settings", class: "block" do
                 render Views::Passwords::EditFrame.new(user: Current.user)
               end
             end
 
-            render Components::Card.new(title: "Two-Factor Authentication", header_color: :primary) do
+            render Components::Card.new(title: "Two-Factor Authentication") do
               div(class: "space-y-4") do
                 render_two_factor_status
                 render_two_factor_actions
@@ -49,7 +49,7 @@ module Views
                   render Components::Badge.new(variant: :warning, size: :sm, style: :outline) { "Required" }
                 end
               end
-              p(class: "text-sm text-base-content/80") do
+              p(class: "text-sm text-muted") do
                 plain "Your account is protected with two-factor authentication. "
                 plain "You will need to enter a code from your authenticator app when signing in."
               end
@@ -59,7 +59,7 @@ module Views
                   render Components::Badge.new(variant: :warning, size: :sm) { "Setup required" }
                 end
               end
-              p(class: "text-sm text-base-content/80") do
+              p(class: "text-sm text-muted") do
                 plain "Two-factor authentication adds an extra layer of security to your account."
               end
             end

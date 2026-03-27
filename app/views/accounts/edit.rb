@@ -15,9 +15,9 @@ module Views
             method: :patch,
             class: "space-y-6"
           ) do |form|
-            div(class: "form-control") do
+            div(class: "space-y-1") do
               label(class: "label") do
-                span(class: "label-text font-semibold") { "Account Name" }
+                span(class: "text-sm font-medium font-semibold") { "Account Name" }
               end
               input(
                 type: "text",
@@ -29,7 +29,7 @@ module Views
               )
               if @account.errors[:name].any?
                 label(class: "label") do
-                  span(class: "label-text-alt text-error") { @account.errors[:name].first }
+                  span(class: "text-xs text-muted text-destructive") { @account.errors[:name].first }
                 end
               end
             end

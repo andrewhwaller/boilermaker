@@ -17,24 +17,24 @@ module Views
             div(class: "space-y-6") do
               # Header
               div(class: "flex items-center justify-between mb-6") do
-                h1(class: "font-bold text-base-content") { "User Details" }
+                h1(class: "font-bold text-body") { "User Details" }
                 div(class: "flex gap-2") do
                   link_to("Edit User", edit_account_user_path(@user), class: "ui-button ui-button-primary")
-                  link_to("Back to Account", account_path, class: "ui-button ui-button-outline")
+                  link_to("Back to Account", account_dashboard_path, class: "ui-button ui-button-outline")
                 end
               end
 
               # User info card
               card do
                 div(class: "flex items-start gap-6") do
-                  div(class: "avatar placeholder") do
-                    div(class: "bg-primary text-primary-content w-16 rounded-full") do
+                  div do
+                    div(class: "bg-accent text-on-accent w-16 rounded-full") do
                       span(class: "text-xl") { @user.email[0].upcase }
                     end
                   end
 
                   div(class: "flex-1") do
-                    h2(class: "font-semibold text-base-content mb-2") { @user.email }
+                    h2(class: "font-semibold text-body mb-2") { @user.email }
 
                     div(class: "flex flex-wrap gap-2 mb-4") do
                       if @user.verified?
@@ -56,21 +56,21 @@ module Views
 
                     div(class: "grid grid-cols-2 gap-4 text-sm") do
                       div do
-                        div(class: "text-base-content/70") { "Joined" }
+                        div(class: "text-muted") { "Joined" }
                         div(class: "font-medium") do
                           plain("#{time_ago_in_words(@user.created_at)} ago")
                         end
-                        div(class: "text-xs text-base-content/50") do
+                        div(class: "text-xs text-muted") do
                           plain(@user.created_at.strftime("%B %d, %Y at %I:%M %p"))
                         end
                       end
 
                       div do
-                        div(class: "text-base-content/70") { "Updated" }
+                        div(class: "text-muted") { "Updated" }
                         div(class: "font-medium") do
                           plain("#{time_ago_in_words(@user.updated_at)} ago")
                         end
-                        div(class: "text-xs text-base-content/50") do
+                        div(class: "text-xs text-muted") do
                           plain(@user.updated_at.strftime("%B %d, %Y at %I:%M %p"))
                         end
                       end
@@ -82,24 +82,24 @@ module Views
               # Sessions info card
               if @user.sessions.any?
                 card do
-                  h3(class: "font-semibold text-base-content mb-4") { "Active Sessions" }
+                  h3(class: "font-semibold text-body mb-4") { "Active Sessions" }
 
                   div(class: "space-y-2") do
                     @user.sessions.order(created_at: :desc).limit(5).each do |session|
-                      div(class: "flex justify-between items-center py-2 border-b border-base-300 last:border-b-0") do
+                      div(class: "flex justify-between items-center py-2 border-b border-line last:border-b-0") do
                         div do
                           div(class: "text-sm font-medium") do
                             if session == Current.session
-                              span(class: "text-primary") { "Current session" }
+                              span(class: "text-accent") { "Current session" }
                             else
                               "Session"
                             end
                           end
-                          div(class: "text-xs text-base-content/70") do
+                          div(class: "text-xs text-muted") do
                             plain("Started #{time_ago_in_words(session.created_at)} ago")
                           end
                         end
-                        div(class: "text-xs text-base-content/50") do
+                        div(class: "text-xs text-muted") do
                           plain(session.ip_address)
                         end
                       end
@@ -108,7 +108,7 @@ module Views
 
                   if @user.sessions.count > 5
                     div(class: "mt-4 text-center") do
-                      p(class: "text-sm text-base-content/70") do
+                      p(class: "text-sm text-muted") do
                         plain("and #{@user.sessions.count - 5} more sessions...")
                       end
                     end
@@ -118,16 +118,16 @@ module Views
 
               # Account info
               card do
-                h3(class: "font-semibold text-base-content mb-4") { "Account Information" }
+                h3(class: "font-semibold text-body mb-4") { "Account Information" }
 
                 div(class: "grid grid-cols-2 gap-4 text-sm") do
                   div do
-                    div(class: "text-base-content/70") { "Account Name" }
+                    div(class: "text-muted") { "Account Name" }
                     div(class: "font-medium") { Current.account&.name || "No Account" }
                   end
 
                   div do
-                    div(class: "text-base-content/70") { "Total Users in Account" }
+                    div(class: "text-muted") { "Total Users in Account" }
                     div(class: "font-medium") do
                       plain(pluralize(Current.account&.members&.count || 0, "user"))
                     end

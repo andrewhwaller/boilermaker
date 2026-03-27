@@ -17,14 +17,14 @@ module Views
             # Compact header with inline editing
             div(class: "flex items-center justify-between mb-4") do
               div(class: "flex items-center gap-4") do
-                link_to("← Dashboard", account_dashboard_path, class: "text-sm text-base-content/70 hover:text-primary")
-                h1(class: "font-bold text-base-content") { "Account Settings" }
+                link_to("← Dashboard", account_dashboard_path, class: "text-sm text-muted hover:text-accent")
+                h1(class: "font-bold text-body") { "Account Settings" }
               end
               link_to("Edit", edit_account_settings_path, class: "ui-button ui-button-primary")
             end
 
             # Single dense information panel
-            div(class: "bg-base-200 rounded-box p-4") do
+            div(class: "bg-surface-alt p-4") do
               div(class: "grid grid-cols-2 md:grid-cols-4 gap-6 mb-4") do
                 info_item("Account", @account.name || "Unnamed Account")
                 info_item("Users", pluralize(@account.members.count, "user"))
@@ -33,13 +33,13 @@ module Views
               end
 
               # Status indicators row
-              div(class: "flex items-center justify-between pt-3 border-t border-base-300") do
+              div(class: "flex items-center justify-between pt-3 border-t border-line") do
                 div(class: "flex items-center gap-4 text-sm") do
                   status_indicator("Active", @account.members.where(verified: true).count, "text-success")
                   status_indicator("Pending", @account.members.where(verified: false).count, "text-warning")
                   if @account.members.where(verified: false).any?
                     link_to("Manage Pending →", account_invitations_path,
-                      class: "text-xs text-primary hover:underline")
+                      class: "text-xs text-accent hover:underline")
                   end
                 end
 
@@ -52,7 +52,7 @@ module Views
             end
 
             # Quick reference section - ultra compact
-            div(class: "mt-4 text-xs text-base-content/70 text-center space-y-1") do
+            div(class: "mt-4 text-xs text-muted text-center space-y-1") do
               div { "Account ID: #{@account.id} • Last updated #{time_ago_in_words(@account.updated_at)} ago" }
               if @account.members.any?
                 div do
@@ -72,8 +72,8 @@ module Views
 
         def info_item(label, value)
           div(class: "text-center") do
-            div(class: "text-sm text-base-content/70") { label }
-            div(class: "font-semibold text-base-content") { value }
+            div(class: "text-sm text-muted") { label }
+            div(class: "font-semibold text-body") { value }
           end
         end
 
