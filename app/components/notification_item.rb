@@ -25,9 +25,9 @@ module Components
     def item_classes
       base = "flex items-start gap-4 p-4 rounded-lg border"
       if @notification.read?
-        "#{base} border-base-200 bg-base-100"
+        "#{base} border-line-muted bg-surface"
       else
-        "#{base} border-primary/30 bg-primary/5"
+        "#{base} border-accent bg-surface-alt"
       end
     end
 
@@ -40,7 +40,7 @@ module Components
     end
 
     def render_timestamp
-      p(class: "text-sm text-base-content/60 mt-1") do
+      p(class: "text-sm text-muted mt-1") do
         time_ago_in_words(@notification.created_at) + " ago"
       end
     end

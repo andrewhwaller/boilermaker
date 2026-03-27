@@ -20,7 +20,7 @@ class Components::Loading < Components::Base
     accent: "text-accent",
     neutral: "text-muted",
     info: "text-accent",
-    success: "text-accent-alt",
+    success: "text-success",
     warning: "text-warning",
     error: "text-destructive"
   }.freeze

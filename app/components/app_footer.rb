@@ -24,7 +24,7 @@ class Components::AppFooter < Components::Base
 
   def footer_classes
     css_classes(
-      "border-t border-border-light bg-surface",
+      "border-t border-line-muted bg-surface",
       "px-6 py-3 mt-12",
       "flex justify-between items-center",
       "text-[10px] text-muted"
@@ -40,7 +40,7 @@ class Components::AppFooter < Components::Base
   def status_item(item)
     span(class: "flex items-center gap-1.5") do
       if item.online
-        span(class: "w-1.5 h-1.5 rounded-full bg-accent-alt")
+        span(class: "w-1.5 h-1.5 rounded-full bg-success")
       end
       plain item.label
     end

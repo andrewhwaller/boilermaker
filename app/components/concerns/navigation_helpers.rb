@@ -28,11 +28,11 @@ module NavigationHelpers
     boilermaker_config.get("ui.navigation.show_account_dropdown") != false
   end
 
-  def nav_item_class(path, base_classes: "btn btn-sm")
+  def nav_item_class(path, base_classes: "ui-button ui-button-sm")
     if current_route?(path)
-      "#{base_classes} btn-secondary"
+      "#{base_classes} ui-button-secondary"
     else
-      "#{base_classes} btn-ghost"
+      "#{base_classes} ui-button-ghost"
     end
   end
 

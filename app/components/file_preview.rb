@@ -97,7 +97,7 @@ class Components::FilePreview < Components::Base
   def image_container_classes
     size = dimensions
     [
-      "overflow-hidden rounded border border-border-light",
+      "overflow-hidden rounded border border-line-muted",
       "w-[#{size[:width]}px] h-[#{size[:height]}px]"
     ].join(" ")
   end
@@ -105,7 +105,7 @@ class Components::FilePreview < Components::Base
   def document_container_classes
     size = dimensions
     [
-      "flex items-center justify-center rounded border border-border-light bg-surface-alt",
+      "flex items-center justify-center rounded border border-line-muted bg-surface-alt",
       "w-[#{size[:width]}px] h-[#{size[:height]}px]"
     ].join(" ")
   end

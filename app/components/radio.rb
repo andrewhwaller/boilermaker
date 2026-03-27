@@ -12,7 +12,7 @@ class Components::Radio < Components::Base
   end
 
   def view_template
-    div(class: "form-control") do
+    div(class: "space-y-1") do
       @options.each_with_index do |(text, value), index|
         render_radio_option(text, value, index)
       end
@@ -28,8 +28,6 @@ class Components::Radio < Components::Base
       span(class: label_classes) { text }
     end
   end
-
-  private
 
   def radio_attributes(value, index)
     attrs = {
@@ -54,7 +52,7 @@ class Components::Radio < Components::Base
   end
 
   def label_classes
-    css_classes("label-text", @error ? "text-destructive" : nil)
+    css_classes("text-sm font-medium", @error ? "text-destructive" : nil)
   end
 
   def radio_classes

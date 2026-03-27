@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class Components::Card < Components::Base
-  def initialize(title: nil, header_color: nil, **attrs)
+  def initialize(title: nil, content_class: nil, **attrs)
     @title = title
-    @header_color = header_color
+    @content_class = content_class
     @attrs = attrs
   end
 
@@ -15,7 +15,7 @@ class Components::Card < Components::Base
         end
       end
 
-      div(class: "ui-card-content") do
+      div(class: css_classes("ui-card-content", @content_class)) do
         yield if block_given?
       end
     end
@@ -24,8 +24,6 @@ class Components::Card < Components::Base
   private
 
   def header_classes
-    return "ui-card-header" unless @header_color
-
-    "ui-card-header ui-card-header-#{@header_color}"
+    "ui-card-header"
   end
 end

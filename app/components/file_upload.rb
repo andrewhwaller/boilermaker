@@ -59,7 +59,7 @@ class Components::FileUpload < Components::Base
 
   def drop_zone_classes
     [
-      "border-2 border-dashed border-border-light rounded-lg",
+      "border-2 border-dashed border-line-muted rounded-lg",
       "p-8 text-center cursor-pointer",
       "transition-colors duration-200",
       "hover:border-accent hover:bg-surface-alt",

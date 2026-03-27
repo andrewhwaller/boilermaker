@@ -14,7 +14,7 @@ class Components::Select < Components::Base
   end
 
   def view_template
-    div(class: "form-control") do
+    div(class: "space-y-1") do
       select(**select_attributes) do
         render_prompt if @prompt
         render_options
@@ -43,8 +43,6 @@ class Components::Select < Components::Base
     attrs.merge!(@attributes.except(:class))
     attrs.compact
   end
-
-  private
 
   def select_classes
     css_classes("ui-select", error_classes_for("select"))

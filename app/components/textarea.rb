@@ -14,7 +14,7 @@ class Components::Textarea < Components::Base
   end
 
   def view_template
-    div(class: "form-control") do
+    div(class: "space-y-1") do
       textarea(**textarea_attributes) { @value }
       render_error_message if @error
     end

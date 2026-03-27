@@ -14,7 +14,7 @@ class Components::Checkbox < Components::Base
   end
 
   def view_template
-    div(class: "form-control") do
+    div(class: "space-y-1") do
       label(class: "flex items-center gap-2") do
         input(**checkbox_attributes)
         span(class: label_classes) { @label } if @label
@@ -47,10 +47,8 @@ class Components::Checkbox < Components::Base
     attrs.compact
   end
 
-  private
-
   def label_classes
-    css_classes("label-text", @error ? "text-destructive" : nil)
+    css_classes("text-sm font-medium", @error ? "text-destructive" : nil)
   end
 
   def checkbox_classes

@@ -10,7 +10,7 @@ module Components
     end
 
     def view_template
-      link_to notifications_path, class: "relative inline-flex items-center p-2 hover:bg-base-200 rounded-lg" do
+      link_to notifications_path, class: "relative inline-flex items-center p-2 hover:bg-surface-alt rounded-lg" do
         render_bell_icon
         render_badge if @unread_count > 0
       end
@@ -30,7 +30,7 @@ module Components
     end
 
     def render_badge
-      span(class: "absolute -top-1 -right-1 flex items-center justify-center min-w-5 h-5 px-1 text-xs font-bold text-white bg-error rounded-full") do
+      span(class: "absolute -top-1 -right-1 flex items-center justify-center min-w-5 h-5 px-1 text-xs font-bold text-destructive-foreground bg-destructive rounded-full") do
         @unread_count > 99 ? "99+" : @unread_count.to_s
       end
     end

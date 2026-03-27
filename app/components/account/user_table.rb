@@ -29,7 +29,7 @@ class Components::Account::UserTable < Components::Base
  tr do
  td { user_name(user) }
  td { user.email }
- td { span(class: "text-accent-alt font-medium text-xs") { "Verified" } }
+ td { span(class: "text-success font-medium text-xs") { "Verified" } }
  td { user_role(user) }
  td { user.created_at.strftime("%b %d %Y") }
  td(class: "text-right") do
