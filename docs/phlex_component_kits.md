@@ -177,7 +177,7 @@ end
 
 ## Styling System
 
-Components use CSS variable-based semantic classes that adapt to the active theme. The theme system provides 5 distinct visual themes (paper, terminal, blueprint, brutalist, dos) with light/dark polarity. For example:
+Components use CSS variable-based semantic classes that adapt to the active theme. The theme system provides light and dark polarities via CSS custom properties. For example:
 
 ```html
 <button class="bg-accent text-inverse">Primary</button>
