@@ -57,7 +57,6 @@ module Views
                 yield_content_or(&block)
               end
             end
-
           end
         end
       end
@@ -126,7 +125,6 @@ module Views
       def yield_content_or(&block)
         block_given? ? yield : content_for(:content)
       end
-
     end
   end
 end
