@@ -75,7 +75,7 @@ class SectionTest < ComponentTestCase
     section = Components::Section.new(title: "Styled")
 
     assert_has_css_class(section, "border-b")
-    assert_has_css_class(section, "border-border-light")
+    assert_has_css_class(section, "border-line-muted")
   end
 
   test "accepts custom attributes" do

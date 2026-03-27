@@ -16,7 +16,7 @@ class SelectTest < ComponentTestCase
   test "renders select with form control wrapper" do
     component = Components::Select.new
 
-    assert_has_css_class component, "form-control"
+    assert_has_css_class component, "space-y-1"
   end
 
   test "applies select classes correctly" do
@@ -210,7 +210,7 @@ class SelectTest < ComponentTestCase
     assert_renders_successfully component
 
     # Check structure
-    assert_has_css_class component, "form-control"
+    assert_has_css_class component, "space-y-1"
 
     # Check select attributes
     assert_has_attributes component, "select", {

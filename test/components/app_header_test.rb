@@ -81,8 +81,8 @@ class AppHeaderTest < ComponentTestCase
   test "applies correct border and background classes" do
     header = Components::AppHeader.new(logo_text: "APP")
 
-    assert_has_css_class(header, "border-b-2")
-    assert_has_css_class(header, "border-border-default")
+    assert_has_css_class(header, "border-b")
+    assert_has_css_class(header, "border-line")
     assert_has_css_class(header, "bg-surface")
   end
 

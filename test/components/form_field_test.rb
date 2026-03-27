@@ -17,7 +17,7 @@ class FormFieldTest < ComponentTestCase
     assert_produces_output(form_field)
 
     # Should have container div
-    assert_has_css_class(form_field, "form-control")
+    assert_has_css_class(form_field, "space-y-1")
 
     # Should have label and input elements
     assert_has_tag(form_field, "label")
@@ -31,7 +31,7 @@ class FormFieldTest < ComponentTestCase
       name: "user[username]"
     )
 
-    assert_daisy_form_classes(form_field, [ "form-control" ])
+    assert_daisy_form_classes(form_field, [ "space-y-1" ])
   end
 
   # Test label generation and association
@@ -148,7 +148,7 @@ class FormFieldTest < ComponentTestCase
     assert_has_text(form_field, "Must be at least 8 characters long")
 
     # Should have proper help text styling
-    assert_has_css_class(form_field, "label-text-alt")
+    assert_has_css_class(form_field, %w[text-xs text-muted])
   end
 
   test "does not render help text container when not provided" do
@@ -202,14 +202,14 @@ class FormFieldTest < ComponentTestCase
     doc = render_and_parse(form_field)
 
     # Structure should match Rails form expectations
-    form_control = doc.css(".form-control").first
-    assert form_control, "Should have form-control wrapper"
+    form_control = doc.css(".space-y-1").first
+    assert form_control, "Should have space-y-1 wrapper"
 
     label = form_control.css("label").first
     input = form_control.css("input").first
 
-    assert label, "Should have label inside form-control"
-    assert input, "Should have input inside form-control"
+    assert label, "Should have label inside space-y-1"
+    assert input, "Should have input inside space-y-1"
 
     # Should have proper Rails naming convention
     assert_equal "account[name]", input["name"]
@@ -322,6 +322,6 @@ class FormFieldTest < ComponentTestCase
     )
 
     # Form control should be responsive (width is handled by CSS)
-    assert_has_css_class(form_field, "form-control")
+    assert_has_css_class(form_field, "space-y-1")
   end
 end

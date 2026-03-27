@@ -9,13 +9,13 @@ class RadioTest < ComponentTestCase
 
     assert_renders_successfully component
     assert_produces_output component
-    assert_has_css_class component, "form-control"
+    assert_has_css_class component, "space-y-1"
   end
 
   test "renders radio group with form control wrapper" do
     component = Components::Radio.new
 
-    assert_has_css_class component, "form-control"
+    assert_has_css_class component, "space-y-1"
   end
 
   test "renders no radio buttons when no options provided" do
@@ -101,7 +101,7 @@ class RadioTest < ComponentTestCase
     component = Components::Radio.new(options: options)
 
     doc = render_and_parse(component)
-    label_texts = doc.css(".label-text")
+    label_texts = doc.css(".text-sm.font-medium")
 
     assert_equal 3, label_texts.length
     assert_equal "Red Color", label_texts[0].text
@@ -223,7 +223,7 @@ class RadioTest < ComponentTestCase
     assert_renders_successfully component
 
     # Check structure
-    assert_has_css_class component, "form-control"
+    assert_has_css_class component, "space-y-1"
 
     doc = render_and_parse(component)
     radio_inputs = doc.css("input[type='radio']")
@@ -262,7 +262,7 @@ class RadioTest < ComponentTestCase
     end
 
     # Check labels
-    label_texts = doc.css(".label-text")
+    label_texts = doc.css(".text-sm.font-medium")
     assert_equal "Small Size", label_texts[0].text
     assert_equal "Medium Size", label_texts[1].text
     assert_equal "Large Size", label_texts[2].text
@@ -272,7 +272,7 @@ class RadioTest < ComponentTestCase
     component = Components::Radio.new(options: [])
 
     assert_renders_successfully component
-    assert_has_css_class component, "form-control"
+    assert_has_css_class component, "space-y-1"
 
     doc = render_and_parse(component)
     radio_inputs = doc.css("input[type='radio']")
