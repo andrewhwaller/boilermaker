@@ -58,6 +58,9 @@ Rails.application.routes.draw do
   # Settings
   resource :settings, only: [ :show ]
 
+  # Pipeline
+  resource :pipeline, only: [ :show, :create ]
+
   # Payments
   get "pricing", to: "payments#pricing"
   scope :payments do

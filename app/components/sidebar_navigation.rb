@@ -86,16 +86,23 @@ class Components::SidebarNavigation < Components::Base
   end
 
   def footer_section
-    div(class: "p-4 border-t border-line-muted space-y-3") do
-      div(class: "flex justify-center") do
-        render Components::ThemeToggle.new(show_label: true, position: :sidebar)
+    div(class: "border-t border-line-muted space-y-0") do
+      if Current.user.present?
+        pipeline_run = Current.account&.pipeline_runs&.recent&.first
+        render Components::Pipeline::StatusIndicator.new(pipeline_run: pipeline_run)
       end
 
-      if Current.user.present?
-        button_to session_path("current"),
-          method: :delete,
-          class: "ui-button ui-button-ghost ui-button-sm text-xs text-destructive hover:bg-destructive/30 w-full text-center" do
-          navigation_label("Exit System")
+      div(class: "p-4 space-y-3") do
+        div(class: "flex justify-center") do
+          render Components::ThemeToggle.new(show_label: true, position: :sidebar)
+        end
+
+        if Current.user.present?
+          button_to session_path("current"),
+            method: :delete,
+            class: "ui-button ui-button-ghost ui-button-sm text-xs text-destructive hover:bg-destructive/30 w-full text-center" do
+            navigation_label("Exit System")
+          end
         end
       end
     end
