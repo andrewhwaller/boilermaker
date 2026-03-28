@@ -1,0 +1,17 @@
+user_message:
+  conversation: one
+  role: "user"
+  content: "What does my library say about research methodology?"
+  complete: true
+
+assistant_message:
+  conversation: one
+  role: "assistant"
+  content: "Based on your library, several sources discuss methodology..."
+  complete: true
+
+incomplete_message:
+  conversation: one
+  role: "assistant"
+  content: "Starting to generate response..."
+  complete: false

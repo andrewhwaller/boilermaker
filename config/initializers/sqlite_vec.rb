@@ -18,6 +18,28 @@ ActiveSupport.on_load(:active_record) do
         SqliteVec.load(raw_connection)
         raw_connection.enable_load_extension(false)
       end
+
+      # Exclude vec0 virtual tables from schema dumps.
+      # Rails' virtual_tables schema dumper cannot handle vec0 because the
+      # VIRTUAL_TABLE_REGEX doesn't match the multiline vec0 CREATE statement,
+      # leaving `arguments` nil and crashing schema dump. We filter them out.
+      def virtual_tables
+        super.reject { |table_name, _options| table_name.start_with?("vec_") }
+      end
     end
   )
+end
+
+# Exclude sqlite-vec shadow tables from schema dumps.
+# The vec_document_chunks virtual table creates shadow tables that Rails cannot
+# dump correctly. We ignore them so schema.rb remains valid Ruby.
+# The virtual table itself must be created via migration (not schema:load).
+ActiveSupport.on_load(:active_record) do
+  ActiveRecord::SchemaDumper.ignore_tables += [
+    "vec_document_chunks",
+    "vec_document_chunks_chunks",
+    "vec_document_chunks_info",
+    "vec_document_chunks_rowids",
+    "vec_document_chunks_vector_chunks00"
+  ]
 end

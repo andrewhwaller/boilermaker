@@ -1,0 +1,9 @@
+one:
+  message: assistant_message
+  document_chunk: one
+  relevance_score: 0.92
+
+two:
+  message: assistant_message
+  document_chunk: two
+  relevance_score: 0.85

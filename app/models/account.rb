@@ -7,6 +7,9 @@ class Account < ApplicationRecord
   has_many :account_memberships, dependent: :destroy
   has_many :members, through: :account_memberships, source: :user
   has_many :sessions, dependent: :nullify
+  has_many :zotero_items, dependent: :destroy
+  has_many :conversations, dependent: :destroy
+  has_many :pipeline_runs, dependent: :destroy
 
   validates :name, presence: true
   validates :personal, inclusion: { in: [ true, false ] }

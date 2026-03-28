@@ -1,0 +1,13 @@
+one:
+  zotero_item: one
+  content: "This is the first chunk of test article one about research methodology."
+  position: 0
+  section_heading: "Introduction"
+  embedding_model: "text-embedding-3-small"
+
+two:
+  zotero_item: one
+  content: "This is the second chunk of test article one about data analysis."
+  position: 1
+  section_heading: "Methods"
+  embedding_model: "text-embedding-3-small"

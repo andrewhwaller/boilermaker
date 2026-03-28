@@ -1,0 +1,34 @@
+one:
+  account: one
+  zotero_key: "ABC123"
+  item_type: "journalArticle"
+  title: "Test Article One"
+  authors_json: '[{"firstName": "Jane", "lastName": "Doe"}]'
+  abstract: "This is a test abstract for article one."
+  extraction_status: "completed"
+  embedding_status: "completed"
+  full_text: "This is the full text of test article one about research methodology."
+  library_version: 100
+  deleted_from_zotero: false
+
+two:
+  account: one
+  zotero_key: "DEF456"
+  item_type: "book"
+  title: "Test Book Two"
+  authors_json: '[{"firstName": "John", "lastName": "Smith"}]'
+  abstract: "A book about testing."
+  extraction_status: "pending"
+  embedding_status: "pending"
+  library_version: 100
+  deleted_from_zotero: false
+
+deleted_item:
+  account: one
+  zotero_key: "GHI789"
+  item_type: "journalArticle"
+  title: "Deleted Article"
+  extraction_status: "completed"
+  embedding_status: "completed"
+  library_version: 50
+  deleted_from_zotero: true
