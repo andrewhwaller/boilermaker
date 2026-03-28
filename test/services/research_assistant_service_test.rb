@@ -99,40 +99,6 @@ class ResearchAssistantServiceTest < ActiveSupport::TestCase
       "escape_xml should return empty string for nil input"
   end
 
-  # --- Author parsing ---
-
-  test "parse_authors returns formatted author string from JSON" do
-    json = '[{"firstName": "Jane", "lastName": "Doe"}, {"firstName": "John", "lastName": "Smith"}]'
-    result = @service.send(:parse_authors, json)
-    assert_equal "Doe, Jane; Smith, John", result,
-      "parse_authors should format as LastName, FirstName joined by semicolons"
-  end
-
-  test "parse_authors returns empty string for nil authors_json" do
-    result = @service.send(:parse_authors, nil)
-    assert_equal "", result,
-      "parse_authors should return empty string when authors_json is nil"
-  end
-
-  test "parse_authors returns empty string for blank authors_json" do
-    result = @service.send(:parse_authors, "")
-    assert_equal "", result,
-      "parse_authors should return empty string when authors_json is blank"
-  end
-
-  test "parse_authors handles malformed JSON gracefully" do
-    result = @service.send(:parse_authors, "not valid json")
-    assert_equal "", result,
-      "parse_authors should return empty string for malformed JSON"
-  end
-
-  test "parse_authors handles author with only lastName" do
-    json = '[{"lastName": "Aristotle"}]'
-    result = @service.send(:parse_authors, json)
-    assert_equal "Aristotle", result,
-      "parse_authors should handle authors without a firstName"
-  end
-
   # --- Conversation history building ---
 
   test "build_conversation_history excludes system messages" do

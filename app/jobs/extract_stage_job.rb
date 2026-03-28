@@ -5,15 +5,19 @@ class ExtractStageJob < ApplicationJob
 
   limits_concurrency to: 1, key: -> { "pipeline" }
 
+  retry_on Net::OpenTimeout, Net::ReadTimeout, Faraday::TimeoutError,
+           wait: :polynomially_longer, attempts: 3 do |_job, error|
+    Rails.logger.error "[ExtractStageJob] Exhausted retries: #{error.message}"
+  end
+
   def perform(pipeline_run)
     pipeline_run.update!(current_stage: "extract")
 
     items = ZoteroItem.unscoped.where(account: pipeline_run.account).needs_extraction
+                      .joins(:pdf_attachment)
     pipeline_run.update!(items_total: items.count, items_processed: 0)
 
     items.find_each do |item|
-      next unless item.pdf.attached?
-
       begin
         item.pdf.open do |tempfile|
           result = PdfTextExtractor.new.extract(tempfile.path)
@@ -47,6 +51,8 @@ class ExtractStageJob < ApplicationJob
     end
 
     EmbedStageJob.perform_later(pipeline_run)
+  rescue Net::OpenTimeout, Net::ReadTimeout, Faraday::TimeoutError
+    raise # Let retry_on handle transient network errors
   rescue => e
     pipeline_run.failed!(e.message)
   end

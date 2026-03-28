@@ -5,6 +5,11 @@ class EmbedStageJob < ApplicationJob
 
   limits_concurrency to: 1, key: -> { "pipeline" }
 
+  retry_on Net::OpenTimeout, Net::ReadTimeout, Faraday::TimeoutError,
+           wait: :polynomially_longer, attempts: 3 do |_job, error|
+    Rails.logger.error "[EmbedStageJob] Exhausted retries: #{error.message}"
+  end
+
   def perform(pipeline_run)
     pipeline_run.update!(current_stage: "embed")
 
@@ -30,6 +35,8 @@ class EmbedStageJob < ApplicationJob
     end
 
     pipeline_run.completed!
+  rescue Net::OpenTimeout, Net::ReadTimeout, Faraday::TimeoutError
+    raise # Let retry_on handle transient network errors
   rescue => e
     pipeline_run.failed!(e.message)
   end

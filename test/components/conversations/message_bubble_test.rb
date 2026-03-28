@@ -100,7 +100,7 @@ class Conversations::MessageBubbleTest < ComponentTestCase
   test "assistant message with error marker shows error state" do
     error_message = Message.new(
       role: "assistant",
-      content: "Partial response\n\n---\n*Error: OpenAI request failed*",
+      content: "Partial response\n\n---\n*An error occurred while generating a response. Please try again.*",
       complete: true
     )
     html = render_component(Components::Conversations::MessageBubble.new(message: error_message))
@@ -111,7 +111,7 @@ class Conversations::MessageBubbleTest < ComponentTestCase
   test "assistant message with error marker has destructive border class" do
     error_message = Message.new(
       role: "assistant",
-      content: "Partial\n\n---\n*Error: Something went wrong*",
+      content: "Partial\n\n---\n*An error occurred while generating a response. Please try again.*",
       complete: true
     )
     html = render_component(Components::Conversations::MessageBubble.new(message: error_message))

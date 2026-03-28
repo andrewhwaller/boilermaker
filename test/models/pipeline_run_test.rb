@@ -18,9 +18,9 @@ class PipelineRunTest < ActiveSupport::TestCase
   end
 
   test "status must be valid" do
-    run = PipelineRun.new(account: accounts(:one), status: "invalid")
-    assert_not run.valid?
-    assert_includes run.errors[:status], "is not included in the list"
+    assert_raises(ArgumentError) do
+      PipelineRun.new(account: accounts(:one), status: "invalid")
+    end
   end
 
   test "current_stage must be valid when present" do

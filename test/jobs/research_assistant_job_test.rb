@@ -109,7 +109,7 @@ class ResearchAssistantJobTest < ActiveSupport::TestCase
   test "perform broadcasts error state via Turbo Streams when an error occurs" do
     broadcasts = []
 
-    Turbo::StreamsChannel.stub(:broadcast_update_to, ->(*args, **kwargs) {
+    Turbo::StreamsChannel.stub(:broadcast_replace_to, ->(*args, **kwargs) {
       broadcasts << { args: args, kwargs: kwargs }
     }) do
       stub_service = ->(conversation:) {

@@ -46,6 +46,13 @@ class Account < ApplicationRecord
     update!(personal: true)
   end
 
+  def has_embeddings?
+    DocumentChunk.joins(:zotero_item)
+                 .where(zotero_items: { account_id: id })
+                 .where.not(embedding_model: nil)
+                 .exists?
+  end
+
   def conversation_empty_state_variant
     return :pre_pipeline unless zotero_items.active.exists?
     return :pre_embedding unless zotero_items.active.where(embedding_status: "completed").exists?

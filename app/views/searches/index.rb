@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Views::Searches::Index < Views::Base
-  def initialize(query: "", results: [])
+  def initialize(query: "", results: [], has_embeddings: false)
     @query = query
     @results = results
+    @has_embeddings = has_embeddings
   end
 
   def view_template
@@ -93,13 +94,8 @@ class Views::Searches::Index < Views::Base
   end
 
   def empty_state
-    has_embeddings = DocumentChunk.joins(:zotero_item)
-      .where(zotero_items: { account_id: Current.account&.id })
-      .where.not(embedding_model: nil)
-      .exists?
-
     div(class: "text-center py-12 text-muted") do
-      if has_embeddings
+      if @has_embeddings
         p { "Enter a query to search your library." }
         p(class: "text-sm mt-2") { "Ask a question in natural language — semantic search finds relevant papers by meaning, not just keywords." }
       else
@@ -114,9 +110,7 @@ class Views::Searches::Index < Views::Base
   end
 
   def authors_text(item)
-    return "" unless item.authors_json.present?
-    authors = JSON.parse(item.authors_json) rescue []
-    authors.map { |a| [ a["firstName"], a["lastName"] ].compact.join(" ") }.join(", ")
+    item.formatted_authors
   end
 
   def zotero_link(item)

@@ -77,7 +77,7 @@ class Components::Conversations::MessageBubble < Components::Base
   end
 
   def error?
-    assistant? && @message.complete? && @message.content.to_s.include?("*Error:")
+    assistant? && @message.complete? && @message.content.to_s.include?("*An error occurred")
   end
 
   def interrupted?

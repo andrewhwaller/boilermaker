@@ -15,4 +15,22 @@ class ZoteroItem < ApplicationRecord
 
   enum :extraction_status, { pending: "pending", completed: "completed", failed: "failed", low_quality: "low_quality" }, prefix: true
   enum :embedding_status, { pending: "pending", completed: "completed", failed: "failed" }, prefix: true
+
+  def parsed_authors
+    return [] unless authors_json.present?
+
+    JSON.parse(authors_json)
+  rescue JSON::ParserError
+    []
+  end
+
+  def formatted_authors(style: :display)
+    authors = parsed_authors
+    case style
+    when :citation
+      authors.map { |a| [ a["lastName"], a["firstName"] ].compact.join(", ") }.join("; ")
+    else
+      authors.map { |a| [ a["firstName"], a["lastName"] ].compact.join(" ") }.join(", ")
+    end
+  end
 end

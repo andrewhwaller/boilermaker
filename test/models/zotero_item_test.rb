@@ -74,4 +74,40 @@ class ZoteroItemTest < ActiveSupport::TestCase
     item.update!(deleted_from_zotero: true)
     assert_not ZoteroItem.active.include?(item)
   end
+
+  test "parsed_authors returns array from valid JSON" do
+    item = zotero_items(:one)
+    item.update!(authors_json: '[{"firstName": "Jane", "lastName": "Doe"}]')
+    assert_equal [ { "firstName" => "Jane", "lastName" => "Doe" } ], item.parsed_authors
+  end
+
+  test "parsed_authors returns empty array for nil" do
+    item = zotero_items(:one)
+    item.update!(authors_json: nil)
+    assert_equal [], item.parsed_authors
+  end
+
+  test "parsed_authors returns empty array for malformed JSON" do
+    item = zotero_items(:one)
+    item.update!(authors_json: "not valid json")
+    assert_equal [], item.parsed_authors
+  end
+
+  test "formatted_authors returns display format by default" do
+    item = zotero_items(:one)
+    item.update!(authors_json: '[{"firstName": "Jane", "lastName": "Doe"}, {"firstName": "John", "lastName": "Smith"}]')
+    assert_equal "Jane Doe, John Smith", item.formatted_authors
+  end
+
+  test "formatted_authors returns citation format" do
+    item = zotero_items(:one)
+    item.update!(authors_json: '[{"firstName": "Jane", "lastName": "Doe"}, {"firstName": "John", "lastName": "Smith"}]')
+    assert_equal "Doe, Jane; Smith, John", item.formatted_authors(style: :citation)
+  end
+
+  test "formatted_authors handles author with only lastName" do
+    item = zotero_items(:one)
+    item.update!(authors_json: '[{"lastName": "Aristotle"}]')
+    assert_equal "Aristotle", item.formatted_authors(style: :citation)
+  end
 end

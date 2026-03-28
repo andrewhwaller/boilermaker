@@ -49,7 +49,7 @@ class ResearchAssistantService
     sources_xml = retrieved_chunks.each_with_index.map do |result, idx|
       chunk = result[:chunk]
       item = chunk.zotero_item
-      authors = parse_authors(item.authors_json)
+      authors = item.formatted_authors(style: :citation)
 
       <<~XML
         <retrieved_source id="#{idx + 1}" title="#{escape_xml(item.title)}" authors="#{escape_xml(authors)}">
@@ -86,13 +86,6 @@ class ResearchAssistantService
     messages.pop if messages.last&.role == "user"
 
     messages.map { |m| { role: m.role, content: m.content } }
-  end
-
-  def parse_authors(authors_json)
-    return "" unless authors_json.present?
-
-    authors = JSON.parse(authors_json) rescue []
-    authors.map { |a| [ a["lastName"], a["firstName"] ].compact.join(", ") }.join("; ")
   end
 
   def escape_xml(text)

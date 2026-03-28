@@ -19,6 +19,7 @@ class ZoteroSyncService
   end
 
   def call
+    Current.account = account
     sync_items
     sync_deletions
     download_attachments
@@ -36,10 +37,7 @@ class ZoteroSyncService
   end
 
   def since_version
-    unless defined?(@since_version)
-      Current.account = account
-      @since_version = ZoteroItem.maximum(:library_version)
-    end
+    @since_version = ZoteroItem.maximum(:library_version) unless defined?(@since_version)
     @since_version
   end
 
@@ -73,8 +71,6 @@ class ZoteroSyncService
     key = data["key"]
     return if key.blank?
 
-    Current.account = account
-
     item = ZoteroItem.find_or_initialize_by(zotero_key: key, account: account)
     item.item_type = data["itemType"]
     item.title = data["title"]
@@ -104,14 +100,11 @@ class ZoteroSyncService
     deleted_keys = deletions["items"] || []
     return if deleted_keys.empty?
 
-    Current.account = account
     ZoteroItem.where(zotero_key: deleted_keys, account: account)
               .update_all(deleted_from_zotero: true)
   end
 
   def download_attachments
-    Current.account = account
-
     ZoteroItem.active.where(account: account).find_each do |item|
       next if item.pdf.attached?
 

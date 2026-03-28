@@ -25,11 +25,12 @@ class ExtractStageJobTest < ActiveSupport::TestCase
     end
   end
 
-  test "updates items_total to count of items needing extraction" do
-    # Account :one has zotero_items fixture :two which has extraction_status: pending
-    pending_count = ZoteroItem.unscoped.where(account: @account).needs_extraction.count
+  test "updates items_total to count of items needing extraction with PDFs" do
+    # items_total only counts items that have PDFs attached (not all pending items)
+    pending_with_pdf = ZoteroItem.unscoped.where(account: @account).needs_extraction
+                                 .joins(:pdf_attachment).count
     ExtractStageJob.perform_now(@pipeline_run)
-    assert_equal pending_count, @pipeline_run.reload.items_total
+    assert_equal pending_with_pdf, @pipeline_run.reload.items_total
   end
 
   test "skips items without attached PDF without marking as failed" do
