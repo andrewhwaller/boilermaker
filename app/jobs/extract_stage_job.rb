@@ -23,6 +23,7 @@ class ExtractStageJob < ApplicationJob
               full_text: result[:text],
               extraction_status: result[:quality] == :low_quality ? :low_quality : :completed
             )
+            EmbeddingService.new.delete_vectors(item.document_chunks.pluck(:id))
             item.document_chunks.destroy_all
             chunks = DocumentChunk.chunk_text(result[:text])
             chunks.each do |chunk_data|

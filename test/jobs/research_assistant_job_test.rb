@@ -102,8 +102,8 @@ class ResearchAssistantJobTest < ActiveSupport::TestCase
     msg = Message.find(created_message_id)
     assert msg.complete?,
       "The assistant message should be marked complete even when an error occurs"
-    assert_match(/Error: LLM connection failed/, msg.content,
-      "The error message text should be appended to the assistant message content")
+    assert_match(/An error occurred while generating a response/, msg.content,
+      "A user-friendly error message should be appended to the assistant message content")
   end
 
   test "perform broadcasts error state via Turbo Streams when an error occurs" do

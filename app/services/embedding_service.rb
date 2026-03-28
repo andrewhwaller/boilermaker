@@ -36,12 +36,21 @@ class EmbeddingService
     conn = ActiveRecord::Base.connection
     # Delete existing vector if any (for re-embedding)
     conn.execute("DELETE FROM vec_document_chunks WHERE document_chunk_id = #{chunk_id.to_i}")
-    conn.execute("INSERT INTO vec_document_chunks(document_chunk_id, embedding) VALUES (#{chunk_id.to_i}, '#{vector.to_json}')")
+    conn.execute("INSERT INTO vec_document_chunks(document_chunk_id, embedding) VALUES (#{chunk_id.to_i}, #{conn.quote(vector.to_json)})")
+  end
+
+  def delete_vectors(chunk_ids)
+    return if chunk_ids.empty?
+
+    conn = ActiveRecord::Base.connection
+    sanitized_ids = chunk_ids.map(&:to_i).join(",")
+    conn.execute("DELETE FROM vec_document_chunks WHERE document_chunk_id IN (#{sanitized_ids})")
   end
 
   def nearest_neighbors(query_vector, k: 20)
-    results = ActiveRecord::Base.connection.execute(
-      "SELECT document_chunk_id, distance FROM vec_document_chunks WHERE embedding MATCH '#{query_vector.to_json}' AND k = #{k.to_i}"
+    conn = ActiveRecord::Base.connection
+    results = conn.execute(
+      "SELECT document_chunk_id, distance FROM vec_document_chunks WHERE embedding MATCH #{conn.quote(query_vector.to_json)} AND k = #{k.to_i}"
     )
     results.to_a
   end

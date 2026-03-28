@@ -53,7 +53,7 @@ class ResearchAssistantService
 
       <<~XML
         <retrieved_source id="#{idx + 1}" title="#{escape_xml(item.title)}" authors="#{escape_xml(authors)}">
-        #{chunk.content}
+        #{escape_xml(chunk.content)}
         </retrieved_source>
       XML
     end.join("\n")
@@ -78,9 +78,12 @@ class ResearchAssistantService
     messages = @conversation.messages
       .where.not(role: "system")
       .order(:created_at)
-      .last(MAX_HISTORY_MESSAGES)
+      .last(MAX_HISTORY_MESSAGES + 1)
 
     messages = messages.reject { |m| m.role == "assistant" && !m.complete? }
+
+    # Exclude the last user message — chat.ask will add it
+    messages.pop if messages.last&.role == "user"
 
     messages.map { |m| { role: m.role, content: m.content } }
   end

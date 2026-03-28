@@ -27,10 +27,7 @@ export default class extends Controller {
 
     const raw = this.rawValue
     const parsed = marked.parse(raw)
-    const sanitized = DOMPurify.sanitize(parsed, {
-      FORBID_TAGS: ["script", "iframe", "object", "embed"],
-      FORBID_ATTR: ["onerror", "onload", "onclick", "onmouseover"]
-    })
+    const sanitized = DOMPurify.sanitize(parsed)
     this.outputTarget.innerHTML = sanitized
   }
 }

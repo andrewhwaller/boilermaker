@@ -22,7 +22,7 @@ class ResearchAssistantJob < ApplicationJob
   rescue => e
     if assistant_message&.persisted?
       assistant_message.update!(
-        content: "#{assistant_message.content}\n\n---\n*Error: #{e.message}*",
+        content: "#{assistant_message.content}\n\n---\n*An error occurred while generating a response. Please try again.*",
         complete: true
       )
       Turbo::StreamsChannel.broadcast_update_to(

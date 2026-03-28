@@ -43,8 +43,11 @@ class ZoteroSyncService
     @since_version
   end
 
+  MAX_PAGES = 1000
+
   def sync_items
     start = 0
+    pages = 0
 
     loop do
       params = { limit: ITEMS_PER_PAGE, start: start }
@@ -56,7 +59,9 @@ class ZoteroSyncService
       items.each { |item_data| upsert_item(item_data) }
 
       start += items.length
+      pages += 1
       break if items.length < ITEMS_PER_PAGE
+      break if pages >= MAX_PAGES
     end
   end
 
@@ -91,6 +96,8 @@ class ZoteroSyncService
   end
 
   def sync_deletions
+    return if since_version.nil?
+
     deletions = library.deleted_items(since: since_version)
     return unless deletions.is_a?(Hash)
 
@@ -121,7 +128,7 @@ class ZoteroSyncService
     return unless pdf_child
 
     attachment_key = pdf_child.dig("data", "key")
-    filename = pdf_child.dig("data", "filename") || "attachment.pdf"
+    filename = ActiveStorage::Filename.new(pdf_child.dig("data", "filename") || "attachment.pdf").sanitized
     download_and_attach_pdf(item, attachment_key, filename)
   rescue StandardError => e
     Rails.logger.error("ZoteroSyncService: Failed to fetch children for item #{item.zotero_key}: #{e.message}")
@@ -142,15 +149,27 @@ class ZoteroSyncService
     Rails.logger.error("ZoteroSyncService: Failed to download PDF for item #{item.zotero_key}: #{e.message}")
   end
 
-  def fetch_binary(uri)
+  MAX_REDIRECTS = 5
+
+  def fetch_binary(uri, redirects = 0)
+    raise SyncError, "Too many redirects" if redirects > MAX_REDIRECTS
+
     http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
+    http.use_ssl = uri.scheme == "https"
+    http.open_timeout = 15
+    http.read_timeout = 60
 
     request = Net::HTTP::Get.new(uri)
-    request["Zotero-API-Key"] = api_key
-    request["Zotero-API-Version"] = "3"
+    request["Zotero-API-Key"] = api_key unless redirects > 0
+    request["Zotero-API-Version"] = "3" unless redirects > 0
 
-    http.request(request)
+    response = http.request(request)
+
+    if response.is_a?(Net::HTTPRedirection) && response["location"]
+      fetch_binary(URI(response["location"]), redirects + 1)
+    else
+      response
+    end
   end
 
   def parse_date(date_string)

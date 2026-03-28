@@ -2,18 +2,14 @@
 
 class ConversationChannel < ApplicationCable::Channel
   def subscribed
-    conversation = Conversation.unscoped.find_by(id: params[:conversation_id])
+    conversation = Conversation.unscoped
+                               .where(account_id: current_user.accounts.select(:id))
+                               .find_by(id: params[:conversation_id])
 
-    if conversation && user_owns_conversation?(conversation)
+    if conversation
       stream_from "conversation_#{conversation.id}"
     else
       reject
     end
-  end
-
-  private
-
-  def user_owns_conversation?(conversation)
-    current_user.accounts.pluck(:id).include?(conversation.account_id)
   end
 end
