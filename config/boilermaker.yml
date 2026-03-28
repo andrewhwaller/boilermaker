@@ -1,11 +1,11 @@
 ---
 default:
   app:
-    name: Boilermaker
+    name: Carrel
     version: 1.0.0
     support_email: support@example.com
   features:
-    user_registration: true
+    user_registration: false
     personal_accounts: false
     payments: false
     notifications: false
@@ -17,15 +17,15 @@ default:
       size: base
 development:
   app:
-    name: Boilermaker
+    name: Carrel
     version: 1.0.0
     support_email: support@example.com
     description: A modern Rails application
   features:
-    user_registration: true
-    personal_accounts: true
-    payments: true
-    notifications: true
+    user_registration: false
+    personal_accounts: false
+    payments: false
+    notifications: false
   security:
     require_two_factor_authentication: false
   ui:

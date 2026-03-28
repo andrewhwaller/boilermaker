@@ -3,6 +3,19 @@ require_relative "../config/environment"
 require "rails/test_help"
 require "minitest/mock"
 require "active_job/test_helper"
+require "vcr"
+require "webmock"
+
+VCR.configure do |config|
+  config.cassette_library_dir = "test/vcr_cassettes"
+  config.hook_into :webmock
+  config.allow_http_connections_when_no_cassette = true
+  config.filter_sensitive_data("<ZOTERO_API_KEY>") { Rails.application.credentials.dig(:zotero, :api_key) || "test_zotero_key" }
+  config.filter_sensitive_data("<OPENROUTER_API_KEY>") { Rails.application.credentials.dig(:openrouter, :api_key) || "test_openrouter_key" }
+  config.filter_sensitive_data("<OPENAI_API_KEY>") { Rails.application.credentials.dig(:openai, :api_key) || "test_openai_key" }
+end
+
+WebMock.allow_net_connect!
 
 module ActiveSupport
   class TestCase

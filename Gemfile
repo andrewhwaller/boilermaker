@@ -70,11 +70,13 @@ group :development do
   gem "letter_opener_web"
 end
 
- group :test do
-   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-   gem "capybara"
-   gem "selenium-webdriver"
- end
+group :test do
+  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+  gem "capybara"
+  gem "selenium-webdriver"
+  gem "vcr"
+  gem "webmock"
+end
 
 gem "phlex-rails", "~> 2.3"
 
@@ -83,3 +85,9 @@ gem "pay", "~> 11.0"
 gem "stripe", "~> 18.0"
 
 gem "noticed", "~> 2.0"
+
+# Carrel — Zotero Research Assistant
+gem "sqlite-vec", "~> 0.1"       # sqlite-vec extension for vector search
+gem "neighbor", "~> 0.5"         # ActiveRecord interface for vector search
+gem "ruby_llm", "~> 1.0"         # OpenRouter/LLM integration with streaming
+gem "zotero-rb", "~> 0.3"        # Zotero Web API client
