@@ -48,6 +48,8 @@ class Components::SidebarNavigation < Components::Base
     div do
       div(class: "py-4") do
         sidebar_nav_item(root_path, "Dashboard")
+        sidebar_nav_item(conversations_path, "Conversations")
+        sidebar_nav_item(new_conversation_path, "New Chat")
         sidebar_nav_item(searches_path, "Search")
 
         if Rails.env.development?

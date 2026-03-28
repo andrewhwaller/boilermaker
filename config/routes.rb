@@ -64,6 +64,11 @@ Rails.application.routes.draw do
   # Search
   resources :searches, only: [ :index ]
 
+  # Conversations and messages
+  resources :conversations, only: [ :index, :show, :new, :create, :destroy ] do
+    resources :messages, only: [ :create ], module: :conversations
+  end
+
   # Payments
   get "pricing", to: "payments#pricing"
   scope :payments do
