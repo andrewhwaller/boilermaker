@@ -296,7 +296,7 @@ class ZoteroSyncServiceTest < ActiveSupport::TestCase
 
     # Stub sync_items to be a no-op (avoids real API call),
     # then stub sync_deletions to raise mid-pipeline.
-    service.stub(:sync_items, -> {}) do
+    service.stub(:sync_items, -> { }) do
       service.stub(:sync_deletions, -> { raise ZoteroSyncService::SyncError, "mid-sync failure" }) do
         assert_raises(ZoteroSyncService::SyncError) { service.call }
       end

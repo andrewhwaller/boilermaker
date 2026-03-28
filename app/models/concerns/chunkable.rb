@@ -5,7 +5,7 @@ module Chunkable
 
   CHUNK_SIZE = 2000     # ~500 tokens
   CHUNK_OVERLAP = 200   # ~50 tokens
-  SEPARATORS = ["\n\n", "\n", ". ", " "].freeze
+  SEPARATORS = [ "\n\n", "\n", ". ", " " ].freeze
   HEADING_PATTERN = /\A[A-Z][A-Za-z0-9\s:,\-]{2,80}$/
   PAGE_BOUNDARY_PATTERN = /\f/
 
@@ -47,7 +47,7 @@ module Chunkable
     end
 
     def recursive_split(text, separators, chunk_size, overlap)
-      return [{ content: text.strip, position: 0 }] if text.strip.length <= chunk_size
+      return [ { content: text.strip, position: 0 } ] if text.strip.length <= chunk_size
 
       separator = separators.first
       remaining_separators = separators[1..]
@@ -79,7 +79,7 @@ module Chunkable
             recursive_split(chunk, remaining_separators, chunk_size, overlap)
               .map { |c| c.is_a?(Hash) ? c[:content] : c }
           else
-            [chunk]
+            [ chunk ]
           end
         end
       end

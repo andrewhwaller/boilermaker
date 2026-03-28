@@ -64,7 +64,7 @@ class ExtractAndChunkJobTest < ActiveSupport::TestCase
     ExtractAndChunkJob.new.perform(@item)
 
     @item.reload
-    assert_includes ["completed", "low_quality"], @item.extraction_status,
+    assert_includes [ "completed", "low_quality" ], @item.extraction_status,
       "extraction_status should be completed or low_quality after successful extraction"
   end
 
