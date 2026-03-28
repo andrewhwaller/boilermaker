@@ -49,15 +49,29 @@ class ZoteroItemTest < ActiveSupport::TestCase
   end
 
   test "needs_extraction scope returns pending extraction items" do
-    pending_items = ZoteroItem.needs_extraction
-    assert pending_items.include?(zotero_items(:two))
-    assert_not pending_items.include?(zotero_items(:one))
+    items = ZoteroItem.needs_extraction
+    assert items.include?(zotero_items(:two))
+    assert_not items.include?(zotero_items(:one))
+  end
+
+  test "needs_extraction scope includes failed items for retry" do
+    item = zotero_items(:two)
+    item.update!(extraction_status: "failed")
+    assert ZoteroItem.needs_extraction.include?(item),
+      "Failed items should be included in needs_extraction for retry"
   end
 
   test "needs_embedding scope returns pending embedding items" do
-    pending_items = ZoteroItem.needs_embedding
-    assert pending_items.include?(zotero_items(:two))
-    assert_not pending_items.include?(zotero_items(:one))
+    items = ZoteroItem.needs_embedding
+    assert items.include?(zotero_items(:two))
+    assert_not items.include?(zotero_items(:one))
+  end
+
+  test "needs_embedding scope includes failed items for retry" do
+    item = zotero_items(:two)
+    item.update!(embedding_status: "failed")
+    assert ZoteroItem.needs_embedding.include?(item),
+      "Failed items should be included in needs_embedding for retry"
   end
 
   test "has many document_chunks with dependent destroy" do

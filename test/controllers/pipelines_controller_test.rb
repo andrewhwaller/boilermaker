@@ -58,6 +58,27 @@ class PipelinesControllerTest < ActionDispatch::IntegrationTest
     assert_match(/already running/i, response.body)
   end
 
+  test "create rejects when pipeline is pending" do
+    PipelineRun.unscoped.create!(account: @account, status: "pending")
+
+    assert_no_enqueued_jobs(only: SyncStageJob) do
+      post pipeline_path
+    end
+    assert_redirected_to pipeline_path
+    follow_redirect!
+    assert_match(/already running/i, response.body)
+  end
+
+  test "DB constraint prevents concurrent active pipeline runs" do
+    # Verify the unique partial index works at the DB level
+    PipelineRun.unscoped.create!(account: @account, status: "pending")
+
+    assert_raises(ActiveRecord::RecordNotUnique) do
+      PipelineRun.unscoped.create!(account: @account, status: "running",
+                                   current_stage: "sync", started_at: Time.current)
+    end
+  end
+
   test "show requires authentication" do
     delete session_path("current")
     get pipeline_path

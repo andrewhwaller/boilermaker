@@ -154,9 +154,11 @@ class ResearchAssistantServiceTest < ActiveSupport::TestCase
 
   # --- API-dependent tests ---
 
-  test "answer creates MessageSource records for retrieved chunks" do
-    skip "OpenRouter API key not configured" unless Rails.application.credentials.dig(:openrouter, :api_key).present?
+  # These tests use stubs for SearchService and RubyLLM.chat to test
+  # the answer method's orchestration (MessageSource creation, content accumulation)
+  # without making real LLM API calls. The stubs simulate the external API boundary.
 
+  test "answer creates MessageSource records for retrieved chunks" do
     assistant_message = @conversation.messages.create!(role: "assistant", content: "", complete: false)
 
     chunk = document_chunks(:one)
@@ -185,8 +187,6 @@ class ResearchAssistantServiceTest < ActiveSupport::TestCase
   end
 
   test "answer returns accumulated content string" do
-    skip "OpenRouter API key not configured" unless Rails.application.credentials.dig(:openrouter, :api_key).present?
-
     assistant_message = @conversation.messages.create!(role: "assistant", content: "", complete: false)
 
     search_stub = ->(account:) {

@@ -4,7 +4,7 @@ require "test_helper"
 
 class SyncStageJobTest < ActiveSupport::TestCase
   setup do
-    @account = accounts(:one)
+    @account = accounts(:three)
     Current.account = @account
     @pipeline_run = PipelineRun.create!(account: @account, status: "pending")
   end
@@ -33,14 +33,16 @@ class SyncStageJobTest < ActiveSupport::TestCase
   test "sets pipeline_run to running before attempting sync" do
     SyncStageJob.perform_now(@pipeline_run)
     @pipeline_run.reload
-    assert_equal "running", @pipeline_run.started_at.present? ? "running" : @pipeline_run.status
-    assert_not_nil @pipeline_run.started_at
+    assert_not_nil @pipeline_run.started_at,
+      "Pipeline run should have started_at set after perform"
   end
 
-  test "failed pipeline run has error_message set" do
-    @pipeline_run.failed!("Test error")
-    assert_equal "failed", @pipeline_run.reload.status
-    assert_equal "Test error", @pipeline_run.error_message
+  test "perform captures error message in pipeline_run on failure" do
+    SyncStageJob.perform_now(@pipeline_run)
+    @pipeline_run.reload
+    assert_equal "failed", @pipeline_run.status
+    assert @pipeline_run.error_message.present?,
+      "Pipeline run should have an error message explaining the failure"
   end
 
   test "does not enqueue ExtractStageJob when sync fails" do

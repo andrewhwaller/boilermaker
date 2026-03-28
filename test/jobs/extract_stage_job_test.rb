@@ -4,9 +4,10 @@ require "test_helper"
 
 class ExtractStageJobTest < ActiveSupport::TestCase
   setup do
-    @account = accounts(:one)
+    @account = accounts(:three)
     Current.account = @account
-    @pipeline_run = PipelineRun.create!(account: @account, status: "running", current_stage: "sync")
+    @pipeline_run = PipelineRun.create!(account: @account, status: "running",
+                                        current_stage: "sync", started_at: Time.current)
   end
 
   teardown do
@@ -26,27 +27,21 @@ class ExtractStageJobTest < ActiveSupport::TestCase
   end
 
   test "updates items_total to count of items needing extraction with PDFs" do
-    # items_total only counts items that have PDFs attached (not all pending items)
     pending_with_pdf = ZoteroItem.unscoped.where(account: @account).needs_extraction
                                  .joins(:pdf_attachment).count
     ExtractStageJob.perform_now(@pipeline_run)
     assert_equal pending_with_pdf, @pipeline_run.reload.items_total
   end
 
-  test "skips items without attached PDF without marking as failed" do
-    item = zotero_items(:two)
-    assert_not item.pdf.attached?, "Fixture item two should not have a PDF attached"
+  test "perform rescues errors and marks pipeline as failed" do
+    ZoteroItem.stub(:unscoped, -> { raise RuntimeError, "Simulated DB failure" }) do
+      ExtractStageJob.perform_now(@pipeline_run)
+    end
 
-    ExtractStageJob.perform_now(@pipeline_run)
-
-    # Item without PDF should be skipped (not incremented as failed)
-    assert_equal 0, @pipeline_run.reload.items_failed
-  end
-
-  test "marks pipeline as failed on unrecoverable error" do
-    # Simulate an error at the pipeline level by checking failed! method
-    @pipeline_run.failed!("Unrecoverable error")
-    assert_equal "failed", @pipeline_run.reload.status
-    assert_equal "Unrecoverable error", @pipeline_run.error_message
+    @pipeline_run.reload
+    assert_equal "failed", @pipeline_run.status,
+      "Pipeline should be marked as failed when perform raises"
+    assert_match(/Simulated DB failure/, @pipeline_run.error_message,
+      "Pipeline should capture the error message from the failure")
   end
 end

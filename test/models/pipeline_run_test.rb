@@ -35,11 +35,14 @@ class PipelineRunTest < ActiveSupport::TestCase
   end
 
   test "running! sets status and started_at" do
-    run = pipeline_runs(:completed_run)
-    run.update!(status: "pending", started_at: nil)
+    # Use account :three to avoid unique constraint conflict with running_run fixture
+    Current.account = accounts(:three)
+    run = PipelineRun.create!(account: accounts(:three), status: "pending")
     run.running!
     assert_equal "running", run.status
     assert_not_nil run.started_at
+  ensure
+    run&.destroy
   end
 
   test "completed! sets status and completed_at" do
@@ -58,8 +61,11 @@ class PipelineRunTest < ActiveSupport::TestCase
   end
 
   test "defaults to pending status" do
-    run = PipelineRun.create!(account: accounts(:one))
+    Current.account = accounts(:three)
+    run = PipelineRun.create!(account: accounts(:three))
     assert_equal "pending", run.status
+  ensure
+    run&.destroy
   end
 
   test "scoped to current account" do

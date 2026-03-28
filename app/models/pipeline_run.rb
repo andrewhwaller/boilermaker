@@ -9,7 +9,7 @@ class PipelineRun < ApplicationRecord
   validates :current_stage, inclusion: { in: %w[sync extract embed] }, allow_nil: true
 
   scope :recent, -> { order(created_at: :desc) }
-  scope :active, -> { where(status: "running") }
+  scope :active, -> { where(status: %w[pending running]) }
 
   def running!
     raise "Cannot transition to running from #{status}" unless pending?

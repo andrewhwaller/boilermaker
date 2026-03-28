@@ -18,10 +18,9 @@ class Components::Pipeline::StatusIndicatorTest < ComponentTestCase
   end
 
   test "renders idle state when pipeline run is pending" do
-    run = PipelineRun.create!(account: accounts(:one), status: "pending")
+    run = PipelineRun.new(account: accounts(:one), status: "pending")
     html = render_component(Components::Pipeline::StatusIndicator.new(pipeline_run: run))
     assert_includes html, "Sync Library"
-    run.destroy
   end
 
   test "renders running state" do
@@ -88,18 +87,16 @@ class Components::Pipeline::StatusIndicatorTest < ComponentTestCase
   end
 
   test "stage label shows Extracting for extract stage" do
-    run = PipelineRun.create!(account: accounts(:one), status: "running", current_stage: "extract",
-                              items_total: 50, items_processed: 10, started_at: Time.current)
+    run = PipelineRun.new(account: accounts(:one), status: "running", current_stage: "extract",
+                          items_total: 50, items_processed: 10, started_at: Time.current)
     html = render_component(Components::Pipeline::StatusIndicator.new(pipeline_run: run))
     assert_includes html, "Extracting"
-    run.destroy
   end
 
   test "stage label shows Embedding for embed stage" do
-    run = PipelineRun.create!(account: accounts(:one), status: "running", current_stage: "embed",
-                              items_total: 50, items_processed: 30, started_at: Time.current)
+    run = PipelineRun.new(account: accounts(:one), status: "running", current_stage: "embed",
+                          items_total: 50, items_processed: 30, started_at: Time.current)
     html = render_component(Components::Pipeline::StatusIndicator.new(pipeline_run: run))
     assert_includes html, "Embedding"
-    run.destroy
   end
 end

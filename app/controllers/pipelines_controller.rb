@@ -16,5 +16,7 @@ class PipelinesController < ApplicationController
     SyncStageJob.perform_later(pipeline_run)
 
     redirect_to pipeline_path, notice: "Pipeline started."
+  rescue ActiveRecord::RecordNotUnique
+    redirect_to pipeline_path, notice: "Pipeline is already running."
   end
 end
