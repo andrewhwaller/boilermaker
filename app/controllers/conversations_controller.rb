@@ -3,7 +3,8 @@
 class ConversationsController < ApplicationController
   def index
     @conversations = Current.account.conversations.order(updated_at: :desc)
-    render Views::Conversations::Index.new(conversations: @conversations)
+    @empty_state_variant = Current.account.conversation_empty_state_variant
+    render Views::Conversations::Index.new(conversations: @conversations, empty_state_variant: @empty_state_variant)
   end
 
   def show

@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    render Views::Home::Index.new
+    redirect_to conversations_path
   end
 
   def components

@@ -41,8 +41,8 @@ class ConversationsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(users(:regular_user), accounts(:three))
     get conversations_path
     assert_response :success
-    assert_match(/No conversations yet|Start a new conversation/i, response.body,
-      "Empty state message should appear when no conversations exist")
+    assert_match(/Welcome to Carrel|Library synced|Ready to research/i, response.body,
+      "Empty state component should appear when no conversations exist")
   end
 
   # Show

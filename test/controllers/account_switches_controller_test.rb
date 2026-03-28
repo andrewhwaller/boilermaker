@@ -103,8 +103,10 @@ class AccountSwitchesControllerTest < ActionDispatch::IntegrationTest
     post account_switches_path, params: { account_id: @team_account.id }
     assert_redirected_to root_path
 
-    # Make another request and verify the account is still set
-    get root_path
+    # Follow root redirect to conversations and verify accessible
+    follow_redirect!
+    assert_redirected_to conversations_url
+    follow_redirect!
     assert_response :success,
       "Expected successful response after account switch"
 

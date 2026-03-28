@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Views::Conversations::Index < Views::Base
-  def initialize(conversations: [])
+  def initialize(conversations: [], empty_state_variant: :pre_pipeline)
     @conversations = conversations
+    @empty_state_variant = empty_state_variant
   end
 
   def view_template
@@ -20,13 +21,7 @@ class Views::Conversations::Index < Views::Base
             end
           end
         else
-          div(class: "text-center py-12 text-muted") do
-            p { "No conversations yet." }
-            p(class: "text-sm mt-2") do
-              a(href: new_conversation_path, class: "text-accent hover:underline") { "Start a new conversation" }
-              plain " to explore your library."
-            end
-          end
+          render Components::Conversations::EmptyState.new(variant: @empty_state_variant)
         end
       end
     end

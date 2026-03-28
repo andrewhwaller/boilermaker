@@ -22,6 +22,8 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
     with_required_2fa do
       get root_url
+      assert_redirected_to conversations_url
+      follow_redirect!
       assert_response :success
     end
   end

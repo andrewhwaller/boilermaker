@@ -45,4 +45,10 @@ class Account < ApplicationRecord
     raise "Cannot convert: multiple members" if account_memberships.count > 1
     update!(personal: true)
   end
+
+  def conversation_empty_state_variant
+    return :pre_pipeline unless zotero_items.active.exists?
+    return :pre_embedding unless zotero_items.active.where(embedding_status: "completed").exists?
+    :ready
+  end
 end
