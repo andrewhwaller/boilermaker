@@ -1,0 +1,118 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.zotero.org/users/99999/items?limit=100&start=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Zotero-API-Key:
+      - <ZOTERO_API_KEY>
+      Zotero-Api-Version:
+      - '3'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Last-Modified-Version:
+      - '150'
+    body:
+      encoding: UTF-8
+      string: '[{"key":"NEWKEY1","version":150,"data":{"key":"NEWKEY1","version":150,"itemType":"journalArticle","title":"Incremental
+        Sync Article","creators":[{"creatorType":"author","firstName":"Alice","lastName":"Researcher"}],"abstractNote":"Abstract
+        here.","DOI":"10.1234/test","url":"https://example.com","date":"2024-01-15","tags":[{"tag":"science"}]}},{"key":"NEWKEY2","version":148,"data":{"key":"NEWKEY2","version":148,"itemType":"book","title":"A
+        Test Book","creators":[],"abstractNote":"","DOI":"","url":"","date":"","tags":[]}}]'
+  recorded_at: Thu, 27 Mar 2026 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.zotero.org/users/99999/items?limit=100&start=2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Zotero-API-Key:
+      - <ZOTERO_API_KEY>
+      Zotero-Api-Version:
+      - '3'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '[]'
+  recorded_at: Thu, 27 Mar 2026 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.zotero.org/users/99999/deleted
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Zotero-API-Key:
+      - <ZOTERO_API_KEY>
+      Zotero-Api-Version:
+      - '3'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '{"collections":[],"searches":[],"items":[],"tags":[],"settings":[]}'
+  recorded_at: Thu, 27 Mar 2026 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.zotero.org/users/99999/items?itemKey=NEWKEY1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Zotero-API-Key:
+      - <ZOTERO_API_KEY>
+      Zotero-Api-Version:
+      - '3'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '[]'
+  recorded_at: Thu, 27 Mar 2026 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.zotero.org/users/99999/items?itemKey=NEWKEY2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Zotero-API-Key:
+      - <ZOTERO_API_KEY>
+      Zotero-Api-Version:
+      - '3'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '[]'
+  recorded_at: Thu, 27 Mar 2026 00:00:00 GMT
+recorded_with: VCR 6.3.1

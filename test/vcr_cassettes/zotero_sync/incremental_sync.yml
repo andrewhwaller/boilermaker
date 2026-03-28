@@ -1,0 +1,117 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.zotero.org/users/99999/items?limit=100&since=100&start=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Zotero-API-Key:
+      - <ZOTERO_API_KEY>
+      Zotero-Api-Version:
+      - '3'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Last-Modified-Version:
+      - '150'
+    body:
+      encoding: UTF-8
+      string: '[{"key":"ABC123","version":150,"data":{"key":"ABC123","version":150,"itemType":"journalArticle","title":"Updated
+        Article Title","creators":[{"creatorType":"author","firstName":"Jane","lastName":"Doe"}],"abstractNote":"Updated
+        abstract.","DOI":"10.9999/updated","url":"","date":"2024-06-01","tags":[]}}]'
+  recorded_at: Thu, 27 Mar 2026 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.zotero.org/users/99999/items?limit=100&since=100&start=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Zotero-API-Key:
+      - <ZOTERO_API_KEY>
+      Zotero-Api-Version:
+      - '3'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '[]'
+  recorded_at: Thu, 27 Mar 2026 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.zotero.org/users/99999/deleted?since=100
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Zotero-API-Key:
+      - <ZOTERO_API_KEY>
+      Zotero-Api-Version:
+      - '3'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '{"collections":[],"searches":[],"items":[],"tags":[],"settings":[]}'
+  recorded_at: Thu, 27 Mar 2026 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.zotero.org/users/99999/items?itemKey=ABC123
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Zotero-API-Key:
+      - <ZOTERO_API_KEY>
+      Zotero-Api-Version:
+      - '3'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '[]'
+  recorded_at: Thu, 27 Mar 2026 00:00:00 GMT
+- request:
+    method: get
+    uri: https://api.zotero.org/users/99999/items?itemKey=DEF456
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Zotero-API-Key:
+      - <ZOTERO_API_KEY>
+      Zotero-Api-Version:
+      - '3'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: '[]'
+  recorded_at: Thu, 27 Mar 2026 00:00:00 GMT
+recorded_with: VCR 6.3.1
