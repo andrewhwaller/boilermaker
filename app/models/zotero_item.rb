@@ -13,6 +13,6 @@ class ZoteroItem < ApplicationRecord
   scope :needs_extraction, -> { active.where(extraction_status: "pending") }
   scope :needs_embedding, -> { active.where(embedding_status: "pending") }
 
-  enum :extraction_status, { pending: "pending", completed: "completed", failed: "failed" }, prefix: true
+  enum :extraction_status, { pending: "pending", completed: "completed", failed: "failed", low_quality: "low_quality" }, prefix: true
   enum :embedding_status, { pending: "pending", completed: "completed", failed: "failed" }, prefix: true
 end

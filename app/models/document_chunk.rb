@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DocumentChunk < ApplicationRecord
+  include Chunkable
+
   belongs_to :zotero_item
   has_many :message_sources, dependent: :destroy
 
