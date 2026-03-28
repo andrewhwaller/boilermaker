@@ -23,6 +23,18 @@ module ActiveSupport
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
+    # Ensure sqlite-vec virtual tables exist in each parallel worker's database.
+    # vec_document_chunks is excluded from schema.rb (the vec0 dumper filter), so
+    # it must be created explicitly for each worker after schema is loaded.
+    parallelize_setup do |worker|
+      ActiveRecord::Base.connection.execute(<<~SQL)
+        CREATE VIRTUAL TABLE IF NOT EXISTS vec_document_chunks USING vec0(
+          document_chunk_id integer primary key,
+          embedding float[1536] distance_metric=cosine
+        )
+      SQL
+    end
+
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
 
